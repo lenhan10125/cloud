@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yêu cầu JavaScript để truy cập trang wed này</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #dot-background {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .error-message {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        .cache-info {
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e5e5;
+            color: #555;
+            font-size: 14px;
+        }
+        .cache-info strong {
+            color: #222;
+        }
+        #refresh-cache {
+            margin-top: 10px;
+            padding: 8px 14px;
+            border: 0;
+            border-radius: 4px;
+            background: #337ab7;
+            color: #fff;
+            cursor: pointer;
+        }
+        #clear-cache {
+            margin: 10px 0 0 6px;
+            padding: 8px 14px;
+            border: 0;
+            border-radius: 4px;
+            background: #d9534f;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="dot-background" aria-hidden="true"></canvas>
+    <div class="container">
+        <noscript>
+            <div class="error-message">
+                <h2>Cần bật JavaScript</h2>
+                <p>Trang này cần JavaScript để hoạt động. Vui lòng bật JavaScript trong trình duyệt rồi tải lại trang.</p>
+            </div>
+        </noscript>
+
+        <div id="js-content">
+            <div class="error-message" role="status">
+                <h2>Trang này yêu cầu JavaScript</h2>
+                <p>Vui lòng bật JavaScript trong trình duyệt để tiếp tục.</p>
+            </div>
+            <p>Đang chuyển hướng, vui lòng đợi trong giây lát.</p>
+            <div class="cache-info" aria-live="polite">
+                <strong>Dung lượng cache</strong>
+                <p id="cache-size">Đang kiểm tra...</p>
+                <button id="refresh-cache" type="button">Cập nhật</button>
+                <button id="clear-cache" type="button">Xóa cache cũ</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const dotCanvas = document.getElementById("dot-background");
+        const dotContext = dotCanvas.getContext("2d");
+        const dotSpacing = 10;
+        const dotRadius = 1.5;
+        const highlightRadius = 50;
+        let dots = [];
+        let mousePosition = { x: -100, y: -100 };
+
+        function createDots() {
+            const pixelRatio = window.devicePixelRatio || 1;
+            dotCanvas.width = window.innerWidth * pixelRatio;
+            dotCanvas.height = window.innerHeight * pixelRatio;
+            dotCanvas.style.width = `${window.innerWidth}px`;
+            dotCanvas.style.height = `${window.innerHeight}px`;
+            dotContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            dots = [];
+
+            let rowIndex = 0;
+            for (let y = dotSpacing / 2; y < window.innerHeight; y += dotSpacing) {
+                const rowOffset = rowIndex % 2 ? dotSpacing / 2 : 0;
+                for (let x = dotSpacing / 2 + rowOffset; x < window.innerWidth; x += dotSpacing) {
+                    dots.push({ x, y });
+                }
+                rowIndex++;
+            }
+            drawDots();
+        }
+
+        function drawDots() {
+            dotContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            for (const dot of dots) {
+                const distance = Math.hypot(dot.x - mousePosition.x, dot.y - mousePosition.y);
+                dotContext.beginPath();
+                dotContext.arc(dot.x, dot.y, dotRadius, 0, Math.PI * 2);
+                dotContext.fillStyle = distance <= highlightRadius ? "#f28c28" : "#D9D9D9";
+                dotContext.fill();
+            }
+        }
+
+        window.addEventListener("resize", createDots);
+        window.addEventListener("mousemove", (event) => {
+            mousePosition = { x: event.clientX, y: event.clientY };
+            drawDots();
+        });
+        createDots();
+
+        const cacheSizeElement = document.getElementById("cache-size");
+
+        function formatBytes(bytes) {
+            if (!bytes) return "0 B";
+            const units = ["B", "KB", "MB", "GB"];
+            const unitIndex = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+            return `${(bytes / Math.pow(1024, unitIndex)).toFixed(unitIndex ? 2 : 0)} ${units[unitIndex]}`;
+        }
+
+        async function getCacheSize() {
+            if (!("caches" in window)) {
+                cacheSizeElement.textContent = "Trình duyệt không hỗ trợ Cache Storage.";
+                return;
+            }
+
+            try {
+                const cacheNames = await caches.keys();
+                let totalBytes = 0;
+                let totalEntries = 0;
+
+                for (const cacheName of cacheNames) {
+                    const cache = await caches.open(cacheName);
+                    const requests = await cache.keys();
+                    totalEntries += requests.length;
+
+                    for (const request of requests) {
+                        const response = await cache.match(request);
+                        const contentLength = response && response.headers.get("content-length");
+                        totalBytes += contentLength ? Number(contentLength) : (response ? (await response.clone().blob()).size : 0);
+                    }
+                }
+
+                let quotaText = "";
+                if (navigator.storage && navigator.storage.estimate) {
+                    const estimate = await navigator.storage.estimate();
+                    quotaText = ` Tổng bộ nhớ đã dùng: ${formatBytes(estimate.usage || 0)} / ${formatBytes(estimate.quota || 0)}.`;
+                }
+
+                cacheSizeElement.textContent = `${formatBytes(totalBytes)} trong ${totalEntries} mục cache.${quotaText}`;
+            } catch (error) {
+                cacheSizeElement.textContent = "Không thể đọc dung lượng cache của trình duyệt.";
+            }
+        }
+
+        function isImageRequest(request, response) {
+            const contentType = response && response.headers.get("content-type");
+            if (contentType && contentType.toLowerCase().startsWith("image/")) return true;
+            if (request.destination === "image") return true;
+            return /\.(avif|bmp|gif|ico|jpe?g|png|svg|webp)(\?.*)?$/i.test(request.url);
+        }
+
+        async function clearOldCache() {
+            if (!("caches" in window)) {
+                cacheSizeElement.textContent = "Trình duyệt không hỗ trợ Cache Storage.";
+                return;
+            }
+
+            const clearButton = document.getElementById("clear-cache");
+            clearButton.disabled = true;
+            clearButton.textContent = "Đang xóa...";
+
+            try {
+                let deletedEntries = 0;
+                const cacheNames = await caches.keys();
+
+                for (const cacheName of cacheNames) {
+                    const cache = await caches.open(cacheName);
+                    const requests = await cache.keys();
+
+                    for (const request of requests) {
+                        const response = await cache.match(request);
+                        if (!isImageRequest(request, response) && await cache.delete(request)) {
+                            deletedEntries++;
+                        }
+                    }
+                }
+
+                cacheSizeElement.textContent = `Đã xóa ${deletedEntries} mục cache cũ, giữ lại hình ảnh và dữ liệu người dùng.`;
+                await getCacheSize();
+            } catch (error) {
+                cacheSizeElement.textContent = "Không thể xóa cache cũ.";
+            } finally {
+                clearButton.disabled = false;
+                clearButton.textContent = "Xóa cache cũ";
+            }
+        }
+
+        document.getElementById("refresh-cache").addEventListener("click", getCacheSize);
+        document.getElementById("clear-cache").addEventListener("click", clearOldCache);
+        getCacheSize();
+        setTimeout(() => {
+            window.location.href = "https://oriciin.cloud/home";
+        }, 7500);
+    </script>
+</body>
+</html>

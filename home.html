@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ORCcop — Công nghệ và &amp; giáo dục lập trình</title>
+<link rel="icon" href="https://oriciin.cloud/ORC.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#142027;
+    --ink-soft:#425160;
+    --paper:#F1F4F4;
+    --paper-rgb:241,244,244;
+    --surface:#FFFFFF;
+    --surface-dark:#142027;
+    --line:#DCE3E2;
+    --teal:#1F6F5C;
+    --teal-deep:#154B3E;
+    --amber:#C77A2E;
+    --mark-bg:#FBEEDF;
+    --mark-fg:#C77A2E;
+    --radius:14px;
+  }
+  :root[data-theme="dark"]{
+    --ink:#E7EEEC;
+    --ink-soft:#93A6A9;
+    --paper:#12181B;
+    --paper-rgb:18,24,27;
+    --surface:#1A2226;
+    --line:#2A3439;
+    --teal:#3FB593;
+    --teal-deep:#2E8E70;
+    --amber:#E7A15C;
+    --mark-bg:#3A2A16;
+    --mark-fg:#E7A15C;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html.has-wallpaper body{background:transparent;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    transition:background-color .3s ease,color .3s ease;
+  }
+  h1,h2,h3,.font-display{font-family:'Fraunces',serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* ── Wallpaper layer ────────────────────── */
+  #wallpaperLayer{
+    position:fixed;inset:0;z-index:-2;
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+    opacity:0;transition:opacity .35s ease;pointer-events:none;
+  }
+  #wallpaperLayer.is-active{opacity:1;}
+  #wallpaperScrim{
+    position:fixed;inset:0;z-index:-1;
+    background:rgba(var(--paper-rgb),0.66);
+    opacity:0;transition:opacity .35s ease,background-color .3s ease;pointer-events:none;
+  }
+  #wallpaperScrim.is-active{opacity:1;}
+
+  /* ── Header ─────────────────────────────── */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(var(--paper-rgb),0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    transition:background-color .3s ease,border-color .3s ease;
+  }
+  .header-inner{
+    max-width:1120px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .brand-mark{
+    width:36px;height:36px;border-radius:9px;
+    background:var(--surface-dark);color:#EFEAE0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:15px;
+    flex-shrink:0;
+  }
+  .brand-name{font-weight:700;font-size:1.05rem;letter-spacing:-0.01em;}
+  .brand-name span{color:var(--teal);}
+
+  nav.main-nav{display:flex;gap:28px;}
+  nav.main-nav a{
+    font-size:14px;font-weight:500;color:var(--ink-soft);text-decoration:none;
+    padding:6px 0;border-bottom:2px solid transparent;transition:.2s;
+  }
+  nav.main-nav a:hover{color:var(--ink);border-color:var(--teal);}
+
+  .header-actions{display:flex;align-items:center;gap:14px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:14px;
+    padding:10px 18px;border-radius:999px;
+    text-decoration:none;cursor:pointer;border:1px solid transparent;
+    transition:.2s;white-space:nowrap;
+  }
+  .btn-primary{background:var(--teal);color:#fff;}
+  .btn-primary:hover{background:var(--teal-deep);}
+  .btn-ghost{border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  .menu-btn{
+    display:none;background:none;border:1px solid var(--line);
+    width:38px;height:38px;border-radius:9px;cursor:pointer;
+    align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .menu-btn span, .menu-btn span::before, .menu-btn span::after{
+    content:'';display:block;width:16px;height:2px;background:var(--ink);position:relative;
+    transition:transform .2s ease, opacity .2s ease, top .2s ease;
+  }
+  .menu-btn span::before{position:absolute;top:-5px;}
+  .menu-btn span::after{position:absolute;top:5px;}
+  .menu-btn.is-active span{background:transparent;}
+  .menu-btn.is-active span::before{top:0;transform:rotate(45deg);background:var(--ink);}
+  .menu-btn.is-active span::after{top:0;transform:rotate(-45deg);background:var(--ink);}
+
+  /* ── Search / Settings trigger buttons ─── */
+  .search-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:none;border:1px solid var(--line);border-radius:999px;
+    padding:9px 12px;cursor:pointer;color:var(--ink-soft);
+    transition:.2s;flex-shrink:0;
+  }
+  .search-btn:hover{border-color:var(--teal);color:var(--teal-deep);}
+  .search-kbd-hint{
+    font-size:11px;color:var(--ink-soft);border:1px solid var(--line);
+    border-radius:5px;padding:1px 6px;line-height:1.5;background:var(--paper);
+  }
+
+  /* ── Search / Settings overlay shell (shared) ─ */
+  .search-overlay{
+    position:fixed;inset:0;z-index:200;
+    display:flex;align-items:flex-start;justify-content:center;
+    padding:12vh 20px 40px;
+  }
+  .search-overlay[hidden]{display:none;}
+  .search-backdrop{
+    position:absolute;inset:0;background:rgba(20,32,39,0.5);backdrop-filter:blur(2px);
+  }
+  .search-panel{
+    position:relative;z-index:1;width:100%;max-width:560px;
+    background:var(--surface);border-radius:16px;border:1px solid var(--line);
+    box-shadow:0 30px 60px -20px rgba(20,32,39,0.5);
+    overflow:hidden;display:flex;flex-direction:column;max-height:70vh;
+    transition:background-color .3s ease,border-color .3s ease;
+  }
+  .search-input-wrap{
+    display:flex;align-items:center;gap:12px;padding:16px 18px;
+    border-bottom:1px solid var(--line);flex-shrink:0;
+  }
+  .search-input-icon{color:var(--ink-soft);flex-shrink:0;}
+  .search-input{
+    flex:1;min-width:0;border:none;outline:none;background:none;
+    font-family:'Inter',sans-serif;font-size:16px;color:var(--ink);
+  }
+  .search-input::placeholder{color:var(--ink-soft);}
+  .search-close{
+    background:none;border:none;cursor:pointer;color:var(--ink-soft);
+    width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    border-radius:8px;flex-shrink:0;
+  }
+  .search-close:hover{background:var(--paper);color:var(--ink);}
+
+  .search-results{overflow-y:auto;padding:8px;-webkit-overflow-scrolling:touch;}
+  .search-result{
+    display:flex;flex-direction:column;gap:4px;
+    padding:12px 14px;border-radius:10px;text-decoration:none;color:var(--ink);
+  }
+  .search-result:hover,.search-result.is-active{background:var(--paper);}
+  .search-result-tag{font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:.03em;}
+  .search-result-title{font-weight:600;font-size:14.5px;}
+  .search-result-title mark,.search-result-desc mark{
+    background:var(--mark-bg);color:var(--mark-fg);border-radius:3px;padding:0 1px;
+  }
+  .search-result-desc{font-size:13px;color:var(--ink-soft);}
+  .search-empty,.search-hint{padding:32px 18px;text-align:center;color:var(--ink-soft);font-size:14px;}
+
+  /* ── Settings panel content ─────────────── */
+  .settings-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px;border-bottom:1px solid var(--line);flex-shrink:0;
+  }
+  .settings-header h3,.settings-header h4{margin:0;color:var(--ink);}
+  .settings-header h3{font-size:1.05rem;font-weight:600;}
+  .settings-header h4{font-size:13px;font-weight:500;}
+  .settings-body{
+    overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:24px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .settings-group{display:flex;flex-direction:column;gap:10px;}
+  .settings-group-label{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--teal);
+  }
+  .settings-hint{margin:0;font-size:13px;color:var(--ink-soft);}
+  .settings-options{display:flex;gap:8px;flex-wrap:wrap;}
+  .settings-option{
+    font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;
+    padding:9px 14px;border-radius:999px;border:1px solid var(--line);
+    background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:.2s;
+  }
+  .settings-option:hover{border-color:var(--teal);color:var(--ink);}
+  .settings-option.is-active{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .settings-panel .btn-ghost{color:var(--ink);background:transparent;}
+  .settings-panel .settings-hint,.settings-panel .settings-note{color:var(--ink-soft);}
+  .settings-panel .settings-group-label{color:var(--teal);}
+  .settings-panel .cache-entry-name{color:var(--ink);}
+  .account-summary{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--paper);}
+  .account-balance{font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:600;color:var(--amber);}
+  .account-wallet{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);word-break:break-all;}
+  .account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+  .account-actions .btn{flex:1;justify-content:center;}
+  .account-key{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px 'JetBrains Mono',monospace;}
+  .account-key:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  .account-status{margin:0;min-height:18px;font-size:12px;color:var(--ink-soft);}
+  .account-status.is-error{color:#C0503F;}
+  .cache-limit-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .cache-limit-input{width:100px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:600 14px 'Inter',sans-serif;}
+  .cache-limit-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+
+  .wallpaper-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .wallpaper-preview{
+    width:64px;height:64px;border-radius:10px;flex-shrink:0;
+    background:var(--paper) center/cover no-repeat;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:var(--ink-soft);text-align:center;overflow:hidden;
+  }
+  .wallpaper-actions{display:flex;flex-wrap:wrap;gap:8px;}
+  .settings-upload-btn{cursor:pointer;}
+  .settings-note{margin:0;font-size:12px;color:var(--ink-soft);}
+
+  .settings-toggle-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;cursor:pointer;}
+  .settings-toggle-row .settings-hint{margin-top:4px;}
+  .switch{position:relative;flex-shrink:0;width:42px;height:24px;display:inline-block;}
+  .switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;}
+  .switch-track{position:absolute;inset:0;background:var(--line);border-radius:999px;transition:.2s;}
+  .switch-thumb{
+    position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;
+    background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  .switch input:checked + .switch-track{background:var(--teal);}
+  .switch input:checked + .switch-track .switch-thumb{transform:translateX(18px);}
+  .switch input:focus-visible + .switch-track{outline:2px solid var(--teal);outline-offset:2px;}
+
+  .settings-group-actions{flex-direction:row;flex-wrap:wrap;gap:10px;padding-top:8px;border-top:1px solid var(--line);}
+  .settings-status{margin:0;font-size:12.5px;color:var(--teal);min-height:16px;}
+  .settings-status.is-error{color:#C0503F;}
+
+  .cache-inspector-toggle{width:100%;justify-content:space-between;}
+  .cache-inspector-toggle::after{content:'+';font-size:20px;font-weight:400;line-height:1;}
+  .cache-inspector-toggle[aria-expanded="true"]::after{content:'−';}
+  .cache-inspector{display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--paper);}
+  .cache-inspector[hidden]{display:none;}
+  .cache-usage-head{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--ink-soft);}
+  .cache-usage-head strong{color:var(--ink);font-size:14px;}
+  .cache-progress{width:100%;height:9px;display:block;appearance:none;border:0;border-radius:999px;overflow:hidden;background:var(--line);}
+  .cache-progress::-webkit-progress-bar{background:var(--line);border-radius:999px;}
+  .cache-progress::-webkit-progress-value{background:var(--teal);border-radius:999px;}
+  .cache-progress::-moz-progress-bar{background:var(--teal);border-radius:999px;}
+  .cache-limit-alert{padding:10px 12px;border:1px solid #C77A2E;border-radius:8px;background:var(--mark-bg);color:var(--mark-fg);font-size:12px;font-weight:600;}
+  .cache-limit-alert[hidden]{display:none;}
+  .cache-inspector-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .cache-entry-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;}
+  .cache-entry{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--surface);}
+  .cache-entry-info{min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .cache-entry-name{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cache-entry-meta{font-size:11px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cache-entry-delete{flex-shrink:0;padding:6px 9px;border:1px solid #C0503F;border-radius:7px;background:none;color:#C0503F;cursor:pointer;font:600 11px 'Inter',sans-serif;}
+  .cache-entry-delete:hover{background:#C0503F;color:#fff;}
+  .cache-empty{margin:0;text-align:center;font-size:12px;color:var(--ink-soft);}
+
+  /* ── Hero ───────────────────────────────── */
+  .hero{padding:72px 0 88px;}
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;
+    letter-spacing:.06em;color:var(--teal);text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--amber);}
+  .hero h1{
+    font-size:clamp(2.1rem,4.4vw,3.4rem);font-weight:600;line-height:1.08;
+    letter-spacing:-0.01em;margin:0 0 22px;
+  }
+  .hero h1 em{font-style:italic;color:var(--teal);}
+  .hero p.lead{font-size:1.08rem;color:var(--ink-soft);max-width:52ch;margin:0 0 30px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+  /* Signature: terminal card */
+  .terminal{
+    background:var(--surface-dark);border-radius:16px;overflow:hidden;
+    box-shadow:0 20px 50px -20px rgba(20,32,39,0.45);
+    border:1px solid #1f2c34;
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:8px;padding:12px 16px;
+    background:#1b262d;border-bottom:1px solid #263239;
+  }
+  .terminal-bar span{width:10px;height:10px;border-radius:50%;}
+  .terminal-bar .r{background:#e5645a;}
+  .terminal-bar .y{background:#e5b25a;}
+  .terminal-bar .g{background:#5ac490;}
+  .terminal-title{
+    margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8fa0a8;
+  }
+  .terminal-body{
+    padding:22px 22px 26px;font-family:'JetBrains Mono',monospace;
+    font-size:13.5px;color:#cfe8de;min-height:220px;
+  }
+  .terminal-line{margin:0 0 10px;white-space:pre-wrap;}
+  .terminal-line .prompt{color:#5ac490;}
+  .terminal-line .comment{color:#6b7d84;}
+  .cursor{display:inline-block;width:7px;height:14px;background:#5ac490;vertical-align:-2px;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ── Announcement ───────────────────────── */
+  .announce{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;
+    transition:background-color .3s ease,border-color .3s ease;
+  }
+  .announce-icon{
+    width:44px;height:44px;border-radius:11px;background:var(--mark-bg);color:var(--amber);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .announce h3{margin:0 0 6px;font-size:1.05rem;}
+  .announce p{margin:0;color:var(--ink-soft);font-size:14.5px;}
+  .announce .date{
+    font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;white-space:nowrap;
+  }
+
+  section{padding:64px 0;}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;flex-wrap:wrap;}
+  .section-head h2{font-size:1.9rem;margin:0 0 8px;font-weight:600;}
+  .section-head p{margin:0;color:var(--ink-soft);max-width:50ch;}
+
+  /* ── Blog / tools grid ──────────────────── */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;text-decoration:none;color:var(--ink);
+    display:flex;flex-direction:column;gap:14px;transition:.25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--teal);box-shadow:0 16px 30px -18px rgba(31,111,92,0.35);}
+  .card-icon{
+    width:42px;height:42px;border-radius:10px;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;color:var(--teal);
+  }
+  .card-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);
+    letter-spacing:.03em;text-transform:uppercase;
+  }
+  .card h3{margin:0;font-size:1.15rem;font-weight:600;}
+  .card p{margin:0;color:var(--ink-soft);font-size:14.5px;flex:1;}
+  .card-link{font-size:13.5px;font-weight:600;color:var(--teal);display:flex;align-items:center;gap:6px;}
+
+  /* ── Mission / about ────────────────────── */
+  .about{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;
+    transition:background-color .3s ease,border-color .3s ease;
+  }
+  .about h2{font-size:1.8rem;margin:0 0 16px;font-weight:600;}
+  .about p{color:var(--ink-soft);margin:0 0 16px;}
+  .milestones{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px;}
+  .milestone{display:grid;grid-template-columns:34px 1fr;gap:14px;}
+  .milestone .num{
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--teal);
+    width:34px;height:34px;border-radius:9px;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .milestone h4{margin:0 0 4px;font-size:0.98rem;}
+  .milestone p{margin:0;font-size:13.5px;color:var(--ink-soft);}
+
+  /* ── Newsletter / contact ───────────────── */
+  .contact{
+    background:var(--surface-dark);color:#EDF2F1;border-radius:20px;
+    padding:52px 48px;display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;
+  }
+  .contact h2{margin:0 0 12px;font-size:1.7rem;color:#fff;font-weight:600;}
+  .contact p{margin:0;color:#B7C4C2;max-width:46ch;}
+  .contact-actions{display:flex;gap:14px;justify-content:flex-end;flex-wrap:wrap;}
+  .btn-light{background:#fff;color:var(--ink);}
+  .btn-light:hover{background:#EDF2F1;}
+  .btn-outline-light{border-color:#3a4b52;color:#EDF2F1;}
+  .btn-outline-light:hover{border-color:#EDF2F1;}
+
+  /* ── Footer ─────────────────────────────── */
+  footer{border-top:1px solid var(--line);padding:40px 0;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+  .footer-inner p{margin:0;color:var(--ink-soft);font-size:13.5px;}
+  .footer-links{display:flex;gap:20px;}
+  .footer-links a{font-size:13.5px;color:var(--ink-soft);text-decoration:none;}
+  .footer-links a:hover{color:var(--teal);}
+
+  /* ── Responsive ─────────────────────────── */
+  @media (max-width:900px){
+    .search-kbd-hint{display:none;}
+    nav.main-nav{
+      display:none;
+      position:absolute;top:100%;left:0;right:0;
+      flex-direction:column;gap:2px;
+      background:var(--surface);border-bottom:1px solid var(--line);
+      padding:10px 24px 16px;
+      box-shadow:0 16px 30px -18px rgba(20,32,39,0.25);
+    }
+    nav.main-nav.is-open{display:flex;}
+    nav.main-nav a{padding:12px 0;border-bottom:1px solid var(--line);}
+    nav.main-nav a:last-child{border-bottom:none;}
+    .menu-btn{display:flex;}
+    .hero-grid{grid-template-columns:1fr;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .about{grid-template-columns:1fr;padding:32px;}
+    .contact{grid-template-columns:1fr;padding:36px;}
+    .contact-actions{justify-content:flex-start;}
+  }
+  @media (max-width:600px){
+    .grid{grid-template-columns:1fr;}
+    .announce{grid-template-columns:auto 1fr;}
+    .announce .date{grid-column:1 / -1;justify-self:start;}
+    .header-actions .btn-ghost{display:none;}
+    .search-overlay{padding:0;}
+    .search-panel{max-width:none;width:100%;height:100%;max-height:100%;border-radius:0;border:none;}
+  }
+</style>
+</head>
+<body>
+<div id="wallpaperLayer" aria-hidden="true"></div>
+<div id="wallpaperScrim" aria-hidden="true"></div>
+
+<header>
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">{ }</span>
+      <span class="brand-name">ORC<span>cop</span></span>
+    </a>
+    <nav class="main-nav">
+      <a href="#bai-viet">Bài viết &amp; công cụ</a>
+      <a href="#gioi-thieu">Giới thiệu</a>
+      <a href="#chuyen-doi">Chuyển đổi</a>
+      <a href="#lien-he">Liên hệ</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#chuyen-doi" class="btn btn-ghost">Tên miền mới</a>
+      <a href="#lien-he" class="btn btn-primary">Liên hệ</a>
+      <button class="search-btn" id="settingsBtn" type="button" aria-label="Account" aria-haspopup="dialog" aria-expanded="false">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      </button>
+      <button class="search-btn" id="searchBtn" type="button" aria-label="Tìm kiếm" aria-haspopup="dialog" aria-expanded="false">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.8-3.8"/></svg>
+        <span class="search-kbd-hint mono">/</span>
+      </button>
+      <button class="menu-btn" aria-label="Mở menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Tìm kiếm nội bộ ORCcop" hidden>
+  <div class="search-backdrop" data-search-close></div>
+  <div class="search-panel">
+    <div class="search-input-wrap">
+      <svg class="search-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.8-3.8"/></svg>
+      <input type="text" id="searchInput" class="search-input" placeholder="Tìm bài viết, công cụ, trang trong ORCcop…" autocomplete="off" spellcheck="false" />
+      <button class="search-close" id="searchClose" type="button" aria-label="Đóng tìm kiếm">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="search-overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-label="Account ORCcop" hidden>
+  <div class="search-backdrop" data-settings-close></div>
+  <div class="search-panel settings-panel">
+    <div class="settings-header">
+      <h3 class="font-display">Account</h3>
+      <h4 class="settings-hint">ORC Network</h4>
+      <button class="search-close" id="settingsClose" type="button" aria-label="Đóng cài đặt">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="settings-body">
+
+      <div class="settings-group">
+        <span class="settings-group-label">Tài khoản coin</span>
+        <div class="account-summary">
+          <input class="account-key" id="accountPrivateKey" type="password" autocomplete="off" placeholder="Private Key bắt đầu bằng 0x..." />
+          <div class="account-actions">
+            <button class="btn btn-primary" id="accountLoginBtn" type="button">Đăng nhập coin</button>
+            <a class="btn btn-ghost" href="../coinbetause.html">Trang đào tiền</a>
+          </div>
+          <p class="account-status" id="accountStatus" role="status" aria-live="polite">Chưa đăng nhập.</p>
+          <span class="account-wallet" id="accountWallet">Ví: Chưa kết nối</span>
+          <strong class="account-balance" id="accountBalance">-/- ORC</strong>
+          <div class="account-actions">
+            <button class="btn btn-ghost" id="accountRefreshBtn" type="button">Cập nhật tiền</button>
+            <button class="btn btn-ghost" id="accountLogoutBtn" type="button">Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-group-label">Giao diện</span>
+        <div class="settings-options" role="radiogroup" aria-label="Chọn giao diện" id="themeOptions">
+          <button class="settings-option" type="button" data-theme-choice="light">Sáng</button>
+          <button class="settings-option" type="button" data-theme-choice="dark">Tối</button>
+          <button class="settings-option" type="button" data-theme-choice="system">Theo hệ thống</button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-group-label">Hình nền trang</span>
+        <p class="settings-hint">Tải một hình ảnh để áp dụng làm hình nền cho toàn bộ trang.</p>
+        <div class="wallpaper-row">
+          <div class="wallpaper-preview" id="wallpaperPreview">Chưa có</div>
+          <div class="wallpaper-actions">
+            <label class="btn btn-ghost settings-upload-btn">
+              Tải hình nền
+              <input type="file" accept="image/*" id="wallpaperInput" hidden />
+            </label>
+            <button class="btn btn-ghost" id="wallpaperRemoveBtn" type="button">Xóa hình nền</button>
+          </div>
+        </div>
+        <p class="settings-note">Hình nền đã chọn sẽ tự động được lưu vào bộ nhớ đệm (cache) của trình duyệt, trừ khi chế độ riêng tư đang bật.</p>
+      </div>
+
+      <div class="settings-group">
+        <label class="settings-toggle-row" for="privacyToggle">
+          <span>
+            <span class="settings-group-label">Quyền riêng tư</span>
+            <p class="settings-hint">Chặn thu thập dữ liệu: cài đặt chỉ được giữ trong phiên truy cập hiện tại, không ghi vào cache lâu dài.</p>
+          </span>
+          <span class="switch">
+            <input type="checkbox" id="privacyToggle" />
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-group-label">Hạn mức cache</span>
+        <p class="settings-hint">Đặt mức dung lượng cache mong muốn cho trang. Mặc định là 50 MB.</p>
+        <div class="cache-limit-row">
+          <input class="cache-limit-input" id="cacheLimitInput" type="number" min="1" max="2048" step="1" value="50" aria-label="Hạn mức cache theo MB" />
+          <span class="settings-hint">MB</span>
+          <button class="btn btn-ghost" id="cacheLimitSaveBtn" type="button">Lưu hạn mức</button>
+        </div>
+        <p class="settings-note">Đây là hạn mức theo dõi của trang; quota thật do trình duyệt quyết định.</p>
+      </div>
+
+      <div class="settings-group">
+        <button class="btn btn-ghost cache-inspector-toggle" id="cacheInspectorToggle" type="button" aria-expanded="false" aria-controls="cacheInspector">Xem dữ liệu đang lưu trong cache</button>
+        <div class="cache-inspector" id="cacheInspector" hidden>
+          <div class="cache-usage-head">
+            <strong>Dung lượng bộ nhớ trang</strong>
+            <span id="cacheUsageLabel">Đang kiểm tra...</span>
+          </div>
+          <progress class="cache-progress" id="cacheUsageProgress" value="0" max="100" aria-label="Mức sử dụng bộ nhớ trang"></progress>
+          <div class="cache-limit-alert" id="cacheLimitAlert" role="alert" hidden></div>
+          <p class="settings-note" id="cacheSummary">Đang tải danh sách dữ liệu...</p>
+          <div class="cache-inspector-actions">
+            <button class="btn btn-ghost" id="cacheInspectorRefresh" type="button">Cập nhật danh sách</button>
+          </div>
+          <div class="cache-entry-list" id="cacheEntryList" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="settings-group settings-group-actions">
+        <button class="btn btn-primary" id="settingsSaveBtn" type="button">Lưu vào bộ nhớ đệm</button>
+        <button class="btn btn-ghost" id="settingsClearBtn" type="button">Xóa toàn bộ cache</button>
+      </div>
+      <p class="settings-status" id="settingsStatus" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="top">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Blog công nghệ · ORCcop</div>
+        <h1>Kiến thức lập trình,<br><em>viết cho người thực hành.</em></h1>
+        <p class="lead">ORCcop là không gian chia sẻ tài liệu, công cụ và bài viết kỹ thuật của ORICHIIN Studio — nơi chúng tôi tổng hợp các dự án nội bộ thành nội dung học tập chính quy, dễ tiếp cận cho cộng đồng.</p>
+        <div class="hero-ctas">
+          <a href="#bai-viet" class="btn btn-primary">Xem bài viết mới nhất</a>
+          <a href="#gioi-thieu" class="btn btn-ghost">Về ORCcop</a>
+        </div>
+      </div>
+      <div class="terminal" aria-hidden="true">
+        <div class="terminal-bar">
+          <span class="r"></span><span class="y"></span><span class="g"></span>
+          <span class="terminal-title">orccop — mission.sh</span>
+        </div>
+        <div class="terminal-body" id="terminal-body"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Announcement -->
+  <section id="chuyen-doi" style="padding-top:0;">
+    <div class="announce">
+      <div class="announce-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 15-4M20 12a8 8 0 0 1-15 4"/><path d="M4 4v4h4M20 20v-4h-4"/></svg>
+      </div>
+      <div>
+        <h3>Đã cập nhật tên miền mới</h3>
+        <p>Trang web đã được cập nhật sang tên miền mới <a href="https://oriciin.cloud" target="_blank" rel="noreferrer"><strong>oriciin.cloud</strong></a>. Vui lòng sử dụng tên miền này để truy cập các nội dung và công cụ của chúng tôi.</p>
+      </div>
+      <span class="date mono">Trạng thái: Đã cập nhật</span>
+    </div>
+  </section>
+
+  <!-- Bài viết / công cụ -->
+  <section id="bai-viet">
+    <div class="section-head">
+      <div>
+        <h2>Bài viết &amp; công cụ nổi bật</h2>
+        <p>Các dự án và tài nguyên đang được ORCcop duy trì, tổng hợp lại thành nội dung dễ theo dõi.</p>
+      </div>
+    </div>
+    <div class="grid">
+
+      <a class="card" href="https://oriciin.cloud/chat-server.html">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.4 8.4 0 0 1 8.4-8.4 8.5 8.5 0 0 1 8.5 8.4z"/></svg>
+        </div>
+        <span class="card-tag">Cộng đồng</span>
+        <h3>Chat Server</h3>
+        <p>Không gian trò chuyện dành cho cộng đồng ORCcop trao đổi, thảo luận và kết nối trực tiếp.</p>
+        <span class="card-link">Truy cập →</span>
+      </a>
+
+      <a class="card" href="https://oriciin.cloud/list.html">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        </div>
+        <span class="card-tag">Tổng hợp</span>
+        <h3>List — Danh sách tiện ích</h3>
+        <p>Tổng hợp toàn bộ ứng dụng và công cụ nhỏ do ORCcop phát triển, cập nhật thường xuyên.</p>
+        <span class="card-link">Xem danh sách →</span>
+      </a>
+      <a class="card" href="https://oriciin.cloud/date.html">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <span class="card-tag">Sản xuất</span>
+        <h3>Lịch vạn năng</h3>
+        <p>Xem lịch, đặt hẹn giờ và đếm ngược — một tiện ích gọn nhẹ cho công việc hằng ngày.</p>
+        <span class="card-link">Sử dụng →</span>
+      </a>
+
+      <a class="card" href="https://oriciin.cloud/beta/beta.html">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M10 3v5.5L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8.5V3"/></svg>
+        </div>
+        <span class="card-tag">Nghiên cứu</span>
+        <h3>Phòng thí nghiệm ORC</h3>
+        <p>Công cụ phân tích kết quả bài trắc nghiệm, hỗ trợ đánh giá và cải thiện học tập.</p>
+        <span class="card-link">Phân tích →</span>
+      </a>
+
+      <a class="card" href="https://oriciin.cloud/mini-game.html">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M7 10v4M5 12h4M15.5 11h.01M18.5 13h.01"/></svg>
+        </div>
+        <span class="card-tag">Thử nghiệm</span>
+        <h3>Mini Game — Sandbox</h3>
+        <p>Không gian thử nghiệm nhỏ dùng để minh họa các khái niệm lập trình qua tương tác trực quan.</p>
+        <span class="card-link">Trải nghiệm →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- Giới thiệu / mission -->
+  <section id="gioi-thieu">
+    <div class="about">
+      <div>
+        <span class="eyebrow" style="margin-bottom:14px;">Về chúng tôi</span>
+        <h2>Từ studio sáng tạo đến nền tảng học thuật.</h2>
+        <p>ORCcop là đơn vị vận hành trực thuộc <strong>ORICHIIN Studio</strong>. Trang trước đây được biết đến qua tên miền oriciin.cloud, dễ gây hiểu lầm về nội dung. Trên thực tế, studio hiện không sản xuất nội dung hoạt họa hay truyền hình.</p>
+        <p>Định hướng hiện tại của chúng tôi là xây dựng một không gian trao đổi thông tin học tập chính quy, tập trung vào lập trình, công cụ kỹ thuật và tài nguyên phục vụ cộng đồng người học công nghệ thông tin.</p>
+      </div>
+      <ul class="milestones">
+        <li class="milestone">
+          <span class="num mono">01</span>
+          <div>
+            <h4>Thông báo chuyển đổi</h4>
+            <p>Công bố định hướng mới và kế hoạch đổi tên miền tới cộng đồng.</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <span class="num mono">02</span>
+          <div>
+            <h4>Tái cấu trúc nội dung</h4>
+            <p>Chuyển các công cụ và bài viết hiện có sang định dạng blog học thuật.</p>
+          </div>
+        </li>
+        <li class="milestone">
+          <span class="num mono">03</span>
+          <div>
+            <h4>Đã cập nhật oriciin.cloud</h4>
+            <p>Tên miền mới đã được cập nhật và sẵn sàng phục vụ cộng đồng.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="lien-he">
+    <div class="contact">
+      <div>
+        <h2>Theo dõi &amp; liên hệ với ORCcop</h2>
+        <p>Cập nhật mới nhất: 30/06/2026. Mọi thắc mắc về dự án hoặc bản quyền, vui lòng liên hệ qua Facebook chính thức.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="https://www.facebook.com/orichiin" target="_blank" rel="noreferrer" class="btn btn-light">Facebook ORCcop</a>
+        <a href="https://oriciin.cloud/store/copyright/d/Bao_cao_ban_quyen_orccop-w.pdf" target="_blank" rel="noreferrer" class="btn btn-outline-light">Báo cáo bản quyền</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <p>© 2026 ORCcop · trực thuộc ORICHIIN Studio. Bản quyền được bảo lưu.</p>
+    <div class="footer-links">
+      <a href="#top">Trang chủ</a>
+      <a href="#bai-viet">Bài viết</a>
+      <a href="#gioi-thieu">Giới thiệu</a>
+      <a href="#lien-he">Liên hệ</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Internal search — indexes the existing link lists already on the page
+  (function(){
+    const searchBtn = document.getElementById('searchBtn');
+    const overlay = document.getElementById('searchOverlay');
+    const input = document.getElementById('searchInput');
+    const resultsEl = document.getElementById('searchResults');
+    const closeBtn = document.getElementById('searchClose');
+
+    function buildIndex(){
+      const items = [];
+      document.querySelectorAll('.grid .card').forEach(card => {
+        items.push({
+          title: card.querySelector('h3')?.textContent.trim() || '',
+          desc: card.querySelector('p')?.textContent.trim() || '',
+          tag: card.querySelector('.card-tag')?.textContent.trim() || '',
+          url: card.getAttribute('href')
+        });
+      });
+      document.querySelectorAll('nav.main-nav a').forEach(a => {
+        const label = a.textContent.trim();
+        items.push({
+          title: label,
+          desc: 'Chuyển tới mục "' + label + '" trên trang.',
+          tag: 'Trang',
+          url: a.getAttribute('href')
+        });
+      });
+      return items;
+    }
+    const index = buildIndex();
+
+    function normalize(str){
+      return str.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd');
+    }
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+    function highlight(text, query){
+      const safe = escapeHtml(text);
+      if(!query) return safe;
+      const nText = normalize(text), nQuery = normalize(query);
+      const i = nText.indexOf(nQuery);
+      if(i === -1) return safe;
+      return escapeHtml(text.slice(0,i)) + '<mark>' + escapeHtml(text.slice(i, i+query.length)) + '</mark>' + escapeHtml(text.slice(i+query.length));
+    }
+
+    let activeIndex = -1;
+
+    function render(query){
+      const q = query.trim();
+      if(!q){
+        resultsEl.innerHTML = '<div class="search-hint">Gõ để tìm bài viết, công cụ hoặc trang trong ORCcop…</div>';
+        activeIndex = -1;
+        return;
+      }
+      const nq = normalize(q);
+      const matches = index.filter(item =>
+        normalize(item.title).includes(nq) ||
+        normalize(item.desc).includes(nq) ||
+        normalize(item.tag).includes(nq)
+      );
+      if(matches.length === 0){
+        resultsEl.innerHTML = '<div class="search-empty">Không tìm thấy kết quả cho "' + escapeHtml(q) + '".</div>';
+        activeIndex = -1;
+        return;
+      }
+      resultsEl.innerHTML = matches.map(item => (
+        '<a class="search-result" href="' + item.url + '">' +
+          '<span class="search-result-tag mono">' + escapeHtml(item.tag) + '</span>' +
+          '<span class="search-result-title">' + highlight(item.title, q) + '</span>' +
+          '<span class="search-result-desc">' + highlight(item.desc, q) + '</span>' +
+        '</a>'
+      )).join('');
+      activeIndex = -1;
+    }
+
+    function setActive(i){
+      const items = resultsEl.querySelectorAll('.search-result');
+      items.forEach(el => el.classList.remove('is-active'));
+      if(items[i]){
+        items[i].classList.add('is-active');
+        items[i].scrollIntoView({block:'nearest'});
+      }
+      activeIndex = i;
+    }
+
+    function openSearch(){
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      searchBtn.setAttribute('aria-expanded', 'true');
+      input.value = '';
+      render('');
+      setTimeout(() => input.focus(), 10);
+    }
+    function closeSearch(){
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      searchBtn.setAttribute('aria-expanded', 'false');
+      searchBtn.focus();
+    }
+
+    searchBtn.addEventListener('click', openSearch);
+    closeBtn.addEventListener('click', closeSearch);
+    overlay.querySelectorAll('[data-search-close]').forEach(el => el.addEventListener('click', closeSearch));
+
+    input.addEventListener('input', () => render(input.value));
+
+    input.addEventListener('keydown', (e) => {
+      const items = resultsEl.querySelectorAll('.search-result');
+      if(e.key === 'ArrowDown'){
+        e.preventDefault();
+        if(items.length) setActive((activeIndex + 1) % items.length);
+      } else if(e.key === 'ArrowUp'){
+        e.preventDefault();
+        if(items.length) setActive((activeIndex - 1 + items.length) % items.length);
+      } else if(e.key === 'Enter'){
+        const target = activeIndex >= 0 ? items[activeIndex] : items[0];
+        if(target){ e.preventDefault(); target.click(); }
+      }
+    });
+
+    resultsEl.addEventListener('click', (e) => {
+      if(e.target.closest('.search-result')) closeSearch();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(!overlay.hidden && e.key === 'Escape'){ closeSearch(); return; }
+      const tag = (e.target.tagName || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
+      if(overlay.hidden && !isTyping && (e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'))){
+        e.preventDefault();
+        openSearch();
+      }
+    });
+  })();
+
+  // Display settings — theme (light/dark/system), custom wallpaper, cache, privacy
+  (function(){
+    const STORAGE_KEY = 'orccop:settings';
+    const root = document.documentElement;
+    const wallpaperLayer = document.getElementById('wallpaperLayer');
+    const wallpaperScrim = document.getElementById('wallpaperScrim');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const overlay = document.getElementById('settingsOverlay');
+    const closeBtn = document.getElementById('settingsClose');
+    const themeOptions = document.querySelectorAll('#themeOptions .settings-option');
+    const wallpaperInput = document.getElementById('wallpaperInput');
+    const wallpaperPreview = document.getElementById('wallpaperPreview');
+    const wallpaperRemoveBtn = document.getElementById('wallpaperRemoveBtn');
+    const privacyToggle = document.getElementById('privacyToggle');
+    const saveBtn = document.getElementById('settingsSaveBtn');
+    const clearBtn = document.getElementById('settingsClearBtn');
+    const statusEl = document.getElementById('settingsStatus');
+    const cacheInspectorToggle = document.getElementById('cacheInspectorToggle');
+    const cacheInspector = document.getElementById('cacheInspector');
+    const cacheUsageLabel = document.getElementById('cacheUsageLabel');
+    const cacheUsageProgress = document.getElementById('cacheUsageProgress');
+    const cacheLimitAlert = document.getElementById('cacheLimitAlert');
+    const cacheSummary = document.getElementById('cacheSummary');
+    const cacheInspectorRefresh = document.getElementById('cacheInspectorRefresh');
+    const cacheEntryList = document.getElementById('cacheEntryList');
+    const cacheLimitInput = document.getElementById('cacheLimitInput');
+    const cacheLimitSaveBtn = document.getElementById('cacheLimitSaveBtn');
+    const searchOverlay = document.getElementById('searchOverlay');
+    const accountPrivateKey = document.getElementById('accountPrivateKey');
+    const accountLoginBtn = document.getElementById('accountLoginBtn');
+    const accountRefreshBtn = document.getElementById('accountRefreshBtn');
+    const accountLogoutBtn = document.getElementById('accountLogoutBtn');
+    const accountStatus = document.getElementById('accountStatus');
+    const accountWallet = document.getElementById('accountWallet');
+    const accountBalance = document.getElementById('accountBalance');
+    const COIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRS_DnyZ-HsVZa_ze8zDOC1shuBcicazXnU5JrfzISTvTXa7WE4I6eIQYJQ3LUo-No/exec';
+    let accountPrivateKeyValue = '';
+
+    const defaults = { theme: 'system', wallpaper: null, privacy: false, cacheLimitMb: 50 };
+    let state = Object.assign({}, defaults);
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function readStorage(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){ return null; }
+    }
+
+    function writeStorage(target){
+      try{
+        const payload = JSON.stringify(state);
+        if(target === 'local'){
+          localStorage.setItem(STORAGE_KEY, payload);
+          sessionStorage.removeItem(STORAGE_KEY);
+        } else {
+          sessionStorage.setItem(STORAGE_KEY, payload);
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      }catch(e){ /* storage unavailable or full */ }
+    }
+
+    function persist(showStatus){
+      if(state.privacy){
+        writeStorage('session');
+        if(showStatus) setStatus('Chế độ riêng tư đang bật — cài đặt chỉ lưu tạm cho phiên này, không ghi vào cache lâu dài.');
+      } else {
+        writeStorage('local');
+        if(showStatus) setStatus('Đã lưu cài đặt vào bộ nhớ đệm.');
+      }
+      refreshCacheIfOpen();
+    }
+
+    function setStatus(msg, isError){
+      statusEl.textContent = msg;
+      statusEl.classList.toggle('is-error', !!isError);
+    }
+
+    function applyTheme(){
+      let effective = state.theme;
+      if(effective === 'system'){
+        effective = mediaQuery.matches ? 'dark' : 'light';
+      }
+      if(effective === 'dark'){
+        root.setAttribute('data-theme', 'dark');
+      } else {
+        root.removeAttribute('data-theme');
+      }
+      themeOptions.forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.themeChoice === state.theme);
+      });
+    }
+
+    function applyWallpaper(){
+      if(state.wallpaper){
+        wallpaperLayer.style.backgroundImage = 'url(' + state.wallpaper + ')';
+        wallpaperLayer.classList.add('is-active');
+        wallpaperScrim.classList.add('is-active');
+        root.classList.add('has-wallpaper');
+        wallpaperPreview.style.backgroundImage = 'url(' + state.wallpaper + ')';
+        wallpaperPreview.textContent = '';
+      } else {
+        wallpaperLayer.style.backgroundImage = '';
+        wallpaperLayer.classList.remove('is-active');
+        wallpaperScrim.classList.remove('is-active');
+        root.classList.remove('has-wallpaper');
+        wallpaperPreview.style.backgroundImage = '';
+        wallpaperPreview.textContent = 'Chưa có';
+      }
+    }
+
+    function applyAll(){
+      applyTheme();
+      applyWallpaper();
+      privacyToggle.checked = !!state.privacy;
+      cacheLimitInput.value = state.cacheLimitMb;
+    }
+
+    // Init from cache (or session, if privacy mode was on)
+    const saved = readStorage();
+    if(saved) state = Object.assign({}, defaults, saved);
+    applyAll();
+
+    function setAccountStatus(message, isError){
+      accountStatus.textContent = message;
+      accountStatus.classList.toggle('is-error', !!isError);
+    }
+
+    function saveAccountSummary(wallet, balance){
+      try{
+        sessionStorage.setItem('orccop:account', JSON.stringify({ wallet, balance }));
+      }catch(e){}
+    }
+
+    function loadAccountSummary(){
+      try{
+        const savedAccount = JSON.parse(sessionStorage.getItem('orccop:account') || 'null');
+        if(savedAccount && savedAccount.wallet){
+          accountWallet.textContent = 'Ví: ' + savedAccount.wallet;
+          accountBalance.textContent = String(savedAccount.balance) + ' ORC';
+          setAccountStatus('Đã lưu phiên hiển thị. Nhập Private Key để cập nhật số dư.');
+        }
+      }catch(e){}
+    }
+
+    async function refreshAccountBalance(){
+      if(!accountPrivateKeyValue){
+        setAccountStatus('Nhập Private Key để đăng nhập và cập nhật số dư.', true);
+        return;
+      }
+      accountRefreshBtn.disabled = true;
+      setAccountStatus('Đang cập nhật số dư...');
+      try{
+        const response = await fetch(COIN_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'login', privateKey: accountPrivateKeyValue })
+        });
+        const data = await response.json();
+        if(!data.exists){
+          setAccountStatus('Ví chưa đăng ký hoặc Private Key không đúng.', true);
+          return;
+        }
+        const wallet = data.walletAddress || 'Ví ORC';
+        accountWallet.textContent = 'Ví: ' + wallet;
+        accountBalance.textContent = String(data.balance) + ' ORC';
+        saveAccountSummary(wallet, data.balance);
+        setAccountStatus('Số dư đã được cập nhật.');
+      }catch(error){
+        setAccountStatus('Không thể kết nối máy chủ coin.', true);
+      }finally{
+        accountRefreshBtn.disabled = false;
+      }
+    }
+
+    accountLoginBtn.addEventListener('click', async () => {
+      const key = accountPrivateKey.value.trim();
+      if(!key){
+        setAccountStatus('Vui lòng nhập Private Key.', true);
+        accountPrivateKey.focus();
+        return;
+      }
+      accountPrivateKeyValue = key;
+      accountLoginBtn.disabled = true;
+      await refreshAccountBalance();
+      accountLoginBtn.disabled = false;
+    });
+
+    accountRefreshBtn.addEventListener('click', refreshAccountBalance);
+    accountLogoutBtn.addEventListener('click', () => {
+      accountPrivateKeyValue = '';
+      accountPrivateKey.value = '';
+      accountWallet.textContent = 'Ví: Chưa kết nối';
+      accountBalance.textContent = '0 ORC';
+      try{ sessionStorage.removeItem('orccop:account'); }catch(e){}
+      setAccountStatus('Đã đăng xuất.');
+    });
+    loadAccountSummary();
+
+    mediaQuery.addEventListener('change', () => {
+      if(state.theme === 'system') applyTheme();
+    });
+
+    themeOptions.forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.theme = btn.dataset.themeChoice;
+        applyTheme();
+        persist(false);
+        setStatus('Đã áp dụng giao diện: ' + btn.textContent.trim() + '.');
+      });
+    });
+
+    wallpaperInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      if(!file.type.startsWith('image/')){
+        setStatus('Vui lòng chọn một tệp hình ảnh hợp lệ.', true);
+        return;
+      }
+      if(file.size > 4 * 1024 * 1024){
+        setStatus('Hình ảnh quá lớn (tối đa 4MB) để lưu vào cache.', true);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.wallpaper = reader.result;
+        applyWallpaper();
+        persist(true);
+      };
+      reader.onerror = () => setStatus('Không thể đọc tệp hình ảnh này.', true);
+      reader.readAsDataURL(file);
+    });
+
+    wallpaperRemoveBtn.addEventListener('click', () => {
+      state.wallpaper = null;
+      wallpaperInput.value = '';
+      applyWallpaper();
+      persist(true);
+    });
+
+    privacyToggle.addEventListener('change', () => {
+      state.privacy = privacyToggle.checked;
+      if(state.privacy){
+        try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+        persist(false);
+        setStatus('Đã bật quyền riêng tư — dữ liệu cache trước đó (nếu có) đã được xóa.');
+      } else {
+        persist(false);
+        setStatus('Đã tắt quyền riêng tư — cài đặt sẽ được lưu vào cache như bình thường.');
+      }
+    });
+
+    saveBtn.addEventListener('click', () => persist(true));
+
+    clearBtn.addEventListener('click', () => {
+      try{
+        localStorage.removeItem(STORAGE_KEY);
+        sessionStorage.removeItem(STORAGE_KEY);
+      }catch(e){}
+      state = Object.assign({}, defaults, { privacy: state.privacy });
+      applyAll();
+      setStatus('Đã xóa toàn bộ dữ liệu đã lưu trong cache.');
+      refreshCacheIfOpen();
+    });
+
+    function formatBytes(bytes){
+      if(!bytes) return '0 B';
+      const units = ['B', 'KB', 'MB', 'GB'];
+      const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+      return (bytes / Math.pow(1024, index)).toFixed(index ? 2 : 0) + ' ' + units[index];
+    }
+
+    function byteLength(value){
+      return new Blob([String(value)]).size;
+    }
+
+    function addCacheEntry(name, type, size, removeEntry){
+      const entry = document.createElement('div');
+      entry.className = 'cache-entry';
+
+      const info = document.createElement('div');
+      info.className = 'cache-entry-info';
+      const nameEl = document.createElement('span');
+      nameEl.className = 'cache-entry-name';
+      nameEl.textContent = name;
+      nameEl.title = name;
+      const metaEl = document.createElement('span');
+      metaEl.className = 'cache-entry-meta';
+      metaEl.textContent = type + ' · ' + formatBytes(size);
+      info.append(nameEl, metaEl);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'cache-entry-delete';
+      deleteBtn.type = 'button';
+      deleteBtn.textContent = 'Xóa';
+      deleteBtn.addEventListener('click', async () => {
+        deleteBtn.disabled = true;
+        try{
+          await removeEntry();
+          entry.remove();
+          if(!cacheEntryList.children.length) cacheEntryList.innerHTML = '<p class="cache-empty">Không còn dữ liệu trong danh sách.</p>';
+          await inspectCache();
+        }catch(e){
+          deleteBtn.disabled = false;
+          setStatus('Không thể xóa mục này.', true);
+        }
+      });
+
+      entry.append(info, deleteBtn);
+      cacheEntryList.appendChild(entry);
+    }
+
+    function getStorageEntries(storage, label){
+      const entries = [];
+      for(let index = 0; index < storage.length; index++){
+        const key = storage.key(index);
+        if(key === null) continue;
+        const value = storage.getItem(key) || '';
+        entries.push({
+          name: label + ': ' + key,
+          type: label,
+          size: byteLength(value),
+          remove: () => storage.removeItem(key)
+        });
+      }
+      return entries;
+    }
+
+    function cacheEntryType(request, response){
+      const contentType = response && response.headers.get('content-type');
+      if(contentType) return contentType.split(';')[0];
+      if(request.destination) return request.destination;
+      return 'request';
+    }
+
+    async function inspectCache(){
+      cacheEntryList.replaceChildren();
+      let entries = [];
+      let cacheBytes = 0;
+      let totalBytes = 0;
+
+      try{
+        entries = entries.concat(getStorageEntries(localStorage, 'localStorage'));
+        entries = entries.concat(getStorageEntries(sessionStorage, 'sessionStorage'));
+        totalBytes = entries.reduce((sum, entry) => sum + entry.size, 0);
+      }catch(e){
+        setStatus('Không thể đọc bộ nhớ trình duyệt.', true);
+      }
+
+      if('caches' in window){
+        try{
+          const cacheNames = await caches.keys();
+          for(const cacheName of cacheNames){
+            const cache = await caches.open(cacheName);
+            const requests = await cache.keys();
+            for(const request of requests){
+              const response = await cache.match(request);
+              const contentLength = response && response.headers.get('content-length');
+              const size = contentLength ? Number(contentLength) : (response ? (await response.clone().blob()).size : 0);
+              cacheBytes += size;
+              totalBytes += size;
+              entries.push({
+                name: cacheName + ': ' + request.url,
+                type: cacheEntryType(request, response),
+                size,
+                remove: () => cache.delete(request)
+              });
+            }
+          }
+        }catch(e){
+          setStatus('Không thể đọc Cache Storage.', true);
+        }
+      }
+
+      const limitBytes = state.cacheLimitMb * 1024 * 1024;
+      const usagePercent = Math.min(100, (totalBytes / limitBytes) * 100);
+      const isOverLimit = totalBytes > limitBytes;
+      cacheUsageProgress.value = usagePercent;
+      cacheUsageLabel.textContent = formatBytes(totalBytes) + ' / ' + formatBytes(limitBytes);
+      cacheLimitAlert.hidden = !isOverLimit;
+      cacheLimitAlert.textContent = isOverLimit
+        ? 'Cảnh báo: dữ liệu đang dùng ' + formatBytes(totalBytes) + ', đã vượt hạn mức ' + state.cacheLimitMb + ' MB. Hãy xóa bớt dữ liệu cache.'
+        : '';
+      const limitWarning = isOverLimit ? ' Đã vượt hạn mức.' : ' Trong hạn mức.';
+      cacheSummary.textContent = entries.length + ' mục dữ liệu · Tổng: ' + formatBytes(totalBytes) + ' · Cache Storage: ' + formatBytes(cacheBytes) + ' ·' + limitWarning;
+
+      if(!entries.length){
+        cacheEntryList.innerHTML = '<p class="cache-empty">Không có dữ liệu cache hoặc bộ nhớ trang.</p>';
+        return;
+      }
+      entries.forEach(entry => addCacheEntry(entry.name, entry.type, entry.size, entry.remove));
+    }
+
+    function refreshCacheIfOpen(){
+      if(!cacheInspector.hidden) inspectCache();
+    }
+
+    cacheInspectorToggle.addEventListener('click', () => {
+      const isOpen = cacheInspectorToggle.getAttribute('aria-expanded') === 'true';
+      cacheInspectorToggle.setAttribute('aria-expanded', String(!isOpen));
+      cacheInspector.hidden = isOpen;
+      if(!isOpen) inspectCache();
+    });
+    cacheInspectorRefresh.addEventListener('click', inspectCache);
+
+    cacheLimitSaveBtn.addEventListener('click', () => {
+      const limit = Number(cacheLimitInput.value);
+      if(!Number.isInteger(limit) || limit < 1 || limit > 2048){
+        setStatus('Hạn mức cache phải là số nguyên từ 1 đến 2048 MB.', true);
+        cacheLimitInput.focus();
+        return;
+      }
+      state.cacheLimitMb = limit;
+      persist(false);
+      setStatus('Đã lưu hạn mức cache: ' + limit + ' MB.');
+      if(!cacheInspector.hidden) inspectCache();
+    });
+
+    function openSettings(){
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      settingsBtn.setAttribute('aria-expanded', 'true');
+      setStatus('');
+      refreshAccountBalance();
+    }
+    function closeSettings(){
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      settingsBtn.setAttribute('aria-expanded', 'false');
+      settingsBtn.focus();
+    }
+
+    settingsBtn.addEventListener('click', openSettings);
+    closeBtn.addEventListener('click', closeSettings);
+    overlay.querySelectorAll('[data-settings-close]').forEach(el => el.addEventListener('click', closeSettings));
+    document.addEventListener('keydown', (e) => {
+      if(!overlay.hidden && e.key === 'Escape') closeSettings();
+      const tag = (e.target.tagName || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
+      if(!isTyping && e.key.toLowerCase() === 's' && (overlay.hidden ? searchOverlay.hidden : true)){
+        e.preventDefault();
+        if(overlay.hidden) openSettings();
+        else closeSettings();
+      }
+    });
+  })();
+
+  // Mobile menu toggle
+  const menuBtn = document.querySelector('.menu-btn');
+  const mainNav = document.querySelector('nav.main-nav');
+
+  function closeMenu(){
+    mainNav.classList.remove('is-open');
+    menuBtn.classList.remove('is-active');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  function openMenu(){
+    mainNav.classList.add('is-open');
+    menuBtn.classList.add('is-active');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (mainNav.classList.contains('is-open')) closeMenu();
+    else openMenu();
+  });
+
+  // Close after picking a link
+  mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // Close on outside tap
+  document.addEventListener('click', (e) => {
+    if (mainNav.classList.contains('is-open') &&
+        !mainNav.contains(e.target) && e.target !== menuBtn) {
+      closeMenu();
+    }
+  });
+
+  // Close if resized back to desktop width
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeMenu();
+  });
+
+  // Terminal typing signature
+  const lines = [
+    { prompt: '$ ', text: 'whoami', color: null },
+    { prompt: '', text: 'orccop — dự án học thuật của ORICHIIN Studio', comment: true },
+    { prompt: '$ ', text: 'cat mission.md', color: null },
+    { prompt: '', text: 'Chia sẻ tri thức lập trình, công cụ và tài liệu kỹ thuật.', comment: true },
+    { prompt: '$ ', text: 'domain --migrate', color: null },
+    { prompt: '', text: 'oriciin.cloud  →  oriciin.cloud', comment: true },
+    { prompt: '$ ', text: 'status', color: null },
+    { prompt: '', text: 'Đã cập nhật tên miền mới: oriciin.cloud', comment: true },
+  ];
+
+  const body = document.getElementById('terminal-body');
+  let li = 0, ci = 0;
+
+  function typeNext() {
+    if (li >= lines.length) {
+      // restart after a pause
+      setTimeout(() => { body.innerHTML = ''; li = 0; ci = 0; typeNext(); }, 2200);
+      return;
+    }
+    const line = lines[li];
+    const full = line.prompt + line.text;
+    if (ci === 0) {
+      const p = document.createElement('p');
+      p.className = 'terminal-line';
+      p.innerHTML = (line.prompt ? `<span class="prompt">${line.prompt}</span>` : '');
+      body.appendChild(p);
+    }
+    const p = body.lastChild;
+    ci++;
+    const shown = full.slice(0, ci);
+    const promptPart = line.prompt;
+    const textPart = shown.slice(promptPart.length);
+    p.innerHTML = (promptPart ? `<span class="prompt">${promptPart}</span>` : '') +
+                  (line.comment ? `<span class="comment">${textPart}</span>` : textPart) +
+                  '<span class="cursor"></span>';
+    if (ci < full.length) {
+      setTimeout(typeNext, 18 + Math.random() * 22);
+    } else {
+      li++; ci = 0;
+      setTimeout(typeNext, 420);
+    }
+  }
+  typeNext();
+</script>
+
+</body>
+</html>
