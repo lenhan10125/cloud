@@ -81,6 +81,9 @@ body{
 .settings-button svg{width:23px;height:23px}
 .embed-text{display:block;width:100%;min-height:110px;margin:16px 0 8px;padding:10px;font: .9rem/1.5 Consolas,monospace;resize:vertical}
 .embed-note,.embed-status{font-size:.9rem;color:var(--ink-soft)}
+.embed-url{display:block;width:100%;margin:14px 0 8px;padding:11px 12px;border:2px solid var(--panel-edge);border-radius:4px;background:#fff;color:var(--ink);font:inherit}
+.embed-url:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.embed-preview{display:block;width:100%;height:min(70vh,720px);margin:16px 0 8px;border:1px solid var(--panel-edge);border-radius:4px;background:#fff}
 .keyboard-help{padding:12px 14px;margin:14px 0 0;background:var(--opt);border-left:4px solid var(--accent);line-height:1.6}
 .keyboard-help kbd{display:inline-block;padding:1px 7px;border:1px solid var(--panel-edge);border-radius:3px;background:var(--panel);font:inherit;font-weight:700}
 .embed-status{min-height:1.4em;margin:8px 0 0}
@@ -301,11 +304,15 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
     <div class="keyboard-help">
       <b>Điều khiển trên máy tính:</b> nhấn <kbd>←</kbd> để xem câu trước; nhấn <kbd>→</kbd> để bỏ qua câu chưa trả lời hoặc sang câu tiếp theo. Ở câu cuối, nhấn <kbd>→</kbd> để xem kết quả.
     </div>
+    <p class="embed-note">Để dùng trong Canva, hãy đăng tải trang lên một địa chỉ HTTPS công khai, sau đó dán URL đó vào Canva → Ứng dụng → Nhúng. Trang cần cho phép hiển thị trong iframe.</p>
+    <label for="embed-url">URL trang đã đăng tải (HTTPS)</label>
+    <input class="embed-url" id="embed-url" type="url" inputmode="url" placeholder="https://example.com/trac-nghiem.html" autocomplete="url">
     <button class="btn primary" id="export-iframe" type="button">Xuất mã iframe</button>
+    <p class="embed-status" id="embed-status" aria-live="polite"></p>
     <div class="hidden" id="embed-output">
-      <p class="embed-note">Thay <code>DAN_LINK_NGUON_VAO_DAY</code> bằng đường dẫn trang sau khi đăng tải trực tuyến.</p>
+      <p class="embed-note">Xem thử trang nhúng bên dưới. Nếu Canva không hiển thị được, hãy kiểm tra cài đặt máy chủ có cho phép nhúng trang trong iframe không.</p>
+      <iframe class="embed-preview" id="embed-preview" title="Xem trước trang được nhúng" loading="lazy" allow="clipboard-write; fullscreen"></iframe>
       <textarea class="embed-text" id="embed-code" readonly aria-label="Mã iframe"></textarea>
-      <p class="embed-status" id="embed-status" aria-live="polite"></p>
       <div class="control-nav">
         <button class="btn" id="copy-iframe" type="button">Sao chép mã iframe</button>
       </div>
@@ -548,14 +555,33 @@ function startQuiz(){
 $("start").onclick = startQuiz;
 function openControls(){
   $("embed-output").classList.add("hidden");
+  $("embed-preview").removeAttribute("src");
   $("embed-status").textContent = "";
   $("controls-modal").classList.add("show");
   updateUI();
 }
 $("export-iframe").onclick = ()=>{
-  $("embed-code").value = '<iframe src="DAN_LINK_NGUON_VAO_DAY" width="100%" height="720" style="border:0" title="Câu hỏi trắc nghiệm tuyên truyền"></iframe>';
+  const source = $("embed-url").value.trim();
+  let url;
+  try{
+    url = new URL(source);
+  }catch(error){
+    $("embed-output").classList.add("hidden");
+    $("embed-preview").removeAttribute("src");
+    $("embed-status").textContent = "Vui lòng nhập URL HTTPS công khai hợp lệ.";
+    return;
+  }
+  if(url.protocol!=="https:"){
+    $("embed-output").classList.add("hidden");
+    $("embed-preview").removeAttribute("src");
+    $("embed-status").textContent = "Canva cần URL HTTPS công khai. Hãy đăng tải trang rồi nhập URL HTTPS.";
+    return;
+  }
+  const sourceUrl = url.href;
+  $("embed-code").value = `<iframe src="${esc(sourceUrl)}" width="100%" height="720" style="border:0" title="Câu hỏi trắc nghiệm tuyên truyền" loading="lazy" allow="clipboard-write; fullscreen"></iframe>`;
+  $("embed-preview").src = sourceUrl;
   $("embed-output").classList.remove("hidden");
-  $("embed-status").textContent = "";
+  $("embed-status").textContent = "Đã tạo bản xem trước và mã iframe.";
 };
 $("settings").onclick = openControls;
 $("open-controls").onclick = openControls;
