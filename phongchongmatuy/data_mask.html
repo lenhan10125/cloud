@@ -39,7 +39,7 @@ body{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,4vh,36px);
 }
 .welcome-footer{
-  position:fixed;left:0;right:0;bottom:16px;text-align:center;
+  position:fixed;left:0;right:0;bottom:10px;z-index:20;text-align:center;
   color:var(--ink-soft);font-size:.8rem;
 }
 .welcome-footer a{color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -54,22 +54,28 @@ body{
 .welcome p{margin:12px 0 30px;color:var(--ink-soft);font-size:.95rem;letter-spacing:.08em}
 .welcome-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
 .logo-ribbon{
-  width:min(100%,1000px);overflow:hidden;padding:12px 0;
-  border-block:2px solid rgba(255,255,255,.35);
-  background:rgba(59,61,58,.16);
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)
+  position:fixed;left:0;right:0;bottom:56px;z-index:19;
+  display:flex;align-items:center;width:100%;height:68px;overflow:hidden;padding:6px 0;
+  background:rgba(59,61,58,.12)
 }
-.logo-track{display:flex;width:max-content;animation:logo-scroll 30s linear infinite}
-.logo-group{display:flex;align-items:center;gap:16px;padding-right:16px}
+.logo-track{display:flex;align-items:center;width:max-content;height:100%;animation:logo-scroll 16s linear infinite}
+.logo-group{display:flex;align-items:center;gap:10px;padding-right:10px}
 .logo-item{
-  flex:none;width:156px;height:84px;padding:10px 14px;display:grid;place-items:center;
+  box-sizing:border-box;position:relative;flex:none;width:104px;height:52px;overflow:hidden;
   border:1px solid rgba(43,44,42,.16);border-radius:5px;background:rgba(255,255,255,.9)
 }
-.logo-item img{display:block;width:100%;height:100%;object-fit:contain}
+.logo-item a{position:relative;display:grid;width:100%;height:100%;padding:5px 8px;place-items:center}
+.logo-item img{display:block;width:100%;height:100%;min-width:0;min-height:0;object-fit:contain;object-position:center}
+.logo-item a::after{
+  content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;
+  padding:3px;background:rgba(43,44,42,.84);color:#fff;text-align:center;
+  font-size:.72rem;font-weight:700;opacity:0;transition:opacity .15s
+}
+.logo-item a:hover::after,.logo-item a:focus-visible::after{opacity:1}
+.logo-item a:focus-visible{outline:3px solid #fff;outline-offset:-3px}
 .logo-ribbon:hover .logo-track,.logo-ribbon:focus-within .logo-track{animation-play-state:paused}
 @keyframes logo-scroll{to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.logo-track{animation:none}}
+@media(prefers-reduced-motion:reduce){.logo-track{animation:none;justify-content:center;width:100%}.logo-group[aria-hidden="true"]{display:none}}
 .settings-button{
   position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;
   display:grid;place-items:center;padding:0;border:2px solid var(--accent);
@@ -107,13 +113,11 @@ header small{display:block;font-weight:400;opacity:.8;margin-top:4px;font-size:1
 .hint{font-style:italic;color:var(--ink-soft);margin:0 0 12px;font-size:1.05rem}
 .qtext{font-size:1.3rem;line-height:1.55;font-weight:600;margin:0 0 20px}
 
-.imgs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 20px}
-.imgbox{aspect-ratio:1/1;background:var(--opt);border:2px dashed #8a8b86;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-soft);font-size:.9rem;padding:6px;position:relative}
-.imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+.imgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:min(100%,520px);margin:0 auto 20px}
+.imgbox{aspect-ratio:4/3;background:var(--opt);border:2px dashed #8a8b86;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-soft);font-size:.9rem;padding:6px;position:relative}
+.imgbox img{width:100%;height:100%;object-fit:contain;display:block}
 .imgbox.filled{border-style:solid;border-color:var(--panel-edge);padding:0}
 .imgbox .no{position:absolute;left:6px;top:6px;background:var(--accent);color:#fff;font-size:.8rem;padding:2px 8px;border-radius:2px}
-@media(max-width:560px){.imgs{grid-template-columns:repeat(2,1fr)}}
-
 .opts{display:grid;gap:10px}
 .opt{
   position:relative;overflow:hidden;
@@ -189,9 +193,8 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
 @media(max-width:700px){
   body{padding:18px 14px 36px}
   .welcome{min-height:calc(100vh - 54px);min-height:calc(100svh - 54px)}
-  .logo-ribbon{width:calc(100% + 28px)}
-  .logo-group{gap:10px;padding-right:10px}
-  .logo-item{width:126px;height:70px;padding:8px 10px}
+  .logo-ribbon{bottom:56px}
+  .logo-item{width:88px;height:44px;padding:4px 6px}
   .welcome-card{width:min(100%,560px);padding:clamp(42px,9vw,64px) clamp(18px,5vw,30px)}
   .settings-button{top:12px;left:12px;width:42px;height:42px}
   header{align-items:flex-start}
@@ -202,7 +205,9 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
   :root{font-size:16px}
   body{padding:14px 12px 28px}
   .welcome{min-height:calc(100vh - 42px);min-height:calc(100svh - 42px)}
-  .logo-item{width:112px;height:64px}
+  .logo-ribbon{bottom:72px}
+  .logo-ribbon{height:58px}
+  .logo-item{width:88px;height:44px;padding:4px 6px}
   .welcome h1{font-size:clamp(1.65rem,8vw,2.25rem)}
   .welcome p{margin:12px 0 24px;font-size:.85rem}
   .welcome-actions{display:grid;grid-template-columns:1fr;gap:10px;width:min(100%,320px);margin:0 auto}
@@ -266,7 +271,7 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
   <div class="logo-ribbon hidden" id="logo-ribbon" aria-label="Logo các đơn vị">
     <div class="logo-track" id="logo-track"></div>
   </div>
-  <footer class="welcome-footer">Powered by <a href="https://oriciin.cloud" target="_blank" rel="noopener noreferrer">oriciin.cloud</a></footer>
+  <footer class="welcome-footer">Powered by <a href="https://web.facebook.com/profile.php?id=61567859303746" target="_blank" rel="noopener noreferrer">T11 Trường văn Công An Nhân Dân I</a></footer>
 </section>
 
 <div class="wrap">
@@ -306,7 +311,7 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
     </div>
     <p class="embed-note">Để dùng trong Canva, hãy đăng tải trang lên một địa chỉ HTTPS công khai, sau đó dán URL đó vào Canva → Ứng dụng → Nhúng. Trang cần cho phép hiển thị trong iframe.</p>
     <label for="embed-url">URL trang đã đăng tải (HTTPS)</label>
-    <input class="embed-url" id="embed-url" type="url" inputmode="url" placeholder="https://example.com/trac-nghiem.html" autocomplete="url">
+    <input class="embed-url" id="embed-url" type="url" inputmode="url" value="https://oriciin.cloud/phongchongmatuy/data_mask" placeholder="https://example.com/trac-nghiem.html" autocomplete="url">
     <button class="btn primary" id="export-iframe" type="button">Xuất mã iframe</button>
     <p class="embed-status" id="embed-status" aria-live="polite"></p>
     <div class="hidden" id="embed-output">
@@ -325,21 +330,27 @@ button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
 
 <script>
 /* ============ DÁN LINK HÌNH ẢNH CHO CÂU 5 TẠI ĐÂY ============
-   Điền đường dẫn (URL hoặc tên file ảnh cùng thư mục) vào 4 ô bên dưới.
+   Điền đường dẫn (URL hoặc tên file ảnh cùng thư mục) vào 2 ô bên dưới.
    Ví dụ: "https://example.com/can-sa.jpg"  hoặc  "anh1.jpg"
    Để trống "" thì sẽ hiện khung chờ. */
 const CAU5_HINH_ANH = [
-  "",   // Hình 1
-  "",   // Hình 2
-  "",   // Hình 3
-  ""    // Hình 4
+  "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/cay_anh_tuc_va_cay_can_sa_co_giong_nhau_khong_1_af06ef413a.jpg",   // Hình 1
+  "https://oriciin.cloud/phongchongmatuy/cocain.jpg"    // Hình 2
 ];
 /* ============================================================ */
 
 /* Dán tối đa 10 URL logo vào đây; hỗ trợ PNG, JPG, SVG và ảnh cùng thư mục. */
 const LOGO_LINKS = [
-  // "https://example.com/logo.svg",
-  // "logo-don-vi.png"
+  {
+    image:"https://oriciin.cloud/phongchongmatuy/T11.jpg",
+    label:"T11",
+    href:"https://web.facebook.com/profile.php?id=61567859303746"
+  },
+  {
+    image:"https://oriciin.cloud/phongchongmatuy/data2.png",
+    label:"Đoàn Thanh niên",
+    href:"https://doanthanhnien.vn/"
+  }
 ];
 
 const QUESTIONS = [
@@ -428,12 +439,14 @@ function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;
 function score(){return answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].ans?1:0),0)}
 
 function renderLogoRibbon(){
-  const urls = LOGO_LINKS.map(url=>url.trim()).filter(Boolean).slice(0,10);
-  if(!urls.length) return;
-  const makeGroup = hidden=>`<div class="logo-group"${hidden?' aria-hidden="true"':''}>${urls.map((url,i)=>
-    `<div class="logo-item"><img src="${esc(url)}" alt="${hidden?'':`Logo đơn vị ${i+1}`}" loading="lazy"></div>`
+  const logos = LOGO_LINKS.filter(logo=>logo.image.trim() && logo.href.trim()).slice(0,10);
+  if(!logos.length) return;
+  const repeatCount = Math.ceil(window.innerWidth / (logos.length * 114)) + 1;
+  const repeatedLogos = Array.from({length:repeatCount},()=>logos).flat();
+  const makeRepeatedGroup = hidden=>`<div class="logo-group"${hidden?' aria-hidden="true"':''}>${repeatedLogos.map(logo=>
+    `<div class="logo-item"><a href="${esc(logo.href)}" data-label="${esc(logo.label)}" aria-label="${esc(logo.label)}"${hidden?' tabindex="-1"':''} target="_blank" rel="noopener noreferrer"><img src="${esc(logo.image)}" alt="" loading="lazy"></a></div>`
   ).join("")}</div>`;
-  $("logo-track").innerHTML = makeGroup(false)+makeGroup(true);
+  $("logo-track").innerHTML = makeRepeatedGroup(false)+makeRepeatedGroup(true);
   $("logo-ribbon").classList.remove("hidden");
 }
 
@@ -549,6 +562,7 @@ document.addEventListener("keydown",e=>{
 function startQuiz(){
   $("welcome").classList.add("hidden");
   $("quiz").classList.remove("hidden");
+  renderLogoRibbon();
   render();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -669,6 +683,7 @@ function tick(){
   if(parts.length) requestAnimationFrame(tick); else {running=false;cx.clearRect(0,0,cv.width,cv.height)}
 }
 
+renderLogoRibbon();
 render();
 </script>
 </body>
