@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yêu cầu JavaScript để truy cập trang wed này</title>
+    <script src="access.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,7 +81,7 @@
                 <h2>Trang này yêu cầu JavaScript</h2>
                 <p>Vui lòng bật JavaScript trong trình duyệt để tiếp tục.</p>
             </div>
-            <p>Đang chuyển hướng, vui lòng đợi trong giây lát.</p>
+            <p id="redirect-status" aria-live="polite">Đang kiểm tra quyền truy cập, vui lòng đợi 1 giây.</p>
             <div class="cache-info" aria-live="polite">
                 <strong>Dung lượng cache</strong>
                 <p id="cache-size">Đang kiểm tra...</p>
@@ -227,8 +228,15 @@
         document.getElementById("clear-cache").addEventListener("click", clearOldCache);
         getCacheSize();
         setTimeout(() => {
-            window.location.href = "https://oriciin.cloud/home";
-        }, 7500);
+            try {
+                window.siteAccess.issueToken();
+                window.location.href = "https://oriciin.cloud/home";
+            } catch (error) {
+                console.error("Không thể tạo token truy cập.", error);
+                document.getElementById("redirect-status").textContent =
+                    "Không thể tạo token truy cập. Vui lòng kiểm tra cài đặt trình duyệt rồi tải lại trang.";
+            }
+        }, 1000);
     </script>
 </body>
 </html>

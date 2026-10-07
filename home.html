@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="access.js" data-require-token="true"></script>
 <title>ORCcop — Công nghệ và &amp; giáo dục lập trình</title>
 <link rel="icon" href="https://oriciin.cloud/ORC.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,11 +17,11 @@
     --surface:#FFFFFF;
     --surface-dark:#142027;
     --line:#DCE3E2;
-    --teal:#1F6F5C;
-    --teal-deep:#154B3E;
-    --amber:#C77A2E;
-    --mark-bg:#FBEEDF;
-    --mark-fg:#C77A2E;
+    --teal:#B4232F;
+    --teal-deep:#8F1723;
+    --amber:#D94A50;
+    --mark-bg:#FBEAEC;
+    --mark-fg:#B4232F;
     --radius:14px;
   }
   :root[data-theme="dark"]{
@@ -30,11 +31,11 @@
     --paper-rgb:18,24,27;
     --surface:#1A2226;
     --line:#2A3439;
-    --teal:#3FB593;
-    --teal-deep:#2E8E70;
-    --amber:#E7A15C;
-    --mark-bg:#3A2A16;
-    --mark-fg:#E7A15C;
+    --teal:#F06A72;
+    --teal-deep:#D94A50;
+    --amber:#F06A72;
+    --mark-bg:#3A2024;
+    --mark-fg:#F06A72;
   }
   *,*::before,*::after{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -218,15 +219,6 @@
   .settings-panel .settings-hint,.settings-panel .settings-note{color:var(--ink-soft);}
   .settings-panel .settings-group-label{color:var(--teal);}
   .settings-panel .cache-entry-name{color:var(--ink);}
-  .account-summary{display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--paper);}
-  .account-balance{font-family:'JetBrains Mono',monospace;font-size:1.35rem;font-weight:600;color:var(--amber);}
-  .account-wallet{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);word-break:break-all;}
-  .account-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
-  .account-actions .btn{flex:1;justify-content:center;}
-  .account-key{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px 'JetBrains Mono',monospace;}
-  .account-key:focus{outline:2px solid var(--teal);outline-offset:1px;}
-  .account-status{margin:0;min-height:18px;font-size:12px;color:var(--ink-soft);}
-  .account-status.is-error{color:#C0503F;}
   .cache-limit-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .cache-limit-input{width:100px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:600 14px 'Inter',sans-serif;}
   .cache-limit-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
@@ -351,7 +343,7 @@
   .section-head h2{font-size:1.9rem;margin:0 0 8px;font-weight:600;}
   .section-head p{margin:0;color:var(--ink-soft);max-width:50ch;}
 
-  /* ── Blog / tools grid ──────────────────── */
+  /* ── Tools grid ─────────────────────────── */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
   .card{
     background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
@@ -452,7 +444,7 @@
       <span class="brand-name">ORC<span>cop</span></span>
     </a>
     <nav class="main-nav">
-      <a href="#bai-viet">Bài viết &amp; công cụ</a>
+      <a href="#cong-cu">Công cụ</a>
       <a href="#gioi-thieu">Giới thiệu</a>
       <a href="#chuyen-doi">Chuyển đổi</a>
       <a href="#lien-he">Liên hệ</a>
@@ -477,7 +469,7 @@
   <div class="search-panel">
     <div class="search-input-wrap">
       <svg class="search-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.8-3.8"/></svg>
-      <input type="text" id="searchInput" class="search-input" placeholder="Tìm bài viết, công cụ, trang trong ORCcop…" autocomplete="off" spellcheck="false" />
+      <input type="text" id="searchInput" class="search-input" placeholder="Tìm công cụ, trang trong ORCcop…" autocomplete="off" spellcheck="false" />
       <button class="search-close" id="searchClose" type="button" aria-label="Đóng tìm kiếm">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
@@ -497,24 +489,6 @@
       </button>
     </div>
     <div class="settings-body">
-
-      <div class="settings-group">
-        <span class="settings-group-label">Tài khoản coin</span>
-        <div class="account-summary">
-          <input class="account-key" id="accountPrivateKey" type="password" autocomplete="off" placeholder="Private Key bắt đầu bằng 0x..." />
-          <div class="account-actions">
-            <button class="btn btn-primary" id="accountLoginBtn" type="button">Đăng nhập coin</button>
-            <a class="btn btn-ghost" href="../coinbetause.html">Trang đào tiền</a>
-          </div>
-          <p class="account-status" id="accountStatus" role="status" aria-live="polite">Chưa đăng nhập.</p>
-          <span class="account-wallet" id="accountWallet">Ví: Chưa kết nối</span>
-          <strong class="account-balance" id="accountBalance">-/- ORC</strong>
-          <div class="account-actions">
-            <button class="btn btn-ghost" id="accountRefreshBtn" type="button">Cập nhật tiền</button>
-            <button class="btn btn-ghost" id="accountLogoutBtn" type="button">Đăng xuất</button>
-          </div>
-        </div>
-      </div>
 
       <div class="settings-group">
         <span class="settings-group-label">Giao diện</span>
@@ -596,11 +570,11 @@
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Blog công nghệ · ORCcop</div>
+        <div class="eyebrow">Công cụ kỹ thuật · ORCcop</div>
         <h1>Kiến thức lập trình,<br><em>viết cho người thực hành.</em></h1>
-        <p class="lead">ORCcop là không gian chia sẻ tài liệu, công cụ và bài viết kỹ thuật của ORICHIIN Studio — nơi chúng tôi tổng hợp các dự án nội bộ thành nội dung học tập chính quy, dễ tiếp cận cho cộng đồng.</p>
+        <p class="lead">ORCcop là không gian giới thiệu các công cụ và tài nguyên kỹ thuật của ORICHIIN Studio — được xây dựng để hỗ trợ cộng đồng học tập và thực hành.</p>
         <div class="hero-ctas">
-          <a href="#bai-viet" class="btn btn-primary">Xem bài viết mới nhất</a>
+          <a href="#cong-cu" class="btn btn-primary">Khám phá công cụ</a>
           <a href="#gioi-thieu" class="btn btn-ghost">Về ORCcop</a>
         </div>
       </div>
@@ -628,12 +602,12 @@
     </div>
   </section>
 
-  <!-- Bài viết / công cụ -->
-  <section id="bai-viet">
+  <!-- Công cụ -->
+  <section id="cong-cu">
     <div class="section-head">
       <div>
-        <h2>Bài viết &amp; công cụ nổi bật</h2>
-        <p>Các dự án và tài nguyên đang được ORCcop duy trì, tổng hợp lại thành nội dung dễ theo dõi.</p>
+        <h2>Công cụ nổi bật</h2>
+        <p>Các dự án và tiện ích đang được ORCcop duy trì, cập nhật thường xuyên.</p>
       </div>
     </div>
     <div class="grid">
@@ -710,8 +684,8 @@
         <li class="milestone">
           <span class="num mono">02</span>
           <div>
-            <h4>Tái cấu trúc nội dung</h4>
-            <p>Chuyển các công cụ và bài viết hiện có sang định dạng blog học thuật.</p>
+            <h4>Phát triển công cụ</h4>
+            <p>Hoàn thiện các tiện ích kỹ thuật phục vụ cộng đồng người học.</p>
           </div>
         </li>
         <li class="milestone">
@@ -746,7 +720,7 @@
     <p>© 2026 ORCcop · trực thuộc ORICHIIN Studio. Bản quyền được bảo lưu.</p>
     <div class="footer-links">
       <a href="#top">Trang chủ</a>
-      <a href="#bai-viet">Bài viết</a>
+      <a href="#cong-cu">Công cụ</a>
       <a href="#gioi-thieu">Giới thiệu</a>
       <a href="#lien-he">Liên hệ</a>
     </div>
@@ -807,7 +781,7 @@
     function render(query){
       const q = query.trim();
       if(!q){
-        resultsEl.innerHTML = '<div class="search-hint">Gõ để tìm bài viết, công cụ hoặc trang trong ORCcop…</div>';
+        resultsEl.innerHTML = '<div class="search-hint">Gõ để tìm công cụ hoặc trang trong ORCcop…</div>';
         activeIndex = -1;
         return;
       }
@@ -920,15 +894,6 @@
     const cacheLimitInput = document.getElementById('cacheLimitInput');
     const cacheLimitSaveBtn = document.getElementById('cacheLimitSaveBtn');
     const searchOverlay = document.getElementById('searchOverlay');
-    const accountPrivateKey = document.getElementById('accountPrivateKey');
-    const accountLoginBtn = document.getElementById('accountLoginBtn');
-    const accountRefreshBtn = document.getElementById('accountRefreshBtn');
-    const accountLogoutBtn = document.getElementById('accountLogoutBtn');
-    const accountStatus = document.getElementById('accountStatus');
-    const accountWallet = document.getElementById('accountWallet');
-    const accountBalance = document.getElementById('accountBalance');
-    const COIN_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwRS_DnyZ-HsVZa_ze8zDOC1shuBcicazXnU5JrfzISTvTXa7WE4I6eIQYJQ3LUo-No/exec';
-    let accountPrivateKeyValue = '';
 
     const defaults = { theme: 'system', wallpaper: null, privacy: false, cacheLimitMb: 50 };
     let state = Object.assign({}, defaults);
@@ -1014,81 +979,6 @@
     const saved = readStorage();
     if(saved) state = Object.assign({}, defaults, saved);
     applyAll();
-
-    function setAccountStatus(message, isError){
-      accountStatus.textContent = message;
-      accountStatus.classList.toggle('is-error', !!isError);
-    }
-
-    function saveAccountSummary(wallet, balance){
-      try{
-        sessionStorage.setItem('orccop:account', JSON.stringify({ wallet, balance }));
-      }catch(e){}
-    }
-
-    function loadAccountSummary(){
-      try{
-        const savedAccount = JSON.parse(sessionStorage.getItem('orccop:account') || 'null');
-        if(savedAccount && savedAccount.wallet){
-          accountWallet.textContent = 'Ví: ' + savedAccount.wallet;
-          accountBalance.textContent = String(savedAccount.balance) + ' ORC';
-          setAccountStatus('Đã lưu phiên hiển thị. Nhập Private Key để cập nhật số dư.');
-        }
-      }catch(e){}
-    }
-
-    async function refreshAccountBalance(){
-      if(!accountPrivateKeyValue){
-        setAccountStatus('Nhập Private Key để đăng nhập và cập nhật số dư.', true);
-        return;
-      }
-      accountRefreshBtn.disabled = true;
-      setAccountStatus('Đang cập nhật số dư...');
-      try{
-        const response = await fetch(COIN_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'login', privateKey: accountPrivateKeyValue })
-        });
-        const data = await response.json();
-        if(!data.exists){
-          setAccountStatus('Ví chưa đăng ký hoặc Private Key không đúng.', true);
-          return;
-        }
-        const wallet = data.walletAddress || 'Ví ORC';
-        accountWallet.textContent = 'Ví: ' + wallet;
-        accountBalance.textContent = String(data.balance) + ' ORC';
-        saveAccountSummary(wallet, data.balance);
-        setAccountStatus('Số dư đã được cập nhật.');
-      }catch(error){
-        setAccountStatus('Không thể kết nối máy chủ coin.', true);
-      }finally{
-        accountRefreshBtn.disabled = false;
-      }
-    }
-
-    accountLoginBtn.addEventListener('click', async () => {
-      const key = accountPrivateKey.value.trim();
-      if(!key){
-        setAccountStatus('Vui lòng nhập Private Key.', true);
-        accountPrivateKey.focus();
-        return;
-      }
-      accountPrivateKeyValue = key;
-      accountLoginBtn.disabled = true;
-      await refreshAccountBalance();
-      accountLoginBtn.disabled = false;
-    });
-
-    accountRefreshBtn.addEventListener('click', refreshAccountBalance);
-    accountLogoutBtn.addEventListener('click', () => {
-      accountPrivateKeyValue = '';
-      accountPrivateKey.value = '';
-      accountWallet.textContent = 'Ví: Chưa kết nối';
-      accountBalance.textContent = '0 ORC';
-      try{ sessionStorage.removeItem('orccop:account'); }catch(e){}
-      setAccountStatus('Đã đăng xuất.');
-    });
-    loadAccountSummary();
 
     mediaQuery.addEventListener('change', () => {
       if(state.theme === 'system') applyTheme();
@@ -1314,7 +1204,6 @@
       document.body.style.overflow = 'hidden';
       settingsBtn.setAttribute('aria-expanded', 'true');
       setStatus('');
-      refreshAccountBalance();
     }
     function closeSettings(){
       overlay.hidden = true;
