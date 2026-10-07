@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trắc nghiệm Phòng, chống ma túy 2025</title>
+<style>
+:root{
+  font-size:18px;
+  --bg:#8d8f8c;          /* xám xi măng nền */
+  --bg-deep:#75776f;
+  --panel:#c4c5c0;       /* tấm bê tông sáng */
+  --panel-edge:#a9aaa5;
+  --ink:#2b2c2a;
+  --ink-soft:#4d4f4b;
+  --opt:#d9dad5;
+  --opt-hover:#e8e9e4;
+  --good:#3f8a55;
+  --bad:#c0272d;
+  --accent:#3b3d3a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:"Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 20% 15%,rgba(255,255,255,.10) 0 2px,transparent 3px),
+    radial-gradient(circle at 70% 60%,rgba(0,0,0,.08) 0 2px,transparent 3px),
+    radial-gradient(circle at 40% 85%,rgba(255,255,255,.08) 0 1.5px,transparent 3px),
+    var(--bg);
+  background-size:90px 90px,130px 130px,70px 70px,auto;
+  padding:24px 14px 60px;
+}
+.wrap{max-width:860px;margin:0 auto}
+.hidden{display:none!important}
+.welcome{
+  min-height:calc(100vh - 108px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(20px,4vh,36px);
+}
+.welcome-footer{
+  position:fixed;left:0;right:0;bottom:10px;z-index:20;text-align:center;
+  color:var(--ink-soft);font-size:.8rem;
+}
+.welcome-footer a{color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.welcome-footer a:hover{color:var(--ink)}
+.welcome-footer a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.welcome-card{
+  width:min(100%,700px);padding:clamp(28px,7vw,60px) 24px;text-align:center;
+  background:var(--panel);border:2px solid var(--panel-edge);border-radius:6px;
+  box-shadow:0 10px 0 -4px var(--bg-deep),0 14px 24px rgba(0,0,0,.25);
+}
+.welcome h1{margin:0;color:var(--ink);font-size:clamp(1.8rem,5vw,3rem);line-height:1.2}
+.welcome p{margin:12px 0 30px;color:var(--ink-soft);font-size:.95rem;letter-spacing:.08em}
+.welcome-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.logo-ribbon{
+  position:fixed;left:0;right:0;bottom:40px;z-index:19;
+  width:100%;overflow:hidden;padding:4px 0;
+  background:rgba(59,61,58,.12);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)
+}
+.logo-track{display:flex;width:max-content;animation:logo-scroll 24s linear infinite}
+.logo-group{display:flex;align-items:center;gap:10px;padding-right:10px}
+.logo-item{
+  flex:none;width:104px;height:48px;padding:5px 8px;display:grid;place-items:center;
+  border:1px solid rgba(43,44,42,.16);border-radius:5px;background:rgba(255,255,255,.9)
+}
+.logo-item img{display:block;width:100%;height:100%;object-fit:contain}
+.logo-ribbon:hover .logo-track,.logo-ribbon:focus-within .logo-track{animation-play-state:paused}
+@keyframes logo-scroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.logo-track{animation:none;justify-content:center;width:100%}.logo-group[aria-hidden="true"]{display:none}}
+.settings-button{
+  position:fixed;top:14px;left:14px;z-index:70;width:44px;height:44px;
+  display:grid;place-items:center;padding:0;border:2px solid var(--accent);
+  border-radius:50%;background:var(--panel);color:var(--accent);cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.2)
+}
+.settings-button:hover{background:var(--accent);color:#eee}
+.settings-button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.settings-button svg{width:23px;height:23px}
+.embed-text{display:block;width:100%;min-height:110px;margin:16px 0 8px;padding:10px;font: .9rem/1.5 Consolas,monospace;resize:vertical}
+.embed-note,.embed-status{font-size:.9rem;color:var(--ink-soft)}
+.embed-url{display:block;width:100%;margin:14px 0 8px;padding:11px 12px;border:2px solid var(--panel-edge);border-radius:4px;background:#fff;color:var(--ink);font:inherit}
+.embed-url:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.embed-preview{display:block;width:100%;height:min(70vh,720px);margin:16px 0 8px;border:1px solid var(--panel-edge);border-radius:4px;background:#fff}
+.keyboard-help{padding:12px 14px;margin:14px 0 0;background:var(--opt);border-left:4px solid var(--accent);line-height:1.6}
+.keyboard-help kbd{display:inline-block;padding:1px 7px;border:1px solid var(--panel-edge);border-radius:3px;background:var(--panel);font:inherit;font-weight:700}
+.embed-status{min-height:1.4em;margin:8px 0 0}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;color:#f1f1ee}
+header h1{margin:0;font-size:1.5rem;line-height:1.25;font-weight:700;letter-spacing:.2px}
+header small{display:block;font-weight:400;opacity:.8;margin-top:4px;font-size:1rem}
+.scorechip{background:var(--accent);color:#eee;padding:9px 15px;border-radius:4px;font-weight:600;white-space:nowrap;font-size:1rem}
+
+.progress{height:8px;background:var(--bg-deep);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.progress i{display:block;height:100%;width:0;background:#e6e6e1;transition:width .4s}
+
+.card{
+  background:var(--panel);
+  border:2px solid var(--panel-edge);
+  border-radius:6px;
+  padding:26px 26px 22px;
+  box-shadow:0 10px 0 -4px var(--bg-deep),0 14px 24px rgba(0,0,0,.25);
+}
+.qmeta{display:flex;justify-content:space-between;align-items:center;color:var(--ink-soft);font-size:1rem;margin-bottom:12px}
+.tag{background:var(--accent);color:#eee;padding:4px 11px;border-radius:3px;font-size:.9rem}
+.hint{font-style:italic;color:var(--ink-soft);margin:0 0 12px;font-size:1.05rem}
+.qtext{font-size:1.3rem;line-height:1.55;font-weight:600;margin:0 0 20px}
+
+.imgs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:min(100%,520px);margin:0 auto 20px}
+.imgbox{aspect-ratio:4/3;background:var(--opt);border:2px dashed #8a8b86;border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--ink-soft);font-size:.9rem;padding:6px;position:relative}
+.imgbox img{width:100%;height:100%;object-fit:contain;display:block}
+.imgbox.filled{border-style:solid;border-color:var(--panel-edge);padding:0}
+.imgbox .no{position:absolute;left:6px;top:6px;background:var(--accent);color:#fff;font-size:.8rem;padding:2px 8px;border-radius:2px}
+.opts{display:grid;gap:10px}
+.opt{
+  position:relative;overflow:hidden;
+  display:flex;gap:12px;align-items:flex-start;
+  width:100%;text-align:left;font:inherit;color:var(--ink);
+  background:var(--opt);border:2px solid #a2a39e;border-radius:4px;
+  padding:13px 15px;cursor:pointer;line-height:1.5;
+  transition:background .15s,transform .1s;
+}
+.opt:hover:not(:disabled){background:var(--opt-hover);transform:translateX(3px)}
+.opt:focus-visible{outline:3px solid #22232;outline:3px solid #222}
+.opt:disabled{cursor:default}
+.opt .L{flex:none;width:28px;height:28px;border-radius:3px;background:var(--accent);color:#eee;font-weight:700;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+.opt .T{position:relative;z-index:2;flex:1}
+.opt::before{ /* màu đỏ tràn */
+  content:"";position:absolute;inset:0;background:var(--bad);
+  transform:scaleX(0);transform-origin:left;z-index:1;
+}
+.opt.wrong::before{animation:flood .65s ease-out forwards}
+.opt.wrong{color:#fff;border-color:var(--bad);animation:shake .45s .1s}
+.opt.wrong .L{background:#7d0f14}
+@keyframes flood{to{transform:scaleX(1)}}
+@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.opt.right{background:var(--good);border-color:#2c6a3f;color:#fff;animation:pop .5s}
+.opt.right .L{background:#1f4d2d}
+.opt.reveal{border-color:var(--good);border-width:3px}
+@keyframes pop{40%{transform:scale(1.025)}}
+
+.feedback{margin-top:16px;padding:16px 18px;border-left:6px solid var(--accent);background:#d4d5d0;border-radius:2px;display:none;line-height:1.6;font-size:1.05rem}
+.feedback.show{display:block}
+.feedback b.ok{color:var(--good)} .feedback b.no{color:var(--bad)}
+.feedback p{margin:6px 0 0}
+
+.nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;justify-content:space-between}
+.nav .grp{display:flex;gap:10px;flex-wrap:wrap}
+.nav.at-end #next{display:none}
+.results{margin-top:20px;padding:24px;background:var(--panel);border:2px solid var(--panel-edge);border-radius:6px;box-shadow:0 10px 0 -4px var(--bg-deep),0 14px 24px rgba(0,0,0,.2)}
+.results h2{margin:0 0 6px;font-size:1.35rem}
+.results-actions{display:flex;justify-content:flex-end;margin-top:14px}
+button.btn{
+  font:inherit;font-weight:600;cursor:pointer;padding:10px 18px;border-radius:4px;
+  border:2px solid var(--accent);background:var(--panel);color:var(--accent);
+  transition:background .15s,color .15s;
+}
+button.btn:hover:not(:disabled){background:var(--accent);color:#eee}
+button.btn.primary{background:var(--accent);color:#eee}
+button.btn.primary:hover:not(:disabled){background:#1f201e}
+button.btn:disabled{opacity:.45;cursor:not-allowed}
+button.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+/* chúc mừng */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+.toast{
+  position:fixed;left:50%;top:18%;transform:translate(-50%,-30px) scale(.9);opacity:0;z-index:60;pointer-events:none;
+  background:var(--good);color:#fff;padding:16px 30px;border-radius:6px;font-size:1.4rem;font-weight:700;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);text-align:center;transition:all .35s cubic-bezier(.2,1.4,.4,1);
+}
+.toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+/* bảng điểm */
+.modal{position:fixed;inset:0;background:rgba(30,31,29,.65);display:none;align-items:center;justify-content:center;z-index:80;padding:16px}
+.modal.show{display:flex}
+.sheet{background:var(--panel);border:2px solid var(--panel-edge);border-radius:6px;max-width:460px;width:100%;padding:26px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.sheet.controls-sheet{max-width:620px}
+.control-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}
+.control-nav .grp{display:flex;gap:10px;flex-wrap:wrap}
+.sheet h2{margin:0 0 4px;font-size:1.3rem}
+.big{font-size:3.2rem;font-weight:800;line-height:1.1;margin:8px 0}
+.list{list-style:none;padding:0;margin:14px 0;display:grid;gap:6px}
+.list li{display:flex;justify-content:space-between;background:var(--opt);padding:8px 12px;border-radius:3px;font-size:.92rem}
+.list .ok{color:var(--good);font-weight:700}.list .no{color:var(--bad);font-weight:700}.list .na{color:var(--ink-soft)}
+.msg{margin:0 0 6px;color:var(--ink-soft)}
+@media(max-width:700px){
+  body{padding:18px 14px 36px}
+  .welcome{min-height:calc(100vh - 54px);min-height:calc(100svh - 54px)}
+  .logo-ribbon{bottom:40px}
+  .logo-item{width:88px;height:42px;padding:4px 6px}
+  .welcome-card{width:min(100%,560px);padding:clamp(42px,9vw,64px) clamp(18px,5vw,30px)}
+  .settings-button{top:12px;left:12px;width:42px;height:42px}
+  header{align-items:flex-start}
+  .card{padding:22px 20px 20px}
+  .sheet{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;padding:22px}
+}
+@media(max-width:520px){
+  :root{font-size:16px}
+  body{padding:14px 12px 28px}
+  .welcome{min-height:calc(100vh - 42px);min-height:calc(100svh - 42px)}
+  .logo-item{width:112px;height:64px}
+  .welcome h1{font-size:clamp(1.65rem,8vw,2.25rem)}
+  .welcome p{margin:12px 0 24px;font-size:.85rem}
+  .welcome-actions{display:grid;grid-template-columns:1fr;gap:10px;width:min(100%,320px);margin:0 auto}
+  button.btn{min-height:46px;padding:10px 14px}
+  header{flex-direction:column;align-items:stretch;gap:10px;margin-bottom:12px}
+  header h1{font-size:1.3rem}
+  header small{font-size:.95rem}
+  .scorechip{align-self:flex-start;padding:7px 11px}
+  .card{padding:18px 15px 16px}
+  .qmeta{align-items:flex-start;gap:8px;font-size:.95rem}
+  .tag{font-size:.86rem}
+  .tag{text-align:right}
+  .hint{font-size:1rem}
+  .qtext{font-size:1.15rem;line-height:1.55}
+  .imgs{gap:8px}
+  .opt{gap:10px;padding:12px 11px;font-size:1rem}
+  .opt .L{width:26px;height:26px}
+  .feedback{padding:13px;font-size:.98rem}
+  body{padding-bottom:112px}
+  .nav{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(196,197,192,.97);border-top:2px solid var(--panel-edge);box-shadow:0 -5px 18px rgba(0,0,0,.2);backdrop-filter:blur(8px);transform:translateY(100%);visibility:hidden;transition:transform .2s ease,visibility .2s}
+  .nav.mobile-visible{transform:translateY(0);visibility:visible}
+  .nav .grp{display:contents}
+  .nav .btn{width:100%;min-width:0;padding:10px 5px;font-size:.95rem}
+  #back{grid-column:1;grid-row:1}
+  #redo{grid-column:2;grid-row:1}
+  #next{grid-column:3;grid-row:1}
+  .nav.completed #redo{display:none}
+  .results{margin-top:16px;padding:18px 15px}
+  .modal{align-items:flex-end;padding:10px}
+  .sheet{width:100%;max-height:calc(100vh - 20px);max-height:calc(100dvh - 20px);padding:20px 16px;border-radius:10px 10px 6px 6px}
+  .sheet h2{font-size:1.2rem}
+  .keyboard-help{padding:10px;font-size:.98rem}
+  .embed-note,.embed-status{font-size:.95rem}
+  .embed-text{min-height:100px;font-size:.82rem}
+  .control-nav{display:block}
+  .control-nav .btn{width:100%}
+  .big{font-size:2.8rem}
+  .toast{width:calc(100% - 32px);font-size:1.15rem;padding:14px 16px}
+}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="toast" id="toast">Chính xác! Chúc mừng bạn!</div>
+
+<section class="welcome" id="welcome" aria-labelledby="welcome-title">
+  <button class="settings-button" id="settings" type="button" aria-label="Mở bảng điều khiển" title="Bảng điều khiển">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path>
+      <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 2.94-.09-.02a1.7 1.7 0 0 0-1.75.73l-.05.08h-3.4l-.04-.08a1.7 1.7 0 0 0-1.75-.73l-.09.02-1.7-2.94.06-.06A1.7 1.7 0 0 0 9.6 15l-.08-.04v-3.4l.08-.04a1.7 1.7 0 0 0-.34-1.88L9.2 9.58l1.7-2.94.09.02a1.7 1.7 0 0 0 1.75-.73l.04-.08h3.4l.05.08a1.7 1.7 0 0 0 1.75.73l.09-.02 1.7 2.94-.06.06A1.7 1.7 0 0 0 19.4 11l.08.04v3.4z"></path>
+    </svg>
+  </button>
+  <div class="welcome-card">
+    <h1 id="welcome-title">CÂU HỎI TRẮC NGHIỆM TUYÊN TRUYỀN</h1>
+    <p>LUẬT SỐ 120/2025/QH15</p>
+    <div class="welcome-actions">
+      <button class="btn primary" id="start">Làm bài</button>
+      <button class="btn" id="open-controls">Điều khiển</button>
+    </div>
+  </div>
+  <div class="logo-ribbon hidden" id="logo-ribbon" aria-label="Logo các đơn vị">
+    <div class="logo-track" id="logo-track"></div>
+  </div>
+  <footer class="welcome-footer">Powered by <a href="https://oriciin.cloud" target="_blank" rel="noopener noreferrer">oriciin.cloud</a></footer>
+</section>
+
+<div class="wrap">
+  <div id="quiz" class="hidden">
+   <header>
+    <h1>Trắc nghiệm Phòng, chống ma túy<small>Theo Luật số 120/2025/QH15</small></h1>
+    <div class="scorechip" id="chip">Điểm: 0/5</div>
+   </header>
+   <div class="progress"><i id="bar"></i></div>
+
+   <main class="card" id="card"></main>
+
+   <div class="nav" id="nav">
+    <div class="grp">
+      <button class="btn" id="back">Quay lại</button>
+      <button class="btn" id="redo">Làm lại</button>
+    </div>
+    <div class="grp">
+      <button class="btn primary" id="next" type="button">Câu tiếp</button>
+    </div>
+   </div>
+   <section class="results hidden" id="results" aria-live="polite" aria-labelledby="results-title">
+    <h2 id="results-title">Kết quả bài làm</h2>
+    <p class="msg" id="mmsg"></p>
+    <div class="big" id="mscore"></div>
+    <ul class="list" id="mlist"></ul>
+    <div class="results-actions"><button class="btn primary" id="result-redo" type="button">Làm lại</button></div>
+   </section>
+  </div>
+</div>
+
+<div class="modal" id="controls-modal" role="dialog" aria-modal="true" aria-labelledby="controls-title">
+  <div class="sheet controls-sheet">
+    <h2 id="controls-title">Bảng điều khiển</h2>
+    <div class="keyboard-help">
+      <b>Điều khiển trên máy tính:</b> nhấn <kbd>←</kbd> để xem câu trước; nhấn <kbd>→</kbd> để bỏ qua câu chưa trả lời hoặc sang câu tiếp theo. Ở câu cuối, nhấn <kbd>→</kbd> để xem kết quả.
+    </div>
+    <p class="embed-note">Để dùng trong Canva, hãy đăng tải trang lên một địa chỉ HTTPS công khai, sau đó dán URL đó vào Canva → Ứng dụng → Nhúng. Trang cần cho phép hiển thị trong iframe.</p>
+    <label for="embed-url">URL trang đã đăng tải (HTTPS)</label>
+    <input class="embed-url" id="embed-url" type="url" inputmode="url" value="https://oriciin.cloud/phongchongmatuy/data_mask" placeholder="https://example.com/trac-nghiem.html" autocomplete="url">
+    <button class="btn primary" id="export-iframe" type="button">Xuất mã iframe</button>
+    <p class="embed-status" id="embed-status" aria-live="polite"></p>
+    <div class="hidden" id="embed-output">
+      <p class="embed-note">Xem thử trang nhúng bên dưới. Nếu Canva không hiển thị được, hãy kiểm tra cài đặt máy chủ có cho phép nhúng trang trong iframe không.</p>
+      <iframe class="embed-preview" id="embed-preview" title="Xem trước trang được nhúng" loading="lazy" allow="clipboard-write; fullscreen"></iframe>
+      <textarea class="embed-text" id="embed-code" readonly aria-label="Mã iframe"></textarea>
+      <div class="control-nav">
+        <button class="btn" id="copy-iframe" type="button">Sao chép mã iframe</button>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:12px">
+      <button class="btn" id="controls-close" type="button">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DÁN LINK HÌNH ẢNH CHO CÂU 5 TẠI ĐÂY ============
+   Điền đường dẫn (URL hoặc tên file ảnh cùng thư mục) vào 2 ô bên dưới.
+   Ví dụ: "https://example.com/can-sa.jpg"  hoặc  "anh1.jpg"
+   Để trống "" thì sẽ hiện khung chờ. */
+const CAU5_HINH_ANH = [
+  "https://cdn.nhathuoclongchau.com.vn/unsafe/800x0/cay_anh_tuc_va_cay_can_sa_co_giong_nhau_khong_1_af06ef413a.jpg",   // Hình 1
+  "https://oriciin.cloud/phongchongmatuy/cocain.jpg"    // Hình 2
+];
+/* ============================================================ */
+
+/* Dán tối đa 10 URL logo vào đây; hỗ trợ PNG, JPG, SVG và ảnh cùng thư mục. */
+const LOGO_LINKS = [
+  "https://oriciin.cloud/phongchongmatuy/T11.jpg",
+  "https://oriciin.cloud/phongchongmatuy/data2.png"
+];
+
+const QUESTIONS = [
+  {
+    tag:"Lý thuyết",
+    sub:"Nhận diện hành vi bị cấm để phòng ngừa vi phạm",
+    q:"Theo Điều 5 Luật Phòng, chống ma túy năm 2025, hành vi nào dưới đây bị pháp luật nghiêm cấm?",
+    opts:[
+      "Kỳ thị người sử dụng trái phép chất ma túy, người cai nghiện ma túy, người sau cai nghiện ma túy.",
+      "Hướng dẫn sản xuất, sử dụng trái phép chất ma túy; quảng cáo, tiếp thị chất ma túy.",
+      "Cản trở việc xét nghiệm chất ma túy trong cơ thể, xác định tình trạng nghiện ma túy.",
+      "Tất cả các hành vi trên đều bị nghiêm cấm."
+    ],
+    ans:3,
+    basis:"Điều 5 Luật Phòng, chống ma túy 2025.",
+    meaning:"Nhấn mạnh tính nhân văn (nghiêm cấm kỳ thị) để cộng đồng giang tay giúp đỡ người cai nghiện, đồng thời cảnh báo răn đe các hành vi quảng cáo, cản trở chống đối cơ quan chức năng."
+  },
+  {
+    tag:"Vận dụng",
+    sub:"Về trách nhiệm của nhà trường và học sinh, sinh viên",
+    q:"Nam là sinh viên năm nhất, dạo gần đây thường xuyên có biểu hiện lén lút, ngáp vặt và hay trốn vào nhà vệ sinh của trường. Giáo viên chủ nhiệm nghi ngờ Nam sử dụng chất cấm. Để kịp thời phát hiện và xử lý, cơ sở giáo dục có trách nhiệm phối hợp với cơ quan có thẩm quyền thực hiện biện pháp nào sau đây?",
+    opts:[
+      "Lục soát đồ đạc, balo cá nhân của Nam mỗi khi đến lớp.",
+      "Tổ chức xét nghiệm chất ma túy trong cơ thể của Nam.",
+      "Phạt tiền phụ huynh của Nam để răn đe.",
+      "Giao nộp Nam thẳng cho cơ sở cai nghiện."
+    ],
+    ans:1,
+    basis:"Khoản 3 Điều 8 Luật Phòng, chống ma túy 2025.",
+    meaning:"Truyền tải thông điệp đến phụ huynh và học sinh về công tác phối hợp xét nghiệm ma túy hợp pháp tại trường học để bảo vệ môi trường giáo dục."
+  },
+  {
+    tag:"Vận dụng",
+    sub:"Biện pháp công nghệ mới trong quản lý cai nghiện",
+    q:"Anh K đang trong thời gian bị quản lý sau cai nghiện ma túy tại địa phương. Theo quy định mới của Luật Phòng, chống ma túy năm 2025, Trưởng Công an cấp xã có thẩm quyền áp dụng biện pháp công nghệ nào đối với anh K để theo dõi?",
+    opts:[
+      "Tịch thu điện thoại thông minh để cắt đứt liên lạc.",
+      "Áp dụng biện pháp “Giám sát điện tử”.",
+      "Yêu cầu lắp camera an ninh 24/24 trong phòng ngủ của anh K.",
+      "Cấm anh K sử dụng mạng xã hội."
+    ],
+    ans:1,
+    basis:"Khoản 1 Điều 12 Luật Phòng, chống ma túy 2025.",
+    meaning:"Thông tin đến người dân về biện pháp chuyển đổi số hiện đại (sử dụng thiết bị điện tử) nhằm giám sát, hỗ trợ hiệu quả cho người cai nghiện tại cộng đồng."
+  },
+  {
+    tag:"Vận dụng",
+    sub:"Nhận diện thủ đoạn ngụy trang ma túy",
+    q:"orc đang ngồi ở quán trà đá thì có một nhóm người lạ mặt tiến lại, gạ mua một số gói bột pha nước có nhãn mác sặc sỡ in chữ “Nước vui” và vài lọ tinh dầu thuốc lá điện tử không rõ nguồn gốc. Nhóm người này bảo “uống thử đi, bao phê mà không phải ma túy đâu”. Hành động chuẩn nhất nên làm lúc này là gì?",
+    opts:[
+      "Mua dùng thử vì các loại nước trái cây, “nước vui”, tinh dầu này không phải dạng viên nén hay bột trắng truyền thống.",
+      "Nhận diện đây chính là thủ đoạn ngụy trang ma túy tổng hợp mới, kiên quyết từ chối và báo ngay cho cơ quan công an.",
+      "Mua về nhưng không dùng mà mang đi bán lại kiếm lời.",
+      "Xin một ít tinh dầu thuốc lá điện tử để hút thử xem có giống lời quảng cáo không."
+    ],
+    ans:1,
+    basis:"Mục II.3 Kế hoạch tổ chức cuộc thi của Công an tỉnh Thái Nguyên: nội dung trọng tâm “Tuyên truyền các phương thức, thủ đoạn của tội phạm ma túy”, cùng các khuyến cáo của Bộ Công an về việc pha trộn ma túy vào thực phẩm, đồ uống, thuốc lá điện tử.",
+    meaning:"Giúp nhân dân nhận diện thủ đoạn ngụy trang kiểu mới và tinh vi của tội phạm ma túy, từ đó phá bỏ tâm lý chủ quan, nâng cao cảnh giác cho con em và bản thân để không vô tình mắc bẫy sử dụng trái phép chất ma túy."
+  },
+  {
+    tag:"Nhận diện hình ảnh",
+    sub:"Nhận diện cây có chứa chất ma túy",
+    q:"Quan sát các hình ảnh trên và cho biết, đây là loại cây gì?",
+    images:true,
+    opts:[
+      "Cây cần sa / Cây thuốc phiện - là loại cây có chứa chất ma túy bị nhà nước nghiêm cấm trồng.",
+      "Cây đinh lăng dùng để ngâm rượu, làm thuốc tẩm bổ.",
+      "Cây hoa anh túc giả dùng để trang trí nhà cửa.",
+      "Một loại cỏ dại mọc hoang không có độc tính."
+    ],
+    ans:0,
+    basis:"Luật Phòng, chống ma túy quy định nghiêm cấm trồng cây có chứa chất ma túy.",
+    meaning:"Giúp người dân, đặc biệt là bà con vùng sâu vùng xa, nhận diện đúng hình dáng của các loại cây chứa chất ma túy để không trồng trái phép hoặc kịp thời tố giác nếu phát hiện."
+  }
+];
+
+const N = QUESTIONS.length;
+const LET = ["A","B","C","D"];
+let cur = 0;
+let answers = new Array(N).fill(null);   // chỉ số đáp án đã chọn
+
+const $ = id => document.getElementById(id);
+const card = $("card");
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function score(){return answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].ans?1:0),0)}
+
+function renderLogoRibbon(){
+  const urls = LOGO_LINKS.map(url=>url.trim()).filter(Boolean).slice(0,10);
+  if(!urls.length) return;
+  const makeGroup = hidden=>`<div class="logo-group"${hidden?' aria-hidden="true"':''}>${urls.map((url,i)=>
+    `<div class="logo-item"><img src="${esc(url)}" alt="${hidden?'':`Logo đơn vị ${i+1}`}" loading="lazy"></div>`
+  ).join("")}</div>`;
+  $("logo-track").innerHTML = makeGroup(false)+makeGroup(true);
+  $("logo-ribbon").classList.remove("hidden");
+}
+
+function render(animate){
+  const Q = QUESTIONS[cur];
+  const done = answers[cur] !== null;
+  let html = `<div class="qmeta"><span>Câu ${cur+1} / ${N}</span><span class="tag">${esc(Q.tag)}</span></div>
+    <p class="hint">${esc(Q.sub)}</p>`;
+  if(Q.images){
+    html += `<div class="imgs">` + CAU5_HINH_ANH.map((u,i)=>{
+      const link=(u||"").trim();
+      return link
+        ? `<div class="imgbox filled"><span class="no">Hình ${i+1}</span><img src="${esc(link)}" alt="Hình ${i+1}"></div>`
+        : `<div class="imgbox"><span class="no">Hình ${i+1}</span>Chưa có ảnh<br>(dán link vào CAU5_HINH_ANH)</div>`;
+    }).join("") + `</div>`;
+  }
+  html += `<p class="qtext">${esc(Q.q)}</p><div class="opts">`;
+  Q.opts.forEach((t,i)=>{
+    html += `<button class="opt" data-i="${i}"><span class="L">${LET[i]}</span><span class="T">${esc(t)}</span></button>`;
+  });
+  html += `</div><div class="feedback" id="fb"></div>`;
+  card.innerHTML = html;
+
+  card.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>choose(+b.dataset.i)));
+  if(done) lockAndShow(answers[cur], false);
+  updateUI();
+}
+
+function lockAndShow(sel, fx){
+  const Q = QUESTIONS[cur];
+  const btns = [...card.querySelectorAll(".opt")];
+  btns.forEach(b=>b.disabled=true);
+  const ok = sel === Q.ans;
+  if(ok){
+    btns[sel].classList.add("right");
+  }else{
+    btns[sel].classList.add("wrong");
+    btns[Q.ans].classList.add("reveal");
+  }
+  const fb = $("fb");
+  fb.innerHTML = `<b class="${ok?"ok":"no"}">${ok?"Chính xác!":"Chưa đúng."}</b> Đáp án đúng: <b>${LET[Q.ans]}</b>.
+    <p><b>Căn cứ:</b> ${esc(Q.basis)}</p>
+    <p><b>Ý nghĩa tuyên truyền:</b> ${esc(Q.meaning)}</p>`;
+  fb.classList.add("show");
+  if(fx && ok){ celebrate(); }
+}
+
+function choose(i){
+  if(answers[cur] !== null) return;
+  answers[cur] = i;
+  lockAndShow(i, true);
+  updateUI();
+  if(answers.every(a=>a!==null)) showScore();
+}
+
+function updateUI(){
+  $("chip").textContent = `Điểm: ${score()}/${N}`;
+  const answered = answers.filter(a=>a!==null).length;
+  $("bar").style.width = (answered/N*100)+"%";
+  $("back").disabled = cur===0;
+  const complete = answered===N;
+  $("nav").classList.toggle("completed",complete);
+  const last = cur===N-1;
+  $("nav").classList.toggle("at-end",complete && last);
+  $("next").textContent = last ? complete ? "Xem kết quả" : "Câu chưa làm" : answers[cur]===null ? "Bỏ qua" : "Câu tiếp";
+  $("next").disabled = false;
+  updateMobileNav();
+}
+
+function updateMobileNav(){
+  const atPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 48;
+  $("nav").classList.toggle("mobile-visible", atPageBottom || answers[cur] !== null);
+}
+
+window.addEventListener("scroll", updateMobileNav, {passive:true});
+window.addEventListener("resize", updateMobileNav);
+
+function go(d){
+  const n = cur+d;
+  if(n<0||n>=N) return;
+  cur = n; render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("back").onclick = ()=>go(-1);
+function skipOrContinue(){
+  if(cur<N-1){
+    go(1);
+    return;
+  }
+  const unanswered = answers.findIndex(a=>a===null);
+  if(unanswered<0){
+    showScore();
+    return;
+  }
+  cur = unanswered;
+  renderLogoRibbon();
+  render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("next").onclick = skipOrContinue;
+document.addEventListener("keydown",e=>{
+  if($("quiz").classList.contains("hidden") ||
+     $("controls-modal").classList.contains("show")) return;
+  if(e.key==="ArrowLeft"){
+    e.preventDefault();
+    go(-1);
+  }else if(e.key==="ArrowRight"){
+    e.preventDefault();
+    skipOrContinue();
+  }
+});
+function startQuiz(){
+  $("welcome").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  renderLogoRibbon();
+  render();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("start").onclick = startQuiz;
+function openControls(){
+  $("embed-output").classList.add("hidden");
+  $("embed-preview").removeAttribute("src");
+  $("embed-status").textContent = "";
+  $("controls-modal").classList.add("show");
+  updateUI();
+}
+$("export-iframe").onclick = ()=>{
+  const source = $("embed-url").value.trim();
+  let url;
+  try{
+    url = new URL(source);
+  }catch(error){
+    $("embed-output").classList.add("hidden");
+    $("embed-preview").removeAttribute("src");
+    $("embed-status").textContent = "Vui lòng nhập URL HTTPS công khai hợp lệ.";
+    return;
+  }
+  if(url.protocol!=="https:"){
+    $("embed-output").classList.add("hidden");
+    $("embed-preview").removeAttribute("src");
+    $("embed-status").textContent = "Canva cần URL HTTPS công khai. Hãy đăng tải trang rồi nhập URL HTTPS.";
+    return;
+  }
+  const sourceUrl = url.href;
+  $("embed-code").value = `<iframe src="${esc(sourceUrl)}" width="100%" height="720" style="border:0" title="Câu hỏi trắc nghiệm tuyên truyền" loading="lazy" allow="clipboard-write; fullscreen"></iframe>`;
+  $("embed-preview").src = sourceUrl;
+  $("embed-output").classList.remove("hidden");
+  $("embed-status").textContent = "Đã tạo bản xem trước và mã iframe.";
+};
+$("settings").onclick = openControls;
+$("open-controls").onclick = openControls;
+$("controls-close").onclick = ()=>$("controls-modal").classList.remove("show");
+$("controls-modal").addEventListener("click",e=>{ if(e.target.id==="controls-modal") $("controls-modal").classList.remove("show"); });
+$("copy-iframe").onclick = async ()=>{
+  const code = $("embed-code").value;
+  try{
+    await navigator.clipboard.writeText(code);
+  }catch(error){
+    const field = $("embed-code");
+    field.focus();
+    field.select();
+    if(!document.execCommand("copy")){
+      $("embed-status").textContent = "Không thể tự động sao chép. Vui lòng chọn và sao chép mã bên trên.";
+      return;
+    }
+  }
+  $("embed-status").textContent = "Đã sao chép mã iframe.";
+};
+function restart(){
+  answers = new Array(N).fill(null);
+  cur = 0;
+  $("results").classList.add("hidden");
+  render();
+  updateUI();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("redo").onclick = restart;
+$("result-redo").onclick = restart;
+
+function showScore(){
+  const s = score();
+  const answered = answers.filter(a=>a!==null).length;
+  $("mscore").textContent = `${s} / ${N}`;
+  let msg = answered<N ? `Bạn mới trả lời ${answered}/${N} câu.` :
+            s===N ? "Xuất sắc! Bạn trả lời đúng tất cả các câu." :
+            s>=3 ? "Khá tốt! Hãy xem lại các câu chưa đúng nhé." :
+            "Hãy ôn lại các quy định và thử làm lại nhé.";
+  $("mmsg").textContent = msg;
+  $("mlist").innerHTML = QUESTIONS.map((q,i)=>{
+    const a = answers[i];
+    const st = a===null ? `<span class="na">Chưa làm</span>` : a===q.ans ? `<span class="ok">Đúng</span>` : `<span class="no">Sai</span>`;
+    return `<li><span>Câu ${i+1}</span>${st}</li>`;
+  }).join("");
+  $("results").classList.remove("hidden");
+  updateUI();
+  $("results").scrollIntoView({behavior:"smooth",block:"start"});
+  if(answered===N && s===N) celebrate();
+}
+
+/* ===== hiệu ứng chúc mừng ===== */
+const cv = $("confetti"), cx = cv.getContext("2d");
+let parts = [], running = false;
+function fit(){cv.width=innerWidth;cv.height=innerHeight}
+addEventListener("resize",fit); fit();
+const COLORS = ["#f4d35e","#ee6c4d","#3f8a55","#4ea5d9","#ffffff","#e05297"];
+function celebrate(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const t = $("toast");
+  t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove("show"),1800);
+  if(reduce) return;
+  for(let k=0;k<2;k++){
+    const x = k? cv.width*.8 : cv.width*.2;
+    for(let i=0;i<90;i++){
+      const a = -Math.PI/2 + (Math.random()-.5)*1.4;
+      const v = 8+Math.random()*10;
+      parts.push({x,y:cv.height*.7,vx:Math.cos(a)*v,vy:Math.sin(a)*v,
+        w:6+Math.random()*7,h:4+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.4,
+        c:COLORS[(Math.random()*COLORS.length)|0],life:0});
+    }
+  }
+  if(!running){running=true;requestAnimationFrame(tick)}
+}
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{
+    p.vy+=.28; p.vx*=.992; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; p.life++;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r);
+    cx.globalAlpha = Math.max(0,1-p.life/140);
+    cx.fillStyle=p.c; cx.fillRect(-p.w/2,-p.h/2,p.w,p.h); cx.restore();
+  });
+  parts = parts.filter(p=>p.life<140 && p.y<cv.height+30);
+  if(parts.length) requestAnimationFrame(tick); else {running=false;cx.clearRect(0,0,cv.width,cv.height)}
+}
+
+render();
+</script>
+</body>
+</html>
