@@ -924,7 +924,13 @@
             document.getElementById('question-title').innerText = q.question;
             const googleAiUrl = new URL('https://www.google.com/search');
             googleAiUrl.searchParams.set('udm', '50');
-            googleAiUrl.searchParams.set('q', q.question);
+            const displayedOptions = getAnswerOrder(q).map((originalOptionIndex, displayIndex) =>
+                `${String.fromCharCode(65 + displayIndex)}. ${q.options[originalOptionIndex]}`
+            );
+            googleAiUrl.searchParams.set(
+                'q',
+                `Câu hỏi: ${q.question}\nCác phương án:\n${displayedOptions.join('\n')}\nHãy chọn đáp án đúng và giải thích.`
+            );
             document.getElementById('ask-google-ai').href = googleAiUrl.href;
 
             const optionsContainer = document.getElementById('options-container');
