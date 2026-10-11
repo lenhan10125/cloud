@@ -118,9 +118,28 @@
                     <span>Màu nền trang</span>
                     <input id="background-color-setting" type="color" value="#0f172a" aria-label="Chọn màu nền trang" class="h-10 w-14 cursor-pointer rounded border border-slate-600 bg-slate-700 p-1">
                 </label>
+                <div class="border-t border-slate-700 pt-5 space-y-4">
+                    <div>
+                        <label for="current-exam-code" class="block text-sm text-slate-300 mb-2">Mã đề hiện tại (gửi mã này để tạo cùng thứ tự câu hỏi)</label>
+                        <input id="current-exam-code" type="text" readonly class="w-full rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 font-mono tracking-wider text-emerald-300">
+                    </div>
+                    <button type="button" onclick="generateNewExamCode()" class="w-full px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium transition">
+                        Tạo mã đảo mới
+                    </button>
+                    <div>
+                        <label for="exam-code-input" class="block text-sm text-slate-300 mb-2">Nhập mã đề để làm cùng thứ tự câu hỏi</label>
+                        <div class="flex gap-2">
+                            <input id="exam-code-input" type="text" maxlength="8" placeholder="Ví dụ: 1A2B3C4D" autocomplete="off" autocapitalize="characters" spellcheck="false" class="min-w-0 flex-1 rounded-xl border border-slate-600 bg-slate-900 px-3 py-2 font-mono uppercase text-slate-100 placeholder:text-slate-500">
+                            <button type="button" onclick="applyEnteredExamCode()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition">
+                                Áp dụng
+                            </button>
+                        </div>
+                    </div>
+                    <p id="exam-code-status" class="hidden text-sm" role="status" aria-live="polite"></p>
+                </div>
             </div>
             <div class="flex justify-end gap-3 mt-8">
-                <button type="reset" onclick="resetSettings()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium transition">Mặc định</button>
+                <button type="button" onclick="resetSettings()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium transition">Mặc định</button>
                 <button class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition">Xong</button>
             </div>
         </form>
@@ -641,18 +660,91 @@
                 rationale: "Quần chúng nhân dân (cùng lực lượng lãnh đạo) chính là lực lượng động lực quyết định sự thành bại của các cuộc cách mạng."
             }
         ];
+        const originalQuestions = questions.slice();
 
         let currentIndex = 0;
         let userAnswers = new Array(questions.length).fill(null);
         let score = 0;
         let wrongReviewVisible = false;
+        let examCode = '';
 
         function initApp() {
             document.getElementById('font-size-setting').addEventListener('input', applyFontSize);
             document.getElementById('background-color-setting').addEventListener('input', applyBackgroundColor);
-            renderQuestion();
-            renderGrid();
-            updateProgress();
+            examCode = createExamCode();
+            setExamCode(examCode);
+        }
+
+        function createExamCode() {
+            const values = new Uint32Array(1);
+            window.crypto.getRandomValues(values);
+            return values[0].toString(16).padStart(8, '0').toUpperCase();
+        }
+
+        function shuffleQuestions(code) {
+            const shuffled = originalQuestions.slice();
+            let seed = Number.parseInt(code, 16) >>> 0;
+            const random = () => {
+                seed = (seed + 0x6D2B79F5) >>> 0;
+                let value = seed;
+                value = Math.imul(value ^ (value >>> 15), value | 1);
+                value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+                return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+            };
+
+            for (let index = shuffled.length - 1; index > 0; index--) {
+                const swapIndex = Math.floor(random() * (index + 1));
+                [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+            }
+
+            return shuffled;
+        }
+
+        function updateExamCodeStatus(message, isError = false) {
+            const status = document.getElementById('exam-code-status');
+            status.innerText = message;
+            status.className = `text-sm ${isError ? 'text-rose-300' : 'text-emerald-300'}`;
+        }
+
+        function canChangeExamCode() {
+            const hasAnswers = userAnswers.some(answer => answer !== null);
+            return !hasAnswers || window.confirm('Đổi mã đề sẽ xóa câu trả lời và điểm hiện tại. Bạn có muốn tiếp tục không?');
+        }
+
+        function setExamCode(code) {
+            examCode = code;
+            questions.splice(0, questions.length, ...shuffleQuestions(code));
+            document.getElementById('current-exam-code').value = code;
+            document.getElementById('exam-code-input').value = code;
+            restartQuiz();
+        }
+
+        function generateNewExamCode() {
+            if (!canChangeExamCode()) return;
+
+            let nextCode = createExamCode();
+            while (nextCode === examCode) {
+                nextCode = createExamCode();
+            }
+
+            setExamCode(nextCode);
+            updateExamCodeStatus('Đã tạo đề mới. Chia sẻ mã đề hiện tại để người khác nhận cùng thứ tự câu hỏi.');
+        }
+
+        function applyEnteredExamCode() {
+            const code = document.getElementById('exam-code-input').value.trim().toUpperCase();
+            if (!/^[0-9A-F]{8}$/.test(code)) {
+                updateExamCodeStatus('Mã đề không hợp lệ. Mã cần gồm đúng 8 ký tự từ 0–9 hoặc A–F.', true);
+                return;
+            }
+            if (code === examCode) {
+                updateExamCodeStatus('Đây đã là mã đề hiện tại; thứ tự câu hỏi không thay đổi.');
+                return;
+            }
+            if (!canChangeExamCode()) return;
+
+            setExamCode(code);
+            updateExamCodeStatus('Đã áp dụng mã đề. Thứ tự câu hỏi hiện khớp với mã đã nhập.');
         }
 
         function openSettings() {
@@ -678,7 +770,7 @@
 
         function renderQuestion() {
             const q = questions[currentIndex];
-            document.getElementById('question-badge').innerText = `Câu hỏi ${q.id} / ${questions.length}`;
+            document.getElementById('question-badge').innerText = `Câu hỏi ${currentIndex + 1} / ${questions.length}`;
             document.getElementById('question-title').innerText = q.question;
 
             const optionsContainer = document.getElementById('options-container');
@@ -789,7 +881,7 @@
 
                 const title = document.createElement('h3');
                 title.className = 'font-semibold text-slate-100 mb-2';
-                title.innerText = `Câu ${question.id}: ${question.question}`;
+                title.innerText = `Câu ${index + 1}: ${question.question}`;
 
                 const chosenAnswer = document.createElement('p');
                 chosenAnswer.className = 'text-rose-300 text-sm mb-1';
