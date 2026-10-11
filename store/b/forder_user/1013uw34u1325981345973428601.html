@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn tập Lịch sử Giữa kì I - 56 Câu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="w-full max-w-4xl bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-indigo-400">Ôn tập Lịch sử Giữa kì I</h1>
+            <p class="text-slate-400 text-sm mt-1">Trọn bộ 56 câu hỏi trắc nghiệm ôn tập cận đại & hiện đại</p>
+        </div>
+        <div class="flex items-center gap-4 bg-slate-900/60 px-4 py-2 rounded-xl border border-slate-700">
+            <div class="text-center">
+                <span class="text-xs text-slate-400 block">Tiến độ</span>
+                <span id="progress-text" class="font-bold text-emerald-400">1 / 56</span>
+            </div>
+            <div class="h-8 w-px bg-slate-700"></div>
+            <div class="text-center">
+                <span class="text-xs text-slate-400 block">Điểm số</span>
+                <span id="score-text" class="font-bold text-indigo-400">0</span>
+            </div>
+        </div>
+        <button onclick="openSettings()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium transition">
+            Cài đặt
+        </button>
+    </header>
+
+    <!-- Main Quiz Container -->
+    <main id="app-container" class="w-full max-w-4xl bg-slate-800 border border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl flex-1 flex flex-col justify-between">
+        
+        <!-- Question Box -->
+        <div id="question-panel">
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-badge" class="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-xs font-semibold rounded-full border border-indigo-500/30">Câu hỏi 1</span>
+                <button onclick="toggleGrid()" class="text-xs text-slate-400 hover:text-indigo-300 underline transition">Mở danh sách câu hỏi</button>
+            </div>
+
+            <h2 id="question-title" class="text-lg md:text-xl font-medium text-slate-200 mb-6 leading-relaxed">
+                Đang tải câu hỏi...
+            </h2>
+
+            <!-- Options Grid -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Options will be injected here -->
+            </div>
+
+            <!-- Feedback / Rationale -->
+            <div id="feedback-box" class="hidden p-4 rounded-xl border text-sm mb-6"></div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div id="navigation-controls" class="flex justify-between items-center pt-6 border-t border-slate-700">
+            <button onclick="prevQuestion()" id="prev-btn" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium transition disabled:opacity-40 disabled:cursor-not-allowed">
+                Quay lại
+            </button>
+            <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/30 transition">
+                Câu tiếp theo
+            </button>
+        </div>
+
+        <section id="results-panel" class="hidden" aria-live="polite">
+            <h2 class="text-2xl font-bold text-indigo-300 mb-2">Kết quả bài ôn tập</h2>
+            <p id="results-score" class="text-slate-200 mb-2"></p>
+            <p id="results-unanswered" class="text-amber-300 text-sm mb-6"></p>
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button id="review-wrong-btn" onclick="toggleWrongReview()" aria-controls="wrong-review" aria-expanded="false" class="px-5 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-600 text-white font-medium transition">
+                    Xem lại câu sai
+                </button>
+                <button onclick="restartQuiz()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
+                    Làm lại
+                </button>
+            </div>
+            <div id="wrong-review" class="hidden space-y-4" aria-label="Danh sách câu trả lời sai"></div>
+            <p id="no-wrong-answers" class="hidden text-emerald-300 text-sm"></p>
+        </section>
+    </main>
+
+    <!-- Question Drawer / Modal -->
+    <div id="grid-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-2xl p-6 shadow-2xl max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-slate-200">Danh sách 56 câu hỏi</h3>
+                <button onclick="toggleGrid()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+            <div id="question-grid" class="grid grid-cols-6 sm:grid-cols-8 gap-2 overflow-y-auto p-2 flex-1">
+                <!-- Grid buttons injected here -->
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-700 text-right">
+                <button onclick="toggleGrid()" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <dialog id="settings-modal" class="w-full max-w-md bg-slate-800 text-slate-100 border border-slate-700 rounded-2xl p-6 shadow-2xl">
+        <form method="dialog">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-bold">Cài đặt hiển thị</h3>
+                <button aria-label="Đóng cài đặt" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            <div class="space-y-6">
+                <label class="block">
+                    <span class="flex justify-between text-sm text-slate-300 mb-2">
+                        <span>Cỡ chữ câu hỏi và đáp án</span>
+                        <span><output id="font-size-value">16</output> px</span>
+                    </span>
+                    <input id="font-size-setting" type="range" min="14" max="24" step="1" value="16" class="w-full accent-indigo-500">
+                </label>
+                <label class="flex items-center justify-between gap-4 text-sm text-slate-300">
+                    <span>Màu nền trang</span>
+                    <input id="background-color-setting" type="color" value="#0f172a" aria-label="Chọn màu nền trang" class="h-10 w-14 cursor-pointer rounded border border-slate-600 bg-slate-700 p-1">
+                </label>
+            </div>
+            <div class="flex justify-end gap-3 mt-8">
+                <button type="reset" onclick="resetSettings()" class="px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm font-medium transition">Mặc định</button>
+                <button class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition">Xong</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Footer -->
+    <footer class="mt-6 text-center text-slate-500 text-xs">
+        Ôn tập Lịch sử Giữa kì I - Chúc bạn ôn thi đạt kết quả cao nhất!
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "Tiền đề về kinh tế của các cuộc cách mạng tư sản từ giữa thế kỉ XVI đến đầu thế kỉ XX là",
+                options: [
+                    "Quan hệ sản xuất tư bản chủ nghĩa thay thế hoàn toàn quan hệ phong kiến.",
+                    "Triết học Ánh sáng ra đời, dọn đường cho quần chúng đấu tranh.",
+                    "Giai cấp tư sản có thế lực cả về kinh tế và chính trị.",
+                    "Kinh tế tư bản chủ nghĩa ra đời, phát triển trong lòng chế độ phong kiến."
+                ],
+                correct: 3,
+                rationale: "Kinh tế tư bản chủ nghĩa ra đời và phát triển trong lòng chế độ phong kiến chính là tiền đề vật chất quan trọng thúc đẩy các cuộc cách mạng tư sản bùng nổ."
+            },
+            {
+                id: 2,
+                question: "Các cuộc cách mạng tư sản từ giữa thế kỉ XVI đến đầu thế kỉ XX thắng lợi có ý nghĩa là",
+                options: [
+                    "Lật đổ nền quân chủ chuyên chế tồn tại lâu đời.",
+                    "Giải quyết triệt để mọi yêu cầu của nông dân.",
+                    "Xóa bỏ được tình trạng áp bức trong xã hội.",
+                    "Đưa giai cấp công nhân lên nắm chính quyền."
+                ],
+                correct: 0,
+                rationale: "Các cuộc cách mạng tư sản thắng lợi đã lật đổ nền quân chủ chuyên chế (hoặc ách thống trị thực dân), mở đường cho chủ nghĩa tư bản phát triển."
+            },
+            {
+                id: 3,
+                question: "Một trong những lực lượng lãnh đạo các cuộc cách mạng tư sản từ giữa thế kỉ XVI đến đầu thế kỉ XX là",
+                options: ["Phong kiến", "Quý tộc mới.", "Tăng lữ.", "Nông dân."],
+                correct: 1,
+                rationale: "Bên cạnh giai cấp tư sản, quý tộc mới (ở Anh) cũng là lực lượng lãnh đạo tiêu biểu trong các cuộc cách mạng tư sản thời cận đại."
+            },
+            {
+                id: 4,
+                question: "Đầu thế kỉ XVII, ngành công nghiệp phát triển nhất ở nước Anh là",
+                options: ["Luyện kim.", "Máy hơi nước.", "Len, dạ.", "Chế tạo máy móc."],
+                correct: 2,
+                rationale: "Lĩnh vực sản xuất len, dạ đóng vai trò quan trọng đặc biệt và phát triển mạnh mẽ nhất ở nước Anh đầu thế kỉ XVII."
+            },
+            {
+                id: 5,
+                question: "Kết quả của cuộc cách mạng tư sản Anh thời cận đại là lật đổ",
+                options: ["Chế độ phong kiến.", "Chế độ cộng hòa.", "Chế độ quân chủ lập hiến.", "Sự thống trị của thực dân Anh."],
+                correct: 0,
+                rationale: "Cách mạng tư sản Anh đã lật đổ chế độ phong kiến chuyên chế (đứng đầu là vua Sác-lơ I), thiết lập chế độ quân chủ lập hiến."
+            },
+            {
+                id: 6,
+                question: "Đến giữa thế kỉ XVIII, miền Bắc của 13 thuộc địa Anh ở Bắc Mĩ phát triển phổ biến",
+                options: ["Kinh tế đồn điền.", "Công trường thủ công.", "Dệt và làm gốm.", "Phường hội thủ công."],
+                correct: 1,
+                rationale: "Miền Bắc 13 thuộc địa Anh ở Bắc Mĩ phát triển phổ biến kinh tế công thương nghiệp và công trường thủ công, trong khi miền Nam phát triển đồn điền."
+            },
+            {
+                id: 7,
+                question: "Đẳng cấp 3 trong xã hội Pháp trước cách mạng gồm",
+                options: ["Tư sản, nông dân, bình dân thành thị.", "Quý tộc, nông dân, tăng lữ, thợ thủ công.", "Tăng lữ, quý tộc và tư sản, nông dân.", "Vua, quan lại, tăng lữ, bình dân thành thị."],
+                correct: 0,
+                rationale: "Đẳng cấp thứ ba trong xã hội Pháp trước cách mạng bao gồm giai cấp tư sản, nông dân và bình dân thành thị (không có đặc quyền, chịu mọi thứ thuế)."
+            },
+            {
+                id: 8,
+                question: "Trào lưu “Triết học ánh sáng” cuối thế kỉ XVIII dọn đường cho cuộc cách mạng tư sản ở",
+                options: ["Anh", "Pháp.", "Đức.", "Mĩ."],
+                correct: 1,
+                rationale: "Trào lưu Triết học Ánh sáng thế kỉ XVIII phát triển mạnh mẽ tại Pháp, kịch liệt phê phán chế độ phong kiến và dọn đường cho Cách mạng tư sản Pháp."
+            },
+            {
+                id: 9,
+                question: "Đầu thế kỉ XIX, các nước Mĩ La tinh giành độc lập từ tay thực dân",
+                options: ["Tây Ban Nha và Bồ Đào Nha.", "Anh và đế quốc Mĩ.", "Tây Ban Nha và Pháp.", "Pháp và Đức."],
+                correct: 0,
+                rationale: "Đầu thế kỉ XIX, nhân dân Mĩ La tinh đã nổi dậy lật đổ ách thống trị của thực dân Tây Ban Nha và Bồ Đào Nha để giành độc lập."
+            },
+            {
+                id: 10,
+                question: "Nửa sau thế kỷ XIX, sự kiện nào đánh dấu chủ nghĩa tư bản được xác lập ở Mỹ?",
+                options: ["Chiến tranh giành độc lập ở Bắc Mỹ.", "Nước Mỹ trở thành nước cộng hoà.", "Giai cấp tư sản công thương ở Mỹ giành thắng lợi.", "Giai cấp tư sản Mỹ đã nắm chính quyền (thông qua Cuộc Nội chiến 1861 - 1865)."],
+                correct: 3,
+                rationale: "Cuộc Nội chiến (1861 - 1865) đã giải phóng nô lệ, tạo điều kiện cho giai cấp tư sản Mỹ nắm chính quyền và xác lập hoàn toàn chủ nghĩa tư bản ở Mĩ."
+            },
+            {
+                id: 11,
+                question: "Sau các cuộc cách mạng tư sản, chủ nghĩa tư bản từng bước được xác lập ở",
+                options: ["Châu Âu và Bắc Mĩ.", "Tây Âu và châu Á.", "Bắc Mĩ và Nam Á.", "Châu Á và châu Phi."],
+                correct: 0,
+                rationale: "Chủ nghĩa tư bản sau các cuộc cách mạng tư sản đã từng bước thắng lợi và xác lập ở khu vực châu Âu và Bắc Mĩ."
+            },
+            {
+                id: 12,
+                question: "Nửa sau thế kỉ XIX, hầu hết các cuộc cách mạng tư sản đã",
+                options: ["Giành được thắng lợi.", "Hoàn toàn sụp đổ.", "Bắt đầu từ nông nghiệp.", "Giải phóng dân tộc."],
+                correct: 0,
+                rationale: "Nửa sau thế kỉ XIX, với sự tham gia của đông đảo quần chúng, hầu hết các cuộc cách mạng tư sản đã giành được thắng lợi."
+            },
+            {
+                id: 13,
+                question: "Hình thức tổ chức độc quyền phổ biến ở Đức cuối thế kỉ XIX - đầu thế kỉ XX là",
+                options: ["Các-ten và Xanh-đi-ca.", "Tơ-rớt và Các-ten.", "Xanh-đi-ca và Tơ-rớt.", "Dai-bát-xư và Tơ-rớt."],
+                correct: 0,
+                rationale: "Ở Đức, hình thức tổ chức độc quyền phổ biến là Các-ten và Xanh-đi-ca, trong khi ở Mĩ phổ biến là Tơ-rớt."
+            },
+            {
+                id: 14,
+                question: "Nối nội dung ở cột A với thời gian ở cột B cho phù hợp: (1. CNTB xác lập - b; 2. CNTB chuyển sang độc quyền - c; 3. CNTB hiện đại - a)",
+                options: ["1a, 2b, 3c.", "1b, 2c, 3a.", "1c, 2a, 3b.", "1b, 2a, 3c."],
+                correct: 1,
+                rationale: "1. CNTB xác lập (Thế kỉ XVII - cuối thế kỉ XIX); 2. CNTB chuyển từ tự do cạnh tranh sang độc quyền (Cuối thế kỉ XIX - giữa thế kỉ XX); 3. CNTB hiện đại (Giữa thế kỉ XX đến nay)."
+            },
+            {
+                id: 15,
+                question: "Nước có hệ thống thuộc địa rộng nhất thế giới vào cuối thế kỉ XIX - đầu thế kỉ XX là",
+                options: ["Pháp.", "Anh.", "Mĩ.", "Đức."],
+                correct: 1,
+                rationale: "Anh là đế quốc thực dân có hệ thống thuộc địa lớn nhất thế giới (\"đế quốc mặt trời không bao giờ lặn\") vào cuối thế kỉ XIX - đầu thế kỉ XX."
+            },
+            {
+                id: 16,
+                question: "Ở châu Á, nước nào sau đây thoát khỏi thân phận nước thuộc địa và trở thành nước đế quốc?",
+                options: ["Việt Nam.", "Ca-na-đa.", "Ấn Độ.", "Nhật Bản."],
+                correct: 3,
+                rationale: "Nhật Bản qua cuộc Duy tân Minh Trị (1868) đã thoát khỏi nguy cơ trở thành thuộc địa và phát triển thành nước tư bản chủ nghĩa/đế quốc chủ nghĩa."
+            },
+            {
+                id: 17,
+                question: "Một trong những ý nghĩa của bản “Tuyên ngôn Nhân quyền và Dân quyền” trong cách mạng tư sản Pháp cuối thế kỉ XVIII là",
+                options: ["Đề cao quyền công dân và quyền con người.", "Bảo vệ quyền lợi cho tất cả các tầng lớp trong xã hội.", "Bảo vệ quyền lợi cho giai cấp tư sản.", "Khẳng định quyền tư hữu là thiêng liêng, bất khả xâm phạm."],
+                correct: 0,
+                rationale: "Bản Tuyên ngôn đề cao các quyền tự do, bình đẳng, quyền công dân và quyền con người, mang tính chất tư sản tiến bộ."
+            },
+            {
+                id: 18,
+                question: "Trong cách mạng tư sản Pháp cuối thế kỷ XVIII, trào lưu Triết học Ánh sáng không có nội dung nào sau đây?",
+                options: ["Lên án chế độ tư bản chủ nghĩa.", "Lên án chế độ phong kiến.", "Tấn công hệ tư tưởng chế độ phong kiến.", "Xây dựng chế độ xã hội tiến bộ."],
+                correct: 0,
+                rationale: "Triết học Ánh sáng tấn công chế độ phong kiến chứ không lên án chế độ tư bản chủ nghĩa (vì đây là hệ tư tưởng dọn đường cho tư sản)."
+            },
+            {
+                id: 19,
+                question: "Cách mạng tư sản Pháp (cuối thế kỉ XVIII) được đánh giá là cuộc cách mạng tư sản triệt để nhất thời cận đại vì",
+                options: [
+                    "Giai cấp tư sản liên minh với quý tộc lãnh đạo cách mạng.",
+                    "Lật đổ chế độ phong kiến chuyên chế và nhân dân được làm chủ đất nước.",
+                    "Giải quyết vấn đề ruộng đất cho nông dân và thực hiện các quyền bình đẳng.",
+                    "Hoàn thành đầy đủ nhiệm vụ dân tộc của cuộc cách mạng tư sản."
+                ],
+                correct: 2,
+                rationale: "Cách mạng tư sản Pháp giải quyết triệt để vấn đề ruộng đất cho nông dân, xóa bỏ chế độ đẳng cấp và thực hiện các quyền dân chủ tư sản."
+            },
+            {
+                id: 20,
+                question: "Nội dung nào sau đây là thách thức mà chủ nghĩa tư bản hiện đại phải đối mặt?",
+                options: ["Khủng hoảng kinh tế, tài chính mang tính toàn cầu.", "Sự phát triển mạnh mẽ của khoa học - công nghệ.", "Sự sáp nhập của các công ty độc quyền lũng đoạn.", "Vai trò quản lý, điều tiết của nhà nước."],
+                correct: 0,
+                rationale: "Khủng hoảng kinh tế - tài chính toàn cầu (như năm 2008) là một trong những thách thức lớn đối với chủ nghĩa tư bản hiện đại."
+            },
+            {
+                id: 21,
+                question: "Thuật ngữ “Chủ nghĩa tư bản hiện đại” dùng để chỉ sự phát triển của chủ nghĩa tư bản trong giai đoạn",
+                options: ["Sau Chiến tranh thế giới thứ hai đến nay.", "Trước Chiến tranh thế giới thứ hai.", "Sau Chiến tranh thế giới thứ nhất đến nay.", "Trước Chiến tranh thế giới thứ nhất."],
+                correct: 0,
+                rationale: "Chủ nghĩa tư bản hiện đại là giai đoạn phát triển từ sau Chiến tranh thế giới thứ hai đến nay với sự kết hợp giữa độc quyền tư nhân và sự can thiệp của nhà nước."
+            },
+            {
+                id: 22,
+                question: "Lĩnh vực nào sau đây là tiềm năng phát triển của chủ nghĩa tư bản hiện đại?",
+                options: ["Khoa học - công nghệ.", "Quân sự, văn hóa.", "Văn hóa - giáo dục.", "Chính trị, ngoại giao."],
+                correct: 0,
+                rationale: "Khoa học - công nghệ với cuộc cách mạng công nghiệp lần thứ tư tạo ra tiềm năng phát triển to lớn cho chủ nghĩa tư bản hiện đại."
+            },
+            {
+                id: 23,
+                question: "Nội dung nào sau đây phản ánh đúng về bản chất của chủ nghĩa tư bản hiện đại?",
+                options: ["Luôn tìm cách xóa bỏ sự chênh lệch giàu nghèo.", "Đầu tư, hợp tác nhằm thúc đẩy kinh tế toàn cầu.", "Luôn đấu tranh đòi quyền lợi cho người lao động.", "Lợi nhuận là mục tiêu cao nhất của các nhà tư bản."],
+                correct: 3,
+                rationale: "Bản chất xuyên suốt của chủ nghĩa tư bản vẫn là chạy theo lợi nhuận tối đa cho các nhà tư bản."
+            },
+            {
+                id: 24,
+                question: "Chủ nghĩa tư bản hiện đại có đặc điểm tiêu biểu nào sau đây?",
+                options: ["Có kinh nghiệm quản lý kinh tế.", "Có khả năng giải quyết xung đột trên thế giới.", "Phân hóa giàu nghèo ngày càng sâu sắc.", "Có sức sản xuất phát triển cao."],
+                correct: 3,
+                rationale: "Sức sản xuất phát triển cực kỳ cao nhờ ứng dụng thành tựu khoa học - công nghệ là đặc điểm tiêu biểu của CNTB hiện đại."
+            },
+            {
+                id: 25,
+                question: "Đẩy nhanh quá trình tích tụ và tập trung tư bản cuối thế kỉ XIX - đầu thế kỉ XX đã dẫn đến",
+                options: ["Xuất hiện các công ty độc quyền lũng đoạn.", "Xuất hiện những xí nghiệp khổng lồ.", "Sự ra đời của chủ nghĩa đế quốc.", "Hình thành chủ nghĩa tư bản hiện đại."],
+                correct: 0,
+                rationale: "Tích tụ và tập trung tư bản cao độ cuối thế kỉ XIX - đầu thế kỉ XX đã làm xuất hiện các công ty độc quyền lũng đoạn kinh tế."
+            },
+            {
+                id: 26,
+                question: "Một trong những cơ sở thúc đẩy chủ nghĩa tư bản hiện đại có sức sản xuất phát triển cao là",
+                options: ["Những thành tựu của cách mạng khoa học - công nghệ.", "Sự phát triển nhảy vọt của nền sản xuất.", "Sức mạnh chính trị của nhà nước tư sản.", "Sự khai thác nguồn tài nguyên và nhân lực các nước thuộc địa."],
+                correct: 0,
+                rationale: "Cách mạng khoa học - công nghệ hiện đại là cơ sở then chốt giúp lực lượng sản xuất phát triển mạnh mẽ."
+            },
+            {
+                id: 27,
+                question: "Kết quả đạt được của phong trào đấu tranh của giai cấp tư sản từ nửa sau thế kỉ XIX là",
+                options: ["Chủ nghĩa tư bản được xác lập ở khu vực Châu Âu và Bắc Mỹ.", "Đều mang tính chất đấu tranh phi nghĩa.", "Chỉ mang tính giải phóng dân tộc.", "Đưa chủ nghĩa tư bản lên cầm quyền trên toàn thế giới."],
+                correct: 0,
+                rationale: "Các cuộc cách mạng và cải cách nửa sau thế kỉ XIX giúp CNTB được xác lập vững chắc ở châu Âu và Bắc Mĩ."
+            },
+            {
+                id: 28,
+                question: "Yếu tố nào sau đây được coi là “chìa khóa vạn năng” dẫn đến thành công của cuộc Duy tân Minh Trị tại Nhật Bản?",
+                options: ["Kinh tế.", "Chính trị.", "Giáo dục.", "Quân sự."],
+                correct: 2,
+                rationale: "Nhật Bản rất coi trọng giáo dục (cải cách giáo dục bắt buộc, cử người đi du học phương Tây) coi giáo dục là “chìa khóa vạn năng”."
+            },
+            {
+                id: 29,
+                question: "Cuộc đấu tranh giành độc lập của 13 thuộc địa Anh ở Bắc Mỹ bùng nổ vào cuối thế kỉ XVIII dựa trên tiền đề kinh tế như thế nào?",
+                options: [
+                    "Kinh tế tư bản chủ nghĩa ở Bắc Mỹ bị kìm hãm bởi chế độ cai trị của thực dân Anh.",
+                    "Chế độ phong kiến chuyên chế đã cản trở sự phát triển của kinh tế tư bản chủ nghĩa.",
+                    "Phong trào “rào đất cướp ruộng” của quý tộc đã đẩy nông dân vào tình cảnh khổ cực.",
+                    "Sự tồn tại của chế độ nô lệ đã kìm hãm sự phát triển của nền kinh tế tư bản chủ nghĩa."
+                ],
+                correct: 0,
+                rationale: "Thực dân Anh kìm hãm sự phát triển kinh tế tư bản chủ nghĩa ở 13 thuộc địa, dẫn đến cuộc đấu tranh giành độc lập."
+            },
+            {
+                id: 30,
+                question: "Nội dung nào sau đây không phản ánh đúng tình hình kinh tế nước Pháp vào cuối thế kỉ XVIII?",
+                options: [
+                    "Kinh tế công thương nghiệp phát triển mạnh theo hướng tư bản chủ nghĩa.",
+                    "Nền kinh tế tư bản chủ nghĩa bị kìm hãm bởi chế độ phong kiến chuyên chế.",
+                    "Nông nghiệp lạc hậu: năng suất cây trồng thấp; diện tích đất bỏ hoang nhiều,…",
+                    "Phong trào “rào đất cướp ruộng” diễn ra mạnh mẽ khiến 3 triệu nông dân mất đất."
+                ],
+                correct: 3,
+                rationale: "Phong trào “rào đất cướp ruộng” diễn ra chủ yếu ở nước Anh chứ không phải ở nước Pháp."
+            },
+            {
+                id: 31,
+                question: "Kinh tế tư bản chủ nghĩa ra đời và phát triển trong lòng chế độ:",
+                options: ["Phong kiến", "Thuộc địa", "Trung đại", "Cả A và B."],
+                correct: 0,
+                rationale: "Quan hệ sản xuất tư bản chủ nghĩa hình thành và phát triển ngay trong lòng chế độ phong kiến."
+            },
+            {
+                id: 32,
+                question: "Hiện tượng “Cừu ăn thịt người” của Thomas More miêu tả:",
+                options: [
+                    "Tình cảnh nông dân Pháp cuối thế kỉ XV đầu thế kỉ XVI chuyển sang nuôi cừu làm giàu.",
+                    "Thảm cảnh của người nông dân nước Anh trong phong trào “rào đất cướp ruộng” cuối thế kỉ XV đầu thế kỉ XVI.",
+                    "Tình cảnh trớ trêu của người Hà Lan chỉ có mỗi thịt cừu để ăn.",
+                    "Sự phát triển công nghiệp ở Đức đầu thế kỉ XVI."
+                ],
+                correct: 1,
+                rationale: "Thomas More dùng hình ảnh “cừu ăn thịt người” để ví von thảm cảnh nông dân Anh bị đuổi khỏi đất đai để làm bãi chăn cừu."
+            },
+            {
+                id: 33,
+                question: "Câu nào sau đây không đúng về kinh tế Anh từ đầu thế kỉ XVII?",
+                options: [
+                    "Anh là nước có nền kinh tế phát triển nhất châu Âu.",
+                    "Sản xuất của phường hội chiếm ưu thế hơn sản xuất của công trường thủ công.",
+                    "Ngoại thương phát triển mạnh mẽ khiến tư sản và quý tộc mới giàu lên nhanh chóng.",
+                    "Lĩnh vực sản xuất len, dạ đóng vai trò quan trọng đặc biệt."
+                ],
+                correct: 1,
+                rationale: "Đầu thế kỉ XVII ở Anh, công trường thủ công đã chiếm ưu thế hơn và thay thế dần sản xuất của phường hội phong kiến."
+            },
+            {
+                id: 34,
+                question: "Câu nào sau đây đúng về tình hình kinh tế Pháp đến giữa thế kỉ XVIII?",
+                options: [
+                    "Nông nghiệp vẫn rất lạc hậu song kinh tế công thương nghiệp phát triển mạnh theo hướng tư bản chủ nghĩa.",
+                    "Nông nghiệp phát triển mạnh song công nghiệp không được chú trọng.",
+                    "Kinh tế kém phát triển cả về nông nghiệp và công thương nghiệp.",
+                    "Kinh tế phát triển mạnh cả về nông nghiệp và công thương nghiệp."
+                ],
+                correct: 0,
+                rationale: "Kinh tế Pháp có sự phát triển công thương nghiệp tư bản chủ nghĩa nhưng nông nghiệp vẫn cực kì lạc hậu."
+            },
+            {
+                id: 35,
+                question: "Nội dung nào sau đây không phản ánh đúng về tình hình kinh tế của 13 thuộc địa Anh ở Bắc Mỹ trong các thế kỉ XVII - XVIII?",
+                options: [
+                    "Nhiều trung tâm công nghiệp hình thành ở miền Bắc và miền Trung.",
+                    "Kinh tế đồn điền và trang trại phát triển mạnh mẽ ở miền Bắc.",
+                    "Bắc Mỹ là nơi cung cấp nguyên liệu và thị trường tiêu thụ của Anh.",
+                    "Nền công - thương nghiệp tư bản chủ nghĩa ngày càng phát triển."
+                ],
+                correct: 1,
+                rationale: "Kinh tế đồn điền và trang trại phát triển mạnh ở miền Nam, không phải miền Bắc (miền Bắc phát triển công thương nghiệp)."
+            },
+            {
+                id: 36,
+                question: "Các cuộc cách mạng tư sản bùng nổ và giành thắng lợi trong khoảng thời gian nào và dựa trên các tiền đề nào?",
+                options: [
+                    "Từ thế kỉ XVI đến giữa thế kỉ XX; dựa trên các tiền đề về kinh tế, chính trị, xã hội và tư tưởng.",
+                    "Từ thế kỉ XVI đến giữa thế kỉ XX; dựa trên các tiền đề về mâu thuẫn xã hội, thu nhập và quyền lực.",
+                    "Từ giữa thế kỉ XVI đến đầu thế kỉ XX; dựa trên các tiền đề về kinh tế, chính trị, xã hội và tư tưởng.",
+                    "Từ giữa thế kỉ XVI đến đầu thế kỉ XX; dựa trên các tiền đề về mâu thuẫn xã hội, thu nhập và quyền lực."
+                ],
+                correct: 2,
+                rationale: "Các cuộc cách mạng tư sản diễn ra từ giữa thế kỉ XVI đến đầu thế kỉ XX dựa trên 4 tiền đề chính: kinh tế, chính trị, xã hội và tư tưởng."
+            },
+            {
+                id: 37,
+                question: "Nội dung nào sau đây không phản ánh đúng tiền đề về kinh tế của cuộc Cách mạng tư sản Anh (thế kỉ XVII)?",
+                options: [
+                    "Các ngành luyện kim, thiếc, đóng tàu phát triển nhanh.",
+                    "Nông nghiệp phát triển theo hướng sản xuất hàng hóa.",
+                    "Luân Đôn là trung tâm công - thương nghiệp, tài chính lớn.",
+                    "Kinh tế tư bản chủ nghĩa không xâm nhập vào nông nghiệp."
+                ],
+                correct: 3,
+                rationale: "Kinh tế tư bản chủ nghĩa ở Anh đã thâm nhập mạnh mẽ vào cả nông nghiệp (thông qua kinh doanh trang trại theo lối tư bản)."
+            },
+            {
+                id: 38,
+                question: "Đoạn tư liệu nói về vương quyền chuyên chế dưới thời vua Lu-i XVI cho em biết điều gì về tình hình nước Pháp cuối thế kỉ XVIII?",
+                options: [
+                    "Chính sách cai trị của nhà nước phong kiến chuyên chế gây bất mãn cho nhân dân.",
+                    "Sự tồn tại của nhà nước quân chủ lập hiến gây bất mãn cho tầng lớp quý tộc mới.",
+                    "Mâu thuẫn giữa đẳng cấp thứ ba với đẳng cấp tăng lữ và quý tộc ngày càng sâu sắc.",
+                    "Nhà nước phong kiến do vua Lu-I XVI đứng đầu thi hành nhiều chính sách tiến bộ."
+                ],
+                correct: 0,
+                rationale: "Sự chuyên chế và đàn áp của vua Lu-i XVI phản ánh chính sách cai trị độc đoán gây bất mãn sâu sắc cho nhân dân."
+            },
+            {
+                id: 39,
+                question: "Một trong những lực lượng lãnh đạo các cuộc cách mạng tư sản từ giữa thế kỉ XVI đến đầu thế kỉ XX là",
+                options: ["Phong kiến", "Quý tộc mới.", "Tăng lữ.", "Nông dân."],
+                correct: 1,
+                rationale: "Quý tộc mới kết hợp với giai cấp tư sản là lực lượng lãnh đạo cuộc Cách mạng tư sản Anh."
+            },
+            {
+                id: 40,
+                question: "Tiền đề chính trị của cuộc Cách mạng tư sản Anh (thế kỉ XVII) là gì?",
+                options: [
+                    "Nhà nước phong kiến do vua Sác-lơ I đứng đầu thi hành nhiều chính sách tiến bộ.",
+                    "Sự tồn tại của nhà nước phong kiến chuyên chế gây bất mãn cho quần chúng nhân dân.",
+                    "Vua Sác-lơ I công khai ủng hộ các tín đồ Thanh giáo.",
+                    "Chính sách cai trị của nhà nước quân chủ lập hiến đã xâm phạm quyền lợi của tư sản."
+                ],
+                correct: 1,
+                rationale: "Chế độ phong kiến chuyên chế ở Anh kìm hãm sự phát triển và gây bất mãn cho tư sản, quý tộc mới cùng nhân dân."
+            },
+            {
+                id: 41,
+                question: "Ở Anh trước cách mạng, nhà vua có quyền lực như thế nào?",
+                options: [
+                    "Nắm mọi quyền lực, tàn sát dân lành...",
+                    "Nắm mọi quyền lực, cai trị độc đoán, tự ý đánh thuế mà không cần hỏi ý kiến của Quốc hội.",
+                    "Chỉ nắm một phần quyền lực, chịu sự chi phối của Quốc hội.",
+                    "Chỉ nắm một phần quyền lực nhưng luôn lạm dụng..."
+                ],
+                correct: 1,
+                rationale: "Nhà vua nước Anh nắm tuyệt đối quyền lực, cai trị độc đoán và tự ý đặt ra các loại thuế không cần Quốc hội phê chuẩn."
+            },
+            {
+                id: 42,
+                question: "Tại 13 thuộc địa Anh ở Bắc Mỹ trước cách mạng, người dân phải tuân theo:",
+                options: [
+                    "Các đạo luật khắt khe do Chính phủ Anh đề ra.",
+                    "Các đạo luật khắt khe do chính quyền mỗi thuộc địa đề ra.",
+                    "Các đạo luật cởi mở do Chính phủ Anh đề ra.",
+                    "Các đạo luật cởi mở do chính quyền mỗi thuộc địa đề ra."
+                ],
+                correct: 0,
+                rationale: "Chính phủ Anh áp đặt nhiều đạo luật khắt khe, bóp nghẹt kinh tế 13 thuộc địa, châm ngòi cho chiến tranh."
+            },
+            {
+                id: 43,
+                question: "Câu nào sau đây đúng về tình thế của giai cấp tư sản và các đồng minh của mình trước cách mạng?",
+                options: [
+                    "Họ mạnh cả về kinh tế lẫn quyền lực chính trị.",
+                    "Họ bị vua chúa bóc lột nặng nề... gần như trở thành giai cấp vô sản.",
+                    "Họ tuy giàu có về kinh tế nhưng không có quyền lực chính trị tương xứng.",
+                    "Họ tuy có quyền lực chính trị nhưng không còn năng lực về kinh tế."
+                ],
+                correct: 2,
+                rationale: "Giai cấp tư sản và đồng minh tích lũy được khối lượng lớn về kinh tế nhưng hoàn toàn bị gạt ra ngoài quyền lực chính trị."
+            },
+            {
+                id: 44,
+                question: "Nội dung nào sau đây không phản ánh đúng những tiền đề về xã hội của các cuộc cách mạng tư sản thời cận đại?",
+                options: [
+                    "Xuất hiện các lực lượng xã hội mới đại diện cho phương thức sản xuất tư bản chủ nghĩa.",
+                    "Mâu thuẫn giữa các lực lượng xã hội mới với chế độ phong kiến hoặc chủ nghĩa thực dân.",
+                    "Quần chúng nhân dân sẵn sàng đi theo giai cấp tư sản và quý tộc mới… để làm cách mạng.",
+                    "Xuất hiện các giai cấp, tầng lớp mới..., đại diện cho phương thức sản xuất phong kiến."
+                ],
+                correct: 3,
+                rationale: "Các tầng lớp mới xuất hiện đại diện cho phương thức sản xuất tư bản chủ nghĩa tiến bộ chứ không phải phong kiến."
+            },
+            {
+                id: 45,
+                question: "Tiền đề về xã hội của cuộc Cách mạng tư sản Pháp (cuối thế kỉ XVIII) là: mâu thuẫn giữa",
+                options: [
+                    "Quần chúng nhân dân với nhà nước quân chủ lập hiến.",
+                    "Đẳng cấp thứ ba với các đẳng cấp Tăng lữ và Quý tộc.",
+                    "Nhân dân thuộc địa với chính quyền thực dân xâm lược.",
+                    "Giai cấp tư sản, quý tộc mới với giai cấp vô sản, nông dân."
+                ],
+                correct: 1,
+                rationale: "Mâu thuẫn giai cấp gay gắt giữa Đẳng cấp thứ ba (tư sản, nông dân, bình dân) với Đẳng cấp Tăng lữ và Quý tộc bảo thủ."
+            },
+            {
+                id: 46,
+                question: "Ở 13 thuộc địa Anh ở Bắc Mỹ, chính sách khai thác thuộc địa của thực dân Anh đã gây ra mâu thuẫn ngày càng gay gắt giữa:",
+                options: [
+                    "Các tầng lớp nhân dân thuộc địa với chế độ thực dân.",
+                    "Các tầng lớp vô sản với tầng lớp tư sản.",
+                    "Tầng lớp tư sản với nhà nước phong kiến.",
+                    "Tầng lớp trí thức và giặc ngoại xâm."
+                ],
+                correct: 0,
+                rationale: "Chính sách áp bức của Anh gây mâu thuẫn sâu sắc giữa toàn thể nhân dân 13 thuộc địa với chính quyền thực dân Anh."
+            },
+            {
+                id: 47,
+                question: "Tầng lớp quý tộc phong kiến và quý tộc mới ở Anh (thế kỉ XVII) có sự tương đồng về",
+                options: ["Quyền lực chính trị.", "Phương thức kinh doanh.", "Nguồn gốc xuất thân.", "Thái độ với nhà nước phong kiến."],
+                correct: 1,
+                rationale: "Quý tộc mới ở Anh tuy có gốc quý tộc nhưng áp dụng phương thức kinh doanh tư bản chủ nghĩa (như kinh tế nông trang, cho thuê đất lấy tiền)."
+            },
+            {
+                id: 48,
+                question: "Một trong những đại diện tiêu biểu của trào lưu Triết học Ánh sáng ở Pháp (thế kỉ XVIII) là",
+                options: ["Ph.Vôn-te.", "A.Xmit.", "Ph.Ăng-ghen.", "C.Xanh-xi-mông."],
+                correct: 0,
+                rationale: "Ph. Vôn-te là một trong những nhà tư tưởng lỗi lạc nhất của trào lưu Triết học Ánh sáng ở Pháp."
+            },
+            {
+                id: 49,
+                question: "Những quan điểm tiến bộ trong trào lưu Triết học Ánh sáng ở Pháp (thế kỉ XVIII) đã",
+                options: [
+                    "Bảo vệ tư tưởng của Giáo hội Thiên Chúa.",
+                    "Dọn đường cho cách mạng vô sản bùng nổ.",
+                    "Củng cố hệ tư tưởng của chế độ phong kiến.",
+                    "Tấn công vào hệ tư tưởng của chế độ phong kiến."
+                ],
+                correct: 3,
+                rationale: "Triết học Ánh sáng kịch liệt phê phán, tấn công vào hệ tư tưởng và nền tảng của chế độ phong kiến lỗi thời."
+            },
+            {
+                id: 50,
+                question: "Đâu không phải một nhà tư tưởng của giai cấp tư sản ở Pháp trước cách mạng?",
+                options: ["S. Montesquieu", "Ph. Voltaire", "G. Rousseau", "F. Engels"],
+                correct: 3,
+                rationale: "F. Engels là nhà tư tưởng của giai cấp vô sản sau này (thế kỉ XIX), không phải triết gia ánh sáng thế kỉ XVIII của giai cấp tư sản Pháp."
+            },
+            {
+                id: 51,
+                question: "Lí thuyết nào của S. Montesquieu đã đặt nền móng cho việc xây dựng nhà nước tư sản ở thời kì cận – hiện đại?",
+                options: ["Ngũ hành bát quái", "Chủ nghĩa xã hội khoa học", "Tam quyền phân lập", "Kinh tế tư bản khoa học"],
+                correct: 2,
+                rationale: "Lí thuyết “Tam quyền phân lập” (Lập pháp, Hành pháp, Tư pháp) của Montesquieu là nền tảng cho nhà nước pháp quyền tư sản."
+            },
+            {
+                id: 52,
+                question: "Nội dung nào sau đây không phản ánh đúng nhiệm vụ dân tộc của các cuộc cách mạng tư sản thời cận đại?",
+                options: [
+                    "Xóa bỏ tình trạng phong kiến cát cứ.",
+                    "Xóa bỏ tính chất chuyên chế phong kiến.",
+                    "Thống nhất thị trường dân tộc.",
+                    "Hình thành quốc gia dân tộc."
+                ],
+                correct: 1,
+                rationale: "Xóa bỏ tính chất chuyên chế phong kiến thuộc về *nhiệm vụ dân chủ*, không phải nhiệm vụ dân tộc."
+            },
+            {
+                id: 53,
+                question: "Nội dung nào sau đây không phản ánh đúng nhiệm vụ dân tộc của các cuộc cách mạng tư sản thời cận đại? (Câu hỏi trùng lặp tùy chọn)",
+                options: [
+                    "Xóa bỏ tình trạng phong kiến cát cứ.",
+                    "Thống nhất thị trường dân tộc.",
+                    "Xóa bỏ tính chất chuyên chế phong kiến.",
+                    "Hình thành quốc gia dân tộc."
+                ],
+                correct: 2,
+                rationale: "Tương tự câu trước, xóa bỏ chế độ chuyên chế phong kiến là nhiệm vụ dân chủ."
+            },
+            {
+                id: 54,
+                question: "Một trong những nhiệm vụ dân chủ của các cuộc cách mạng tư sản thời cận đại là",
+                options: ["Giải phóng dân tộc.", "Xác lập nền dân chủ tư sản.", "Thống nhất thị trường dân tộc.", "Xóa bỏ tình trạng phong kiến cát cứ."],
+                correct: 1,
+                rationale: "Nhiệm vụ dân chủ bao gồm xóa bỏ chế độ phong kiến chuyên chế, xác lập các quyền tự do dân chủ và nền dân chủ tư sản."
+            },
+            {
+                id: 55,
+                question: "Cách mạng tư sản bao gồm hai nhiệm vụ cơ bản là:",
+                options: ["Dân tộc và dân chủ", "Chính trị và xã hội", "Công bằng và văn minh", "Tiền tài và quyền lực"],
+                correct: 0,
+                rationale: "Hai nhiệm vụ xuyên suốt của mọi cuộc cách mạng tư sản là nhiệm vụ dân tộc và nhiệm vụ dân chủ."
+            },
+            {
+                id: 56,
+                question: "Trong các cuộc cách mạng tư sản, đâu là động lực quyết định thắng lợi của cách mạng?",
+                options: [
+                    "Giai cấp lãnh đạo và quần chúng nhân dân",
+                    "Những hứa hẹn về một tương lai tươi sáng...",
+                    "Số tiền mà quần chúng nhân dân nhận được...",
+                    "Tất cả các đáp án trên."
+                ],
+                correct: 0,
+                rationale: "Quần chúng nhân dân (cùng lực lượng lãnh đạo) chính là lực lượng động lực quyết định sự thành bại của các cuộc cách mạng."
+            }
+        ];
+
+        let currentIndex = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let score = 0;
+        let wrongReviewVisible = false;
+
+        function initApp() {
+            document.getElementById('font-size-setting').addEventListener('input', applyFontSize);
+            document.getElementById('background-color-setting').addEventListener('input', applyBackgroundColor);
+            renderQuestion();
+            renderGrid();
+            updateProgress();
+        }
+
+        function openSettings() {
+            document.getElementById('settings-modal').showModal();
+        }
+
+        function applyFontSize() {
+            const size = document.getElementById('font-size-setting').value;
+            document.documentElement.style.setProperty('--quiz-font-size', `${size}px`);
+            document.getElementById('font-size-value').value = size;
+        }
+
+        function applyBackgroundColor() {
+            document.body.style.backgroundColor = document.getElementById('background-color-setting').value;
+        }
+
+        function resetSettings() {
+            document.getElementById('font-size-setting').value = '16';
+            document.getElementById('background-color-setting').value = '#0f172a';
+            applyFontSize();
+            applyBackgroundColor();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIndex];
+            document.getElementById('question-badge').innerText = `Câu hỏi ${q.id} / ${questions.length}`;
+            document.getElementById('question-title').innerText = q.question;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const feedbackBox = document.getElementById('feedback-box');
+            const isAnswered = userAnswers[currentIndex] !== null;
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl border transition flex items-center justify-between font-medium text-sm md:text-base `;
+                
+                if (!isAnswered) {
+                    btn.className += `bg-slate-700/50 border-slate-600 hover:bg-indigo-600/20 hover:border-indigo-500 text-slate-200`;
+                    btn.onclick = () => selectAnswer(idx);
+                } else {
+                    if (idx === q.correct) {
+                        btn.className += `bg-emerald-900/40 border-emerald-500 text-emerald-200`;
+                    } else if (userAnswers[currentIndex] === idx) {
+                        btn.className += `bg-rose-900/40 border-rose-500 text-rose-200`;
+                    } else {
+                        btn.className += `bg-slate-800/40 border-slate-700 text-slate-400 opacity-60`;
+                    }
+                    btn.disabled = true;
+                }
+
+                btn.innerHTML = `<span><strong class="mr-2 text-indigo-400">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>`;
+                optionsContainer.appendChild(btn);
+            });
+
+            if (isAnswered) {
+                feedbackBox.classList.remove('hidden');
+                const isCorrect = userAnswers[currentIndex] === q.correct;
+                if (isCorrect) {
+                    feedbackBox.className = "p-4 rounded-xl border bg-emerald-950/40 border-emerald-600 text-emerald-300 text-sm mb-6";
+                    feedbackBox.innerHTML = `<strong>Chính xác!</strong> ${q.rationale}`;
+                } else {
+                    feedbackBox.className = "p-4 rounded-xl border bg-rose-950/40 border-rose-600 text-rose-300 text-sm mb-6";
+                    feedbackBox.innerHTML = `<strong>Chưa chính xác.</strong> Đáp án đúng là: <strong>${String.fromCharCode(65 + q.correct)}</strong>. ${q.rationale}`;
+                }
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
+
+            document.getElementById('prev-btn').disabled = currentIndex === 0;
+            document.getElementById('next-btn').innerText = currentIndex === questions.length - 1 ? "Hoàn thành" : "Câu tiếp theo";
+        }
+
+        function selectAnswer(optionIndex) {
+            if (userAnswers[currentIndex] !== null) return;
+
+            userAnswers[currentIndex] = optionIndex;
+            const q = questions[currentIndex];
+            
+            if (optionIndex === q.correct) {
+                score++;
+            }
+
+            updateProgress();
+            renderQuestion();
+            renderGrid();
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const wrongQuestions = questions
+                .map((question, index) => ({ question, index }))
+                .filter(({ question, index }) => userAnswers[index] !== null && userAnswers[index] !== question.correct);
+            const unansweredCount = userAnswers.filter(answer => answer === null).length;
+
+            document.getElementById('question-panel').classList.add('hidden');
+            document.getElementById('navigation-controls').classList.add('hidden');
+            document.getElementById('results-panel').classList.remove('hidden');
+            document.getElementById('results-score').innerText = `Số câu đúng: ${score} / ${questions.length}`;
+            document.getElementById('results-unanswered').innerText = unansweredCount
+                ? `Bạn chưa trả lời ${unansweredCount} câu.`
+                : 'Bạn đã trả lời tất cả câu hỏi.';
+
+            const review = document.getElementById('wrong-review');
+            const noWrongAnswers = document.getElementById('no-wrong-answers');
+            const reviewButton = document.getElementById('review-wrong-btn');
+            review.innerHTML = '';
+            wrongReviewVisible = false;
+            review.classList.add('hidden');
+            noWrongAnswers.classList.add('hidden');
+            reviewButton.disabled = wrongQuestions.length === 0;
+            reviewButton.classList.toggle('opacity-50', wrongQuestions.length === 0);
+
+            if (wrongQuestions.length === 0) {
+                noWrongAnswers.innerText = 'Không có câu trả lời sai để xem lại.';
+                noWrongAnswers.classList.remove('hidden');
+                reviewButton.innerText = 'Không có câu sai';
+                return;
+            }
+
+            reviewButton.innerText = `Xem lại câu sai (${wrongQuestions.length})`;
+            wrongQuestions.forEach(({ question, index }) => {
+                const card = document.createElement('article');
+                card.className = 'rounded-xl border border-rose-700/60 bg-slate-900/50 p-4';
+
+                const title = document.createElement('h3');
+                title.className = 'font-semibold text-slate-100 mb-2';
+                title.innerText = `Câu ${question.id}: ${question.question}`;
+
+                const chosenAnswer = document.createElement('p');
+                chosenAnswer.className = 'text-rose-300 text-sm mb-1';
+                chosenAnswer.innerText = `Bạn chọn: ${String.fromCharCode(65 + userAnswers[index])}. ${question.options[userAnswers[index]]}`;
+
+                const correctAnswer = document.createElement('p');
+                correctAnswer.className = 'text-emerald-300 text-sm mb-2';
+                correctAnswer.innerText = `Đáp án đúng: ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}`;
+
+                const rationale = document.createElement('p');
+                rationale.className = 'text-slate-300 text-sm mb-3';
+                rationale.innerText = question.rationale;
+
+                const openButton = document.createElement('button');
+                openButton.className = 'text-sm text-indigo-300 hover:text-indigo-200 underline';
+                openButton.innerText = 'Mở câu hỏi';
+                openButton.onclick = () => {
+                    currentIndex = index;
+                    document.getElementById('results-panel').classList.add('hidden');
+                    document.getElementById('question-panel').classList.remove('hidden');
+                    document.getElementById('navigation-controls').classList.remove('hidden');
+                    renderQuestion();
+                    updateProgress();
+                };
+
+                card.append(title, chosenAnswer, correctAnswer, rationale, openButton);
+                review.appendChild(card);
+            });
+        }
+
+        function toggleWrongReview() {
+            wrongReviewVisible = !wrongReviewVisible;
+            document.getElementById('wrong-review').classList.toggle('hidden', !wrongReviewVisible);
+            document.getElementById('review-wrong-btn').setAttribute('aria-expanded', String(wrongReviewVisible));
+        }
+
+        function restartQuiz() {
+            currentIndex = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            score = 0;
+            wrongReviewVisible = false;
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('question-panel').classList.remove('hidden');
+            document.getElementById('navigation-controls').classList.remove('hidden');
+            renderQuestion();
+            renderGrid();
+            updateProgress();
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentIndex = index;
+            renderQuestion();
+            toggleGrid();
+        }
+
+        function updateProgress() {
+            document.getElementById('progress-text').innerText = `${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('score-text').innerText = score;
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('question-grid');
+            grid.innerHTML = '';
+            questions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                let statusClass = "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600";
+                
+                if (userAnswers[idx] !== null) {
+                    if (userAnswers[idx] === q.correct) {
+                        statusClass = "bg-emerald-900/60 text-emerald-200 border-emerald-600";
+                    } else {
+                        statusClass = "bg-rose-900/60 text-rose-200 border-rose-600";
+                    }
+                }
+                if (idx === currentIndex) {
+                    statusClass += " ring-2 ring-indigo-400";
+                }
+
+                btn.className = `h-10 rounded-xl border text-sm font-semibold flex items-center justify-center transition ${statusClass}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => goToQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function toggleGrid() {
+            const modal = document.getElementById('grid-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        window.onload = initApp;
+    </script>
+    <style>
+        #question-title { font-size: calc(var(--quiz-font-size, 16px) + 4px); }
+        #options-container button { font-size: var(--quiz-font-size, 16px); }
+        #feedback-box { font-size: var(--quiz-font-size, 16px); }
+        #settings-modal::backdrop { background: rgb(0 0 0 / 70%); backdrop-filter: blur(4px); }
+    </style>
+</body>
+</html>
+POWERED BY ORICIIN <p>oriciin.cloud</p>
