@@ -77,11 +77,11 @@
             <button onclick="prevQuestion()" id="prev-btn" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium transition disabled:opacity-40 disabled:cursor-not-allowed">
                 Quay lại
             </button>
-            <span class="text-xs text-slate-500">← / →: chuyển câu · Ctrl + Enter: nộp bài</span>
+            <span class="text-xs text-slate-500">← / →: chuyển câu</span>
             <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/30 transition disabled:opacity-40 disabled:cursor-not-allowed">
                 Câu tiếp theo
             </button>
-            <button onclick="showResults()" id="submit-btn" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-medium shadow-lg transition">
+            <button type="button" id="submit-btn" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-medium shadow-lg transition">
                 Nộp bài
             </button>
         </div>
@@ -108,6 +108,19 @@
             <p id="no-wrong-answers" class="hidden text-emerald-300 text-sm"></p>
         </section>
     </main>
+
+    <div id="submit-loading" hidden class="fixed inset-0 z-[100] items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm" role="status" aria-live="polite" aria-label="Đang xử lý bài làm">
+        <div class="w-full max-w-sm rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-2xl">
+            <div class="flex items-center justify-between gap-3">
+                <p class="font-semibold text-slate-100">Đang nộp bài</p>
+                <span id="submit-progress-label" class="font-mono text-xs text-indigo-300">0%</span>
+            </div>
+            <div id="submit-progress-track" class="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-700" role="progressbar" aria-label="Tiến trình nộp bài" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="submit-progress-bar" class="h-full w-0 rounded-full bg-indigo-400 transition-[width] duration-150"></div>
+            </div>
+            <p id="submit-progress-status" class="mt-3 text-xs text-slate-400">Đang chuẩn bị...</p>
+        </div>
+    </div>
 
     <!-- Question Drawer / Modal -->
     <div id="grid-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">

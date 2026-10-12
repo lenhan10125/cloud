@@ -514,6 +514,7 @@
         let userAnswers = new Array(questions.length).fill(null);
         let score = 0;
         let submitted = false;
+        let processing = false;
         let activeQuestionIndices = questions.map((_, index) => index);
         let unansweredOnly = false;
         let wrongReviewVisible = false;
@@ -525,6 +526,7 @@
             document.getElementById('font-size-setting').addEventListener('input', applyFontSize);
             document.getElementById('background-color-setting').addEventListener('input', applyBackgroundColor);
             document.addEventListener('keydown', handleQuizKeyboard);
+            document.getElementById('submit-btn').addEventListener('click', showResults);
             const params = new URLSearchParams(window.location.search);
             const questionToken = params.get('token');
             const answerToken = params.get('answerToken');
@@ -760,9 +762,10 @@
             googleAiLink.href = googleAiUrl.href;
             googleAiAnswer.hidden = !submitted;
             const correctDisplayIndex = getDisplayedOptionIndex(q, q.correct);
-            document.getElementById('google-ai-answer-text').textContent =
-                `Đáp án: ${String.fromCharCode(65 + correctDisplayIndex)}. ${q.options[q.correct]}`;
-            document.getElementById('google-ai-rationale').textContent = q.rationale || '';
+            document.getElementById('google-ai-answer-text').textContent = submitted
+                ? `Đáp án: ${String.fromCharCode(65 + correctDisplayIndex)}. ${q.options[q.correct]}`
+                : '';
+            document.getElementById('google-ai-rationale').textContent = submitted ? (q.rationale || '') : '';
             googleAiLink.onclick = event => {
                 if (submitted) return;
                 event.preventDefault();
@@ -846,16 +849,63 @@
             }
         }
 
-        function showResults() {
-            submitted = true;
-            const wrongQuestions = activeQuestionIndices
-                .map(index => ({ question: questions[index], index }))
-                .filter(({ question, index }) => userAnswers[index] !== null && userAnswers[index] !== question.correct);
-            const unansweredCount = activeQuestionIndices
-                .filter(index => userAnswers[index] === null).length;
-            score = activeQuestionIndices
-                .filter(index => userAnswers[index] === questions[index].correct).length;
+        async function showResults() {
+            if (submitted || processing) return;
+            processing = true;
+            const submitButton = document.getElementById('submit-btn');
+            const loadingScreen = document.getElementById('submit-loading');
+            const previousOverflow = document.body.style.overflow;
+            submitButton.disabled = true;
+            loadingScreen.hidden = false;
+            loadingScreen.classList.add('flex');
+            document.body.style.overflow = 'hidden';
 
+            try {
+                const pingTimeout = 1200;
+                const startedAt = performance.now();
+                let pingResult = null;
+                const pingPromise = pingQuizDomain(pingTimeout).then(result => {
+                    pingResult = result;
+                });
+
+                updateSubmitProgress(0, 'Đang kiểm tra kết nối tên miền (tối đa 1,2 giây)...');
+                while (pingResult === null && performance.now() - startedAt < pingTimeout) {
+                    const elapsed = performance.now() - startedAt;
+                    updateSubmitProgress(Math.min(65, Math.floor(elapsed / pingTimeout * 65)), 'Đang kiểm tra kết nối tên miền (tối đa 1,2 giây)...');
+                    await new Promise(resolve => setTimeout(resolve, 40));
+                }
+                await pingPromise;
+
+                updateSubmitProgress(70, pingResult
+                    ? 'Đã ping được tên miền; đang chấm cục bộ vì chưa có API chấm bài.'
+                    : 'Không ping được tên miền; chuyển sang chấm cục bộ.');
+                await new Promise(resolve => setTimeout(resolve, 120));
+
+                const wrongQuestions = [];
+                let unansweredCount = 0;
+                score = 0;
+                for (let cursor = 0; cursor < activeQuestionIndices.length; cursor += 1) {
+                    const index = activeQuestionIndices[cursor];
+                    const question = questions[index];
+                    const answer = userAnswers[index];
+                    if (answer === null) {
+                        unansweredCount += 1;
+                    } else if (answer === question.correct) {
+                        score += 1;
+                    } else {
+                        wrongQuestions.push({ question, index });
+                    }
+
+                    if ((cursor + 1) % 8 === 0 || cursor === activeQuestionIndices.length - 1) {
+                        const gradingProgress = 70 + Math.floor((cursor + 1) / activeQuestionIndices.length * 30);
+                        updateSubmitProgress(gradingProgress, `Đang chấm cục bộ: ${cursor + 1} / ${activeQuestionIndices.length} câu...`);
+                        await new Promise(resolve => setTimeout(resolve, 0));
+                    }
+                }
+
+                submitted = true;
+                updateSubmitProgress(100, 'Đã chấm xong bài làm.');
+                await new Promise(resolve => setTimeout(resolve, 150));
             document.getElementById('question-panel').classList.add('hidden');
             document.getElementById('navigation-controls').classList.add('hidden');
             document.getElementById('results-panel').classList.remove('hidden');
@@ -922,6 +972,43 @@
                 card.append(title, chosenAnswer, correctAnswer, rationale, openButton);
                 review.appendChild(card);
             });
+            } catch (error) {
+                console.error('Không thể hoàn tất việc nộp bài.', error);
+                document.getElementById('submit-progress-status').innerText = 'Không thể hoàn tất việc nộp bài. Vui lòng thử lại.';
+                window.alert('Không thể hoàn tất việc nộp bài. Vui lòng thử lại.');
+            } finally {
+                loadingScreen.hidden = true;
+                loadingScreen.classList.remove('flex');
+                document.body.style.overflow = previousOverflow;
+                processing = false;
+                submitButton.disabled = false;
+            }
+        }
+
+        async function pingQuizDomain(timeoutMs) {
+            if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') return false;
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(new URL('/', window.location.origin), {
+                    method: 'HEAD',
+                    cache: 'no-store',
+                    signal: controller.signal
+                });
+                return response.ok;
+            } catch {
+                return false;
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
+        function updateSubmitProgress(progress, status) {
+            const value = Math.max(0, Math.min(100, progress));
+            document.getElementById('submit-progress-bar').style.width = `${value}%`;
+            document.getElementById('submit-progress-label').innerText = `${value}%`;
+            document.getElementById('submit-progress-track').setAttribute('aria-valuenow', String(value));
+            document.getElementById('submit-progress-status').innerText = status;
         }
 
         function toggleWrongReview() {
@@ -1050,16 +1137,14 @@
         }
 
         function handleQuizKeyboard(event) {
+            if (processing) return;
             const target = event.target;
             const tagName = target && target.tagName ? target.tagName.toLowerCase() : '';
             if (tagName === 'input' || tagName === 'textarea' || tagName === 'select' || target.isContentEditable) return;
             if (!document.getElementById('results-panel').classList.contains('hidden')) return;
             if (document.getElementById('settings-modal').open || !document.getElementById('grid-modal').classList.contains('hidden')) return;
 
-            if (event.ctrlKey && event.key === 'Enter' && !submitted) {
-                event.preventDefault();
-                showResults();
-            } else if (event.key === 'ArrowLeft') {
+            if (event.key === 'ArrowLeft') {
                 event.preventDefault();
                 prevQuestion();
             } else if (event.key === 'ArrowRight') {
@@ -1090,7 +1175,6 @@
         retryWrongQuestions: retryWrongQuestions,
         reviewSubmittedAnswers: reviewSubmittedAnswers,
         shareExamLink: shareExamLink,
-        showResults: showResults,
         toggleGrid: toggleGrid,
         toggleUnansweredQuestions: toggleUnansweredQuestions,
         toggleWrongReview: toggleWrongReview
