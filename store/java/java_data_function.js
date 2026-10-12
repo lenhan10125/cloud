@@ -1,4 +1,55 @@
 (() => {
+  const scrollbarStyle = document.createElement('style');
+  scrollbarStyle.id = 'mini-scrollbar-style';
+  scrollbarStyle.textContent = `
+    html, body, * {
+      scrollbar-width: thin !important;
+      scrollbar-color: transparent transparent !important;
+    }
+    html:hover, html:focus-within, html.mini-scrollbar-active,
+    body:hover, body:focus-within, body.mini-scrollbar-active,
+    *:hover, *:focus-within, *.mini-scrollbar-active {
+      scrollbar-color: #6366f1 transparent !important;
+    }
+    *::-webkit-scrollbar {
+      width: 6px !important;
+      height: 6px !important;
+    }
+    *::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+    *::-webkit-scrollbar-thumb {
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      border-radius: 999px !important;
+    }
+    *:hover::-webkit-scrollbar-thumb,
+    *:focus-within::-webkit-scrollbar-thumb,
+    *.mini-scrollbar-active::-webkit-scrollbar-thumb {
+      background: #6366f1 !important;
+      border-color: transparent !important;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background: #818cf8 !important;
+    }
+    *::-webkit-scrollbar-corner {
+      background: transparent !important;
+    }
+  `;
+  document.head.appendChild(scrollbarStyle);
+
+  const scrollTimeouts = new WeakMap();
+  document.addEventListener('scroll', event => {
+    const target = event.target instanceof Element ? event.target : document.documentElement;
+    target.classList.add('mini-scrollbar-active');
+    const timeout = scrollTimeouts.get(target);
+    if (timeout) clearTimeout(timeout);
+    scrollTimeouts.set(target, setTimeout(() => {
+      target.classList.remove('mini-scrollbar-active');
+      scrollTimeouts.delete(target);
+    }, 700));
+  }, true);
+
   const pageInitializers = {
   'home': function () {
   // Internal search — indexes the existing link lists already on the page

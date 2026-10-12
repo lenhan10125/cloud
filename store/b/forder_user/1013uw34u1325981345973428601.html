@@ -24,6 +24,7 @@
             <div class="text-center">
                 <span class="text-xs text-slate-400 block">Tiến độ</span>
                 <span id="progress-text" class="font-bold text-emerald-400">1 / 56</span>
+                <span id="answered-count" class="block text-xs text-slate-400">Đã làm 0 / 56</span>
             </div>
             <div class="h-8 w-px bg-slate-700"></div>
             <div class="text-center">
@@ -76,8 +77,12 @@
             <button onclick="prevQuestion()" id="prev-btn" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium transition disabled:opacity-40 disabled:cursor-not-allowed">
                 Quay lại
             </button>
-            <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/30 transition">
+            <span class="text-xs text-slate-500">← / →: chuyển câu · Ctrl + Enter: nộp bài</span>
+            <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium shadow-lg shadow-indigo-600/30 transition disabled:opacity-40 disabled:cursor-not-allowed">
                 Câu tiếp theo
+            </button>
+            <button onclick="showResults()" id="submit-btn" class="px-6 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-medium shadow-lg transition">
+                Nộp bài
             </button>
         </div>
 
@@ -86,8 +91,14 @@
             <p id="results-score" class="text-slate-200 mb-2"></p>
             <p id="results-unanswered" class="text-amber-300 text-sm mb-6"></p>
             <div class="flex flex-wrap gap-3 mb-6">
+                <button onclick="reviewSubmittedAnswers()" class="px-5 py-2.5 rounded-xl bg-indigo-700 hover:bg-indigo-600 text-white font-medium transition">
+                    Xem đáp án
+                </button>
                 <button id="review-wrong-btn" onclick="toggleWrongReview()" aria-controls="wrong-review" aria-expanded="false" class="px-5 py-2.5 rounded-xl bg-rose-700 hover:bg-rose-600 text-white font-medium transition">
                     Xem lại câu sai
+                </button>
+                <button id="retry-wrong-btn" onclick="retryWrongQuestions()" class="px-5 py-2.5 rounded-xl bg-amber-700 hover:bg-amber-600 text-white font-medium transition">
+                    Làm lại câu sai
                 </button>
                 <button onclick="restartQuiz()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
                     Làm lại
@@ -102,13 +113,16 @@
     <div id="grid-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-2xl p-6 shadow-2xl max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-slate-200">Danh sách 56 câu hỏi</h3>
+                <h3 id="question-grid-title" class="text-lg font-bold text-slate-200">Danh sách 56 câu hỏi</h3>
                 <button onclick="toggleGrid()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
             </div>
             <div id="question-grid" class="grid grid-cols-6 sm:grid-cols-8 gap-2 overflow-y-auto p-2 flex-1">
                 <!-- Grid buttons injected here -->
             </div>
-            <div class="mt-4 pt-3 border-t border-slate-700 text-right">
+            <div class="mt-4 pt-3 border-t border-slate-700 flex justify-between gap-3">
+                <button id="unanswered-filter-btn" onclick="toggleUnansweredQuestions()" class="px-4 py-2 border border-amber-700 text-amber-200 rounded-xl text-sm font-medium">
+                    Câu chưa làm (0)
+                </button>
                 <button onclick="toggleGrid()" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium">Đóng</button>
             </div>
         </div>
@@ -184,6 +198,7 @@
         Ôn tập Lịch sử Giữa kì I - Chúc bạn ôn thi đạt kết quả cao nhất!
     </footer>
 
+    <script id="java-data-function" src="../../java/java_data_function.js"></script>
     <script id="quiz-data-function" src="data_1013uw34u1325981345973428601.js"></script>
     <style>
         #question-title { font-size: calc(var(--quiz-font-size, 16px) + 4px); }

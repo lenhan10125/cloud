@@ -513,6 +513,9 @@
         let currentIndex = 0;
         let userAnswers = new Array(questions.length).fill(null);
         let score = 0;
+        let submitted = false;
+        let activeQuestionIndices = questions.map((_, index) => index);
+        let unansweredOnly = false;
         let wrongReviewVisible = false;
         let examCode = '';
         let answerCode = '';
@@ -521,6 +524,7 @@
         function initApp() {
             document.getElementById('font-size-setting').addEventListener('input', applyFontSize);
             document.getElementById('background-color-setting').addEventListener('input', applyBackgroundColor);
+            document.addEventListener('keydown', handleQuizKeyboard);
             const params = new URLSearchParams(window.location.search);
             const questionToken = params.get('token');
             const answerToken = params.get('answerToken');
@@ -738,8 +742,9 @@
         }
 
         function renderQuestion() {
-            const q = questions[currentIndex];
-            document.getElementById('question-badge').innerText = `Câu hỏi ${currentIndex + 1} / ${questions.length}`;
+            const questionIndex = activeQuestionIndices[currentIndex];
+            const q = questions[questionIndex];
+            document.getElementById('question-badge').innerText = `Câu hỏi ${questionIndex + 1} / ${questions.length}`;
             document.getElementById('question-title').innerText = q.question;
             const googleAiUrl = new URL('https://www.google.com/search');
             googleAiUrl.searchParams.set('udm', '50');
@@ -753,72 +758,76 @@
             const googleAiLink = document.getElementById('ask-google-ai');
             const googleAiAnswer = document.getElementById('google-ai-answer');
             googleAiLink.href = googleAiUrl.href;
-            googleAiAnswer.hidden = true;
-            googleAiLink.onclick = () => {
-                const correctDisplayIndex = getDisplayedOptionIndex(q, q.correct);
-                document.getElementById('google-ai-answer-text').textContent =
-                    `Đáp án: ${String.fromCharCode(65 + correctDisplayIndex)}. ${q.options[q.correct]}`;
-                document.getElementById('google-ai-rationale').textContent = q.rationale || '';
-                googleAiAnswer.hidden = false;
+            googleAiAnswer.hidden = !submitted;
+            const correctDisplayIndex = getDisplayedOptionIndex(q, q.correct);
+            document.getElementById('google-ai-answer-text').textContent =
+                `Đáp án: ${String.fromCharCode(65 + correctDisplayIndex)}. ${q.options[q.correct]}`;
+            document.getElementById('google-ai-rationale').textContent = q.rationale || '';
+            googleAiLink.onclick = event => {
+                if (submitted) return;
+                event.preventDefault();
+                window.alert('Hãy nộp bài trước khi xem đáp án hoặc mở Google AI.');
             };
 
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
             const feedbackBox = document.getElementById('feedback-box');
-            const isAnswered = userAnswers[currentIndex] !== null;
 
             getAnswerOrder(q).forEach((originalOptionIndex, displayIndex) => {
                 const opt = q.options[originalOptionIndex];
                 const btn = document.createElement('button');
                 btn.className = `w-full text-left p-4 rounded-xl border transition flex items-center justify-between font-medium text-sm md:text-base `;
                 
-                if (!isAnswered) {
-                    btn.className += `bg-slate-700/50 border-slate-600 hover:bg-indigo-600/20 hover:border-indigo-500 text-slate-200`;
-                    btn.onclick = () => selectAnswer(originalOptionIndex);
-                } else {
+                if (submitted) {
                     if (originalOptionIndex === q.correct) {
                         btn.className += `bg-emerald-900/40 border-emerald-500 text-emerald-200`;
-                    } else if (userAnswers[currentIndex] === originalOptionIndex) {
+                    } else if (userAnswers[questionIndex] === originalOptionIndex) {
                         btn.className += `bg-rose-900/40 border-rose-500 text-rose-200`;
                     } else {
                         btn.className += `bg-slate-800/40 border-slate-700 text-slate-400 opacity-60`;
                     }
                     btn.disabled = true;
+                } else {
+                    btn.className += userAnswers[questionIndex] === originalOptionIndex
+                        ? `bg-indigo-600/30 border-indigo-400 text-indigo-100`
+                        : `bg-slate-700/50 border-slate-600 hover:bg-indigo-600/20 hover:border-indigo-500 text-slate-200`;
+                    btn.onclick = () => selectAnswer(originalOptionIndex);
                 }
 
                 btn.innerHTML = `<span><strong class="mr-2 text-indigo-400">${String.fromCharCode(65 + displayIndex)}.</strong> ${opt}</span>`;
                 optionsContainer.appendChild(btn);
             });
 
-            if (isAnswered) {
+            if (submitted) {
                 feedbackBox.classList.remove('hidden');
-                const isCorrect = userAnswers[currentIndex] === q.correct;
+                const isCorrect = userAnswers[questionIndex] === q.correct;
                 if (isCorrect) {
                     feedbackBox.className = "p-4 rounded-xl border bg-emerald-950/40 border-emerald-600 text-emerald-300 text-sm mb-6";
                     feedbackBox.innerHTML = `<strong>Chính xác!</strong> ${q.rationale}`;
                 } else {
                     feedbackBox.className = "p-4 rounded-xl border bg-rose-950/40 border-rose-600 text-rose-300 text-sm mb-6";
-                    const correctDisplayIndex = getDisplayedOptionIndex(q, q.correct);
-                    feedbackBox.innerHTML = `<strong>Chưa chính xác.</strong> Đáp án đúng là: <strong>${String.fromCharCode(65 + correctDisplayIndex)}</strong>. ${q.rationale}`;
+                    feedbackBox.innerHTML = userAnswers[questionIndex] === null
+                        ? `<strong>Chưa trả lời.</strong> Đáp án đúng là: <strong>${String.fromCharCode(65 + correctDisplayIndex)}</strong>. ${q.rationale}`
+                        : `<strong>Chưa chính xác.</strong> Đáp án đúng là: <strong>${String.fromCharCode(65 + correctDisplayIndex)}</strong>. ${q.rationale}`;
                 }
             } else {
                 feedbackBox.classList.add('hidden');
             }
 
             document.getElementById('prev-btn').disabled = currentIndex === 0;
-            document.getElementById('next-btn').innerText = currentIndex === questions.length - 1 ? "Hoàn thành" : "Câu tiếp theo";
+            const atLastQuestion = currentIndex === activeQuestionIndices.length - 1;
+            const nextButton = document.getElementById('next-btn');
+            nextButton.innerText = submitted && atLastQuestion ? 'Xem kết quả' : 'Câu tiếp theo';
+            nextButton.disabled = !submitted && atLastQuestion;
+            document.getElementById('submit-btn').classList.toggle('hidden', submitted);
         }
 
         function selectAnswer(optionIndex) {
-            if (userAnswers[currentIndex] !== null) return;
+            if (submitted) return;
 
-            userAnswers[currentIndex] = optionIndex;
-            const q = questions[currentIndex];
-            
-            if (optionIndex === q.correct) {
-                score++;
-            }
+            const questionIndex = activeQuestionIndices[currentIndex];
+            userAnswers[questionIndex] = optionIndex;
 
             updateProgress();
             renderQuestion();
@@ -826,24 +835,31 @@
         }
 
         function nextQuestion() {
-            if (currentIndex < questions.length - 1) {
+            if (currentIndex < activeQuestionIndices.length - 1) {
                 currentIndex++;
                 renderQuestion();
-            } else {
+                renderGrid();
+            } else if (submitted) {
                 showResults();
+            } else {
+                document.getElementById('submit-btn').focus();
             }
         }
 
         function showResults() {
-            const wrongQuestions = questions
-                .map((question, index) => ({ question, index }))
+            submitted = true;
+            const wrongQuestions = activeQuestionIndices
+                .map(index => ({ question: questions[index], index }))
                 .filter(({ question, index }) => userAnswers[index] !== null && userAnswers[index] !== question.correct);
-            const unansweredCount = userAnswers.filter(answer => answer === null).length;
+            const unansweredCount = activeQuestionIndices
+                .filter(index => userAnswers[index] === null).length;
+            score = activeQuestionIndices
+                .filter(index => userAnswers[index] === questions[index].correct).length;
 
             document.getElementById('question-panel').classList.add('hidden');
             document.getElementById('navigation-controls').classList.add('hidden');
             document.getElementById('results-panel').classList.remove('hidden');
-            document.getElementById('results-score').innerText = `Số câu đúng: ${score} / ${questions.length}`;
+            document.getElementById('results-score').innerText = `Số câu đúng: ${score} / ${activeQuestionIndices.length}`;
             document.getElementById('results-unanswered').innerText = unansweredCount
                 ? `Bạn chưa trả lời ${unansweredCount} câu.`
                 : 'Bạn đã trả lời tất cả câu hỏi.';
@@ -857,15 +873,18 @@
             noWrongAnswers.classList.add('hidden');
             reviewButton.disabled = wrongQuestions.length === 0;
             reviewButton.classList.toggle('opacity-50', wrongQuestions.length === 0);
+            const retryButton = document.getElementById('retry-wrong-btn');
+            retryButton.disabled = wrongQuestions.length === 0;
+            retryButton.classList.toggle('opacity-50', wrongQuestions.length === 0);
+            retryButton.innerText = `Làm lại câu sai (${wrongQuestions.length})`;
+            reviewButton.innerText = `Xem lại câu sai (${wrongQuestions.length})`;
+            updateProgress();
 
             if (wrongQuestions.length === 0) {
-                noWrongAnswers.innerText = 'Không có câu trả lời sai để xem lại.';
+                noWrongAnswers.innerText = 'Không có câu sai cần làm lại.';
                 noWrongAnswers.classList.remove('hidden');
-                reviewButton.innerText = 'Không có câu sai';
-                return;
             }
 
-            reviewButton.innerText = `Xem lại câu sai (${wrongQuestions.length})`;
             wrongQuestions.forEach(({ question, index }) => {
                 const card = document.createElement('article');
                 card.className = 'rounded-xl border border-rose-700/60 bg-slate-900/50 p-4';
@@ -892,7 +911,7 @@
                 openButton.className = 'text-sm text-indigo-300 hover:text-indigo-200 underline';
                 openButton.innerText = 'Mở câu hỏi';
                 openButton.onclick = () => {
-                    currentIndex = index;
+                    currentIndex = activeQuestionIndices.indexOf(index);
                     document.getElementById('results-panel').classList.add('hidden');
                     document.getElementById('question-panel').classList.remove('hidden');
                     document.getElementById('navigation-controls').classList.remove('hidden');
@@ -915,6 +934,40 @@
             currentIndex = 0;
             userAnswers = new Array(questions.length).fill(null);
             score = 0;
+            submitted = false;
+            activeQuestionIndices = questions.map((_, index) => index);
+            unansweredOnly = false;
+            wrongReviewVisible = false;
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('question-panel').classList.remove('hidden');
+            document.getElementById('navigation-controls').classList.remove('hidden');
+            document.getElementById('unanswered-filter-btn').innerText = `Câu chưa làm (${activeQuestionIndices.length})`;
+            renderQuestion();
+            renderGrid();
+            updateProgress();
+        }
+
+        function reviewSubmittedAnswers() {
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('question-panel').classList.remove('hidden');
+            document.getElementById('navigation-controls').classList.remove('hidden');
+            currentIndex = 0;
+            renderQuestion();
+            updateProgress();
+        }
+
+        function retryWrongQuestions() {
+            const wrongIndices = activeQuestionIndices.filter(index =>
+                userAnswers[index] !== null && userAnswers[index] !== questions[index].correct
+            );
+            if (wrongIndices.length === 0) return;
+
+            wrongIndices.forEach(index => { userAnswers[index] = null; });
+            activeQuestionIndices = wrongIndices;
+            currentIndex = 0;
+            score = 0;
+            submitted = false;
+            unansweredOnly = false;
             wrongReviewVisible = false;
             document.getElementById('results-panel').classList.add('hidden');
             document.getElementById('question-panel').classList.remove('hidden');
@@ -928,43 +981,91 @@
             if (currentIndex > 0) {
                 currentIndex--;
                 renderQuestion();
+                renderGrid();
             }
         }
 
         function goToQuestion(index) {
+            if (index < 0 || index >= activeQuestionIndices.length) return;
             currentIndex = index;
             renderQuestion();
+            renderGrid();
             toggleGrid();
         }
 
         function updateProgress() {
-            document.getElementById('progress-text').innerText = `${currentIndex + 1} / ${questions.length}`;
+            document.getElementById('progress-text').innerText = `${activeQuestionIndices.length ? currentIndex + 1 : 0} / ${activeQuestionIndices.length}`;
+            const answeredCount = activeQuestionIndices.filter(index => userAnswers[index] !== null).length;
+            document.getElementById('answered-count').innerText = `Đã làm ${answeredCount} / ${activeQuestionIndices.length}`;
             document.getElementById('score-text').innerText = score;
         }
 
         function renderGrid() {
             const grid = document.getElementById('question-grid');
             grid.innerHTML = '';
-            questions.forEach((q, idx) => {
+            const unansweredCount = activeQuestionIndices.filter(index => userAnswers[index] === null).length;
+            document.getElementById('question-grid-title').innerText = `Danh sách ${activeQuestionIndices.length} câu hỏi`;
+            const visibleQuestions = activeQuestionIndices
+                .map((questionIndex, activeIndex) => ({ questionIndex, activeIndex }))
+                .filter(({ questionIndex }) => !unansweredOnly || userAnswers[questionIndex] === null);
+            document.getElementById('unanswered-filter-btn').innerText =
+                `${unansweredOnly ? 'Hiện tất cả câu' : 'Chỉ câu chưa làm'} (${unansweredOnly ? activeQuestionIndices.length : unansweredCount})`;
+
+            if (visibleQuestions.length === 0) {
+                const empty = document.createElement('p');
+                empty.className = 'col-span-full py-6 text-center text-slate-400';
+                empty.innerText = unansweredOnly ? 'Không còn câu chưa làm.' : 'Không có câu hỏi.';
+                grid.appendChild(empty);
+                return;
+            }
+
+            visibleQuestions.forEach(({ questionIndex, activeIndex }) => {
+                const q = questions[questionIndex];
                 const btn = document.createElement('button');
                 let statusClass = "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600";
                 
-                if (userAnswers[idx] !== null) {
-                    if (userAnswers[idx] === q.correct) {
+                if (submitted && userAnswers[questionIndex] !== null) {
+                    if (userAnswers[questionIndex] === q.correct) {
                         statusClass = "bg-emerald-900/60 text-emerald-200 border-emerald-600";
                     } else {
                         statusClass = "bg-rose-900/60 text-rose-200 border-rose-600";
                     }
+                } else if (userAnswers[questionIndex] !== null) {
+                    statusClass = 'bg-indigo-900/60 text-indigo-200 border-indigo-600 hover:bg-indigo-800';
                 }
-                if (idx === currentIndex) {
+                if (activeIndex === currentIndex) {
                     statusClass += " ring-2 ring-indigo-400";
                 }
 
                 btn.className = `h-10 rounded-xl border text-sm font-semibold flex items-center justify-center transition ${statusClass}`;
-                btn.innerText = idx + 1;
-                btn.onclick = () => goToQuestion(idx);
+                btn.innerText = questionIndex + 1;
+                btn.onclick = () => goToQuestion(activeIndex);
                 grid.appendChild(btn);
             });
+        }
+
+        function toggleUnansweredQuestions() {
+            unansweredOnly = !unansweredOnly;
+            renderGrid();
+        }
+
+        function handleQuizKeyboard(event) {
+            const target = event.target;
+            const tagName = target && target.tagName ? target.tagName.toLowerCase() : '';
+            if (tagName === 'input' || tagName === 'textarea' || tagName === 'select' || target.isContentEditable) return;
+            if (!document.getElementById('results-panel').classList.contains('hidden')) return;
+            if (document.getElementById('settings-modal').open || !document.getElementById('grid-modal').classList.contains('hidden')) return;
+
+            if (event.ctrlKey && event.key === 'Enter' && !submitted) {
+                event.preventDefault();
+                showResults();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                prevQuestion();
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                nextQuestion();
+            }
         }
 
         function toggleGrid() {
@@ -986,8 +1087,12 @@
         prevQuestion: prevQuestion,
         resetSettings: resetSettings,
         restartQuiz: restartQuiz,
+        retryWrongQuestions: retryWrongQuestions,
+        reviewSubmittedAnswers: reviewSubmittedAnswers,
         shareExamLink: shareExamLink,
+        showResults: showResults,
         toggleGrid: toggleGrid,
+        toggleUnansweredQuestions: toggleUnansweredQuestions,
         toggleWrongReview: toggleWrongReview
     });
 })();
