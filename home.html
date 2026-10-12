@@ -278,6 +278,15 @@
   .cache-entry-delete{flex-shrink:0;padding:6px 9px;border:1px solid #C0503F;border-radius:7px;background:none;color:#C0503F;cursor:pointer;font:600 11px 'Inter',sans-serif;}
   .cache-entry-delete:hover{background:#C0503F;color:#fff;}
   .cache-empty{margin:0;text-align:center;font-size:12px;color:var(--ink-soft);}
+  .notice-manager-form{display:grid;gap:8px;}
+  .notice-manager-form input,.notice-manager-form textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:13px 'Inter',sans-serif;}
+  .notice-manager-form textarea{min-height:84px;resize:vertical;}
+  .notice-manager-list{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto;}
+  .notice-manager-item{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--surface);}
+  .notice-manager-item-content{min-width:0;}
+  .notice-manager-item-title{font-size:12px;font-weight:700;overflow-wrap:anywhere;}
+  .notice-manager-item-message{font-size:11px;color:var(--ink-soft);overflow-wrap:anywhere;white-space:pre-wrap;}
+  .notice-manager-item-meta{font-size:10px;color:var(--ink-soft);margin-top:4px;}
 
   /* ── Hero ───────────────────────────────── */
   .hero{padding:72px 0 88px;}
@@ -542,6 +551,19 @@
           <button class="btn btn-ghost" id="cacheLimitSaveBtn" type="button">Lưu hạn mức</button>
         </div>
         <p class="settings-note">Đây là hạn mức theo dõi của trang; quota thật do trình duyệt quyết định.</p>
+      </div>
+
+      <div class="settings-group">
+        <span class="settings-group-label">Thông báo dùng chung</span>
+        <p class="settings-hint">Tạo thông báo hiển thị trên các trang đang tải script dùng chung. Thông báo được lưu trong localStorage và xuất hiện trong danh sách quản lý cache.</p>
+        <form class="notice-manager-form" id="noticeManagerForm">
+          <input id="noticeTitleInput" type="text" maxlength="100" placeholder="Tiêu đề thông báo" aria-label="Tiêu đề thông báo" required />
+          <textarea id="noticeMessageInput" maxlength="1000" placeholder="Nội dung thông báo" aria-label="Nội dung thông báo" required></textarea>
+          <button class="btn btn-primary" type="submit">Đăng thông báo</button>
+        </form>
+        <div class="notice-manager-list" id="noticeManagerList" aria-live="polite"></div>
+        <button class="btn btn-ghost" id="noticeManagerClearBtn" type="button">Xóa toàn bộ thông báo</button>
+        <p class="settings-status" id="noticeManagerStatus" role="status" aria-live="polite"></p>
       </div>
 
       <div class="settings-group">

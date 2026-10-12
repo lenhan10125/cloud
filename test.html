@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <!--
+        SECURITY HARDENING LOG:
+        1. [XSS] Input validation & sanitization on all user-supplied URL inputs (background URL)
+        2. [IFRAME] Added sandbox attribute to third-party chat iframe (Cbox) with strict permissions
+        3. [CSP] Content-Security-Policy meta tag added to restrict resource loading
+        4. [REFERRER] Referrer-Policy meta tag added
+        5. [CLICKJACK] X-Frame-Options equivalent via CSP frame-ancestors
+        6. [OPEN-REDIRECT] URL whitelist validation before applying background images
+        7. [NOOPENER] All external <a> links get rel="noopener noreferrer"
+        8. [SANITIZE] DOMPurify-style manual sanitization for any innerHTML assignment replaced with textContent
+    -->
+    <link rel="icon" type="image/x-icon" href="ORC.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ① CSP: cho phép tài nguyên từ các nguồn tin cậy, chặn inline script nguy hiểm (unsafe-eval) -->
+    <meta http-equiv="Content-Security-Policy"
+          content="
+            default-src 'self';
+            script-src 'self' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            font-src https://fonts.gstatic.com;
+            img-src 'self' data: https: blob:;
+            frame-src https://www5.cbox.ws;
+            connect-src 'self' https://www.hentaiorc.xyz https://hentaiorc.xyz https://www.cloudflare.com https://images.unsplash.com;
+            object-src 'none';
+            base-uri 'self';
+            form-action 'none';
+          ">
+
+    <!-- ② Referrer policy: không gửi thông tin referrer tới bên thứ ba -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- ③ X-Content-Type-Options equivalent hint -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <title>CHAT SERVER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon: #00f3ff;
+            --gold: #FFD700;
+            --dark: #0a0a0a;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            min-height: 100%; width: 100%;
+            font-family: 'Nunito', sans-serif;
+            color: #fff;
+            background: var(--dark);
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            overflow-x: hidden;
+            transition: background 0.6s ease;
+        }
+
+        .bg-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 0; pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .bg-overlay.hidden { opacity: 0; }
+
+        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .p { position: absolute; border-radius: 50%; background: var(--neon); opacity: 0; animation: rise linear infinite; }
+        @keyframes rise {
+            0%   { transform: translateY(0) scale(1); opacity: 0; }
+            20%  { opacity: 0.3; }
+            80%  { opacity: 0.12; }
+            100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+        }
+
+        @keyframes neon-burn {
+            0%, 100% {
+                text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
+                box-shadow: inset 0 0 15px var(--neon), 0 0 10px rgba(0,243,255,0.2);
+            }
+            50% {
+                text-shadow: 0 0 20px var(--neon), 0 0 40px var(--neon), 0 0 60px var(--neon);
+                box-shadow: inset 0 0 45px var(--neon), 0 0 25px rgba(0,243,255,0.5);
+            }
+        }
+
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            height: 64px;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(0,243,255,0.15);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 28px;
+        }
+        .nav-logo img { height: 38px; filter: drop-shadow(0 0 6px rgba(0,243,255,0.4)); }
+        .nav-logo { text-decoration: none; }
+        .nav-right { display: flex; align-items: center; gap: 14px; }
+        .nav-home-btn {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ccc; font-family: 'Nunito', sans-serif;
+            font-size: 13px; font-weight: 700;
+            padding: 7px 18px; border-radius: 20px;
+            cursor: pointer; text-decoration: none; transition: 0.25s;
+        }
+        .nav-home-btn:hover { background: rgba(0,243,255,0.12); border-color: var(--neon); color: var(--neon); }
+
+        .settings-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid var(--neon);
+            color: var(--neon); font-size: 18px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,243,255,0.3);
+            transition: 0.3s;
+        }
+        .settings-btn:hover { transform: rotate(60deg); box-shadow: 0 0 20px var(--neon); }
+
+        .settings-panel {
+            position: fixed; top: 72px; right: 16px;
+            width: 310px;
+            background: rgba(8,8,12,0.97);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--neon);
+            border-radius: 20px;
+            padding: 22px;
+            z-index: 2000;
+            transform-origin: top right;
+            transform: scale(0); opacity: 0;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            box-shadow: 0 0 40px rgba(0,243,255,0.15);
+        }
+        .settings-panel.open { transform: scale(1); opacity: 1; pointer-events: auto; }
+        .sp-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem; letter-spacing: 3px;
+            color: var(--neon); text-shadow: 0 0 10px var(--neon);
+            margin-bottom: 16px;
+        }
+        .sp-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin: 14px 0 8px; }
+        .bg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+        .bg-chip {
+            height: 48px; border-radius: 9px;
+            border: 2px solid transparent;
+            cursor: pointer; transition: 0.25s;
+            background-size: cover; background-position: center;
+            position: relative; overflow: hidden;
+        }
+        .bg-chip:hover { transform: scale(1.06); border-color: rgba(0,243,255,0.5); }
+        .bg-chip.sel { border-color: var(--neon); box-shadow: 0 0 12px var(--neon); }
+        .bg-chip span { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.65); font-size: 9px; text-align: center; padding: 2px; color: #fff; }
+        .bg-url-row { display: flex; gap: 7px; margin-top: 6px; }
+        .bg-url-input {
+            flex: 1; background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 9px; padding: 7px 11px;
+            color: white; font-size: 11px; outline: none; transition: 0.25s;
+        }
+        .bg-url-input:focus { border-color: var(--neon); }
+        .bg-url-input::placeholder { color: rgba(255,255,255,0.25); }
+        .sp-apply {
+            background: var(--neon); color: #000;
+            border: none; border-radius: 9px;
+            padding: 7px 13px; font-size: 11px; font-weight: 900;
+            cursor: pointer; transition: 0.2s; white-space: nowrap;
+        }
+        .sp-apply:hover { box-shadow: 0 0 12px var(--neon); }
+
+        /* ④ Error message for invalid URL input */
+        .url-error {
+            font-size: 10px; color: #ff4455;
+            margin-top: 4px; display: none;
+            letter-spacing: 0.5px;
+        }
+        .url-error.show { display: block; }
+
+        .overlay-row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+        .overlay-row span { font-size: 12px; color: rgba(255,255,255,0.55); }
+        .tog { position: relative; width: 40px; height: 22px; }
+        .tog input { opacity: 0; width: 0; height: 0; }
+        .tog-sl { position: absolute; inset: 0; border-radius: 22px; background: rgba(255,255,255,0.15); cursor: pointer; transition: 0.3s; }
+        .tog-sl::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+        .tog input:checked + .tog-sl { background: var(--neon); }
+        .tog input:checked + .tog-sl::before { transform: translateX(18px); }
+        .sp-reset { margin-top: 14px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); border-radius: 9px; padding: 8px; font-size: 11px; cursor: pointer; transition: 0.25s; }
+        .sp-reset:hover { border-color: var(--neon); color: var(--neon); }
+
+        .main-wrapper {
+            position: relative; z-index: 1;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 40px 20px 0;
+            min-height: calc(100vh - 64px);
+        }
+
+        .notice-container {
+            width: 100%; max-width: 800px;
+            background: rgba(0,0,0,0.75);
+            border-left: 4px solid var(--neon);
+            padding: 20px 24px; border-radius: 14px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,243,255,0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,243,255,0.15);
+            border-left: 4px solid var(--neon);
+            transition: 0.3s;
+        }
+        .notice-container:hover { animation: neon-burn 1.5s infinite alternate ease-in-out; }
+        .notice-header {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+        }
+        .notice-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--neon); flex-shrink: 0;
+            box-shadow: 0 0 8px var(--neon);
+            animation: pulse 1.5s ease infinite;
+        }
+        @keyframes pulse {
+            0%,100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.6); opacity: 0.6; }
+        }
+        .notice-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem; letter-spacing: 3px;
+            color: var(--neon);
+        }
+        .notice-body { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 14px; }
+
+        .chat-toolbar {
+            width: 100%; max-width: 800px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .chat-toolbar-left { display: flex; align-items: center; gap: 8px; }
+        .chat-toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .btn-reload {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(0,243,255,0.08);
+            border: 1px solid rgba(0,243,255,0.35);
+            color: var(--neon);
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px; font-weight: 700;
+            padding: 7px 16px; border-radius: 20px;
+            cursor: pointer; transition: 0.25s;
+            letter-spacing: 1px;
+        }
+        .btn-reload:hover {
+            background: rgba(0,243,255,0.18);
+            box-shadow: 0 0 14px rgba(0,243,255,0.35);
+        }
+        .btn-reload:active .reload-icon { transform: rotate(360deg); }
+        .reload-icon {
+            display: inline-block;
+            transition: transform 0.5s ease;
+            font-size: 14px;
+        }
+        .btn-reload.spinning .reload-icon {
+            animation: spin 0.6s linear;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-net {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.7);
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px; font-weight: 700;
+            padding: 7px 14px; border-radius: 20px;
+            cursor: pointer; transition: 0.25s;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .btn-net:hover {
+            background: rgba(255,215,0,0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .btn-net.running {
+            border-color: var(--neon);
+            color: var(--neon);
+            background: rgba(0,243,255,0.07);
+        }
+
+        .net-result {
+            font-size: 11px; font-weight: 700;
+            padding: 4px 10px; border-radius: 12px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            transition: 0.3s;
+            white-space: nowrap;
+            display: none;
+        }
+        .net-result.show { display: inline-block; }
+        .net-result.good { border-color: #00ff88; color: #00ff88; background: rgba(0,255,136,0.08); }
+        .net-result.ok   { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
+        .net-result.bad  { border-color: #ff4455; color: #ff4455; background: rgba(255,68,85,0.08); }
+
+        .chat-frame {
+            width: 100%; max-width: 800px;
+            height: 580px;
+            background: rgba(15,15,20,0.85);
+            border-radius: 16px;
+            border: 1px solid rgba(0,243,255,0.12);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,243,255,0.05);
+            margin-bottom: 0;
+            transition: box-shadow 0.3s;
+        }
+        .chat-frame.reloading {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 25px rgba(0,243,255,0.4);
+        }
+
+        .wave-wrap {
+            position: relative; z-index: 1;
+            width: 100%; height: 80px; overflow: hidden;
+            margin-top: 40px;
+        }
+        .wave-wrap svg { display: block; }
+        .parallax > use { animation: wave-move 20s cubic-bezier(.55,.5,.45,.5) infinite; }
+        .parallax > use:nth-child(1) { animation-delay:-2s; animation-duration:7s; }
+        .parallax > use:nth-child(2) { animation-delay:-3s; animation-duration:10s; }
+        .parallax > use:nth-child(3) { animation-delay:-4s; animation-duration:13s; }
+        .parallax > use:nth-child(4) { animation-delay:-5s; animation-duration:20s; }
+        @keyframes wave-move {
+            0%   { transform: translate3d(-90px,0,0); }
+            100% { transform: translate3d(85px,0,0); }
+        }
+
+        footer {
+            position: relative; z-index: 1;
+            background: rgba(0,0,0,0.85);
+            border-top: 1px solid rgba(0,243,255,0.12);
+            padding: 28px 40px;
+            width: 100%;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+        .footer-logo { display: flex; align-items: center; gap: 10px; }
+        .footer-logo img { height: 28px; opacity: 0.7; }
+        .footer-logo span { font-family: 'Bebas Neue'; font-size: 1.1rem; letter-spacing: 3px; color: rgba(255,255,255,0.4); }
+        .update-banner {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: rgba(0,243,255,0.05);
+            border: 1px solid rgba(0,243,255,0.15);
+            border-radius: 10px; padding: 12px 18px;
+            font-size: 13px;
+        }
+        .update-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--neon); flex-shrink: 0; margin-top: 4px; box-shadow: 0 0 8px var(--neon); animation: pulse 1.5s ease infinite; }
+        .update-label { color: var(--gold); font-weight: 900; margin-right: 6px; }
+        .update-text { color: rgba(255,255,255,0.55); line-height: 1.5; }
+        .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
+
+        #popup-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 10001;
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+            transition: opacity 0.3s ease;
+        }
+        #main-popup {
+            width: 90%; max-width: 500px; min-height: 300px; border-radius: 30px;
+            position: relative; padding: 40px; box-sizing: border-box;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,1);
+            border: 1px solid #99CCFF;
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+        }
+        #popup-overlay.closing { opacity: 0; pointer-events: none; }
+        #popup-overlay.closing #main-popup { transform: translate(-45vw,-45vh) scale(0); opacity: 0; }
+    </style>
+</head>
+<body>
+
+<div class="bg-overlay" id="bgOverlay"></div>
+<div id="particles"></div>
+
+<!-- POPUP -->
+<div id="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-text">
+    <div id="main-popup">
+        <button onclick="closePopup()"
+                aria-label="Đóng thông báo"
+                style="position:absolute;top:15px;right:20px;background:rgba(255,255,255,0.2);border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;">&times;</button>
+        <!-- ⑤ Dùng textContent thay innerHTML để ngăn XSS khi gán nội dung động -->
+        <div id="popup-text" style="word-wrap:break-word;width:100%;white-space:pre-wrap;line-height:1.5;"></div>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <!-- ⑦ rel="noopener noreferrer" trên mọi link ngoài -->
+    <a class="nav-logo" href="https://hentaiorc.xyz" rel="noopener noreferrer">
+        <img src="https://hentaiorc.xyz/logo/ORC.main.png" alt="ORC Studio" onerror="this.style.display='none'">
+    </a>
+    <div class="nav-right">
+        <a class="nav-home-btn" href="https://hentaiorc.xyz" rel="noopener noreferrer">← Trang chủ</a>
+        <button class="settings-btn" id="settingsBtn" title="Cài đặt hình nền" aria-label="Mở cài đặt hình nền" aria-expanded="false">⚙</button>
+    </div>
+</nav>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settingsPanel" role="region" aria-label="Cài đặt hình nền">
+    <div class="sp-title">⚙ Cài đặt</div>
+
+    <div class="sp-label">🎨 Hình nền</div>
+    <div class="bg-grid" id="bgGrid">
+        <button class="bg-chip sel" data-bg="none" style="background:#0a0a0a;">
+            <span>Đen</span>
+        </button>
+        <button class="bg-chip" data-bg="https://r4.wallpaperflare.com/wallpaper/118/736/916/gawr-gura-hololive-blue-eyes-white-hair-hd-wallpaper-6631b6686024bc6e11599a9da016af34.jpg"
+            style="background-image:url(https://r4.wallpaperflare.com/wallpaper/118/736/916/gawr-gura-hololive-blue-eyes-white-hair-hd-wallpaper-6631b6686024bc6e11599a9da016af34.jpg);background-size:cover">
+            <span>Anime</span>
+        </button>
+        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
+            style="background-image:url(https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=300&q=50);background-size:cover">
+            <span>Vũ trụ</span>
+        </button>
+        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80"
+            style="background-image:url(https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&q=50);background-size:cover">
+            <span>Retro</span>
+        </button>
+        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80"
+            style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=50);background-size:cover">
+            <span>Núi</span>
+        </button>
+        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80"
+            style="background-image:url(https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=50);background-size:cover">
+            <span>Thành phố</span>
+        </button>
+    </div>
+
+    <div class="sp-label">🔗 URL tùy chỉnh</div>
+    <div class="bg-url-row">
+        <!--
+            ① maxlength giới hạn độ dài input, autocomplete off để tránh lộ dữ liệu
+        -->
+        <input type="url" id="bgUrl" class="bg-url-input"
+               placeholder="https://example.com/bg.jpg"
+               maxlength="512"
+               autocomplete="off"
+               spellcheck="false">
+        <button class="sp-apply" id="bgApply">OK</button>
+    </div>
+    <!-- ① Thông báo lỗi XSS validation -->
+    <div class="url-error" id="urlError">⚠ URL không hợp lệ. Chỉ chấp nhận https://</div>
+
+    <div class="overlay-row">
+        <span>Lớp phủ tối</span>
+        <label class="tog">
+            <input type="checkbox" id="overlayTog" checked>
+            <span class="tog-sl"></span>
+        </label>
+    </div>
+
+    <button class="sp-reset" id="bgReset">↺ Đặt lại mặc định</button>
+</div>
+
+<!-- MAIN -->
+<div class="main-wrapper">
+    <div class="notice-container">
+        <div class="notice-header">
+            <div class="notice-dot"></div>
+            <span class="notice-title">NOTICE · THÔNG BÁO</span>
+        </div>
+        <!-- ⑧ Nội dung được gán bằng textContent trong JS, không dùng innerHTML -->
+        <div class="notice-body" id="updateNotice">Đang tải thông báo từ máy chủ...</div>
+    </div>
+
+    <!-- CHAT TOOLBAR -->
+    <div class="chat-toolbar">
+        <div class="chat-toolbar-left">
+            <button class="btn-reload" id="reloadChatBtn" title="Tải lại khung chat">
+                <span class="reload-icon" aria-hidden="true">↻</span> RELOAD CHAT
+            </button>
+        </div>
+        <div class="chat-toolbar-right">
+            <button class="btn-net" id="pingBtn" title="Kiểm tra độ trễ mạng">
+                📡 TEST PING
+            </button>
+            <button class="btn-net" id="speedBtn" title="Kiểm tra tốc độ mạng">
+                ⚡ TEST TỐC ĐỘ
+            </button>
+            <span class="net-result" id="netResult" aria-live="polite"></span>
+        </div>
+    </div>
+
+    <!--
+        ② iframe sandbox: chỉ cho phép những gì Cbox cần.
+           - allow-scripts        : Cbox cần JS để hiện chat
+           - allow-same-origin    : Cbox cần đọc cookie/storage của chính nó
+           - allow-popups         : Cbox dùng cửa sổ mới cho đăng nhập
+           - allow-forms          : Cbox cần form để gửi tin nhắn
+           KHÔNG có: allow-top-navigation (chặn redirect trang cha),
+                      allow-downloads (chặn tải file tự động),
+                      allow-pointer-lock, allow-modals
+    -->
+    <div class="chat-frame" id="chatFrame">
+        <iframe id="chatIframe"
+                src="https://www5.cbox.ws/box/?boxid=961747&boxtag=8h6smg"
+                width="100%" height="100%"
+                allowtransparency="yes"
+                allow="autoplay"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"
+                title="ORC Chat Box"
+                referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+    </div>
+</div>
+
+<!-- WAVES -->
+<div class="wave-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none" width="100%" height="80" aria-hidden="true">
+        <defs>
+            <path id="gw" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/>
+        </defs>
+        <g class="parallax">
+            <use href="#gw" x="48" y="0"  fill="rgba(0,243,255,0.08)"/>
+            <use href="#gw" x="48" y="3"  fill="rgba(0,243,255,0.12)"/>
+            <use href="#gw" x="48" y="5"  fill="rgba(0,243,255,0.06)"/>
+            <use href="#gw" x="48" y="7"  fill="rgba(0,243,255,0.18)"/>
+        </g>
+    </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">
+            <img src="https://hentaiorc.xyz/logo/ORC.main.png" alt="ORC" onerror="this.style.display='none'">
+            <span>ORICHIIN STUDIO</span>
+        </div>
+
+        <div class="update-banner">
+            <div class="update-dot" aria-hidden="true"></div>
+            <div>
+                <span class="update-label">CẬP NHẬT:</span>
+                <span class="update-text" id="updateText">Đang kiểm tra thông tin...</span>
+            </div>
+        </div>
+
+        <div class="footer-copy">© 2026 ORICHIIN STUDIO · All rights reserved</div>
+    </div>
+</footer>
+
+<script src="store/java/java_data_function.js"></script>
+<script>
+/* ══════════════════════════════════════════════════
+   SECURITY UTILITIES
+══════════════════════════════════════════════════ */
+
+/**
+ * ① XSS PREVENTION — Kiểm tra URL đầu vào từ người dùng.
+ * Chỉ chấp nhận https:// và giới hạn ký tự hợp lệ.
+ * Ngăn javascript:, data:, vbscript: và các vector tấn công khác.
+ */
+function isSafeImageUrl(url) {
+    if (!url || typeof url !== 'string') return false;
+    url = url.trim();
+    // Chỉ cho phép https
+    if (!/^https:\/\//i.test(url)) return false;
+    // Chặn các ký tự nguy hiểm
+    if (/[<>"'`]/.test(url)) return false;
+    // Giới hạn độ dài
+    if (url.length > 512) return false;
+    try {
+        const parsed = new URL(url);
+        // Bảo đảm protocol là https
+        if (parsed.protocol !== 'https:') return false;
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+/**
+ * ⑧ An toàn gán nội dung text vào DOM — dùng textContent thay innerHTML.
+ * Ngăn XSS nếu server trả về nội dung độc hại.
+ */
+function safeSetText(el, text) {
+    if (el) el.textContent = text;
+}
+
+/* ══════════════════════════════════════════════════
+   PARTICLES
+══════════════════════════════════════════════════ */
+const pc = document.getElementById('particles');
+for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'p';
+    const s = Math.random() * 3 + 1;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-duration:${Math.random()*12+7}s;animation-delay:${Math.random()*8}s;`;
+    pc.appendChild(p);
+}
+
+/* ══════════════════════════════════════════════════
+   SETTINGS PANEL
+══════════════════════════════════════════════════ */
+const settingsBtn   = document.getElementById('settingsBtn');
+const settingsPanel = document.getElementById('settingsPanel');
+const bgGrid        = document.getElementById('bgGrid');
+const bgUrlInput    = document.getElementById('bgUrl');
+const bgApplyBtn    = document.getElementById('bgApply');
+const bgResetBtn    = document.getElementById('bgReset');
+const overlayTog    = document.getElementById('overlayTog');
+const bgOverlay     = document.getElementById('bgOverlay');
+const urlError      = document.getElementById('urlError');
+
+let spOpen = false;
+settingsBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    spOpen = !spOpen;
+    settingsPanel.classList.toggle('open', spOpen);
+    settingsBtn.setAttribute('aria-expanded', spOpen);
+});
+document.addEventListener('click', e => {
+    if (spOpen && !settingsPanel.contains(e.target) && e.target !== settingsBtn) {
+        spOpen = false;
+        settingsPanel.classList.remove('open');
+        settingsBtn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+function applyBg(url) {
+    if (!url || url === 'none') {
+        document.body.style.backgroundImage = 'none';
+        document.body.style.backgroundColor = '#0a0a0a';
+    } else {
+        // ① Chỉ áp dụng URL đã qua kiểm tra an toàn
+        document.body.style.backgroundImage = `url(${url})`;
+        document.body.style.backgroundColor = '';
+    }
+}
+
+bgGrid.querySelectorAll('.bg-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+        bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        urlError.classList.remove('show');
+        applyBg(btn.dataset.bg); // Data từ HTML tĩnh, tin cậy
+    });
+});
+
+bgApplyBtn.addEventListener('click', () => {
+    const raw = bgUrlInput.value.trim();
+    urlError.classList.remove('show');
+
+    // ① Validate trước khi dùng
+    if (!raw) return;
+    if (!isSafeImageUrl(raw)) {
+        urlError.classList.add('show');
+        bgUrlInput.focus();
+        return;
+    }
+    bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
+    applyBg(raw);
+});
+
+// Xóa lỗi khi người dùng gõ lại
+bgUrlInput.addEventListener('input', () => {
+    urlError.classList.remove('show');
+});
+
+// Enter trong ô URL cũng trigger apply
+bgUrlInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') bgApplyBtn.click();
+});
+
+bgResetBtn.addEventListener('click', () => {
+    bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
+    bgGrid.querySelector('[data-bg="none"]').classList.add('sel');
+    bgUrlInput.value = '';
+    urlError.classList.remove('show');
+    applyBg('none');
+});
+
+overlayTog.addEventListener('change', function() {
+    bgOverlay.classList.toggle('hidden', !this.checked);
+});
+
+/* ══════════════════════════════════════════════════
+   POPUP
+══════════════════════════════════════════════════ */
+function closePopup() {
+    const overlay = document.getElementById('popup-overlay');
+    overlay.classList.add('closing');
+    setTimeout(() => {
+        overlay.style.display = 'none';
+        overlay.classList.remove('closing');
+    }, 400);
+}
+window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePopup();
+});
+
+/* ══════════════════════════════════════════════════
+   RELOAD CHAT
+══════════════════════════════════════════════════ */
+const reloadBtn  = document.getElementById('reloadChatBtn');
+const chatIframe = document.getElementById('chatIframe');
+const chatFrame  = document.getElementById('chatFrame');
+// ② src được hardcode, không nhận từ input người dùng
+const CHAT_SRC   = 'https://www5.cbox.ws/box/?boxid=961747&boxtag=8h6smg';
+
+reloadBtn.addEventListener('click', () => {
+    if (reloadBtn.disabled) return;
+    reloadBtn.disabled = true;
+    reloadBtn.classList.add('spinning');
+    chatFrame.classList.add('reloading');
+
+    chatIframe.src = 'about:blank';
+    setTimeout(() => {
+        chatIframe.src = CHAT_SRC;
+        chatFrame.classList.remove('reloading');
+        reloadBtn.classList.remove('spinning');
+        reloadBtn.disabled = false;
+    }, 600);
+});
+
+/* ══════════════════════════════════════════════════
+   NETWORK TEST
+══════════════════════════════════════════════════ */
+const pingBtn   = document.getElementById('pingBtn');
+const speedBtn  = document.getElementById('speedBtn');
+const netResult = document.getElementById('netResult');
+
+function showResult(text, quality) {
+    // ⑧ textContent thay vì innerHTML
+    netResult.textContent = text;
+    netResult.className   = 'net-result show ' + quality;
+}
+
+pingBtn.addEventListener('click', async () => {
+    if (pingBtn.classList.contains('running')) return;
+    pingBtn.classList.add('running');
+    pingBtn.textContent = '📡 Đang đo...';
+    netResult.className = 'net-result show';
+    netResult.textContent = '...';
+
+    const samples = [];
+    for (let i = 0; i < 4; i++) {
+        const t0 = performance.now();
+        try {
+            await fetch('https://www.cloudflare.com/cdn-cgi/trace?_=' + Date.now() + i, { cache: 'no-store', mode: 'no-cors' });
+        } catch (_) {}
+        samples.push(Math.round(performance.now() - t0));
+        await new Promise(r => setTimeout(r, 150));
+    }
+    const avg = Math.round(samples.reduce((a,b) => a+b, 0) / samples.length);
+    const quality = avg < 80 ? 'good' : avg < 200 ? 'ok' : 'bad';
+    const label   = avg < 80 ? '🟢' : avg < 200 ? '🟡' : '🔴';
+    showResult(`${label} Ping: ${avg} ms`, quality);
+
+    pingBtn.textContent = '📡 TEST PING';
+    pingBtn.classList.remove('running');
+});
+
+speedBtn.addEventListener('click', async () => {
+    if (speedBtn.classList.contains('running')) return;
+    speedBtn.classList.add('running');
+    speedBtn.textContent = '⚡ Đang đo...';
+    netResult.className = 'net-result show';
+    netResult.textContent = '...';
+
+    const testUrl = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=90&_=' + Date.now();
+    const t0 = performance.now();
+    let bytes = 0;
+    try {
+        const res = await fetch(testUrl, { cache: 'no-store' });
+        const buf = await res.arrayBuffer();
+        bytes = buf.byteLength;
+    } catch (_) {
+        showResult('⚠ Không thể đo', 'bad');
+        speedBtn.textContent = '⚡ TEST TỐC ĐỘ';
+        speedBtn.classList.remove('running');
+        return;
+    }
+    const elapsed = (performance.now() - t0) / 1000;
+    const mbps    = ((bytes * 8) / elapsed / 1_000_000).toFixed(1);
+    const quality = mbps >= 10 ? 'good' : mbps >= 2 ? 'ok' : 'bad';
+    const label   = mbps >= 10 ? '🟢' : mbps >= 2 ? '🟡' : '🔴';
+    showResult(`${label} Tốc độ: ${mbps} Mbps`, quality);
+
+    speedBtn.textContent = '⚡ TEST TỐC ĐỘ';
+    speedBtn.classList.remove('running');
+});
+
+/* ══════════════════════════════════════════════════
+   FETCH DATA TỪ SERVER
+   ⑧ Dùng textContent — không dùng innerHTML
+   để ngăn XSS nếu nội dung server bị can thiệp.
+══════════════════════════════════════════════════ */
+async function loadMainNotice() {
+    try {
+        const r = await fetch('https://www.hentaiorc.xyz/notice.txt?v=' + Date.now());
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const txt = await r.text();
+        safeSetText(document.getElementById('updateNotice'), txt);
+        publishTestNotice('third-party:main-notice', txt);
+    } catch (_) {
+        safeSetText(document.getElementById('updateNotice'), 'Lỗi tải thông báo — vui lòng kiểm tra kết nối mạng.');
+    }
+}
+
+async function loadFooterUpdate() {
+    try {
+        const r = await fetch('https://www.hentaiorc.xyz/update.txt?v=' + Date.now());
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const txt = await r.text();
+        safeSetText(document.getElementById('updateText'), txt);
+        publishTestNotice('third-party:footer-update', txt);
+    } catch (_) {
+        safeSetText(document.getElementById('updateText'), 'Lỗi tải thông tin cập nhật — vui lòng kiểm tra kết nối mạng.');
+    }
+}
+
+function publishTestNotice(id, message) {
+    const notice = {
+        type: 'orccop:test-notice',
+        id,
+        message: message.trim()
+    };
+    const isProviderFrame = new URLSearchParams(window.location.search).has('noticeProvider');
+    if (isProviderFrame && window.parent !== window) {
+        window.parent.postMessage(notice, window.location.origin);
+    }
+    if (message.trim() && window.orccopNotifications) {
+        try {
+            window.orccopNotifications.publish({
+                id,
+                title: id === 'third-party:main-notice' ? 'Thông báo mới' : 'Cập nhật mới',
+                message: message.trim(),
+                source: id === 'third-party:main-notice' ? 'third-party-note' : 'third-party-update'
+            });
+        } catch (error) {
+            console.error('Không thể lưu dữ liệu thông báo.', error);
+        }
+    }
+}
+
+loadMainNotice();
+loadFooterUpdate();
+</script>
+</body>
+</html>

@@ -195,13 +195,23 @@
     const NOTICE_STORAGE_KEY = 'orccop:shared:notifications';
     const NOTICE_SNOOZE_KEY = 'orccop:notification:snoozeUntil';
     const NOTICE_SNOOZE_MS = 2 * 60 * 60 * 1000;
+    let snoozeTimer = 0;
 
     function safeLocalStorageGet(key){
-      try{ return localStorage.getItem(key); }catch(e){ return null; }
+      try{ return localStorage.getItem(key); }catch(error){
+        console.error('Không thể đọc dữ liệu thông báo trong localStorage.', error);
+        return null;
+      }
     }
 
     function safeLocalStorageSet(key, value){
-      try{ localStorage.setItem(key, value); }catch(e){}
+      try{
+        localStorage.setItem(key, value);
+        return true;
+      }catch(error){
+        console.error('Không thể lưu tùy chọn thông báo trong localStorage.', error);
+        return false;
+      }
     }
 
     function readNotices(){
@@ -210,15 +220,15 @@
         const parsed = raw ? JSON.parse(raw) : [];
         if(!Array.isArray(parsed)) return [];
         return parsed.filter(Boolean);
-      }catch(e){
+      }catch(error){
+        console.error('Không thể phân tích danh sách thông báo đã lưu.', error);
         return [];
       }
     }
 
     function writeNotices(list){
-      try{
-        localStorage.setItem(NOTICE_STORAGE_KEY, JSON.stringify(list));
-      }catch(e){}
+      localStorage.setItem(NOTICE_STORAGE_KEY, JSON.stringify(list));
+      window.dispatchEvent(new CustomEvent('orccop:notifications-changed'));
     }
 
     function pruneNotices(list){
@@ -244,19 +254,24 @@
       const now = Date.now();
       const createdAt = Number(input && input.createdAt ? input.createdAt : now);
       const notice = {
-        id: input && input.id ? String(input.id) : 'notice-' + createdAt + '-' + Math.random().toString(16).slice(2, 8),
-        title: input && input.title ? String(input.title) : 'Thông báo',
-        message: input && input.message ? String(input.message) : '',
+        id: input && input.id ? String(input.id).slice(0, 120) : 'notice-' + createdAt + '-' + Math.random().toString(16).slice(2, 8),
+        title: input && input.title ? String(input.title).trim().slice(0, 100) : 'Thông báo',
+        message: input && input.message ? String(input.message).trim().slice(0, 1000) : '',
         createdAt,
-        source: input && input.source ? String(input.source) : 'system'
+        source: input && input.source ? String(input.source).slice(0, 100) : 'system'
       };
-      if(!notice.message.trim()) notice.message = 'Có cập nhật mới từ hệ thống.';
       return notice;
     }
 
+    function getNotices(){
+      return pruneNotices(readNotices())
+        .sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0))
+        .map(normalizeNotice);
+    }
+
     function getLatestNotice(){
-      const list = pruneNotices(readNotices()).sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
-      return list.length ? normalizeNotice(list[0]) : null;
+      const list = getNotices();
+      return list.length && list[0].message ? list[0] : null;
     }
 
     function shouldSkipNotice(){
@@ -376,23 +391,34 @@
         return;
       }
       const container = ensureToastContainer();
-      const existing = container.querySelector('[data-notice-id="' + notice.id + '"]');
-      if(existing) return;
+      const existing = Array.from(container.children).find(item => item.dataset.noticeId === notice.id);
+      if(existing && existing.dataset.noticeTitle === notice.title && existing.dataset.noticeMessage === notice.message) return;
+      if(existing) existing.remove();
 
       const toast = document.createElement('div');
       toast.className = 'orccop-global-toast';
       toast.dataset.noticeId = notice.id;
-      toast.innerHTML = `
-        <div class="orccop-global-toast-header">
-          <div class="orccop-global-toast-title">${String(notice.title || 'Thông báo')}</div>
-          <button class="orccop-global-toast-close" type="button" aria-label="Đóng thông báo">×</button>
-        </div>
-        <div class="orccop-global-toast-message">${String(notice.message || '')}</div>
-        <button class="orccop-global-toast-snooze" type="button">Không hiển thị trong 2 giờ</button>
-      `;
-
-      const closeBtn = toast.querySelector('.orccop-global-toast-close');
-      const snoozeBtn = toast.querySelector('.orccop-global-toast-snooze');
+      toast.dataset.noticeTitle = notice.title;
+      toast.dataset.noticeMessage = notice.message;
+      const header = document.createElement('div');
+      header.className = 'orccop-global-toast-header';
+      const title = document.createElement('div');
+      title.className = 'orccop-global-toast-title';
+      title.textContent = notice.title || 'Thông báo';
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'orccop-global-toast-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Đóng thông báo');
+      closeBtn.textContent = '×';
+      header.append(title, closeBtn);
+      const message = document.createElement('div');
+      message.className = 'orccop-global-toast-message';
+      message.textContent = notice.message;
+      const snoozeBtn = document.createElement('button');
+      snoozeBtn.className = 'orccop-global-toast-snooze';
+      snoozeBtn.type = 'button';
+      snoozeBtn.textContent = 'Không hiển thị trong 2 giờ';
+      toast.append(header, message, snoozeBtn);
 
       closeBtn.addEventListener('click', () => {
         toast.classList.add('is-hiding');
@@ -400,9 +426,11 @@
       });
 
       snoozeBtn.addEventListener('click', () => {
-        setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS);
+        if(!setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS)) return;
         toast.classList.add('is-hiding');
         setTimeout(() => toast.remove(), 250);
+        window.clearTimeout(snoozeTimer);
+        snoozeTimer = window.setTimeout(refreshLatestNotice, NOTICE_SNOOZE_MS);
       });
 
       const previous = container.firstElementChild;
@@ -427,10 +455,127 @@
 
     function addNotice(input){
       const list = pruneNotices(readNotices());
-      list.push(normalizeNotice(input));
+      const notice = normalizeNotice(input);
+      if(!notice.message) throw new TypeError('Nội dung thông báo không được để trống.');
+      list.push(notice);
+      if(list.length > 100) list.splice(0, list.length - 100);
       writeNotices(list);
       refreshLatestNotice();
-      return list[list.length - 1];
+      return notice;
+    }
+
+    function publishNotice(input){
+      const notice = normalizeNotice(input);
+      if(!notice.message) return null;
+      const list = pruneNotices(readNotices());
+      const previous = list.find(item => String(item.id) === notice.id);
+      if(previous && String(previous.title || '') === notice.title && String(previous.message || '') === notice.message){
+        refreshLatestNotice();
+        return normalizeNotice(previous);
+      }
+      const index = list.findIndex(item => String(item.id) === notice.id);
+      if(index >= 0) list.splice(index, 1);
+      list.push(notice);
+      if(list.length > 100) list.splice(0, list.length - 100);
+      writeNotices(list);
+      refreshLatestNotice();
+      return notice;
+    }
+
+    function removeNotice(id){
+      const notices = readNotices();
+      const remaining = notices.filter(item => String(item && item.id) !== String(id));
+      if(remaining.length === notices.length) return;
+      writeNotices(remaining);
+      refreshLatestNotice();
+    }
+
+    function renderNoticeManager(){
+      const listElement = document.getElementById('noticeManagerList');
+      if(!listElement) return;
+      listElement.replaceChildren();
+      const notices = getNotices();
+      if(!notices.length){
+        const empty = document.createElement('p');
+        empty.className = 'cache-empty';
+        empty.textContent = 'Chưa có thông báo đã lưu.';
+        listElement.appendChild(empty);
+        return;
+      }
+      notices.forEach(notice => {
+        const row = document.createElement('div');
+        row.className = 'notice-manager-item';
+        const content = document.createElement('div');
+        content.className = 'notice-manager-item-content';
+        const title = document.createElement('div');
+        title.className = 'notice-manager-item-title';
+        title.textContent = notice.title;
+        const message = document.createElement('div');
+        message.className = 'notice-manager-item-message';
+        message.textContent = notice.message;
+        const meta = document.createElement('div');
+        meta.className = 'notice-manager-item-meta';
+        meta.textContent = new Date(notice.createdAt).toLocaleString() + ' · ' + notice.source;
+        content.append(title, message, meta);
+        const remove = document.createElement('button');
+        remove.className = 'cache-entry-delete';
+        remove.type = 'button';
+        remove.textContent = 'Xóa';
+        remove.addEventListener('click', () => {
+          try{
+            removeNotice(notice.id);
+            renderNoticeManager();
+          }catch(error){
+            console.error('Không thể xóa thông báo đã lưu.', error);
+          }
+        });
+        row.append(content, remove);
+        listElement.appendChild(row);
+      });
+    }
+
+    function initializeNoticeManager(){
+      const form = document.getElementById('noticeManagerForm');
+      const titleInput = document.getElementById('noticeTitleInput');
+      const messageInput = document.getElementById('noticeMessageInput');
+      const clearButton = document.getElementById('noticeManagerClearBtn');
+      const status = document.getElementById('noticeManagerStatus');
+      if(!form || !titleInput || !messageInput || !clearButton || !status) return;
+      renderNoticeManager();
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const title = titleInput.value.trim();
+        const message = messageInput.value.trim();
+        if(!title || !message) return;
+        try{
+          addNotice({ title, message, source: 'home-manager' });
+          titleInput.value = '';
+          messageInput.value = '';
+          renderNoticeManager();
+          status.textContent = 'Đã lưu và phát thông báo trên các trang dùng chung.';
+          status.classList.remove('is-error');
+        }catch(error){
+          console.error('Không thể lưu thông báo.', error);
+          status.textContent = 'Không thể lưu thông báo. Hãy kiểm tra dung lượng cache của trình duyệt.';
+          status.classList.add('is-error');
+        }
+      });
+      clearButton.addEventListener('click', () => {
+        try{
+          clearNotices();
+          renderNoticeManager();
+          status.textContent = 'Đã xóa toàn bộ thông báo đã lưu.';
+          status.classList.remove('is-error');
+        }catch(error){
+          console.error('Không thể xóa thông báo.', error);
+          status.textContent = 'Không thể xóa thông báo đã lưu.';
+          status.classList.add('is-error');
+        }
+      });
+      window.addEventListener('orccop:notifications-changed', () => {
+        renderNoticeManager();
+        status.textContent = '';
+      });
     }
 
     function clearNotices(){
@@ -441,24 +586,87 @@
     window.orccopNotifications = Object.freeze({
       add: addNotice,
       addNote: addNotice,
+      publish: publishNotice,
+      list: getNotices,
+      remove: removeNotice,
       latest: getLatestNotice,
       refresh: refreshLatestNotice,
       snoozeForTwoHours: () => {
-        setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS);
+        if(!setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS)) return false;
         hideToast();
+        window.clearTimeout(snoozeTimer);
+        snoozeTimer = window.setTimeout(refreshLatestNotice, NOTICE_SNOOZE_MS);
+        return true;
       },
       clear: clearNotices
     });
 
+    function isNoticeProviderPage(){
+      return window.location.pathname.toLowerCase().endsWith('/test.html');
+    }
+
+    function startTestNoticeFrame(){
+      if(isNoticeProviderPage()) return;
+      const script = document.currentScript || document.getElementById('java-data-function');
+      if(!script || !script.src) return;
+
+      const providerUrl = new URL('../../test.html?noticeProvider=1', script.src);
+      const frame = document.createElement('iframe');
+      frame.title = 'Nguồn thông báo mới nhất';
+      frame.setAttribute('aria-hidden', 'true');
+      frame.tabIndex = -1;
+      frame.style.cssText = 'position:fixed;width:1px;height:1px;left:-2px;bottom:-2px;opacity:0;pointer-events:none;border:0;';
+      window.addEventListener('message', event => {
+        if(event.source !== frame.contentWindow || event.origin !== window.location.origin) return;
+        const data = event.data;
+        if(!data || data.type !== 'orccop:test-notice' ||
+           !['third-party:main-notice', 'third-party:footer-update'].includes(data.id) ||
+           typeof data.message !== 'string') return;
+        try{
+          if(data.message.trim()){
+            publishNotice({
+              id: data.id,
+              title: data.id === 'third-party:main-notice' ? 'Thông báo mới' : 'Cập nhật mới',
+              message: data.message,
+              source: data.id === 'third-party:main-notice' ? 'third-party-note' : 'third-party-update'
+            });
+          }else{
+            removeNotice(data.id);
+          }
+        }catch(error){
+          console.error('Không thể lưu thông báo lấy từ trang test.', error);
+        }
+      });
+      frame.src = providerUrl.href;
+      document.body.appendChild(frame);
+    }
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', startTestNoticeFrame, { once: true });
+    }else{
+      startTestNoticeFrame();
+    }
+
     window.addEventListener('storage', (event) => {
-      if(event.key === NOTICE_STORAGE_KEY || event.key === NOTICE_SNOOZE_KEY) refreshLatestNotice();
+      if(event.key === NOTICE_STORAGE_KEY || event.key === NOTICE_SNOOZE_KEY){
+        refreshLatestNotice();
+        renderNoticeManager();
+      }
     });
 
     if(document.readyState === 'loading'){
-      document.addEventListener('DOMContentLoaded', refreshLatestNotice, { once: true });
+      document.addEventListener('DOMContentLoaded', () => {
+        refreshLatestNotice();
+        initializeNoticeManager();
+      }, { once: true });
     } else {
       refreshLatestNotice();
+      initializeNoticeManager();
     }
+    window.addEventListener('focus', refreshLatestNotice);
+    document.addEventListener('visibilitychange', () => {
+      if(!document.hidden) refreshLatestNotice();
+    });
   })();
 
   // Display settings — theme (light/dark/system), custom wallpaper, cache, privacy
@@ -634,6 +842,7 @@
       try{
         localStorage.removeItem(STORAGE_KEY);
         sessionStorage.removeItem(STORAGE_KEY);
+        window.dispatchEvent(new Event('orccop:cache-changed'));
       }catch(e){}
       state = Object.assign({}, defaults, { privacy: state.privacy });
       applyAll();
@@ -675,6 +884,7 @@
         deleteBtn.disabled = true;
         try{
           await removeEntry();
+          window.dispatchEvent(new Event('orccop:cache-changed'));
           entry.remove();
           if(!cacheEntryList.children.length) cacheEntryList.innerHTML = '<p class="cache-empty">Không còn dữ liệu trong danh sách.</p>';
           await inspectCache();
@@ -772,6 +982,13 @@
     function refreshCacheIfOpen(){
       if(!cacheInspector.hidden) inspectCache();
     }
+
+    window.addEventListener('orccop:notifications-changed', refreshCacheIfOpen);
+    window.addEventListener('orccop:cache-changed', () => {
+      refreshCacheIfOpen();
+      if(typeof window.orccopNotifications !== 'undefined') window.orccopNotifications.refresh();
+    });
+    window.addEventListener('storage', refreshCacheIfOpen);
 
     cacheInspectorToggle.addEventListener('click', () => {
       const isOpen = cacheInspectorToggle.getAttribute('aria-expanded') === 'true';
