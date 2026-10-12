@@ -190,6 +190,277 @@
     });
   })();
 
+  // Shared popup notice system — newest notice wins, auto-hides if empty, can snooze for 2 hours.
+  (function(){
+    const NOTICE_STORAGE_KEY = 'orccop:shared:notifications';
+    const NOTICE_SNOOZE_KEY = 'orccop:notification:snoozeUntil';
+    const NOTICE_SNOOZE_MS = 2 * 60 * 60 * 1000;
+
+    function safeLocalStorageGet(key){
+      try{ return localStorage.getItem(key); }catch(e){ return null; }
+    }
+
+    function safeLocalStorageSet(key, value){
+      try{ localStorage.setItem(key, value); }catch(e){}
+    }
+
+    function readNotices(){
+      try{
+        const raw = safeLocalStorageGet(NOTICE_STORAGE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if(!Array.isArray(parsed)) return [];
+        return parsed.filter(Boolean);
+      }catch(e){
+        return [];
+      }
+    }
+
+    function writeNotices(list){
+      try{
+        localStorage.setItem(NOTICE_STORAGE_KEY, JSON.stringify(list));
+      }catch(e){}
+    }
+
+    function pruneNotices(list){
+      const cutoff = Date.now() - (30 * 24 * 60 * 60 * 1000);
+      return list.filter((item) => {
+        if(!item || typeof item !== 'object') return false;
+        const createdAt = Number(item.createdAt || 0);
+        return createdAt && createdAt >= cutoff;
+      });
+    }
+
+    function getSnoozeUntil(){
+      const raw = safeLocalStorageGet(NOTICE_SNOOZE_KEY);
+      const value = Number(raw || 0);
+      return Number.isFinite(value) ? value : 0;
+    }
+
+    function setSnoozeUntil(until){
+      safeLocalStorageSet(NOTICE_SNOOZE_KEY, String(until));
+    }
+
+    function normalizeNotice(input){
+      const now = Date.now();
+      const createdAt = Number(input && input.createdAt ? input.createdAt : now);
+      const notice = {
+        id: input && input.id ? String(input.id) : 'notice-' + createdAt + '-' + Math.random().toString(16).slice(2, 8),
+        title: input && input.title ? String(input.title) : 'Thông báo',
+        message: input && input.message ? String(input.message) : '',
+        createdAt,
+        source: input && input.source ? String(input.source) : 'system'
+      };
+      if(!notice.message.trim()) notice.message = 'Có cập nhật mới từ hệ thống.';
+      return notice;
+    }
+
+    function getLatestNotice(){
+      const list = pruneNotices(readNotices()).sort((a, b) => Number(b.createdAt || 0) - Number(a.createdAt || 0));
+      return list.length ? normalizeNotice(list[0]) : null;
+    }
+
+    function shouldSkipNotice(){
+      return Date.now() < getSnoozeUntil();
+    }
+
+    function ensureStyles(){
+      if(document.getElementById('orccop-global-toast-style')) return;
+      const style = document.createElement('style');
+      style.id = 'orccop-global-toast-style';
+      style.textContent = `
+        .orccop-global-toast-stack {
+          position: fixed;
+          right: 20px;
+          bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          z-index: 2147483647;
+          pointer-events: none;
+        }
+        .orccop-global-toast {
+          width: min(360px, calc(100vw - 32px));
+          background: rgba(10, 12, 15, 0.94);
+          border: 1px solid rgba(0, 243, 255, 0.35);
+          border-radius: 16px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+          padding: 14px 16px 12px;
+          color: #fff;
+          transform: translateX(120%);
+          opacity: 0;
+          animation: orccopToastIn 0.35s ease forwards;
+          pointer-events: auto;
+          backdrop-filter: blur(10px);
+        }
+        .orccop-global-toast.is-hiding {
+          animation: orccopToastOut 0.28s ease forwards;
+        }
+        .orccop-global-toast-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          margin-bottom: 6px;
+        }
+        .orccop-global-toast-title {
+          font-size: 14px;
+          font-weight: 800;
+          color: #00f3ff;
+          letter-spacing: 0.02em;
+        }
+        .orccop-global-toast-close,
+        .orccop-global-toast-snooze {
+          border: none;
+          background: rgba(255,255,255,0.06);
+          color: #dfeaf0;
+          border-radius: 8px;
+          cursor: pointer;
+          font: inherit;
+          transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .orccop-global-toast-close {
+          width: 28px;
+          height: 28px;
+          font-size: 18px;
+          line-height: 1;
+        }
+        .orccop-global-toast-snooze {
+          padding: 5px 8px;
+          font-size: 11px;
+          font-weight: 700;
+          margin-top: 8px;
+        }
+        .orccop-global-toast-close:hover,
+        .orccop-global-toast-snooze:hover {
+          background: rgba(255,255,255,0.12);
+          transform: translateY(-1px);
+        }
+        .orccop-global-toast-message {
+          font-size: 13px;
+          line-height: 1.55;
+          color: rgba(255,255,255,0.9);
+        }
+        @keyframes orccopToastIn {
+          from { opacity: 0; transform: translateX(140%); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes orccopToastOut {
+          from { opacity: 1; transform: translateX(0); }
+          to { opacity: 0; transform: translateX(140%); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    function ensureToastContainer(){
+      ensureStyles();
+      let container = document.getElementById('orccop-global-toast-stack');
+      if(!container){
+        container = document.createElement('div');
+        container.id = 'orccop-global-toast-stack';
+        container.className = 'orccop-global-toast-stack';
+        document.body.appendChild(container);
+      }
+      return container;
+    }
+
+    function hideToast(){
+      const container = document.getElementById('orccop-global-toast-stack');
+      if(!container) return;
+      container.innerHTML = '';
+    }
+
+    function showNotice(notice){
+      if(!notice || shouldSkipNotice()){
+        hideToast();
+        return;
+      }
+      const container = ensureToastContainer();
+      const existing = container.querySelector('[data-notice-id="' + notice.id + '"]');
+      if(existing) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'orccop-global-toast';
+      toast.dataset.noticeId = notice.id;
+      toast.innerHTML = `
+        <div class="orccop-global-toast-header">
+          <div class="orccop-global-toast-title">${String(notice.title || 'Thông báo')}</div>
+          <button class="orccop-global-toast-close" type="button" aria-label="Đóng thông báo">×</button>
+        </div>
+        <div class="orccop-global-toast-message">${String(notice.message || '')}</div>
+        <button class="orccop-global-toast-snooze" type="button">Không hiển thị trong 2 giờ</button>
+      `;
+
+      const closeBtn = toast.querySelector('.orccop-global-toast-close');
+      const snoozeBtn = toast.querySelector('.orccop-global-toast-snooze');
+
+      closeBtn.addEventListener('click', () => {
+        toast.classList.add('is-hiding');
+        setTimeout(() => toast.remove(), 250);
+      });
+
+      snoozeBtn.addEventListener('click', () => {
+        setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS);
+        toast.classList.add('is-hiding');
+        setTimeout(() => toast.remove(), 250);
+      });
+
+      const previous = container.firstElementChild;
+      if(previous) previous.remove();
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.isConnected) {
+          toast.classList.add('is-hiding');
+          setTimeout(() => toast.remove(), 250);
+        }
+      }, 5000);
+    }
+
+    function refreshLatestNotice(){
+      const latest = getLatestNotice();
+      if(!latest || shouldSkipNotice()){
+        hideToast();
+        return;
+      }
+      showNotice(latest);
+    }
+
+    function addNotice(input){
+      const list = pruneNotices(readNotices());
+      list.push(normalizeNotice(input));
+      writeNotices(list);
+      refreshLatestNotice();
+      return list[list.length - 1];
+    }
+
+    function clearNotices(){
+      writeNotices([]);
+      hideToast();
+    }
+
+    window.orccopNotifications = Object.freeze({
+      add: addNotice,
+      addNote: addNotice,
+      latest: getLatestNotice,
+      refresh: refreshLatestNotice,
+      snoozeForTwoHours: () => {
+        setSnoozeUntil(Date.now() + NOTICE_SNOOZE_MS);
+        hideToast();
+      },
+      clear: clearNotices
+    });
+
+    window.addEventListener('storage', (event) => {
+      if(event.key === NOTICE_STORAGE_KEY || event.key === NOTICE_SNOOZE_KEY) refreshLatestNotice();
+    });
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', refreshLatestNotice, { once: true });
+    } else {
+      refreshLatestNotice();
+    }
+  })();
+
   // Display settings — theme (light/dark/system), custom wallpaper, cache, privacy
   (function(){
     const STORAGE_KEY = 'orccop:settings';

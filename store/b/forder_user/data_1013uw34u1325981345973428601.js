@@ -187,7 +187,7 @@
                 id: 25,
                 question: "Đẩy nhanh quá trình tích tụ và tập trung tư bản cuối thế kỉ XIX - đầu thế kỉ XX đã dẫn đến",
                 options: ["Xuất hiện các công ty độc quyền lũng đoạn.", "Xuất hiện những xí nghiệp khổng lồ.", "Sự ra đời của chủ nghĩa đế quốc.", "Hình thành chủ nghĩa tư bản hiện đại."],
-                correct: 0,
+                correct: 3,
                 rationale: "Tích tụ và tập trung tư bản cao độ cuối thế kỉ XIX - đầu thế kỉ XX đã làm xuất hiện các công ty độc quyền lũng đoạn kinh tế."
             },
             {
@@ -239,7 +239,7 @@
                 id: 31,
                 question: "Kinh tế tư bản chủ nghĩa ra đời và phát triển trong lòng chế độ:",
                 options: ["Phong kiến", "Thuộc địa", "Trung đại", "Cả A và B."],
-                correct: 3,
+                correct: 1,
                 rationale: "Kinh tế tư bản chủ nghĩa hình thành trong lòng chế độ phong kiến ở châu Âu, đồng thời phát triển tại các thuộc địa; vì vậy chọn cả A và B."
             },
             {
