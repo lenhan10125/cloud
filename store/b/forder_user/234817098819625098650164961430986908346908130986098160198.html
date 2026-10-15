@@ -13,16 +13,28 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
 body[data-theme="light"]{color:#0f172a}
 body[data-theme="light"] [class*="bg-slate-"]{background-color:#fff}
 body[data-theme="light"] [class*="text-slate-"]{color:#334155!important}
+body[data-theme="light"] [class*="text-indigo-"]{color:#3730a3!important}
+body[data-theme="light"] [class*="text-emerald-"]{color:#047857!important}
+body[data-theme="light"] [class*="text-rose-"]{color:#be123c!important}
+body[data-theme="light"] [class*="text-cyan-"]{color:#0e7490!important}
+body[data-theme="light"] [class*="text-amber-"]{color:#92400e!important}
 body[data-theme="light"] [class*="border-slate-"]{border-color:#cbd5e1}
 body[data-theme="light"] .question-card{background-color:#fff}
 body[data-theme="light"] .question-section>h2{background-color:rgba(248,250,252,.97);color:#3730a3}
 body[data-theme="light"] .question-card-option{background:#f8fafc;color:#1e293b}
+body[data-theme="light"] .question-card-option .text-indigo-300{color:#3730a3!important}
 body[data-theme="light"] .question-card-option.is-selected{background:#e0e7ff;color:#312e81}
 body[data-theme="light"] .question-card-option.is-correct{background:#d1fae5;color:#065f46}
 body[data-theme="light"] .question-card-option.is-incorrect{background:#ffe4e6;color:#9f1239}
 body[data-theme="light"] input:not([type="range"]):not([type="color"]),body[data-theme="light"] dialog{background-color:#fff;color:#0f172a}
 body[data-theme="light"] .exam-time-mode{background:#fff;color:#1e293b}
-body[data-theme="light"] .quiz-timer{background:#fff;color:#1e293b}
+body[data-theme="light"] .quiz-timer{background:#fff;color:#1e293b;border-color:#94a3b8}
+body[data-theme="light"] .quiz-timer-rail{background:#fff;color:#0f172a}
+body[data-theme="light"] .quiz-timer.is-warning{color:#92400e}
+body[data-theme="light"] .quiz-timer.is-expired{color:#b91c1c}
+body[data-theme="light"] .quiz-timer.is-expired .quiz-timer-rail{color:#b91c1c}
+body[data-theme="light"] .exam-time-heading{color:#334155}
+body[data-theme="light"] .exam-time-mode-copy span{color:#475569}
 body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 .exam-time-picker{margin-top:18px;text-align:left}
 .exam-time-heading{margin:0 0 10px;color:#cbd5e1;font-size:13px;font-weight:700}
@@ -38,16 +50,52 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 .exam-time-mode-infinite .exam-time-mode-symbol{font-size:36px}
 .exam-time-mode-infinite .exam-time-mode-copy strong{font-size:18px}
 .exam-time-mode-infinite .exam-time-mode-copy span{font-size:12px}
-.quiz-timer{position:fixed;top:50%;right:16px;z-index:20;display:flex;flex-direction:column;gap:5px;min-width:112px;padding:12px;border:1px solid #475569;border-radius:12px;background:#0f172a;color:#e2e8f0;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3);transform:translateY(-50%);font-variant-numeric:tabular-nums}
+.quiz-timer{position:fixed;top:50%;right:0;z-index:20;display:flex;align-items:stretch;width:58px;height:62px;overflow:hidden;border:1px solid #475569;border-right:0;border-radius:14px 0 0 14px;background:#0f172a;color:#e2e8f0;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3);transform:translateY(-50%);font-variant-numeric:tabular-nums;transition:width .24s ease,border-color .2s,box-shadow .2s}
+.quiz-timer-rail{display:flex;width:58px;min-width:58px;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px;border:0;background:#0f172a;color:inherit;cursor:pointer}
+.quiz-timer-rail-icon{font-size:16px;line-height:1}
+.quiz-timer-compact{font-family:ui-monospace,monospace;font-size:11px;font-weight:800}
+.quiz-timer-details{display:flex;width:0;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:5px;overflow:hidden;opacity:0;transition:width .24s ease,opacity .16s ease}
+.quiz-timer:hover,.quiz-timer:focus-within,.quiz-timer.is-open{width:226px;border-color:#64748b;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.quiz-timer:hover .quiz-timer-details,.quiz-timer:focus-within .quiz-timer-details,.quiz-timer.is-open .quiz-timer-details{width:168px;opacity:1}
 .quiz-timer-main{display:flex;align-items:center;justify-content:center;gap:7px;font-family:ui-monospace,monospace;font-size:16px;font-weight:800}
 .quiz-timer-elapsed{font-size:11px;color:#94a3b8;white-space:nowrap}
+.quiz-timer-expired-message{display:none;font-size:11px;font-weight:700;color:#fca5a5;white-space:nowrap}
 .quiz-timer.is-warning{border-color:#f59e0b;color:#fbbf24}
 .quiz-timer.is-expired{border-color:#ef4444;color:#fca5a5}
+.quiz-timer.is-expired .quiz-timer-rail{color:#fecaca;animation:timerPulse 1s ease-in-out infinite}
+.quiz-timer.is-expired #quiz-timer-value{color:#ef4444}
+.quiz-timer.is-expired .quiz-timer-expired-message{display:block}
+.quiz-timer.is-expired .quiz-timer-elapsed{display:none}
+.quiz-timer.is-expired #submit-btn{background:#dc2626;animation:timerPulse 1s ease-in-out infinite}
+.quiz-timer.is-expired #submit-btn:hover{background:#b91c1c}
+#submit-btn{flex:0 0 auto;padding:7px 14px}
+@keyframes timerPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(239,68,68,.25)}50%{opacity:.72;box-shadow:0 0 0 5px rgba(239,68,68,.12)}}
 .quiz-timer[hidden]{display:none}
-@media(max-width:640px){.quiz-timer{top:auto;right:8px;bottom:16px;min-width:98px;padding:9px;transform:none}.quiz-timer-main{font-size:14px}}
+@media(max-width:640px){#quiz-timer{top:auto;right:0;bottom:calc(14px + env(safe-area-inset-bottom));width:50px;min-width:0;height:56px;transform:none}#quiz-timer .quiz-timer-rail{width:50px;min-width:50px}#quiz-timer:hover,#quiz-timer:focus-within,#quiz-timer.is-open{width:min(218px,calc(100vw - 12px))}#quiz-timer:hover .quiz-timer-details,#quiz-timer:focus-within .quiz-timer-details,#quiz-timer.is-open .quiz-timer-details{width:min(168px,calc(100vw - 62px))}.quiz-timer-main{font-size:14px}}
 .quiz-status-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-left:auto}
+.quiz-status-bar{transition:padding .18s ease,gap .18s ease,opacity .18s ease}
+.quiz-status-bar.is-compact{width:max-content;max-width:100%;gap:.5rem;margin-bottom:.75rem;padding:.4rem .65rem;border-radius:9999px;opacity:.88}
+.quiz-status-bar.is-compact #answered-count,.quiz-status-bar.is-compact #unanswered-filter-btn{display:none}
+.quiz-status-bar.is-compact #question-badge{margin-bottom:0}
 .anti-cheat-overlay{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#000;color:#fff;text-align:center;padding:24px}
 .anti-cheat-overlay[hidden]{display:none}
+#quiz-header{transition:transform .22s ease}
+#quiz-header.quiz-header-compact{transform:translateY(calc(-100% + 18px))}
+#quiz-header.quiz-header-compact:hover,#quiz-header.quiz-header-compact:focus-within{transform:translateY(0)}
+#quiz-header.quiz-header-compact .quiz-header-codes,#quiz-header.quiz-header-compact [data-action="open-settings"]{visibility:hidden;opacity:0;pointer-events:none}
+.quiz-header-codes{transition:opacity .16s ease}
+#quiz-header.quiz-header-compact~main .question-section>h2{top:8px}
+#quiz-header.quiz-header-compact~main .question-card{scroll-margin-top:20px}
+#developer-board{position:fixed;top:18%;left:calc(50% - 180px);z-index:1100;width:min(360px,calc(100vw - 24px));max-height:min(80vh,720px);overflow:auto;overscroll-behavior:contain;resize:both;min-width:min(280px,calc(100vw - 24px));min-height:min(300px,calc(100vh - 24px));max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);border:1px solid #64748b;border-radius:16px;background:#0f172a;color:#f8fafc;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+#developer-board[hidden],#developer-board-bubble[hidden]{display:none}
+#developer-board-drag-handle{touch-action:none;cursor:grab;user-select:none}
+#developer-board-drag-handle:active{cursor:grabbing}
+#developer-board-bubble{position:fixed;right:14px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:1100;display:grid;width:48px;height:48px;place-items:center;border:1px solid #818cf8;border-radius:50%;background:#312e81;color:#fff;font-family:ui-monospace,monospace;font-size:15px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.developer-command-button{display:flex;min-height:38px;align-items:center;justify-content:flex-start;border:1px solid #475569;border-radius:9px;background:#1e293b;padding:7px 9px;color:inherit;font-family:ui-monospace,monospace;font-size:11px;text-align:left;overflow-wrap:anywhere}
+.developer-command-button:hover{border-color:#818cf8;background:#312e81}
+body[data-theme="light"] #developer-board{background:#fff;color:#0f172a;border-color:#94a3b8}
+body[data-theme="light"] .developer-command-button{background:#f1f5f9;color:#0f172a;border-color:#cbd5e1}
+body[data-theme="light"] .developer-command-button:hover{background:#e0e7ff;border-color:#818cf8}
 .unit-exam-button{position:relative;isolation:isolate;display:flex;align-items:center;gap:16px;width:100%;margin-top:24px;padding:19px 22px;overflow:hidden;border:1px solid #fde047;border-radius:16px;background:linear-gradient(110deg,#facc15,#f59e0b 48%,#facc15);color:#422006;text-align:left;box-shadow:0 0 0 1px rgba(253,224,71,.25),0 0 24px rgba(250,204,21,.3),0 12px 28px rgba(0,0,0,.25);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
 .unit-exam-button::before{position:absolute;z-index:-1;inset:-80% auto -80% -40%;width:28%;content:"";transform:rotate(22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:examEnchant 3.2s ease-in-out infinite}
 .unit-exam-button:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 0 2px rgba(253,224,71,.45),0 0 34px rgba(250,204,21,.55),0 16px 34px rgba(0,0,0,.3)}
@@ -63,16 +111,45 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 @media(prefers-reduced-motion:reduce){.unit-exam-button::before,.unit-exam-button-icon{animation:none}.unit-exam-button,.unit-exam-button-arrow{transition:none}}
 .question-section{scroll-margin-top:90px}
 .question-card{scroll-margin-top:100px}
+.question-section,.question-card,#question-list{min-width:0;max-width:100%;box-sizing:border-box}
+#question-list .question-card{padding:clamp(.75rem,2vw,1.25rem);overflow-wrap:anywhere}
+#question-list .question-card h3,#question-list .question-card-option,#question-list .question-card .question-text-answer,#question-list .question-section>div:not(.question-card){font-size:var(--quiz-font-size)}
+.question-card-option{box-sizing:border-box;overflow-wrap:anywhere;white-space:normal;line-height:1.5}
+.question-card h3{overflow-wrap:anywhere}
+.picker-screen{transition:opacity .22s ease,transform .22s ease}
+.picker-screen.is-leaving,.picker-screen.is-entering{opacity:0;transform:translateY(8px);pointer-events:none}
+#quiz-app{transition:opacity .22s ease,transform .22s ease}
+#quiz-app.is-entering{opacity:0;transform:translateY(8px)}
 .question-card-option{width:100%;text-align:left;padding:14px 16px;border-radius:12px;border:1px solid #475569;background:rgba(51,65,85,.5);color:#e2e8f0;transition:background .15s,border-color .15s}
 .question-card-option:not(:disabled):hover{background:rgba(79,70,229,.2);border-color:#6366f1}
 .question-card-option.is-selected{background:rgba(79,70,229,.3);border-color:#818cf8;color:#e0e7ff}
 .question-card-option.is-correct{background:rgba(6,78,59,.4);border-color:#10b981;color:#a7f3d0}
 .question-card-option.is-incorrect{background:rgba(127,29,29,.4);border-color:#f43f5e;color:#fecdd3}
 @media(max-width:480px){.exam-time-options{grid-template-columns:1fr}.exam-time-mode-infinite{grid-column:auto}}
+@media(max-width:640px){
+body{padding-bottom:1rem}
+#unit-picker,#unit1-section-picker,#combined-exam-picker{padding-top:1.25rem;padding-bottom:1.5rem}
+#unit-picker>section,#unit1-section-picker>section,#combined-exam-picker>section{padding:1rem}
+#quiz-app>header{padding:.55rem .75rem}
+#quiz-app>header>div{flex-wrap:wrap;gap:.5rem}
+#quiz-header.quiz-header-compact{transform:translateY(calc(-100% + 16px))}
+#header-unit-title{font-size:1rem;line-height:1.3}
+#quiz-app>header .text-xs{overflow-wrap:anywhere}
+#quiz-app>main{margin-top:1rem;padding-left:.75rem;padding-right:.75rem}
+#question-panel{padding:.75rem;margin-bottom:1rem}
+#question-list{gap:1rem}
+.question-section{gap:.75rem}
+.question-section>h2{padding:.65rem .8rem}
+#question-list .question-card{padding:.75rem}
+.question-card-option{padding:11px 12px}
+.quiz-status-actions{gap:.4rem}
+#developer-board{top:auto;left:12px;bottom:calc(80px + env(safe-area-inset-bottom));width:min(360px,calc(100vw - 24px));max-height:70vh}
+}
+@media(prefers-reduced-motion:reduce){.picker-screen,#quiz-app,.quiz-timer,.quiz-timer-details,#quiz-header{transition:none}.quiz-timer.is-expired .quiz-timer-rail,.quiz-timer.is-expired #submit-btn{animation:none}}
 </style>
 </head>
 <body class="min-h-screen pb-12">
-<main id="unit-picker" class="max-w-4xl mx-auto px-4 py-16">
+<main id="unit-picker" class="picker-screen is-active max-w-4xl mx-auto px-4 py-16">
 <section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-8 shadow-xl text-center">
 <p class="text-sm uppercase tracking-widest text-indigo-300 mb-3">Bài tập Tiếng Anh</p>
 <h1 class="text-3xl md:text-4xl font-bold text-slate-100 mb-3">Chọn Unit</h1>
@@ -87,10 +164,25 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 <span class="block text-sm text-slate-300 mt-2">The Generation Gap · 55 câu</span>
 </button>
 </div>
+<button id="open-combined-exam" type="button" class="unit-exam-button" aria-label="Tạo đề tổng hợp Unit 1 và Unit 2">
+<span class="unit-exam-button-icon" aria-hidden="true">✦</span>
+<span class="unit-exam-button-copy"><strong>Đề tổng hợp Unit 1 + Unit 2</strong><span>Chọn 1 trong 4 mã đề ngẫu nhiên · 31 câu mỗi đề</span></span>
+<span class="unit-exam-button-arrow" aria-hidden="true">→</span>
+</button>
 </section>
 </main>
 
-<main id="unit1-section-picker" class="hidden max-w-4xl mx-auto px-4 py-12">
+<main id="combined-exam-picker" class="picker-screen hidden max-w-4xl mx-auto px-4 py-12">
+<button id="back-to-units-from-combined" type="button" class="mb-6 px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-sm">← Chọn Unit khác</button>
+<section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 md:p-8 shadow-xl">
+<p class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1 + Unit 2</p>
+<h1 class="text-2xl md:text-3xl font-bold text-slate-100 mb-2">Chọn mã đề tổng hợp</h1>
+<p class="text-slate-400 mb-6">Mỗi đề có 31 câu được chọn ngẫu nhiên: 12 câu trắc nghiệm, 1 câu đồng nghĩa, 1 câu trái nghĩa, trọn 2 bài Reading (10 câu), trọn 1 bài điền đoạn văn (5 câu) và 2 câu điền động từ. Mã đề sẽ giữ nguyên bộ câu hỏi khi chia sẻ bằng token.</p>
+<div id="combined-exam-options" class="grid sm:grid-cols-2 gap-4"></div>
+</section>
+</main>
+
+<main id="unit1-section-picker" class="picker-screen hidden max-w-4xl mx-auto px-4 py-12">
 <button id="back-to-units" type="button" class="mb-6 px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-sm">← Chọn Unit khác</button>
 <section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 md:p-8 shadow-xl">
 <p id="section-unit-label" class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1</p>
@@ -152,11 +244,11 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 </main>
 
 <div id="quiz-app" hidden>
-<header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-10 px-4 py-3 shadow-md">
-<div class="max-w-4xl mx-auto flex items-center justify-between">
+<header id="quiz-header" class="bg-slate-800 border-b border-slate-700 sticky top-0 z-10 px-4 py-3 shadow-md">
+<div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
 <div class="flex items-center space-x-3">
-<h1 id="header-unit-title" class="font-bold text-lg text-indigo-400">Unit 1: A Long and Healthy Life</h1>
-<span class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">Đề: <span id="header-exam-code" class="font-mono text-emerald-400">--------</span> | Đáp án: <span id="header-answer-code" class="font-mono text-cyan-400">--------</span></span>
+<h1 id="header-unit-title" class="font-bold text-base sm:text-lg text-indigo-400">Unit 1: A Long and Healthy Life</h1>
+<span class="quiz-header-codes text-xs bg-slate-700 px-2 py-1 rounded text-slate-300 break-all">Đề: <span id="header-exam-code" class="font-mono text-emerald-400">--------</span> | Đáp án: <span id="header-answer-code" class="font-mono text-cyan-400">--------</span></span>
 </div>
 <div class="flex items-center space-x-2">
 <button data-action="toggle-grid" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition">📋 Danh sách</button>
@@ -170,18 +262,24 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 <p id="active-category-label" class="text-sm font-semibold text-indigo-300"></p>
 <button id="back-to-sections" type="button" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs">← Danh sách phần</button>
 </div>
-<div class="bg-slate-800/80 rounded-2xl border border-slate-700 p-4 mb-6 flex flex-wrap gap-4 items-center justify-between">
+<div id="quiz-status-bar" class="quiz-status-bar bg-slate-800/80 rounded-2xl border border-slate-700 p-4 mb-6 flex flex-wrap gap-4 items-center justify-between">
 <div>
 <span id="question-badge" class="inline-block bg-indigo-900/60 text-indigo-300 border border-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-1">Câu hỏi 1 / --</span>
 <p id="answered-count" class="text-xs text-slate-400">Đã làm 0 / --</p>
 </div>
-<div class="quiz-status-actions">
+<div id="quiz-status-actions" class="quiz-status-actions">
 <button id="unanswered-filter-btn" data-action="toggle-unanswered" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-lg transition">Chỉ câu chưa làm</button>
-<div id="quiz-timer" class="quiz-timer" role="timer" aria-live="off" hidden>
-<div class="quiz-timer-main"><span aria-hidden="true">◷</span><span id="quiz-timer-value">∞</span></div>
+<div id="quiz-timer" class="quiz-timer" hidden>
+<div class="quiz-timer-details">
+<div class="quiz-timer-main" role="timer" aria-live="off"><span aria-hidden="true">◷</span><span id="quiz-timer-value">∞</span></div>
 <span id="quiz-elapsed-value" class="quiz-timer-elapsed">Đã dùng 00:00</span>
+<span class="quiz-timer-expired-message">Hết giờ · Không thể sửa đáp án</span>
+<button id="submit-btn" type="button" class="rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition shadow-lg shadow-emerald-900/30">Nộp bài</button>
 </div>
-<button id="submit-btn" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition shadow-lg shadow-emerald-900/30">Nộp bài</button>
+<button id="quiz-timer-rail" type="button" class="quiz-timer-rail" aria-label="Mở thanh thời gian" aria-expanded="false">
+<span class="quiz-timer-rail-icon" aria-hidden="true">◷</span><span id="quiz-timer-compact" class="quiz-timer-compact">∞</span>
+</button>
+</div>
 </div>
 </div>
 
@@ -270,6 +368,16 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 <button data-action="share-exam-link" class="w-full bg-emerald-600 hover:bg-emerald-500 py-2 rounded-xl font-semibold transition">🔗 Chia sẻ link đề thi này</button>
 <input type="text" id="exam-share-link" readonly class="hidden w-full mt-2 bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded font-mono">
 </div>
+<details class="rounded-xl border border-amber-500/40 bg-amber-950/20 p-3">
+<summary class="cursor-pointer font-semibold text-amber-300">Bảng lệnh nhà phát triển</summary>
+<div class="pt-2">
+<p class="mb-2 text-xs text-slate-400">Nhập <code>cmd::[board]</code> để mở bảng nổi. Nếu nhập từ Console, dùng <code>runQuizCommand("cmd::[board]")</code>; chuỗi <code>cmd::[...]</code> không phải cú pháp JavaScript độc lập.</p>
+<form id="developer-command-form" class="flex gap-2">
+<input id="developer-command-input" type="text" autocomplete="off" spellcheck="false" placeholder="cmd::[board]" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs">
+<button type="submit" class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-500">Chạy</button>
+</form>
+</div>
+</details>
 <p id="exam-code-status" class="text-xs text-slate-400 mt-2 min-h-[1.25rem]"></p>
 </div>
 <div class="mt-6 flex justify-between">
@@ -277,6 +385,45 @@ body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
 <form method="dialog"><button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-medium">Đóng</button></form>
 </div>
 </dialog>
+
+<aside id="developer-board" hidden role="dialog" aria-label="Bảng lệnh nhà phát triển">
+<div id="developer-board-drag-handle" class="flex items-center justify-between gap-3 border-b border-slate-700 px-4 py-3">
+<div><h2 class="font-bold">Bảng lệnh nhà phát triển</h2><p class="text-xs text-slate-400">Kéo thanh này để di chuyển</p></div>
+<button id="developer-board-collapse" type="button" aria-label="Thu nhỏ bảng lệnh" title="Thu nhỏ" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-700 font-mono text-sm font-bold hover:bg-slate-600">{}</button>
+</div>
+<div class="space-y-3 p-4">
+<div class="grid grid-cols-2 gap-2">
+<button type="button" class="developer-command-button" data-dev-command="cmd::[board]">cmd::[board]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[open-scren]">cmd::[open-scren]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[fasle]">cmd::[fasle]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[true]">cmd::[true]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[ai]">cmd::[ai]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[true-ai]">cmd::[true-ai]</button>
+<button type="button" class="developer-command-button" data-dev-command="cmd::[time.5]">cmd::[time.5] · +5 phút</button>
+<button type="button" class="developer-command-button col-span-2" data-dev-command="cmd::[close-scren]">cmd::[close-scren] · Bật lại chống gian lận</button>
+</div>
+<form id="developer-board-command-form" class="space-y-2">
+<label for="developer-board-command-input" class="block text-xs font-semibold text-slate-300">Lệnh thủ công</label>
+<div class="flex gap-2">
+<input id="developer-board-command-input" type="text" autocomplete="off" spellcheck="false" placeholder="cmd::[time.10]" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs text-slate-100">
+<button type="submit" class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-500">Chạy</button>
+</div>
+</form>
+<details class="rounded-lg border border-slate-700 p-2">
+<summary class="cursor-pointer text-xs font-semibold">Sửa/xóa phần tử và câu hỏi</summary>
+<ul class="mt-2 space-y-1 text-[11px] leading-relaxed text-slate-300">
+<li><code>cmd::[edit|#element-id|text|Nội dung mới]</code> · sửa nội dung chữ của phần tử có id.</li>
+<li><code>cmd::[delete|#element-id]</code> · xóa phần tử khỏi giao diện.</li>
+<li><code>cmd::[question-edit|ID|Nội dung câu mới]</code> · sửa nội dung câu hỏi theo ID.</li>
+<li><code>cmd::[question-delete|ID]</code> · xóa câu khỏi bài hiện tại.</li>
+<li><code>cmd::[restore]</code> · hoàn tác thao tác gần nhất; dùng lại để đi lùi tiếp.</li>
+</ul>
+</details>
+<p id="developer-board-status" role="status" aria-live="polite" class="min-h-5 text-xs text-slate-300">Bảng lệnh sẵn sàng.</p>
+<p class="text-[11px] leading-relaxed text-slate-400">Trong Console, gọi <code>runQuizCommand('cmd::[board]')</code>; không nhập trực tiếp <code>cmd::[...]</code> vì đó không phải cú pháp JavaScript. Các lệnh chạy trên giao diện trình duyệt, không phải biện pháp bảo mật kỳ thi.</p>
+</div>
+</aside>
+<button id="developer-board-bubble" type="button" hidden aria-label="Mở lại bảng lệnh nhà phát triển" title="Mở bảng lệnh">{}</button>
 
 <div id="anti-cheat-overlay" class="anti-cheat-overlay" role="alert" aria-live="assertive" hidden>
 <div><h2 class="mb-3 text-2xl font-bold">Màn hình đã tạm khóa</h2><p>Đóng công cụ nhà phát triển để tiếp tục. Nhấn Escape nếu trang nhận diện nhầm.</p></div>

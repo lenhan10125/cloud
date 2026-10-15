@@ -130,6 +130,35 @@ const unit2Questions = [
   {id:154,passage:UNIT2_PASSAGE_GENERATION_GAP,question:"[Reading 2] The word “their” in the last paragraph refers to ________.",options:["the older generation's","the younger generation's","supervisor's","over-thirty people's"],correct:1,rationale:"their own generation quy chiếu về the younger generation."},
   {id:155,passage:UNIT2_PASSAGE_GENERATION_GAP,question:"[Reading 2] According to the passage, which is NOT true?",options:["The majority of Americans agree generations' viewpoint to be the major differences.","Technology is one of the two biggest areas creating the gap between the old and the young.","Grandparents feel uncomfortable with their grandchildren because of their better technology skills.","The elderly in America are admired in moral values, work ethic and respect for others."],correct:2,rationale:"Bài nói thế hệ lớn tuổi thường tự hào về khả năng công nghệ của người trẻ, không phải cảm thấy khó chịu."}
 ];
+const allUnitQuestions = unit1Questions.concat(unit2Questions);
+const combinedQuestionPools = {
+  grammar: allUnitQuestions.filter(question =>
+    (question.id >= 11 && question.id <= 30) || (question.id >= 116 && question.id <= 130)),
+  synonyms: allUnitQuestions.filter(question =>
+    (question.id >= 1 && question.id <= 5) || (question.id >= 106 && question.id <= 110)),
+  antonyms: allUnitQuestions.filter(question =>
+    (question.id >= 6 && question.id <= 10) || (question.id >= 111 && question.id <= 115)),
+  reading: allUnitQuestions.filter(question =>
+    (question.id >= 31 && question.id <= 35) || (question.id >= 151 && question.id <= 155)),
+  'passage-fill': allUnitQuestions.filter(question =>
+    (question.id >= 36 && question.id <= 40) || (question.id >= 146 && question.id <= 150)),
+  'verb-fill': allUnitQuestions.filter(question => question.id >= 101 && question.id <= 105)
+};
+const combinedCategoryLabels = {
+  grammar: 'Ngữ pháp · Unit 1 + Unit 2',
+  synonyms: 'Từ đồng nghĩa',
+  antonyms: 'Từ trái nghĩa',
+  reading: 'Reading · Đọc hiểu',
+  'passage-fill': 'Điền vào chỗ trống của đoạn văn',
+  'verb-fill': 'Điền động từ'
+};
+const combinedExamQuestionCount = 31;
+function createCombinedCategories() {
+  return Object.fromEntries(Object.entries(combinedQuestionPools).map(([key]) => [
+    key,
+    { label: combinedCategoryLabels[key], questionIds: new Set() }
+  ]));
+}
 let originalQuestions = unit1Questions.slice();
 let currentIndex = 0, userAnswers = new Array(questions.length).fill(null), score = 0;
 let submitted = false, processing = false, unansweredOnly = false, wrongReviewVisible = false;
@@ -139,10 +168,21 @@ let selectedCategory = 'all';
 let quizStarted = false;
 let selectedExamDurationSeconds = 0;
 let activeFullExam = false;
+let activeCombinedExam = false;
+let timeExpired = false;
+let antiCheatTemporarilyDisabled = false;
+let developerAiUnlocked = false;
+let developerAiHintOnly = false;
+let pickerTransitionTimeout = 0;
 let quizTimerInterval = 0;
 let quizTimerDeadline = 0;
 let quizTimerStartedAt = 0;
+let developerBoardDrag = null;
+let developerElementHistory = [];
+let quizStatusCompactTimeout = 0;
+let previousScrollY = window.scrollY;
 let customBackgroundSelected = false;
+let developerBoardResizeObserver = null;
 const $ = id => document.getElementById(id);
 const letter = i => String.fromCharCode(65 + i);
 let categories = {
@@ -205,6 +245,7 @@ const unit2Categories = {
 let activeUnit = 1;
 
 function initApp() {
+  document.body.append($('developer-board'), $('developer-board-bubble'));
   const storedTheme = localStorage.getItem('quiz-theme-mode');
   $('theme-setting').value = ['system', 'light', 'dark'].includes(storedTheme) ? storedTheme : 'system';
   applyTheme();
@@ -216,10 +257,19 @@ function initApp() {
   $('background-color-setting').addEventListener('input', applyBackgroundColor);
   document.addEventListener('keydown', handleAntiCheatKeydown, true);
   window.addEventListener('resize', checkDevTools);
+  window.addEventListener('resize', constrainDeveloperBoard);
+  if (typeof ResizeObserver === 'function') {
+    developerBoardResizeObserver = new ResizeObserver(constrainDeveloperBoard);
+    developerBoardResizeObserver.observe($('developer-board'));
+  }
+  window.addEventListener('scroll', updateQuizHeaderVisibility, { passive: true });
+  window.addEventListener('pointermove', handleQuizDisplayActivity, { passive: true });
+  window.addEventListener('wheel', scheduleQuizStatusCompact, { passive: true });
+  window.addEventListener('touchstart', scheduleQuizStatusCompact, { passive: true });
   document.addEventListener('keydown', handleQuizKeyboard);
   $('question-list').addEventListener('click', event => {
     const googleLink = event.target.closest('.ask-google-ai');
-    if (googleLink && !submitted) {
+    if (googleLink && !submitted && googleLink.getAttribute('aria-disabled') === 'true') {
       event.preventDefault();
       return;
     }
@@ -229,19 +279,100 @@ function initApp() {
   });
   $('question-list').addEventListener('input', event => {
     const answerInput = event.target.closest('.question-text-answer');
-    if (!answerInput || submitted) return;
+    if (!answerInput || submitted || timeExpired) return;
     userAnswers[Number(answerInput.dataset.questionIndex)] = answerInput.value.trim() || null;
     updateProgress();
   });
   $('submit-btn').addEventListener('click', showResults);
+  $('developer-command-form').addEventListener('submit', event => {
+    event.preventDefault();
+    executeDeveloperCommand($('developer-command-input').value);
+  });
+  $('developer-board-command-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const commandInput = $('developer-board-command-input');
+    executeDeveloperCommand(commandInput.value);
+    commandInput.select();
+  });
+  $('developer-board').addEventListener('click', event => {
+    const button = event.target.closest('[data-dev-command]');
+    if (button) executeDeveloperCommand(button.dataset.devCommand);
+  });
+  $('developer-board-collapse').addEventListener('click', collapseDeveloperBoard);
+  $('developer-board-bubble').addEventListener('click', openDeveloperBoard);
+  $('developer-board-drag-handle').addEventListener('pointerdown', startDeveloperBoardDrag);
+  $('developer-board-drag-handle').addEventListener('pointermove', moveDeveloperBoardDrag);
+  $('developer-board-drag-handle').addEventListener('pointerup', stopDeveloperBoardDrag);
+  $('developer-board-drag-handle').addEventListener('pointercancel', stopDeveloperBoardDrag);
+  $('developer-board-drag-handle').addEventListener('lostpointercapture', stopDeveloperBoardDrag);
+  $('quiz-header').addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') $('quiz-header').classList.remove('quiz-header-compact');
+  });
+  $('quiz-header').addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && window.scrollY > 40) {
+      $('quiz-header').classList.add('quiz-header-compact');
+    }
+  });
+  $('quiz-header').addEventListener('focusin', () => {
+    $('quiz-header').classList.remove('quiz-header-compact');
+  });
+  $('quiz-header').addEventListener('focusout', () => {
+    window.setTimeout(() => {
+      if (!$('quiz-header').matches(':focus-within') && window.scrollY > 40) {
+        $('quiz-header').classList.add('quiz-header-compact');
+      }
+    }, 0);
+  });
+  $('quiz-status-bar').addEventListener('pointerenter', () => {
+    $('quiz-status-bar').classList.remove('is-compact');
+    clearQuizStatusCompactTimeout();
+  });
+  $('quiz-status-bar').addEventListener('pointerleave', scheduleQuizStatusCompact);
+  $('quiz-status-bar').addEventListener('focusin', () => {
+    $('quiz-status-bar').classList.remove('is-compact');
+    clearQuizStatusCompactTimeout();
+  });
+  $('quiz-status-bar').addEventListener('focusout', scheduleQuizStatusCompact);
+  $('quiz-timer-rail').addEventListener('click', () => {
+    const timer = $('quiz-timer');
+    const isOpen = timer.classList.toggle('is-open');
+    $('quiz-timer-rail').setAttribute('aria-expanded', String(isOpen));
+    if (!isOpen) $('quiz-timer-rail').blur();
+  });
+  $('quiz-timer-rail').addEventListener('focus', () => {
+    $('quiz-timer-rail').setAttribute('aria-expanded', 'true');
+  });
+  $('quiz-timer-rail').addEventListener('blur', () => {
+    if (!$('quiz-timer').classList.contains('is-open')) {
+      $('quiz-timer-rail').setAttribute('aria-expanded', 'false');
+    }
+  });
+  $('quiz-timer').addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') $('quiz-timer-rail').setAttribute('aria-expanded', 'true');
+  });
+  $('quiz-timer').addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !$('quiz-timer').classList.contains('is-open')
+      && !$('quiz-timer').matches(':focus-within')) {
+      $('quiz-timer-rail').setAttribute('aria-expanded', 'false');
+    }
+  });
   $('open-unit1').addEventListener('click', () => showUnitSections(1));
   $('open-unit2').addEventListener('click', () => showUnitSections(2));
+  $('open-combined-exam').addEventListener('click', showCombinedExamPicker);
+  $('back-to-units-from-combined').addEventListener('click', showUnitPicker);
+  $('combined-exam-options').addEventListener('click', event => {
+    const button = event.target.closest('[data-combined-exam-code]');
+    if (button) startCombinedExam(button.dataset.combinedExamCode);
+  });
   $('generate-exam').addEventListener('click', startFullExam);
   document.querySelectorAll('[data-exam-duration]').forEach(button => {
     button.addEventListener('click', () => selectExamDuration(button));
   });
   $('back-to-units').addEventListener('click', showUnitPicker);
-  $('back-to-sections').addEventListener('click', () => showUnitSections());
+  $('back-to-sections').addEventListener('click', () => {
+    if (activeCombinedExam) showCombinedExamPicker();
+    else showUnitSections();
+  });
   document.querySelectorAll('[data-category]').forEach(button => {
     button.addEventListener('click', () => startCategory(button.dataset.category));
   });
@@ -249,6 +380,22 @@ function initApp() {
   const params = new URLSearchParams(window.location.search);
   const qt = params.get('token'), at = params.get('answerToken');
   const ok = c => typeof c === 'string' && /^[0-9A-F]{8}$/i.test(c);
+  activeCombinedExam = params.get('mode') === 'unit12';
+  if (activeCombinedExam) {
+    activeUnit = 0;
+    questions = allUnitQuestions.slice();
+    originalQuestions = allUnitQuestions.slice();
+    categories = createCombinedCategories();
+    selectedCategory = 'all';
+    $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2';
+    $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 · ${combinedExamQuestionCount} câu`;
+    $('back-to-sections').textContent = '← Chọn mã đề khác';
+    document.title = 'Đề tổng hợp Unit 1 + Unit 2 · Bài tập Tiếng Anh';
+    $('unit-picker').classList.add('hidden');
+    $('combined-exam-picker').classList.add('hidden');
+    $('unit1-section-picker').classList.add('hidden');
+    revealQuizScreen();
+  }
   examCode = ok(qt) ? qt.toUpperCase() : createExamCode();
   answerCode = ok(at) ? at.toUpperCase() : ok(qt) ? qt.toUpperCase() : createExamCode();
   setAnswerOrders(answerCode);
@@ -256,6 +403,11 @@ function initApp() {
   $('answer-code-input').value = answerCode;
   $('header-answer-code').innerText = answerCode;
   setExamCode(examCode);
+  if (activeCombinedExam) {
+    activeFullExam = true;
+    quizStarted = true;
+    restartQuiz();
+  }
 }
 function handleActionClick(event) {
   const button = event.target.closest('[data-action]');
@@ -282,12 +434,48 @@ function handleActionClick(event) {
 }
 function showUnitPicker() {
   stopQuizTimer();
-  $('unit-picker').classList.remove('hidden');
-  $('unit1-section-picker').classList.add('hidden');
+  if (activeCombinedExam) {
+    $('header-unit-title').textContent = 'Unit 1: A Long and Healthy Life';
+    document.title = 'Bài Tập Tiếng Anh - Unit 1: A Long and Healthy Life';
+  }
+  activeCombinedExam = false;
+  transitionPickerTo('unit-picker');
   $('quiz-app').hidden = true;
+  syncExamCodesToUrl();
+}
+function transitionPickerTo(targetId) {
+  const screens = ['unit-picker', 'unit1-section-picker', 'combined-exam-picker'].map($);
+  const target = $(targetId);
+  if (pickerTransitionTimeout) window.clearTimeout(pickerTransitionTimeout);
+  screens.forEach(screen => screen.classList.remove('is-leaving', 'is-entering'));
+  const outgoing = screens.filter(screen =>
+    screen !== target && !screen.classList.contains('hidden'));
+  outgoing.forEach(screen => screen.classList.add('is-leaving'));
+  target.classList.remove('hidden');
+  target.classList.add('is-entering');
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => target.classList.remove('is-entering'));
+  });
+  pickerTransitionTimeout = window.setTimeout(() => {
+    outgoing.forEach(screen => {
+      screen.classList.add('hidden');
+      screen.classList.remove('is-leaving');
+    });
+    target.classList.remove('is-entering');
+    pickerTransitionTimeout = 0;
+  }, 240);
+}
+function revealQuizScreen() {
+  const quiz = $('quiz-app');
+  quiz.hidden = false;
+  quiz.classList.add('is-entering');
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => quiz.classList.remove('is-entering'));
+  });
 }
 function showUnitSections(unit = activeUnit) {
   stopQuizTimer();
+  activeCombinedExam = false;
   activeUnit = unit;
   questions = (unit === 2 ? unit2Questions : unit1Questions).slice();
   originalQuestions = questions.slice();
@@ -306,9 +494,58 @@ function showUnitSections(unit = activeUnit) {
   $('unit2-category-grid').classList.toggle('hidden', unit !== 2);
   const total = questions.length;
   $('exam-time-summary').textContent = `Đề tổng hợp Unit ${unit} đủ ${total} câu · không giới hạn thời gian`;
-  $('unit-picker').classList.add('hidden');
-  $('unit1-section-picker').classList.remove('hidden');
+  transitionPickerTo('unit1-section-picker');
   $('quiz-app').hidden = true;
+  $('back-to-sections').textContent = '← Danh sách phần';
+  syncExamCodesToUrl();
+}
+function showCombinedExamPicker() {
+  stopQuizTimer();
+  activeFullExam = false;
+  activeCombinedExam = false;
+  $('quiz-app').hidden = true;
+  transitionPickerTo('combined-exam-picker');
+  const codes = new Set();
+  while (codes.size < 4) codes.add(createExamCode());
+  $('combined-exam-options').replaceChildren(...Array.from(codes, (code, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.combinedExamCode = code;
+    button.className = 'rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition';
+    const title = document.createElement('span');
+    title.className = 'block font-bold text-indigo-300';
+    title.textContent = `Mã đề ${String.fromCharCode(65 + index)}`;
+    const token = document.createElement('span');
+    token.className = 'block text-sm text-slate-400 mt-2 font-mono';
+    token.textContent = `${code} · ${combinedExamQuestionCount} câu`;
+    button.append(title, token);
+    return button;
+  }));
+  $('back-to-sections').textContent = '← Chọn mã đề khác';
+  syncExamCodesToUrl();
+}
+function startCombinedExam(code) {
+  if (quizStarted && (submitted || userAnswers.some(answer => answer !== null)) &&
+      !window.confirm('Bắt đầu đề tổng hợp sẽ xóa câu trả lời hiện tại. Bạn có muốn tiếp tục không?')) return;
+  activeCombinedExam = true;
+  activeUnit = 0;
+  originalQuestions = allUnitQuestions.slice();
+  questions = originalQuestions.slice();
+  categories = createCombinedCategories();
+  selectedCategory = 'all';
+  activeFullExam = true;
+  submitted = false;
+  $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2';
+  $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 · ${combinedExamQuestionCount} câu`;
+  $('back-to-sections').textContent = '← Chọn mã đề khác';
+  document.title = 'Đề tổng hợp Unit 1 + Unit 2 · Bài tập Tiếng Anh';
+  $('combined-exam-picker').classList.add('hidden');
+  $('unit-picker').classList.add('hidden');
+  $('unit1-section-picker').classList.add('hidden');
+  revealQuizScreen();
+  setAnswerOrders(answerCode);
+  setExamCode(code);
+  quizStarted = true;
 }
 function startCategory(category) {
   if (!categories[category]) return;
@@ -321,7 +558,7 @@ function startCategory(category) {
   $('active-category-label').textContent = categories[category].label;
   $('unit-picker').classList.add('hidden');
   $('unit1-section-picker').classList.add('hidden');
-  $('quiz-app').hidden = false;
+  revealQuizScreen();
   if (!resume) restartQuiz();
   quizStarted = true;
 }
@@ -346,10 +583,11 @@ function startFullExam() {
   selectedCategory = 'all';
   activeFullExam = true;
   $('active-category-label').textContent = `Đề tổng hợp Unit ${activeUnit} · ${questions.length} câu`;
+  activeCombinedExam = false;
   selectedExamDurationSeconds = Number(document.querySelector('[data-exam-duration][aria-pressed="true"]')?.dataset.examDuration || 0);
   $('unit-picker').classList.add('hidden');
   $('unit1-section-picker').classList.add('hidden');
-  $('quiz-app').hidden = false;
+  revealQuizScreen();
   let nextCode = createExamCode();
   while (nextCode === examCode) nextCode = createExamCode();
   setExamCode(nextCode);
@@ -377,17 +615,31 @@ function stopQuizTimer() {
   quizTimerInterval = 0;
   quizTimerDeadline = 0;
 }
+function placeSubmitButtonInTimer(useTimer) {
+  const submitButton = $('submit-btn');
+  const timer = $('quiz-timer');
+  if (useTimer) {
+    timer.querySelector('.quiz-timer-details').appendChild(submitButton);
+  } else {
+    $('quiz-status-actions').appendChild(submitButton);
+  }
+}
 function startQuizTimer() {
   stopQuizTimer();
   const timer = $('quiz-timer');
+  timeExpired = false;
+  timer.classList.remove('is-open', 'is-warning', 'is-expired');
+  $('quiz-timer-rail').setAttribute('aria-expanded', 'false');
+  $('quiz-timer-rail').setAttribute('aria-label', 'Mở thanh thời gian');
+  placeSubmitButtonInTimer(activeFullExam);
+  scheduleQuizStatusCompact();
   if (!activeFullExam) {
     timer.hidden = true;
-    timer.classList.remove('is-warning', 'is-expired');
     $('quiz-timer-value').textContent = '∞';
+    $('quiz-timer-compact').textContent = '∞';
     $('quiz-elapsed-value').textContent = 'Đã dùng 00:00';
     return;
   }
-  timer.classList.remove('is-warning', 'is-expired');
   timer.hidden = false;
   quizTimerStartedAt = Date.now();
   quizTimerDeadline = selectedExamDurationSeconds > 0
@@ -399,16 +651,23 @@ function startQuizTimer() {
     $('quiz-elapsed-value').textContent = `Đã dùng ${formatQuizTime(elapsedSeconds)}`;
     if (selectedExamDurationSeconds === 0) {
       $('quiz-timer-value').textContent = '∞';
+      $('quiz-timer-compact').textContent = '∞';
       return;
     }
     const secondsLeft = Math.max(0, Math.ceil((quizTimerDeadline - now) / 1000));
-    $('quiz-timer-value').textContent = formatQuizTime(secondsLeft);
+    const remainingTime = formatQuizTime(secondsLeft);
+    $('quiz-timer-value').textContent = remainingTime;
+    $('quiz-timer-compact').textContent = remainingTime;
     timer.classList.toggle('is-warning', secondsLeft > 0 && secondsLeft <= 30);
     if (secondsLeft > 0) return;
     timer.classList.add('is-expired');
+    timeExpired = true;
+    $('quiz-timer-rail').setAttribute('aria-label', 'Hết giờ. Mở thanh thời gian để nộp bài');
+    document.querySelectorAll('.question-card-option, .question-text-answer').forEach(control => {
+      control.disabled = true;
+    });
     if (quizTimerInterval) window.clearInterval(quizTimerInterval);
     quizTimerInterval = 0;
-    if (!submitted && !processing) showResults();
   };
   updateTimer();
   if (!submitted) quizTimerInterval = window.setInterval(updateTimer, 1000);
@@ -425,6 +684,57 @@ function shuffleList(items, random) {
 }
 function shuffleQuestions(code) {
   const base = Number.parseInt(code, 16) >>> 0;
+  if (activeCombinedExam) {
+    const pick = (categoryKey, count) => {
+      let seed = base;
+      for (const char of categoryKey) seed = Math.imul(seed ^ char.charCodeAt(0), 0x45d9f3b) >>> 0;
+      return shuffleList(combinedQuestionPools[categoryKey], createSeededRandom(seed)).slice(0, count);
+    };
+    const pickPassage = categoryKey => {
+      let seed = base;
+      for (const char of categoryKey) seed = Math.imul(seed ^ char.charCodeAt(0), 0x45d9f3b) >>> 0;
+      const passageGroups = new Map();
+      combinedQuestionPools[categoryKey].forEach(question => {
+        const group = passageGroups.get(question.passage) || [];
+        group.push(question);
+        passageGroups.set(question.passage, group);
+      });
+      const groups = Array.from(passageGroups.values());
+      if (groups.length !== 2 || groups.some(group => group.length !== 5)) {
+        throw new Error(`Unexpected ${categoryKey} passage question pool.`);
+      }
+      return shuffleList(groups, createSeededRandom(seed))[0];
+    };
+    const pickAllPassages = categoryKey => {
+      let seed = base;
+      for (const char of categoryKey) seed = Math.imul(seed ^ char.charCodeAt(0), 0x45d9f3b) >>> 0;
+      const passageGroups = new Map();
+      combinedQuestionPools[categoryKey].forEach(question => {
+        const group = passageGroups.get(question.passage) || [];
+        group.push(question);
+        passageGroups.set(question.passage, group);
+      });
+      const groups = Array.from(passageGroups.values());
+      if (groups.length !== 2 || groups.some(group => group.length !== 5)) {
+        throw new Error(`Unexpected ${categoryKey} passage question pool.`);
+      }
+      return shuffleList(groups, createSeededRandom(seed)).flatMap((group, index) =>
+        shuffleList(group, createSeededRandom(seed ^ Math.imul(index + 1, 0x9E3779B1)))
+      );
+    };
+    const selected = {
+      grammar: pick('grammar', 12),
+      synonyms: pick('synonyms', 1),
+      antonyms: pick('antonyms', 1),
+      reading: pickAllPassages('reading'),
+      'passage-fill': pickPassage('passage-fill'),
+      'verb-fill': pick('verb-fill', 2)
+    };
+    categories = createCombinedCategories();
+    Object.entries(selected).forEach(([categoryKey, selectedQuestions]) => {
+      categories[categoryKey].questionIds = new Set(selectedQuestions.map(question => question.id));
+    });
+  }
   return Object.entries(categories).flatMap(([categoryKey, category]) => {
     const matching = originalQuestions.filter(question => category.questionIds.has(question.id));
     let categorySeed = base;
@@ -500,12 +810,16 @@ function syncExamCodesToUrl() {
   try {
     const url = new URL(window.location.href);
     url.searchParams.set('token', examCode); url.searchParams.set('answerToken', answerCode);
+    if (activeCombinedExam) url.searchParams.set('mode', 'unit12');
+    else url.searchParams.delete('mode');
     if (url.protocol === 'http:' || url.protocol === 'https:') window.history.replaceState(window.history.state, '', url);
   } catch (e) {}
 }
 async function shareExamLink() {
   const url = new URL(window.location.href);
   url.searchParams.set('token', examCode); url.searchParams.set('answerToken', answerCode);
+  if (activeCombinedExam) url.searchParams.set('mode', 'unit12');
+  else url.searchParams.delete('mode');
   const li = $('exam-share-link'); li.value = url.href; li.classList.remove('hidden');
   try {
     if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') throw new Error();
@@ -558,16 +872,19 @@ function isDevToolsOpen() {
     window.outerHeight - window.innerHeight > 250;
 }
 function showAntiCheatOverlay() {
+  if (antiCheatTemporarilyDisabled) return;
   $('anti-cheat-overlay').hidden = false;
 }
 function hideAntiCheatOverlay() {
   $('anti-cheat-overlay').hidden = true;
 }
 function checkDevTools() {
+  if (antiCheatTemporarilyDisabled) return;
   if (isDevToolsOpen()) showAntiCheatOverlay();
   else hideAntiCheatOverlay();
 }
 function handleAntiCheatKeydown(event) {
+  if (antiCheatTemporarilyDisabled) return;
   const devToolsShortcut = event.key === 'F12' ||
     (event.shiftKey && (event.ctrlKey || event.metaKey) &&
       ['i', 'j', 'c'].includes(event.key.toLowerCase()));
@@ -584,9 +901,364 @@ function handleAntiCheatKeydown(event) {
     if (isDevToolsOpen()) checkDevTools();
   }, 500);
 }
+function clearQuizStatusCompactTimeout() {
+  if (quizStatusCompactTimeout) window.clearTimeout(quizStatusCompactTimeout);
+  quizStatusCompactTimeout = 0;
+}
+function scheduleQuizStatusCompact() {
+  clearQuizStatusCompactTimeout();
+  quizStatusCompactTimeout = window.setTimeout(() => {
+    quizStatusCompactTimeout = 0;
+    const statusBar = $('quiz-status-bar');
+    if (statusBar.contains(document.activeElement) &&
+      document.activeElement instanceof HTMLElement &&
+      document.activeElement.offsetParent === null) document.activeElement.blur();
+    if (!statusBar.matches(':hover, :focus-within')) statusBar.classList.add('is-compact');
+  }, 1800);
+}
+function handleQuizDisplayActivity(event) {
+  if (event.pointerType !== 'mouse' || $('quiz-app').hidden) return;
+  $('quiz-status-bar').classList.remove('is-compact');
+  scheduleQuizStatusCompact();
+}
+function updateQuizHeaderVisibility() {
+  const header = $('quiz-header');
+  const currentScrollY = Math.max(0, window.scrollY);
+  if (currentScrollY < 40 || currentScrollY < previousScrollY - 4) {
+    header.classList.remove('quiz-header-compact');
+  } else if (currentScrollY > previousScrollY + 4) {
+    header.classList.add('quiz-header-compact');
+  }
+  previousScrollY = currentScrollY;
+}
+function openDeveloperBoard() {
+  $('developer-board').hidden = false;
+  $('developer-board-bubble').hidden = true;
+  if ($('settings-modal').open) $('settings-modal').close();
+  constrainDeveloperBoard();
+  $('developer-board-command-input').focus();
+}
+function collapseDeveloperBoard() {
+  $('developer-board').hidden = true;
+  $('developer-board-bubble').hidden = false;
+}
+function constrainDeveloperBoard() {
+  const board = $('developer-board');
+  if (board.hidden) return;
+  const rect = board.getBoundingClientRect();
+  const left = Math.min(Math.max(8, rect.left), Math.max(8, window.innerWidth - rect.width - 8));
+  const top = Math.min(Math.max(8, rect.top), Math.max(8, window.innerHeight - Math.min(rect.height, window.innerHeight - 16) - 8));
+  board.style.left = `${left}px`;
+  board.style.top = `${top}px`;
+  board.style.bottom = 'auto';
+}
+function startDeveloperBoardDrag(event) {
+  if (event.button !== 0 || event.target.closest('button')) return;
+  const board = $('developer-board');
+  const rect = board.getBoundingClientRect();
+  developerBoardDrag = {
+    pointerId: event.pointerId,
+    offsetX: event.clientX - rect.left,
+    offsetY: event.clientY - rect.top
+  };
+  event.currentTarget.setPointerCapture(event.pointerId);
+  event.preventDefault();
+}
+function moveDeveloperBoardDrag(event) {
+  if (!developerBoardDrag || developerBoardDrag.pointerId !== event.pointerId) return;
+  const board = $('developer-board');
+  const left = Math.min(Math.max(8, event.clientX - developerBoardDrag.offsetX),
+    Math.max(8, window.innerWidth - board.offsetWidth - 8));
+  const top = Math.min(Math.max(8, event.clientY - developerBoardDrag.offsetY),
+    Math.max(8, window.innerHeight - board.offsetHeight - 8));
+  board.style.left = `${left}px`;
+  board.style.top = `${top}px`;
+}
+function stopDeveloperBoardDrag(event) {
+  if (developerBoardDrag?.pointerId !== event.pointerId) return;
+  developerBoardDrag = null;
+}
+function reportDeveloperCommand(message, isError = false) {
+  const status = $('developer-board-status');
+  status.textContent = message;
+  status.className = `min-h-5 text-xs ${isError ? 'text-rose-400' : 'text-emerald-400'}`;
+  $('exam-code-status').textContent = message;
+}
+function executeDeveloperCommand(rawCommand) {
+  const originalCommand = String(rawCommand || '').trim();
+  const command = originalCommand.toLowerCase();
+  if (command === 'cmd::[board]') {
+    openDeveloperBoard();
+    reportDeveloperCommand('Đã mở bảng lệnh.');
+    return;
+  }
+  if (executeDeveloperElementCommand(originalCommand)) return;
+  if (command === 'cmd::[open-scren]') {
+    antiCheatTemporarilyDisabled = true;
+    hideAntiCheatOverlay();
+    reportDeveloperCommand('Đã tạm tắt chống gian lận đến khi tải lại trang hoặc bật lại.');
+    return;
+  }
+  if (command === 'cmd::[close-scren]') {
+    antiCheatTemporarilyDisabled = false;
+    checkDevTools();
+    reportDeveloperCommand('Đã bật lại chống gian lận.');
+    return;
+  }
+  if (command === 'cmd::[true]' || command === 'cmd::[fasle]' || command === 'cmd::[false]') {
+    if (!quizStarted || submitted || !activeQuestionIndices.length) {
+      reportDeveloperCommand('Hãy bắt đầu một bài chưa nộp trước khi dùng lệnh này.', true);
+      return;
+    }
+    const setCorrect = command === 'cmd::[true]';
+    activeQuestionIndices.forEach(index => {
+      const question = questions[index];
+      userAnswers[index] = setCorrect
+        ? question.type === 'text' ? question.acceptedAnswers[0] : question.correct
+        : question.type === 'text' ? '__dev_wrong_answer__' : question.options.findIndex((_, optionIndex) => optionIndex !== question.correct);
+    });
+    renderQuestion();
+    renderGrid();
+    updateProgress();
+    reportDeveloperCommand(setCorrect ? 'Đã điền đáp án đúng cho tất cả câu trong bài hiện tại.' :
+      'Đã điền đáp án sai cho tất cả câu trong bài hiện tại.');
+    return;
+  }
+  if (command === 'cmd::[ai]' || command === 'cmd::[true-ai]') {
+    if (submitted) {
+      reportDeveloperCommand('Bài đã nộp; không thể thay đổi quyền gợi ý AI.', true);
+      return;
+    }
+    developerAiUnlocked = true;
+    developerAiHintOnly = command === 'cmd::[true-ai]';
+    renderQuestion();
+    reportDeveloperCommand(developerAiHintOnly
+      ? 'Đã mở gợi ý AI; yêu cầu AI không tiết lộ đáp án.'
+      : 'Đã mở liên kết AI có thể giải thích và chọn đáp án.');
+    return;
+  }
+  const timeCommand = command.match(/^cmd::\[time\.(\d+(?:\.\d+)?)\]$/);
+  if (timeCommand) {
+    const minutes = Number(timeCommand[1]);
+    if (!Number.isFinite(minutes) || minutes <= 0 || minutes > 525600) {
+      reportDeveloperCommand('Thời gian phải lớn hơn 0 và không quá 525600 phút.', true);
+      return;
+    }
+    if (!quizStarted || submitted) {
+      reportDeveloperCommand('Hãy bắt đầu một bài chưa nộp trước khi cộng thời gian.', true);
+      return;
+    }
+    const remainingSeconds = quizTimerDeadline
+      ? Math.max(0, Math.ceil((quizTimerDeadline - Date.now()) / 1000))
+      : 0;
+    selectedExamDurationSeconds = remainingSeconds + Math.ceil(minutes * 60);
+    activeFullExam = true;
+    startQuizTimer();
+    renderQuestion();
+    reportDeveloperCommand(`Đã cộng ${minutes} phút vào bài hiện tại.`);
+    return;
+  }
+  reportDeveloperCommand('Không nhận diện được lệnh. Dùng cmd::[board], cmd::[true], cmd::[fasle], cmd::[ai], cmd::[true-ai], cmd::[time.5] hoặc cmd::[open-scren].', true);
+}
+function getDeveloperElement(idSelector) {
+  if (!/^#[^\s|]+$/.test(idSelector)) {
+    reportDeveloperCommand('Chỉ chấp nhận bộ chọn ID dạng #element-id.', true);
+    return null;
+  }
+  const element = document.getElementById(idSelector.slice(1));
+  if (!element) {
+    reportDeveloperCommand(`Không tìm thấy phần tử ${idSelector}.`, true);
+    return null;
+  }
+  if (element.matches('html, body, script, style') ||
+    element.closest('#developer-board, #developer-board-bubble')) {
+    reportDeveloperCommand('Không thể sửa hoặc xóa phần tử gốc hay chính bảng lệnh.', true);
+    return null;
+  }
+  return element;
+}
+function refreshAfterQuestionSetChange(preferredQuestionIndex) {
+  currentIndex = Math.max(0, activeQuestionIndices.indexOf(preferredQuestionIndex));
+  renderQuestion();
+  renderGrid();
+  updateProgress();
+}
+function executeDeveloperElementCommand(originalCommand) {
+  const editMatch = originalCommand.match(/^cmd::\[edit\|(#?[^\s|]+)\|text\|([\s\S]*)\]$/i);
+  if (editMatch) {
+    const element = getDeveloperElement(editMatch[1]);
+    if (!element) return true;
+    const childNodes = Array.from(element.childNodes);
+    const oldValue = element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement
+      ? element.value
+      : null;
+    developerElementHistory.push({ type: 'element-edit', element, childNodes, oldValue });
+    if (oldValue !== null) element.value = editMatch[2];
+    else element.replaceChildren(document.createTextNode(editMatch[2]));
+    reportDeveloperCommand(`Đã sửa nội dung ${editMatch[1]}. Có thể dùng cmd::[restore] để hoàn tác.`);
+    return true;
+  }
+  const deleteMatch = originalCommand.match(/^cmd::\[delete\|(#?[^\s|]+)\]$/i);
+  if (deleteMatch) {
+    const element = getDeveloperElement(deleteMatch[1]);
+    if (!element) return true;
+    if (element.id === 'quiz-app') {
+      reportDeveloperCommand('Không thể xóa khung bài thi hoặc khối chứa câu hỏi. Hãy chọn một câu cụ thể.', true);
+      return true;
+    }
+    if (element.matches('.question-card')) {
+      if (submitted) {
+        reportDeveloperCommand('Không thể xóa câu hỏi sau khi nộp bài.', true);
+        return true;
+      }
+      const questionIndex = Number(element.id.slice('question-card-'.length));
+      const position = activeQuestionIndices.indexOf(questionIndex);
+      if (position < 0 || activeQuestionIndices.length <= 1) {
+        reportDeveloperCommand('Không tìm thấy câu trong bài hiện tại hoặc đây là câu cuối cùng.', true);
+        return true;
+      }
+      const currentQuestionIndex = activeQuestionIndices[currentIndex];
+      developerElementHistory.push({
+        type: 'question-delete',
+        questionList: questions,
+        activeQuestionList: activeQuestionIndices,
+        questionIndex,
+        position,
+        currentQuestionIndex
+      });
+      activeQuestionIndices.splice(position, 1);
+      refreshAfterQuestionSetChange(currentQuestionIndex);
+      reportDeveloperCommand(`Đã xóa câu ID ${questions[questionIndex].id} khỏi bài hiện tại. Dùng cmd::[restore] để khôi phục.`);
+      return true;
+    }
+    if (element.querySelector('.question-card')) {
+      reportDeveloperCommand('Không thể xóa khối đang chứa câu hỏi vì kết quả chấm sẽ không khớp.', true);
+      return true;
+    }
+    if (!element.parentNode) {
+      reportDeveloperCommand('Phần tử này đã bị xóa khỏi tài liệu.', true);
+      return true;
+    }
+    developerElementHistory.push({
+      type: 'element-delete',
+      element,
+      parent: element.parentNode,
+      nextSibling: element.nextSibling
+    });
+    element.remove();
+    reportDeveloperCommand(`Đã xóa ${deleteMatch[1]} khỏi giao diện. Dùng cmd::[restore] để khôi phục.`);
+    return true;
+  }
+  const questionEditMatch = originalCommand.match(/^cmd::\[question-edit\|(\d+)\|([\s\S]*)\]$/i);
+  if (questionEditMatch) {
+    if (submitted) {
+      reportDeveloperCommand('Không thể sửa câu hỏi sau khi nộp bài.', true);
+      return true;
+    }
+    const question = questions.find(item => item.id === Number(questionEditMatch[1]));
+    if (!question || !activeQuestionIndices.some(index => questions[index] === question)) {
+      reportDeveloperCommand(`Không tìm thấy câu hỏi ID ${questionEditMatch[1]} trong bài hiện tại.`, true);
+      return true;
+    }
+    developerElementHistory.push({
+      type: 'question-edit',
+      questionList: questions,
+      question,
+      questionIndex: questions.indexOf(question),
+      oldText: question.question,
+      oldAnswer: userAnswers[questions.indexOf(question)]
+    });
+    userAnswers[questions.indexOf(question)] = null;
+    question.question = questionEditMatch[2];
+    renderQuestion();
+    updateProgress();
+    reportDeveloperCommand(`Đã sửa nội dung câu hỏi ID ${question.id}. Dùng cmd::[restore] để hoàn tác.`);
+    return true;
+  }
+  const questionDeleteMatch = originalCommand.match(/^cmd::\[question-delete\|(\d+)\]$/i);
+  if (questionDeleteMatch) {
+    if (submitted) {
+      reportDeveloperCommand('Không thể xóa câu hỏi sau khi nộp bài.', true);
+      return true;
+    }
+    const question = questions.find(item => item.id === Number(questionDeleteMatch[1]));
+    const questionIndex = questions.indexOf(question);
+    const position = activeQuestionIndices.indexOf(questionIndex);
+    if (!question || position < 0 || activeQuestionIndices.length <= 1) {
+      reportDeveloperCommand(`Không tìm thấy câu hỏi ID ${questionDeleteMatch[1]} trong bài hiện tại hoặc đây là câu cuối cùng.`, true);
+      return true;
+    }
+    const currentQuestionIndex = activeQuestionIndices[currentIndex];
+    developerElementHistory.push({
+      type: 'question-delete',
+      questionList: questions,
+      activeQuestionList: activeQuestionIndices,
+      questionIndex,
+      position,
+      currentQuestionIndex
+    });
+    activeQuestionIndices.splice(position, 1);
+    refreshAfterQuestionSetChange(currentQuestionIndex);
+    reportDeveloperCommand(`Đã xóa câu hỏi ID ${question.id} khỏi bài hiện tại. Dùng cmd::[restore] để khôi phục.`);
+    return true;
+  }
+  if (/^cmd::\[restore\]$/i.test(originalCommand)) {
+    restoreDeveloperElement();
+    return true;
+  }
+  return false;
+}
+function restoreDeveloperElement() {
+  const change = developerElementHistory[developerElementHistory.length - 1];
+  if (!change) {
+    reportDeveloperCommand('Không có thao tác sửa/xóa nào để khôi phục.', true);
+    return;
+  }
+  if (change.type === 'element-edit') {
+    if (!change.element.isConnected) {
+      reportDeveloperCommand('Phần tử đã bị xóa. Hãy khôi phục thao tác xóa trước.', true);
+      return;
+    }
+    if (change.oldValue !== null) change.element.value = change.oldValue;
+    else change.element.replaceChildren(...change.childNodes);
+  } else if (change.type === 'element-delete') {
+    if (!change.parent.isConnected) {
+      reportDeveloperCommand('Phần tử cha chưa được khôi phục; hãy hoàn tác thao tác gần nhất trước.', true);
+      return;
+    }
+    const nextSibling = change.nextSibling?.parentNode === change.parent ? change.nextSibling : null;
+    change.parent.insertBefore(change.element, nextSibling);
+  } else {
+    if (questions !== change.questionList ||
+      (change.type === 'question-delete' && activeQuestionIndices !== change.activeQuestionList)) {
+      reportDeveloperCommand('Bài thi đã đổi; không thể khôi phục thao tác thuộc bài trước.', true);
+      return;
+    }
+    if (change.type === 'question-edit') {
+      change.question.question = change.oldText;
+      userAnswers[change.questionIndex] = change.oldAnswer;
+      renderQuestion();
+      updateProgress();
+    } else {
+      if (activeQuestionIndices.includes(change.questionIndex)) {
+        reportDeveloperCommand('Câu hỏi này đã có trong bài; không thể khôi phục trùng lặp.', true);
+        return;
+      }
+      activeQuestionIndices.splice(change.position, 0, change.questionIndex);
+      refreshAfterQuestionSetChange(change.currentQuestionIndex);
+    }
+  }
+  developerElementHistory.pop();
+  reportDeveloperCommand('Đã khôi phục thao tác sửa/xóa gần nhất.');
+}
 
 function renderQuestion() {
   const list = $('question-list');
+  developerElementHistory = developerElementHistory.filter(change => {
+    if (change.type === 'element-edit') return !list.contains(change.element);
+    if (change.type === 'element-delete') return !list.contains(change.parent);
+    return true;
+  });
   list.innerHTML = '';
   Object.entries(categories).forEach(([categoryKey, category]) => {
     const indices = activeQuestionIndices.filter(index => category.questionIds.has(questions[index].id));
@@ -634,7 +1306,7 @@ function createQuestionCard(questionIndex, position) {
     answerInput.className = 'question-text-answer w-full rounded-xl border border-slate-600 bg-slate-800 px-4 py-3 text-slate-100 outline-none focus:border-indigo-400';
     answerInput.placeholder = 'Nhập câu trả lời...';
     answerInput.value = userAnswers[questionIndex] || '';
-    answerInput.disabled = submitted;
+    answerInput.disabled = submitted || timeExpired;
     card.appendChild(answerInput);
   } else {
     const options = document.createElement('div');
@@ -645,7 +1317,7 @@ function createQuestionCard(questionIndex, position) {
       button.dataset.questionIndex = String(questionIndex);
       button.dataset.optionIndex = String(optionIndex);
       button.className = 'question-card-option';
-      button.disabled = submitted;
+      button.disabled = submitted || timeExpired;
       button.classList.toggle('is-selected', userAnswers[questionIndex] === optionIndex);
       if (submitted) {
         button.classList.toggle('is-correct', optionIndex === question.correct);
@@ -666,13 +1338,20 @@ function createQuestionCard(questionIndex, position) {
   const displayedOptions = getAnswerOrder(question).map((optionIndex, displayIndex) =>
     `${letter(displayIndex)}. ${question.options[optionIndex]}`);
   const passageText = question.passage ? `Đoạn văn:\n${question.passage.replace(/<[^>]+>/g, ' ')}\n` : '';
-  googleUrl.searchParams.set('q', `${passageText}Câu hỏi: ${question.question}\nCác phương án:\n${displayedOptions.join('\n')}\nHãy chọn đáp án đúng và giải thích.`);
+  const aiInstruction = developerAiHintOnly && !submitted
+    ? 'Hãy chỉ đưa ra một vài gợi ý từng bước để người học tự giải. Không tiết lộ đáp án, không chọn phương án đúng và không điền đáp án thay người học.'
+    : 'Hãy chọn đáp án đúng và giải thích.';
+  googleUrl.searchParams.set('q', `${passageText}Câu hỏi: ${question.question}\nCác phương án:\n${displayedOptions.join('\n')}\n${aiInstruction}`);
   googleLink.className = 'ask-google-ai mt-4 inline-flex rounded-lg border border-indigo-500/40 bg-indigo-500/10 px-3 py-2 text-xs font-medium text-indigo-200 hover:bg-indigo-500/20';
-  if (submitted) {
+  if (submitted || developerAiUnlocked) {
     googleLink.href = googleUrl.href;
     googleLink.target = '_blank';
     googleLink.rel = 'noopener noreferrer';
-    googleLink.textContent = 'Hỏi AI Google về câu này';
+    googleLink.textContent = !submitted && developerAiHintOnly
+      ? 'Gợi ý AI cho câu này'
+      : 'Hỏi AI Google về câu này';
+    googleLink.removeAttribute('aria-disabled');
+    googleLink.removeAttribute('tabindex');
   } else {
     googleLink.setAttribute('aria-disabled', 'true');
     googleLink.tabIndex = -1;
@@ -707,7 +1386,7 @@ function updateCurrentQuestion() {
   $('next-btn').disabled = currentIndex >= activeQuestionIndices.length - 1;
 }
 function selectAnswerForQuestion(questionIndex, optionIndex) {
-  if (submitted || !activeQuestionIndices.includes(questionIndex)) return;
+  if (submitted || timeExpired || !activeQuestionIndices.includes(questionIndex)) return;
   userAnswers[questionIndex] = optionIndex;
   const card = $(`question-card-${questionIndex}`);
   card.querySelectorAll('.question-card-option').forEach(button => {
@@ -767,6 +1446,9 @@ async function showResults() {
       updateSubmitProgress(Math.floor((c + 1) / activeQuestionIndices.length * 100), `Đang chấm: ${c + 1} / ${activeQuestionIndices.length}`);
     }
     submitted = true;
+    $('quiz-timer').hidden = true;
+    $('quiz-timer').classList.remove('is-open');
+    $('quiz-timer-rail').setAttribute('aria-expanded', 'false');
     renderQuestion();
     showResultsPanel();
     const total = activeQuestionIndices.length;
@@ -780,6 +1462,7 @@ async function showResults() {
 function updateSubmitProgress(p, s) { const v = Math.max(0, Math.min(100, p)); $('submit-progress-bar').style.width = `${v}%`; $('submit-progress-label').innerText = `${v}%`; $('submit-progress-status').innerText = s; }
 function toggleWrongReview() { wrongReviewVisible = !wrongReviewVisible; $('wrong-review').classList.toggle('hidden', !wrongReviewVisible); }
 function restartQuiz() {
+  timeExpired = false;
   currentIndex = 0; userAnswers = new Array(questions.length).fill(null); score = 0; submitted = false;
   activeQuestionIndices = getCategoryQuestionIndices(); unansweredOnly = false; wrongReviewVisible = false;
   $('results-panel').classList.add('hidden'); $('question-panel').classList.remove('hidden');
@@ -796,7 +1479,7 @@ function retryWrongQuestions() {
   const redo = activeQuestionIndices.filter(i => !isAnswerCorrect(questions[i], userAnswers[i]));
   if (!redo.length) { alert('Bạn đã làm đúng tất cả các câu!'); return; }
   redo.forEach(i => userAnswers[i] = null);
-  activeQuestionIndices = redo; currentIndex = 0; submitted = false; unansweredOnly = false; wrongReviewVisible = false;
+  activeQuestionIndices = redo; currentIndex = 0; submitted = false; timeExpired = false; unansweredOnly = false; wrongReviewVisible = false;
   $('wrong-review').classList.add('hidden');
   $('results-panel').classList.add('hidden'); $('question-panel').classList.remove('hidden');
   renderQuestion(); renderGrid(); updateProgress(); startQuizTimer();
@@ -842,5 +1525,5 @@ function handleQuizKeyboard(e) {
 }
 function toggleGrid() { const m = $('grid-modal'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
 window.onload = initApp;
-Object.assign(window, { applyEnteredAnswerCode, applyEnteredExamCode, generateNewAnswerCode, generateNewExamCode, nextQuestion, openSettings, prevQuestion, resetSettings, restartQuiz, retryWrongQuestions, reviewSubmittedAnswers, shareExamLink, toggleGrid, toggleUnansweredQuestions, toggleWrongReview });
+Object.assign(window, { applyEnteredAnswerCode, applyEnteredExamCode, generateNewAnswerCode, generateNewExamCode, nextQuestion, openSettings, prevQuestion, resetSettings, restartQuiz, retryWrongQuestions, reviewSubmittedAnswers, runQuizCommand: executeDeveloperCommand, shareExamLink, toggleGrid, toggleUnansweredQuestions, toggleWrongReview });
 })();
