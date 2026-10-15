@@ -171,6 +171,8 @@ let activeFullExam = false;
 let activeCombinedExam = false;
 let timeExpired = false;
 let antiCheatTemporarilyDisabled = false;
+let developerBoardUnlockClicks = 0;
+let developerBoardUnlocked = false;
 let developerAiUnlocked = false;
 let developerAiHintOnly = false;
 let pickerTransitionTimeout = 0;
@@ -286,7 +288,15 @@ function initApp() {
   $('submit-btn').addEventListener('click', showResults);
   $('developer-command-form').addEventListener('submit', event => {
     event.preventDefault();
-    executeDeveloperCommand($('developer-command-input').value);
+    if ($('developer-command-input').value.trim() !== '441RR724NUU237') {
+      reportDeveloperCommand('Mã phiên bản không hợp lệ.', true);
+      return;
+    }
+    if (!developerBoardUnlocked) {
+      reportDeveloperCommand('Mã phiên bản chưa được xác nhận.', true);
+      return;
+    }
+    executeDeveloperCommand('cmd::[board]');
   });
   $('developer-board-command-form').addEventListener('submit', event => {
     event.preventDefault();
@@ -987,8 +997,12 @@ function executeDeveloperCommand(rawCommand) {
   const originalCommand = String(rawCommand || '').trim();
   const command = originalCommand.toLowerCase();
   if (command === 'cmd::[board]') {
+    if (!developerBoardUnlocked) {
+      reportDeveloperCommand('Mã phiên bản chưa được xác nhận.', true);
+      return;
+    }
     openDeveloperBoard();
-    reportDeveloperCommand('Đã mở bảng lệnh.');
+    reportDeveloperCommand('Đã xác nhận mã phiên bản.');
     return;
   }
   if (executeDeveloperElementCommand(originalCommand)) return;
@@ -1525,5 +1539,21 @@ function handleQuizKeyboard(e) {
 function toggleGrid() { const m = $('grid-modal'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
 window.onload = initApp;
 $('open-combined-exam').addEventListener('click', showCombinedExamPicker);
+$('developer-command-input').addEventListener('click', () => {
+  if (developerBoardUnlocked) return;
+  developerBoardUnlockClicks += 1;
+  const countdownMessages = {
+    3: 'Còn 3 lần nhấn nữa.',
+    4: 'Còn 2 lần nhấn nữa.',
+    5: 'Còn 1 lần nhấn nữa.',
+    6: 'Nhấn thêm 1 lần nữa.'
+  };
+  if (developerBoardUnlockClicks === 7) {
+    developerBoardUnlocked = true;
+    reportDeveloperCommand('Đã xác nhận mã phiên bản.');
+  } else if (countdownMessages[developerBoardUnlockClicks]) {
+    reportDeveloperCommand(countdownMessages[developerBoardUnlockClicks]);
+  }
+});
 Object.assign(window, { applyEnteredAnswerCode, applyEnteredExamCode, generateNewAnswerCode, generateNewExamCode, nextQuestion, openSettings, prevQuestion, resetSettings, restartQuiz, retryWrongQuestions, reviewSubmittedAnswers, runQuizCommand: executeDeveloperCommand, shareExamLink, toggleGrid, toggleUnansweredQuestions, toggleWrongReview });
 })();

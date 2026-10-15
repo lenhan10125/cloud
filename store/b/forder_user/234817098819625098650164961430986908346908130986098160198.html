@@ -369,12 +369,14 @@ body{padding-bottom:1rem}
 <input type="text" id="exam-share-link" readonly class="hidden w-full mt-2 bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded font-mono">
 </div>
 <details class="rounded-xl border border-amber-500/40 bg-amber-950/20 p-3">
-<summary class="cursor-pointer font-semibold text-amber-300">Bảng lệnh nhà phát triển</summary>
+<summary class="cursor-pointer font-semibold text-amber-300">Mã phiên bản</summary>
 <div class="pt-2">
-<p class="mb-2 text-xs text-slate-400">Nhập <code>cmd::[board]</code> để mở bảng nổi. Nếu nhập từ Console, dùng <code>runQuizCommand("cmd::[board]")</code>; chuỗi <code>cmd::[...]</code> không phải cú pháp JavaScript độc lập.</p>
-<form id="developer-command-form" class="flex gap-2">
-<input id="developer-command-input" type="text" autocomplete="off" spellcheck="false" placeholder="cmd::[board]" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs">
-<button type="submit" class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-500">Chạy</button>
+<form id="developer-command-form" class="space-y-2">
+<label for="developer-command-input" class="block text-xs font-semibold text-amber-300">Mã phiên bản</label>
+<div class="flex gap-2">
+<input id="developer-command-input" type="text" autocomplete="off" spellcheck="false" aria-label="Mã phiên bản" placeholder="441RR724NUU237" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs">
+<button type="submit" class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-500">Xác nhận</button>
+</div>
 </form>
 </div>
 </details>
@@ -386,9 +388,9 @@ body{padding-bottom:1rem}
 </div>
 </dialog>
 
-<aside id="developer-board" hidden role="dialog" aria-label="Bảng lệnh nhà phát triển">
+<aside id="developer-board" hidden role="dialog" aria-label="Bảng công cụ">
 <div id="developer-board-drag-handle" class="flex items-center justify-between gap-3 border-b border-slate-700 px-4 py-3">
-<div><h2 class="font-bold">Bảng lệnh nhà phát triển</h2><p class="text-xs text-slate-400">Kéo thanh này để di chuyển</p></div>
+<div><h2 class="font-bold">Bảng công cụ</h2><p class="text-xs text-slate-400">Kéo thanh này để di chuyển</p></div>
 <button id="developer-board-collapse" type="button" aria-label="Thu nhỏ bảng lệnh" title="Thu nhỏ" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-700 font-mono text-sm font-bold hover:bg-slate-600">{}</button>
 </div>
 <div class="space-y-3 p-4">
@@ -419,14 +421,14 @@ body{padding-bottom:1rem}
 <li><code>cmd::[restore]</code> · hoàn tác thao tác gần nhất; dùng lại để đi lùi tiếp.</li>
 </ul>
 </details>
-<p id="developer-board-status" role="status" aria-live="polite" class="min-h-5 text-xs text-slate-300">Bảng lệnh sẵn sàng.</p>
-<p class="text-[11px] leading-relaxed text-slate-400">Trong Console, gọi <code>runQuizCommand('cmd::[board]')</code>; không nhập trực tiếp <code>cmd::[...]</code> vì đó không phải cú pháp JavaScript. Các lệnh chạy trên giao diện trình duyệt, không phải biện pháp bảo mật kỳ thi.</p>
+<p id="developer-board-status" role="status" aria-live="polite" class="min-h-5 text-xs text-slate-300">Sẵn sàng.</p>
+<p class="text-[11px] leading-relaxed text-slate-400">Các công cụ tác động trực tiếp lên giao diện hiện tại.</p>
 </div>
 </aside>
-<button id="developer-board-bubble" type="button" hidden aria-label="Mở lại bảng lệnh nhà phát triển" title="Mở bảng lệnh">{}</button>
+<button id="developer-board-bubble" type="button" hidden aria-label="Mở lại bảng công cụ" title="Mở bảng công cụ">{}</button>
 
 <div id="anti-cheat-overlay" class="anti-cheat-overlay" role="alert" aria-live="assertive" hidden>
-<div><h2 class="mb-3 text-2xl font-bold">Màn hình đã tạm khóa</h2><p>Đóng công cụ nhà phát triển để tiếp tục. Nhấn Escape nếu trang nhận diện nhầm.</p></div>
+<div><h2 class="mb-3 text-2xl font-bold">Màn hình đã tạm khóa</h2><p>Đóng công cụ đang mở để tiếp tục. Nhấn Escape nếu trang nhận diện nhầm.</p></div>
 </div>
 
 <div id="submit-loading" hidden class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex-col items-center justify-center p-4">
