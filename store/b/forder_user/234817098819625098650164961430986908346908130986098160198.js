@@ -130,27 +130,102 @@ const unit2Questions = [
   {id:154,passage:UNIT2_PASSAGE_GENERATION_GAP,question:"[Reading 2] The word “their” in the last paragraph refers to ________.",options:["the older generation's","the younger generation's","supervisor's","over-thirty people's"],correct:1,rationale:"their own generation quy chiếu về the younger generation."},
   {id:155,passage:UNIT2_PASSAGE_GENERATION_GAP,question:"[Reading 2] According to the passage, which is NOT true?",options:["The majority of Americans agree generations' viewpoint to be the major differences.","Technology is one of the two biggest areas creating the gap between the old and the young.","Grandparents feel uncomfortable with their grandchildren because of their better technology skills.","The elderly in America are admired in moral values, work ethic and respect for others."],correct:2,rationale:"Bài nói thế hệ lớn tuổi thường tự hào về khả năng công nghệ của người trẻ, không phải cảm thấy khó chịu."}
 ];
-const allUnitQuestions = unit1Questions.concat(unit2Questions);
+const UNIT3_PASSAGE_CITIES = `<p class="font-bold text-center">CITIES OF THE FUTURE</p>
+<p>Researchers recently gave 1,000 people a questionnaire about 'Cities of The Future'. To answer the questions, the people had to imagine and describe (1) ________ they thought our cities might look like in the year 2050. Interestingly, a large number of people were anxious that they would become 'dark, dangerous places', which had endless traffic jams (2) ________ very few green spaces. This group also predicted an increase in the level of (3) ________ and thought people would always need to wear facemasks in order to breathe. They also believed that it would be less safe to walk on the street as there would be 'more stealing' and other criminal behavior. A smaller number thought cities might become a lot cleaner, and might be built (4) ________ more interesting materials. They were also looking forward to new technology such as flying cars and moving pavements. In general, they believed that the cities of the future would offer a much more convenient way of living. (5) ________ people were uncertain; for example, they thought the size of apartments might reduce as the population of the city grew, but they also thought that public transport would become better.</p>`;
+const UNIT3_PASSAGE_SOCIAL_MEDIA = `<p class="font-bold text-center">SOCIAL MEDIA MARKETING</p>
+<p>Social media marketing has increased due to the growing active user rates on social media sites. For example, Facebook currently has 2.2 billion users, Twitter has 330 million active users and Instagram has 800 million users.</p>
+<p>One of the main uses is to interact with audiences to create awareness of the brand or service, with the main idea of creating a two-way communication system where the audience and/or customers can interact back; providing feedback as just one example. Social media can be used to advertise; placing an advert on Facebook's Newsfeed, for example, can allow a vast number of people to see it or targeting specific audiences from their usage to encourage awareness of the product or brand. Users of social media are then able to like, share and comment on the advert, becoming message senders as they can keep passing the advert's message on to their friends and onwards. The use of new media put consumers on the position of spreading opinions, sharing experience, and has shift power from organization to consumers for it allows transparency and different opinions to be heard.</p>
+<p>Media marketing has to keep up with all the different platforms. They also have to keep up with the ongoing trends that are set by big influencers and draw many peoples attention. The type of audience a business is going for will determine the social media site they use.</p>`;
+const unit3Questions = [
+  {id:201,question:"The project aims to improve the city's old ________ by creating more pedestrian zones and cycle paths.",options:["building","apartment","block","infrastructure"],correct:3,rationale:"Infrastructure là cơ sở hạ tầng của thành phố."},
+  {id:202,question:"A large portion of the air pollution in cities is caused by vehicle ________.",options:["emissions","smokes","gases","smog"],correct:0,rationale:"Vehicle emissions = khí thải từ phương tiện giao thông."},
+  {id:203,question:"Cities in the future will have a lower carbon footprint and will be more ________.",options:["changeable","believable","sustainable","controllable"],correct:2,rationale:"Sustainable = bền vững."},
+  {id:204,question:"Smart technologies have made lives of city ________ more convenient.",options:["investors","protestors","planners","dwellers"],correct:3,rationale:"City dwellers = cư dân thành phố."},
+  {id:205,question:"Many people in Ho Chi Minh said that its public ________ is better and cheaper than before.",options:["transport","trip","trek","travel"],correct:0,rationale:"Public transport = giao thông công cộng."},
+  {id:206,question:"My city was ranked as the most ________ city in the country thanks to its excellent facilities and clean air.",options:["livable","living","life","lives"],correct:0,rationale:"Livable city = thành phố đáng sống."},
+  {id:207,question:"Local authorities should find ways to limit the use of private cars and encourage city ________ to use public transport.",options:["commuters","planners","dwellers","people"],correct:0,rationale:"Commuters là những người đi lại hằng ngày giữa nhà và nơi làm việc."},
+  {id:208,question:"This eco-city, which is around 90 kilometers southwest of Tokyo, was built around a central park and was intended for every resident to be able to walk to a commercial ________.",options:["place","region","location","center"],correct:3,rationale:"Commercial center = trung tâm thương mại."},
+  {id:209,question:"The cities of the future will be 'smarter' and more sustainable to cope ________ a growing population and improve people's lives.",options:["with","for","in","on"],correct:0,rationale:"Cope with = đối phó với."},
+  {id:210,question:"People from all over the world come together in London, which is a global ________.",options:["district","town","city","metropolis"],correct:3,rationale:"Metropolis = đô thị lớn, trung tâm quan trọng."},
+  {id:211,question:"The new technologies can help save time by predicting changes in the traffic and warning people of possible ________.",options:["traffic jams","road regulations","rush hour","climate change"],correct:0,rationale:"Traffic jams = tắc nghẽn giao thông."},
+  {id:212,question:"The city gives its residents an ________ nightlife, in contrast to the country where the day finishes relatively early in the evening.",options:["activity","action","active","acting"],correct:2,rationale:"Active là tính từ bổ nghĩa cho nightlife."},
+  {id:213,question:"The roads are terrible every day. Therefore, I'm always getting ________ in traffic on the way to work.",options:["stuck","mad","tired","late"],correct:0,rationale:"Get stuck in traffic = bị kẹt xe."},
+  {id:214,question:"Yoga practice and physical activity, according to several researchers, can enhance people's ________ of life.",options:["quality","infrastructure","habitat","pace"],correct:0,rationale:"Quality of life = chất lượng cuộc sống."},
+  {id:215,question:"In London (UK), you do not have to buy public transport tickets. You can just touch your bank card on the card reader ________ you get on and off the bus or the underground to pay for your trip.",options:["when","what","why","where"],correct:0,rationale:"When diễn tả thời điểm bạn lên/xuống phương tiện."},
+  {id:216,question:"Tom and Hana are talking together. Tom: “Would you bother if I had a look at your apartment in HCM city?” Hana: “________”",options:["Well, actually I'd rather you didn't","Oh, I didn't realize it","You're welcome","That's a good idea"],correct:0,rationale:"I'd rather you didn't là cách lịch sự từ chối lời đề nghị."},
+  {id:217,question:"Eden and Edward are chatting after work. Eden: “Shall we organize a trip to the city center tomorrow, Edward?” Edward: “________!”",options:["That's all right","That's a great idea","It is very kind of you.","You are very welcome."],correct:1,rationale:"That's a great idea thể hiện sự đồng ý với lời đề nghị."},
+  {id:218,question:"Sue: “I am not interested in the idea of taking a gap year and going backpacking in Tokyo city in Japan.” Anne: “Well, ________”",options:["I am","help yourself","neither do I","that's life"],correct:0,rationale:"I am cho thấy Anne có ý kiến trái ngược: cô ấy có hứng thú với ý tưởng đó."},
+  {id:219,question:"A passer-by asks Peter for directions. Passer-by: “Excuse me. Where is the parking lot?” Peter: “________”",options:["You missed the turn. It's back that way.","Do you get lost? I do too.","You are going the wrong way. It's not here.","Why do you ask me? I don't know."],correct:0,rationale:"You missed the turn. It's back that way đưa ra chỉ dẫn rõ ràng."},
+  {id:220,question:"Hoa sees Hai sitting shyly at the City Hall and offers help. Hoa: “Can you help me with this decoration?” Hai: “________”",options:["Shall I take your hat off?","Yes, I can. Certainly!","Can I help you?","Could you please show me how to get to the nearest post office?"],correct:1,rationale:"Yes, I can. Certainly! trả lời phù hợp cho lời nhờ giúp đỡ."},
+  {id:221,question:"In the future, many large corporations in the city might be wiped out and millions of jobs can be lost. (CLOSEST in meaning to “corporations”)",options:["companies","services","supermarkets","farms"],correct:0,rationale:"Corporations = companies (các công ty/tập đoàn)."},
+  {id:222,question:"The medical community of our country continues to make progress in the fight against cancer. (CLOSEST in meaning to “progress”)",options:["speed","expectation","improvement","treatment"],correct:2,rationale:"Progress = improvement (sự tiến bộ)."},
+  {id:223,question:"A nuclear station which is about 50 miles from the city center may take risk going off due to unexpected incidents. (CLOSEST in meaning to “going off”)",options:["demolishing","exploding","developing","running"],correct:1,rationale:"Với nhà máy hạt nhân, go off có nghĩa là phát nổ."},
+  {id:224,question:"Domestic chores will no longer be a burden thanks to the inventions of laborsaving devices. (CLOSEST in meaning to “Domestic”)",options:["Official","Household","Schooling","Foreign"],correct:1,rationale:"Domestic = household (thuộc gia đình/trong nhà)."},
+  {id:225,question:"Telecommunication is bound to have a huge influence on various aspects of our lives. (CLOSEST in meaning to “influence”)",options:["depression","technique","expect","impact"],correct:3,rationale:"Influence = impact (ảnh hưởng/tác động)."},
+  {id:226,question:"A smart city is a modern urban area that uses a range of technologies to provide services, solve problems, and support people better. (OPPOSITE in meaning to “urban”)",options:["remote","deserted","suburban","rural"],correct:3,rationale:"Urban = thuộc thành thị; rural = thuộc nông thôn."},
+  {id:227,question:"Making room for biodiversity and nature can be done in various ways. (OPPOSITE in meaning to “various”)",options:["unchanged","alternative","diverse","divergent"],correct:0,rationale:"Various mang nghĩa đa dạng/nhiều loại; unchanged (không thay đổi) là lựa chọn đối lập nhất trong các phương án."},
+  {id:228,question:"You can also receive prescriptions and any other documents you need, all online. (OPPOSITE in meaning to “receive”)",options:["obtain","get","take","give"],correct:3,rationale:"Receive = nhận; give = đưa/cho."},
+  {id:229,question:"Private vehicles will be replaced by more efficient and sustainable public transport systems. (OPPOSITE in meaning to “private”)",options:["public","personal","particular","isolated"],correct:0,rationale:"Private trái nghĩa với public."},
+  {id:230,question:"More green spaces and parks in the future cities improve the quality of life and mitigate the effects of climate change. (OPPOSITE in meaning to “mitigate”)",options:["minimize","reduce","maximize","decrease"],correct:2,rationale:"Mitigate = làm giảm nhẹ; maximize = tăng lên tối đa."},
+  {id:231,passage:UNIT3_PASSAGE_CITIES,question:"[Reading 1 - Blank 1] The people had to imagine and describe (1) ________ they thought our cities might look like.",options:["what","when","why","where"],correct:0,rationale:"What là tân ngữ của look like: what they thought our cities might look like."},
+  {id:232,passage:UNIT3_PASSAGE_CITIES,question:"[Reading 1 - Blank 2] The cities had endless traffic jams (2) ________ very few green spaces.",options:["so","and","but","since"],correct:1,rationale:"And nối hai đặc điểm cùng chiều: tắc đường và ít không gian xanh."},
+  {id:233,passage:UNIT3_PASSAGE_CITIES,question:"[Reading 1 - Blank 3] This group also predicted an increase in the level of (3) ________.",options:["pollution","population","waste","vehicle"],correct:0,rationale:"Increase in the level of pollution = mức độ ô nhiễm tăng."},
+  {id:234,passage:UNIT3_PASSAGE_CITIES,question:"[Reading 1 - Blank 4] Cities might be built (4) ________ more interesting materials.",options:["out","in","from","at"],correct:2,rationale:"Be built from materials = được xây dựng từ các vật liệu."},
+  {id:235,passage:UNIT3_PASSAGE_CITIES,question:"[Reading 1 - Blank 5] (5) ________ people were uncertain about what future cities would be like.",options:["A little","Little","Few","A few"],correct:3,rationale:"A few đi với danh từ đếm được số nhiều people, mang nghĩa một vài người."},
+  {id:236,passage:UNIT3_PASSAGE_SOCIAL_MEDIA,question:"[Reading 2] Which best serves as the title for the passage?",options:["Advertisements on social media","New types of marketing","Let listen to our customers","Two-way communication"],correct:0,rationale:"Bài đọc tập trung vào việc sử dụng mạng xã hội để tiếp thị và quảng cáo."},
+  {id:237,passage:UNIT3_PASSAGE_SOCIAL_MEDIA,question:"[Reading 2] The word “vast” in the second paragraph is CLOSEST in meaning to ________.",options:["enormous","definite","small","certain"],correct:0,rationale:"Vast = enormous (rất lớn/rộng lớn)."},
+  {id:238,passage:UNIT3_PASSAGE_SOCIAL_MEDIA,question:"[Reading 2] Users can do the following with adverts on social media EXCEPT ________.",options:["like","share","pass","adjust"],correct:3,rationale:"Bài đọc nêu like, share, comment và chuyển tiếp quảng cáo; không nêu adjust."},
+  {id:239,passage:UNIT3_PASSAGE_SOCIAL_MEDIA,question:"[Reading 2] According to the third paragraph, what do media marketers have to keep up with?",options:["The type of audience","The new trends set by every normal user","All the various platforms","Other types of media"],correct:2,rationale:"Đoạn cuối nói người làm tiếp thị phải theo kịp tất cả các nền tảng khác nhau."},
+  {id:240,passage:UNIT3_PASSAGE_SOCIAL_MEDIA,question:"[Reading 2] What is the benefit of creating a two-way communication system?",options:["It allows customers to interact back","It provides examples for users","Users can create their own adverts","More and more people visit the sites"],correct:0,rationale:"Hệ thống giao tiếp hai chiều cho phép khán giả/khách hàng phản hồi."},
+  {id:241,question:"Even though it was raining heavily, the visitors decided to continue their trip around the city.",options:["It rained so heavily that the visitors could not continue their trip around the city.","The visitors put off their trip around the city due to the heavy rain.","The heavy rain could not prevent the visitors from continuing their trip around the city.","If it had rained heavily, the visitors would not have continued their trip around the city."],correct:2,rationale:"The heavy rain could not prevent them from continuing diễn đạt tương đương với Even though it was raining heavily."},
+  {id:242,question:"He had worked very hard for the future but he failed.",options:["Though he worked very hard for the future, he failed.","Thanks to his hard work for the future, he failed.","He did not succeed because of his being hard working for the future.","Even though being hard working for the future, he failed."],correct:0,rationale:"Though he worked very hard, he failed giữ nguyên quan hệ nhượng bộ và nghĩa câu."},
+  {id:243,question:"I did not answer the door even though I knew it was my friend.",options:["Unless I knew it was my friend, I would not answer the door.","I knew it was my friend, but I did not answer the door.","Only when I answered the door did I know it was my friend.","I answered the door since I knew it was my friend."],correct:1,rationale:"But nối hai ý tương phản: biết đó là bạn nhưng vẫn không mở cửa."},
+  {id:244,question:"The last time when I saw her in HCM city was three years ago.",options:["I have often seen her in HCM city for the last three years.","About three years ago, I used to meet her in HCM city.","I have not seen her in HCM city for three years.","I saw her in HCM city three years ago and will never meet her again."],correct:2,rationale:"The last time ... was three years ago tương đương haven't seen ... for three years."},
+  {id:245,question:"It is the earth's gravity that gives us our weight.",options:["If there were not the earth's gravity, we would be weightless.","Due to the earth's gravity we cannot weigh anything.","We are overweight because of the earth's gravity.","The earth's gravity is given weight by people."],correct:0,rationale:"Câu điều kiện loại 2 diễn đạt rằng không có trọng lực Trái Đất thì chúng ta sẽ không có trọng lượng."},
+  {id:246,question:"I have tried hard. However, I can't earn enough money to live well in the city.",options:["Although I have tried hard, I can't earn enough money to live well in the city.","In spite of I have tried hard, I can't earn enough money to live well in the city.","Despite I have tried hard, I can't earn enough money to live well in the city.","Although I have tried hard, but I can't earn enough money to live well in the city."],correct:0,rationale:"Although + mệnh đề diễn đạt sự tương phản; không dùng thêm but."},
+  {id:247,question:"My Tam is a pop star. She has many famous songs.",options:["My Tam, who has many famous songs, is a pop star.","My Tam, that has many famous songs, is a pop star.","My Tam, whose has many famous songs, is a pop star.","My Tam, which has many famous songs, is a pop star."],correct:0,rationale:"Who thay cho người và làm chủ ngữ trong mệnh đề quan hệ."},
+  {id:248,question:"I'm not rich. I can't help other people.",options:["If I am rich, I can help other people.","If I were rich, I can help other people.","If I am rich, I could help other people.","If I were rich, I could help other people."],correct:3,rationale:"Điều kiện loại 2: If + quá khứ đơn, would/could + động từ nguyên mẫu."},
+  {id:249,question:"The coffee was very strong. He couldn't drink it.",options:["The coffee was so strong that he could drink it.","He couldn't drink the strong coffee before.","The coffee was not weak enough for him to drink.","The coffee was too strong for him to drink."],correct:3,rationale:"Too + adjective + to-infinitive diễn đạt kết quả không thể uống được."},
+  {id:250,question:"The weather was very hot. The boys continued playing football in the schoolyard.",options:["Because of the weather was hot, the boys continued playing football in the schoolyard.","Because the hot weather, the boys continued playing football in the schoolyard.","In spite of the hot weather, the boys continued playing football in the schoolyard.","Despite the weather was hot, the boys continued playing football in the schoolyard."],correct:2,rationale:"In spite of + cụm danh từ diễn đạt sự tương phản."}
+];
+const allUnitQuestions = unit1Questions.concat(unit2Questions, unit3Questions);
 const combinedQuestionPools = {
   grammar: allUnitQuestions.filter(question =>
     (question.id >= 11 && question.id <= 30) || (question.id >= 116 && question.id <= 130)),
   synonyms: allUnitQuestions.filter(question =>
-    (question.id >= 1 && question.id <= 5) || (question.id >= 106 && question.id <= 110)),
+    (question.id >= 1 && question.id <= 5) || (question.id >= 106 && question.id <= 110) ||
+    (question.id >= 221 && question.id <= 225)),
   antonyms: allUnitQuestions.filter(question =>
-    (question.id >= 6 && question.id <= 10) || (question.id >= 111 && question.id <= 115)),
+    (question.id >= 6 && question.id <= 10) || (question.id >= 111 && question.id <= 115) ||
+    (question.id >= 226 && question.id <= 230)),
   reading: allUnitQuestions.filter(question =>
     (question.id >= 31 && question.id <= 35) || (question.id >= 151 && question.id <= 155)),
+  'unit3-reading': allUnitQuestions.filter(question => question.id >= 236 && question.id <= 240),
+  'unit3-vocabulary': allUnitQuestions.filter(question => question.id >= 201 && question.id <= 215),
+  dialogue: allUnitQuestions.filter(question =>
+    (question.id >= 41 && question.id <= 45) || (question.id >= 141 && question.id <= 145) ||
+    (question.id >= 216 && question.id <= 220)),
   'passage-fill': allUnitQuestions.filter(question =>
-    (question.id >= 36 && question.id <= 40) || (question.id >= 146 && question.id <= 150)),
-  'verb-fill': allUnitQuestions.filter(question => question.id >= 101 && question.id <= 105)
+    (question.id >= 36 && question.id <= 40) || (question.id >= 146 && question.id <= 150) ||
+    (question.id >= 231 && question.id <= 235)),
+  'verb-fill': allUnitQuestions.filter(question => question.id >= 101 && question.id <= 105),
+  'sentence-transformations': allUnitQuestions.filter(question =>
+    (question.id >= 131 && question.id <= 135) || (question.id >= 241 && question.id <= 245)),
+  'sentence-combining': allUnitQuestions.filter(question =>
+    (question.id >= 136 && question.id <= 140) || (question.id >= 246 && question.id <= 250))
 };
 const combinedCategoryLabels = {
   grammar: 'Ngữ pháp · Unit 1 + Unit 2',
   synonyms: 'Từ đồng nghĩa',
   antonyms: 'Từ trái nghĩa',
   reading: 'Reading · Đọc hiểu',
+  'unit3-reading': 'Reading · Unit 3',
+  'unit3-vocabulary': 'Từ vựng · Unit 3',
+  dialogue: 'Hội thoại',
   'passage-fill': 'Điền vào chỗ trống của đoạn văn',
-  'verb-fill': 'Điền động từ'
+  'verb-fill': 'Điền động từ',
+  'sentence-transformations': 'Viết lại câu',
+  'sentence-combining': 'Kết hợp câu'
 };
 const combinedExamQuestionCount = 31;
 function createCombinedCategories() {
@@ -242,6 +317,36 @@ const unit2Categories = {
   reading: {
     label: 'Reading',
     questionIds: new Set([146, 147, 148, 149, 150, 151, 152, 153, 154, 155])
+  }
+};
+const unit3Categories = {
+  'multiple-choice': {
+    label: 'Từ vựng · Trắc nghiệm',
+    questionIds: new Set(Array.from({ length: 15 }, (_, i) => i + 201))
+  },
+  dialogue: {
+    label: 'Hội thoại',
+    questionIds: new Set([216, 217, 218, 219, 220])
+  },
+  synonyms: {
+    label: 'Từ đồng nghĩa',
+    questionIds: new Set([221, 222, 223, 224, 225])
+  },
+  antonyms: {
+    label: 'Từ trái nghĩa',
+    questionIds: new Set([226, 227, 228, 229, 230])
+  },
+  reading: {
+    label: 'Reading',
+    questionIds: new Set(Array.from({ length: 10 }, (_, i) => i + 231))
+  },
+  'sentence-transformations': {
+    label: 'Viết lại câu',
+    questionIds: new Set([241, 242, 243, 244, 245])
+  },
+  'sentence-combining': {
+    label: 'Kết hợp câu',
+    questionIds: new Set([246, 247, 248, 249, 250])
   }
 };
 let activeUnit = 1;
@@ -368,6 +473,7 @@ function initApp() {
   });
   $('open-unit1').addEventListener('click', () => showUnitSections(1));
   $('open-unit2').addEventListener('click', () => showUnitSections(2));
+  $('open-unit3').addEventListener('click', () => showUnitSections(3));
   $('back-to-units-from-combined').addEventListener('click', showUnitPicker);
   $('combined-exam-options').addEventListener('click', event => {
     const button = event.target.closest('[data-combined-exam-code]');
@@ -389,17 +495,17 @@ function initApp() {
   const params = new URLSearchParams(window.location.search);
   const qt = params.get('token'), at = params.get('answerToken');
   const ok = c => typeof c === 'string' && /^[0-9A-F]{8}$/i.test(c);
-  activeCombinedExam = params.get('mode') === 'unit12';
+  activeCombinedExam = ['unit12', 'unit123'].includes(params.get('mode'));
   if (activeCombinedExam) {
     activeUnit = 0;
     questions = allUnitQuestions.slice();
     originalQuestions = allUnitQuestions.slice();
     categories = createCombinedCategories();
     selectedCategory = 'all';
-    $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2';
-    $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 · ${combinedExamQuestionCount} câu`;
+    $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2 + Unit 3';
+    $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 + Unit 3 · ${combinedExamQuestionCount} câu`;
     $('back-to-sections').textContent = '← Chọn mã đề khác';
-    document.title = 'Đề tổng hợp Unit 1 + Unit 2 · Bài tập Tiếng Anh';
+    document.title = 'Đề tổng hợp Unit 1 + Unit 2 + Unit 3 · Bài tập Tiếng Anh';
     $('unit-picker').classList.add('hidden');
     $('combined-exam-picker').classList.add('hidden');
     $('unit1-section-picker').classList.add('hidden');
@@ -486,9 +592,9 @@ function showUnitSections(unit = activeUnit) {
   stopQuizTimer();
   activeCombinedExam = false;
   activeUnit = unit;
-  questions = (unit === 2 ? unit2Questions : unit1Questions).slice();
+  questions = (unit === 3 ? unit3Questions : unit === 2 ? unit2Questions : unit1Questions).slice();
   originalQuestions = questions.slice();
-  categories = unit === 2 ? unit2Categories : unit1Categories;
+  categories = unit === 3 ? unit3Categories : unit === 2 ? unit2Categories : unit1Categories;
   setAnswerOrders(answerCode);
   questions.splice(0, questions.length, ...shuffleQuestions(examCode));
   selectedCategory = 'all';
@@ -496,11 +602,14 @@ function showUnitSections(unit = activeUnit) {
   submitted = false;
   quizStarted = false;
   $('section-unit-label').textContent = `Unit ${unit}`;
-  $('section-unit-title').textContent = unit === 2 ? 'The Generation Gap' : 'A Long and Healthy Life';
-  $('header-unit-title').textContent = unit === 2 ? 'Unit 2: The Generation Gap' : 'Unit 1: A Long and Healthy Life';
+  const unitTitle = unit === 3 ? 'Cities of the Future' :
+    unit === 2 ? 'The Generation Gap' : 'A Long and Healthy Life';
+  $('section-unit-title').textContent = unitTitle;
+  $('header-unit-title').textContent = `Unit ${unit}: ${unitTitle}`;
   document.title = `${$('header-unit-title').textContent} · Bài tập Tiếng Anh`;
   $('unit1-category-grid').classList.toggle('hidden', unit !== 1);
   $('unit2-category-grid').classList.toggle('hidden', unit !== 2);
+  $('unit3-category-grid').classList.toggle('hidden', unit !== 3);
   const total = questions.length;
   $('exam-time-summary').textContent = `Đề tổng hợp Unit ${unit} đủ ${total} câu · không giới hạn thời gian`;
   transitionPickerTo('unit1-section-picker');
@@ -515,7 +624,7 @@ function showCombinedExamPicker() {
   $('quiz-app').hidden = true;
   transitionPickerTo('combined-exam-picker');
   const codes = new Set();
-  while (codes.size < 4) codes.add(createExamCode());
+  while (codes.size < 10) codes.add(createExamCode());
   $('combined-exam-options').replaceChildren(...Array.from(codes, (code, index) => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -544,10 +653,10 @@ function startCombinedExam(code) {
   selectedCategory = 'all';
   activeFullExam = true;
   submitted = false;
-  $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2';
-  $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 · ${combinedExamQuestionCount} câu`;
+  $('header-unit-title').textContent = 'Đề tổng hợp Unit 1 + Unit 2 + Unit 3';
+  $('active-category-label').textContent = `Đề tổng hợp Unit 1 + Unit 2 + Unit 3 · ${combinedExamQuestionCount} câu`;
   $('back-to-sections').textContent = '← Chọn mã đề khác';
-  document.title = 'Đề tổng hợp Unit 1 + Unit 2 · Bài tập Tiếng Anh';
+  document.title = 'Đề tổng hợp Unit 1 + Unit 2 + Unit 3 · Bài tập Tiếng Anh';
   $('combined-exam-picker').classList.add('hidden');
   $('unit-picker').classList.add('hidden');
   $('unit1-section-picker').classList.add('hidden');
@@ -709,35 +818,23 @@ function shuffleQuestions(code) {
         passageGroups.set(question.passage, group);
       });
       const groups = Array.from(passageGroups.values());
-      if (groups.length !== 2 || groups.some(group => group.length !== 5)) {
+      if (groups.length < 2 || groups.some(group => group.length !== 5)) {
         throw new Error(`Unexpected ${categoryKey} passage question pool.`);
       }
       return shuffleList(groups, createSeededRandom(seed))[0];
     };
-    const pickAllPassages = categoryKey => {
-      let seed = base;
-      for (const char of categoryKey) seed = Math.imul(seed ^ char.charCodeAt(0), 0x45d9f3b) >>> 0;
-      const passageGroups = new Map();
-      combinedQuestionPools[categoryKey].forEach(question => {
-        const group = passageGroups.get(question.passage) || [];
-        group.push(question);
-        passageGroups.set(question.passage, group);
-      });
-      const groups = Array.from(passageGroups.values());
-      if (groups.length !== 2 || groups.some(group => group.length !== 5)) {
-        throw new Error(`Unexpected ${categoryKey} passage question pool.`);
-      }
-      return shuffleList(groups, createSeededRandom(seed)).flatMap((group, index) =>
-        shuffleList(group, createSeededRandom(seed ^ Math.imul(index + 1, 0x9E3779B1)))
-      );
-    };
     const selected = {
-      grammar: pick('grammar', 12),
+      grammar: pick('grammar', 7),
+      'unit3-vocabulary': pick('unit3-vocabulary', 2),
+      dialogue: pick('dialogue', 1),
       synonyms: pick('synonyms', 1),
       antonyms: pick('antonyms', 1),
-      reading: pickAllPassages('reading'),
+      reading: pickPassage('reading'),
+      'unit3-reading': pick('unit3-reading', 5),
       'passage-fill': pickPassage('passage-fill'),
-      'verb-fill': pick('verb-fill', 2)
+      'verb-fill': pick('verb-fill', 2),
+      'sentence-transformations': pick('sentence-transformations', 1),
+      'sentence-combining': pick('sentence-combining', 1)
     };
     categories = createCombinedCategories();
     Object.entries(selected).forEach(([categoryKey, selectedQuestions]) => {
@@ -819,7 +916,7 @@ function syncExamCodesToUrl() {
   try {
     const url = new URL(window.location.href);
     url.searchParams.set('token', examCode); url.searchParams.set('answerToken', answerCode);
-    if (activeCombinedExam) url.searchParams.set('mode', 'unit12');
+    if (activeCombinedExam) url.searchParams.set('mode', 'unit123');
     else url.searchParams.delete('mode');
     if (url.protocol === 'http:' || url.protocol === 'https:') window.history.replaceState(window.history.state, '', url);
   } catch (e) {}
@@ -827,7 +924,7 @@ function syncExamCodesToUrl() {
 async function shareExamLink() {
   const url = new URL(window.location.href);
   url.searchParams.set('token', examCode); url.searchParams.set('answerToken', answerCode);
-  if (activeCombinedExam) url.searchParams.set('mode', 'unit12');
+  if (activeCombinedExam) url.searchParams.set('mode', 'unit123');
   else url.searchParams.delete('mode');
   const li = $('exam-share-link'); li.value = url.href; li.classList.remove('hidden');
   try {

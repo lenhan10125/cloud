@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bài Tập Tiếng Anh - Unit 1: A Long and Healthy Life</title>
+<title>Bài tập Tiếng Anh · Units 1–3</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{--quiz-font-size:16px;--page-background:#0f172a}
@@ -163,10 +163,14 @@ body{padding-bottom:1rem}
 <span class="block text-xl font-bold text-indigo-300">Unit 2</span>
 <span class="block text-sm text-slate-300 mt-2">The Generation Gap · 55 câu</span>
 </button>
+<button id="open-unit3" type="button" class="rounded-2xl border border-indigo-500 bg-indigo-950/50 hover:bg-indigo-900/60 p-6 text-left transition">
+<span class="block text-xl font-bold text-indigo-300">Unit 3</span>
+<span class="block text-sm text-slate-300 mt-2">Cities of the Future · 50 câu</span>
+</button>
 </div>
-<button id="open-combined-exam" type="button" class="unit-exam-button" aria-label="Tạo đề tổng hợp Unit 1 và Unit 2">
+<button id="open-combined-exam" type="button" class="unit-exam-button" aria-label="Tạo đề tổng hợp Unit 1, Unit 2 và Unit 3">
 <span class="unit-exam-button-icon" aria-hidden="true">✦</span>
-<span class="unit-exam-button-copy"><strong>Đề tổng hợp Unit 1 + Unit 2</strong><span>Chọn 1 trong 4 mã đề ngẫu nhiên · 31 câu mỗi đề</span></span>
+<span class="unit-exam-button-copy"><strong>Đề tổng hợp Unit 1 + Unit 2 + Unit 3</strong><span>Chọn 1 trong 10 mã đề ngẫu nhiên · 31 câu mỗi đề</span></span>
 <span class="unit-exam-button-arrow" aria-hidden="true">→</span>
 </button>
 </section>
@@ -175,9 +179,9 @@ body{padding-bottom:1rem}
 <main id="combined-exam-picker" class="picker-screen hidden max-w-4xl mx-auto px-4 py-12">
 <button id="back-to-units-from-combined" type="button" class="mb-6 px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-sm">← Chọn Unit khác</button>
 <section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 md:p-8 shadow-xl">
-<p class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1 + Unit 2</p>
+<p class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1 + Unit 2 + Unit 3</p>
 <h1 class="text-2xl md:text-3xl font-bold text-slate-100 mb-2">Chọn mã đề tổng hợp</h1>
-<p class="text-slate-400 mb-6">Mỗi đề có 31 câu được chọn ngẫu nhiên: 12 câu trắc nghiệm, 1 câu đồng nghĩa, 1 câu trái nghĩa, trọn 2 bài Reading (10 câu), trọn 1 bài điền đoạn văn (5 câu) và 2 câu điền động từ. Mã đề sẽ giữ nguyên bộ câu hỏi khi chia sẻ bằng token.</p>
+<p class="text-slate-400 mb-6">Mỗi đề có 31 câu lấy từ cả ba Unit: ngữ pháp, từ vựng và hội thoại; đồng nghĩa, trái nghĩa; hai bài Reading; một bài điền đoạn văn; điền động từ; viết lại câu và kết hợp câu. Mã đề giữ nguyên bộ câu hỏi khi chia sẻ bằng token.</p>
 <div id="combined-exam-options" class="grid sm:grid-cols-2 gap-4"></div>
 </section>
 </main>
@@ -214,6 +218,15 @@ body{padding-bottom:1rem}
 <button type="button" data-category="sentence-combining" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Kết hợp câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
 <button type="button" data-category="dialogue" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Speaking · Hội thoại</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
 <button type="button" data-category="reading" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Reading</span><span class="block text-sm text-slate-400 mt-2">10 câu · 5 điền từ và 5 đọc hiểu</span></button>
+</div>
+<div id="unit3-category-grid" class="hidden grid sm:grid-cols-2 gap-4">
+<button type="button" data-category="multiple-choice" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ vựng · Trắc nghiệm</span><span class="block text-sm text-slate-400 mt-2">15 câu</span></button>
+<button type="button" data-category="dialogue" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Hội thoại</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
+<button type="button" data-category="synonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ đồng nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
+<button type="button" data-category="antonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ trái nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
+<button type="button" data-category="reading" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Reading</span><span class="block text-sm text-slate-400 mt-2">10 câu · 5 điền từ và 5 đọc hiểu</span></button>
+<button type="button" data-category="sentence-transformations" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Viết lại câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
+<button type="button" data-category="sentence-combining" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Kết hợp câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
 </div>
 <button id="generate-exam" type="button" class="unit-exam-button" aria-label="Tạo đề luyện tổng hợp theo dạng đề thi">
 <span class="unit-exam-button-icon" aria-hidden="true">✦</span>
