@@ -358,7 +358,6 @@ function initApp() {
   });
   $('open-unit1').addEventListener('click', () => showUnitSections(1));
   $('open-unit2').addEventListener('click', () => showUnitSections(2));
-  $('open-combined-exam').addEventListener('click', showCombinedExamPicker);
   $('back-to-units-from-combined').addEventListener('click', showUnitPicker);
   $('combined-exam-options').addEventListener('click', event => {
     const button = event.target.closest('[data-combined-exam-code]');
@@ -1525,5 +1524,6 @@ function handleQuizKeyboard(e) {
 }
 function toggleGrid() { const m = $('grid-modal'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
 window.onload = initApp;
+$('open-combined-exam').addEventListener('click', showCombinedExamPicker);
 Object.assign(window, { applyEnteredAnswerCode, applyEnteredExamCode, generateNewAnswerCode, generateNewExamCode, nextQuestion, openSettings, prevQuestion, resetSettings, restartQuiz, retryWrongQuestions, reviewSubmittedAnswers, runQuizCommand: executeDeveloperCommand, shareExamLink, toggleGrid, toggleUnansweredQuestions, toggleWrongReview });
 })();
