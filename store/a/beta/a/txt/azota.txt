@@ -1,461 +1,179 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bài tập Tiếng Anh · Units 1–3</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-:root{--quiz-font-size:16px;--page-background:#0f172a}
-body{font-size:var(--quiz-font-size);background-color:var(--page-background);color:#f8fafc;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
-dialog::backdrop{background:rgba(0,0,0,.7)}
-[hidden]{display:none!important}
-body[data-theme="light"]{color:#0f172a}
-body[data-theme="light"] [class*="bg-slate-"]{background-color:#fff}
-body[data-theme="light"] [class*="text-slate-"]{color:#334155!important}
-body[data-theme="light"] [class*="text-indigo-"]{color:#3730a3!important}
-body[data-theme="light"] [class*="text-emerald-"]{color:#047857!important}
-body[data-theme="light"] [class*="text-rose-"]{color:#be123c!important}
-body[data-theme="light"] [class*="text-cyan-"]{color:#0e7490!important}
-body[data-theme="light"] [class*="text-amber-"]{color:#92400e!important}
-body[data-theme="light"] [class*="border-slate-"]{border-color:#cbd5e1}
-body[data-theme="light"] .question-card{background-color:#fff}
-body[data-theme="light"] .question-section>h2{background-color:rgba(248,250,252,.97);color:#3730a3}
-body[data-theme="light"] .question-card-option{background:#f8fafc;color:#1e293b}
-body[data-theme="light"] .question-card-option .text-indigo-300{color:#3730a3!important}
-body[data-theme="light"] .question-card-option.is-selected{background:#e0e7ff;color:#312e81}
-body[data-theme="light"] .question-card-option.is-correct{background:#d1fae5;color:#065f46}
-body[data-theme="light"] .question-card-option.is-incorrect{background:#ffe4e6;color:#9f1239}
-body[data-theme="light"] input:not([type="range"]):not([type="color"]),body[data-theme="light"] dialog{background-color:#fff;color:#0f172a}
-body[data-theme="light"] .exam-time-mode{background:#fff;color:#1e293b}
-body[data-theme="light"] .quiz-timer{background:#fff;color:#1e293b;border-color:#94a3b8}
-body[data-theme="light"] .quiz-timer-rail{background:#fff;color:#0f172a}
-body[data-theme="light"] .quiz-timer.is-warning{color:#92400e}
-body[data-theme="light"] .quiz-timer.is-expired{color:#b91c1c}
-body[data-theme="light"] .quiz-timer.is-expired .quiz-timer-rail{color:#b91c1c}
-body[data-theme="light"] .exam-time-heading{color:#334155}
-body[data-theme="light"] .exam-time-mode-copy span{color:#475569}
-body[data-theme="light"] .anti-cheat-overlay{background:#000;color:#fff}
-.exam-time-picker{margin-top:18px;text-align:left}
-.exam-time-heading{margin:0 0 10px;color:#cbd5e1;font-size:13px;font-weight:700}
-.exam-time-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.exam-time-mode{display:flex;min-height:58px;align-items:center;gap:10px;padding:11px 14px;border:1px solid #475569;border-radius:12px;background:#0f172a;color:#e2e8f0;text-align:left;cursor:pointer;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
-.exam-time-mode:hover{transform:translateY(-1px);border-color:#facc15;background:#1e293b}
-.exam-time-mode[aria-pressed=true]{border-color:#facc15;background:rgba(250,204,21,.12);box-shadow:0 0 0 1px rgba(250,204,21,.25),0 0 18px rgba(250,204,21,.12)}
-.exam-time-mode-symbol{font-size:20px;font-weight:800;color:#facc15}
-.exam-time-mode-copy{display:flex;min-width:0;flex-direction:column;gap:2px}
-.exam-time-mode-copy strong{font-size:13px}
-.exam-time-mode-copy span{font-size:11px;color:#94a3b8}
-.exam-time-mode-infinite{grid-column:1/-1;min-height:76px;padding:15px 18px;border-color:#eab308;background:linear-gradient(110deg,rgba(250,204,21,.2),rgba(245,158,11,.1));box-shadow:0 0 0 1px rgba(250,204,21,.15),0 0 22px rgba(250,204,21,.12)}
-.exam-time-mode-infinite .exam-time-mode-symbol{font-size:36px}
-.exam-time-mode-infinite .exam-time-mode-copy strong{font-size:18px}
-.exam-time-mode-infinite .exam-time-mode-copy span{font-size:12px}
-.quiz-timer{position:fixed;top:50%;right:0;z-index:20;display:flex;align-items:stretch;width:58px;height:62px;overflow:hidden;border:1px solid #475569;border-right:0;border-radius:14px 0 0 14px;background:#0f172a;color:#e2e8f0;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.3);transform:translateY(-50%);font-variant-numeric:tabular-nums;transition:width .24s ease,border-color .2s,box-shadow .2s}
-.quiz-timer-rail{display:flex;width:58px;min-width:58px;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:5px;border:0;background:#0f172a;color:inherit;cursor:pointer}
-.quiz-timer-rail-icon{font-size:16px;line-height:1}
-.quiz-timer-compact{font-family:ui-monospace,monospace;font-size:11px;font-weight:800}
-.quiz-timer-details{display:flex;width:0;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:5px;overflow:hidden;opacity:0;transition:width .24s ease,opacity .16s ease}
-.quiz-timer:hover,.quiz-timer:focus-within,.quiz-timer.is-open{width:226px;border-color:#64748b;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.quiz-timer:hover .quiz-timer-details,.quiz-timer:focus-within .quiz-timer-details,.quiz-timer.is-open .quiz-timer-details{width:168px;opacity:1}
-.quiz-timer-main{display:flex;align-items:center;justify-content:center;gap:7px;font-family:ui-monospace,monospace;font-size:16px;font-weight:800}
-.quiz-timer-elapsed{font-size:11px;color:#94a3b8;white-space:nowrap}
-.quiz-timer-expired-message{display:none;font-size:11px;font-weight:700;color:#fca5a5;white-space:nowrap}
-.quiz-timer.is-warning{border-color:#f59e0b;color:#fbbf24}
-.quiz-timer.is-expired{border-color:#ef4444;color:#fca5a5}
-.quiz-timer.is-expired .quiz-timer-rail{color:#fecaca;animation:timerPulse 1s ease-in-out infinite}
-.quiz-timer.is-expired #quiz-timer-value{color:#ef4444}
-.quiz-timer.is-expired .quiz-timer-expired-message{display:block}
-.quiz-timer.is-expired .quiz-timer-elapsed{display:none}
-.quiz-timer.is-expired #submit-btn{background:#dc2626;animation:timerPulse 1s ease-in-out infinite}
-.quiz-timer.is-expired #submit-btn:hover{background:#b91c1c}
-#submit-btn{flex:0 0 auto;padding:7px 14px}
-@keyframes timerPulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(239,68,68,.25)}50%{opacity:.72;box-shadow:0 0 0 5px rgba(239,68,68,.12)}}
-.quiz-timer[hidden]{display:none}
-@media(max-width:640px){#quiz-timer{top:auto;right:0;bottom:calc(14px + env(safe-area-inset-bottom));width:50px;min-width:0;height:56px;transform:none}#quiz-timer .quiz-timer-rail{width:50px;min-width:50px}#quiz-timer:hover,#quiz-timer:focus-within,#quiz-timer.is-open{width:min(218px,calc(100vw - 12px))}#quiz-timer:hover .quiz-timer-details,#quiz-timer:focus-within .quiz-timer-details,#quiz-timer.is-open .quiz-timer-details{width:min(168px,calc(100vw - 62px))}.quiz-timer-main{font-size:14px}}
-.quiz-status-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-left:auto}
-.quiz-status-bar{transition:padding .18s ease,gap .18s ease,opacity .18s ease}
-.quiz-status-bar.is-compact{width:max-content;max-width:100%;gap:.5rem;margin-bottom:.75rem;padding:.4rem .65rem;border-radius:9999px;opacity:.88}
-.quiz-status-bar.is-compact #answered-count,.quiz-status-bar.is-compact #unanswered-filter-btn{display:none}
-.quiz-status-bar.is-compact #question-badge{margin-bottom:0}
-.anti-cheat-overlay{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#000;color:#fff;text-align:center;padding:24px}
-.anti-cheat-overlay[hidden]{display:none}
-#quiz-header{transition:transform .22s ease}
-#quiz-header.quiz-header-compact{transform:translateY(calc(-100% + 18px))}
-#quiz-header.quiz-header-compact:hover,#quiz-header.quiz-header-compact:focus-within{transform:translateY(0)}
-#quiz-header.quiz-header-compact .quiz-header-codes,#quiz-header.quiz-header-compact [data-action="open-settings"]{visibility:hidden;opacity:0;pointer-events:none}
-.quiz-header-codes{transition:opacity .16s ease}
-#quiz-header.quiz-header-compact~main .question-section>h2{top:8px}
-#quiz-header.quiz-header-compact~main .question-card{scroll-margin-top:20px}
-#developer-board{position:fixed;top:18%;left:calc(50% - 180px);z-index:1100;width:min(360px,calc(100vw - 24px));max-height:min(80vh,720px);overflow:auto;overscroll-behavior:contain;resize:both;min-width:min(280px,calc(100vw - 24px));min-height:min(300px,calc(100vh - 24px));max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);border:1px solid #64748b;border-radius:16px;background:#0f172a;color:#f8fafc;box-shadow:0 20px 60px rgba(0,0,0,.45)}
-#developer-board[hidden],#developer-board-bubble[hidden]{display:none}
-#developer-board-drag-handle{touch-action:none;cursor:grab;user-select:none}
-#developer-board-drag-handle:active{cursor:grabbing}
-#developer-board-bubble{position:fixed;right:14px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:1100;display:grid;width:48px;height:48px;place-items:center;border:1px solid #818cf8;border-radius:50%;background:#312e81;color:#fff;font-family:ui-monospace,monospace;font-size:15px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.35)}
-.developer-command-button{display:flex;min-height:38px;align-items:center;justify-content:flex-start;border:1px solid #475569;border-radius:9px;background:#1e293b;padding:7px 9px;color:inherit;font-family:ui-monospace,monospace;font-size:11px;text-align:left;overflow-wrap:anywhere}
-.developer-command-button:hover{border-color:#818cf8;background:#312e81}
-body[data-theme="light"] #developer-board{background:#fff;color:#0f172a;border-color:#94a3b8}
-body[data-theme="light"] .developer-command-button{background:#f1f5f9;color:#0f172a;border-color:#cbd5e1}
-body[data-theme="light"] .developer-command-button:hover{background:#e0e7ff;border-color:#818cf8}
-.unit-exam-button{position:relative;isolation:isolate;display:flex;align-items:center;gap:16px;width:100%;margin-top:24px;padding:19px 22px;overflow:hidden;border:1px solid #fde047;border-radius:16px;background:linear-gradient(110deg,#facc15,#f59e0b 48%,#facc15);color:#422006;text-align:left;box-shadow:0 0 0 1px rgba(253,224,71,.25),0 0 24px rgba(250,204,21,.3),0 12px 28px rgba(0,0,0,.25);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
-.unit-exam-button::before{position:absolute;z-index:-1;inset:-80% auto -80% -40%;width:28%;content:"";transform:rotate(22deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:examEnchant 3.2s ease-in-out infinite}
-.unit-exam-button:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 0 0 2px rgba(253,224,71,.45),0 0 34px rgba(250,204,21,.55),0 16px 34px rgba(0,0,0,.3)}
-.unit-exam-button:focus-visible{outline:3px solid #fef08a;outline-offset:4px}
-.unit-exam-button-icon{display:grid;width:46px;height:46px;flex:0 0 46px;place-items:center;border:1px solid rgba(120,53,15,.25);border-radius:13px;background:rgba(255,255,255,.32);font-size:27px;animation:examSparkle 2.4s ease-in-out infinite}
-.unit-exam-button-copy{display:flex;min-width:0;flex:1;flex-direction:column;gap:4px}
-.unit-exam-button-copy strong{font-size:16px;font-weight:800}
-.unit-exam-button-copy span{font-size:12px;line-height:1.5;color:#713f12}
-.unit-exam-button-arrow{font-size:26px;font-weight:700;transition:transform .2s ease}
-.unit-exam-button:hover .unit-exam-button-arrow{transform:translateX(4px)}
-@keyframes examEnchant{0%,60%{left:-40%}100%{left:130%}}
-@keyframes examSparkle{0%,100%{transform:rotate(0) scale(1)}50%{transform:rotate(12deg) scale(1.1)}}
-@media(prefers-reduced-motion:reduce){.unit-exam-button::before,.unit-exam-button-icon{animation:none}.unit-exam-button,.unit-exam-button-arrow{transition:none}}
-.question-section{scroll-margin-top:90px}
-.question-card{scroll-margin-top:100px}
-.question-section,.question-card,#question-list{min-width:0;max-width:100%;box-sizing:border-box}
-#question-list .question-card{padding:clamp(.75rem,2vw,1.25rem);overflow-wrap:anywhere}
-#question-list .question-card h3,#question-list .question-card-option,#question-list .question-card .question-text-answer,#question-list .question-section>div:not(.question-card){font-size:var(--quiz-font-size)}
-.question-card-option{box-sizing:border-box;overflow-wrap:anywhere;white-space:normal;line-height:1.5}
-.question-card h3{overflow-wrap:anywhere}
-.picker-screen{transition:opacity .22s ease,transform .22s ease}
-.picker-screen.is-leaving,.picker-screen.is-entering{opacity:0;transform:translateY(8px);pointer-events:none}
-#quiz-app{transition:opacity .22s ease,transform .22s ease}
-#quiz-app.is-entering{opacity:0;transform:translateY(8px)}
-.question-card-option{width:100%;text-align:left;padding:14px 16px;border-radius:12px;border:1px solid #475569;background:rgba(51,65,85,.5);color:#e2e8f0;transition:background .15s,border-color .15s}
-.question-card-option:not(:disabled):hover{background:rgba(79,70,229,.2);border-color:#6366f1}
-.question-card-option.is-selected{background:rgba(79,70,229,.3);border-color:#818cf8;color:#e0e7ff}
-.question-card-option.is-correct{background:rgba(6,78,59,.4);border-color:#10b981;color:#a7f3d0}
-.question-card-option.is-incorrect{background:rgba(127,29,29,.4);border-color:#f43f5e;color:#fecdd3}
-@media(max-width:480px){.exam-time-options{grid-template-columns:1fr}.exam-time-mode-infinite{grid-column:auto}}
-@media(max-width:640px){
-body{padding-bottom:1rem}
-#unit-picker,#unit1-section-picker,#combined-exam-picker{padding-top:1.25rem;padding-bottom:1.5rem}
-#unit-picker>section,#unit1-section-picker>section,#combined-exam-picker>section{padding:1rem}
-#quiz-app>header{padding:.55rem .75rem}
-#quiz-app>header>div{flex-wrap:wrap;gap:.5rem}
-#quiz-header.quiz-header-compact{transform:translateY(calc(-100% + 16px))}
-#header-unit-title{font-size:1rem;line-height:1.3}
-#quiz-app>header .text-xs{overflow-wrap:anywhere}
-#quiz-app>main{margin-top:1rem;padding-left:.75rem;padding-right:.75rem}
-#question-panel{padding:.75rem;margin-bottom:1rem}
-#question-list{gap:1rem}
-.question-section{gap:.75rem}
-.question-section>h2{padding:.65rem .8rem}
-#question-list .question-card{padding:.75rem}
-.question-card-option{padding:11px 12px}
-.quiz-status-actions{gap:.4rem}
-#developer-board{top:auto;left:12px;bottom:calc(80px + env(safe-area-inset-bottom));width:min(360px,calc(100vw - 24px));max-height:70vh}
-}
-@media(prefers-reduced-motion:reduce){.picker-screen,#quiz-app,.quiz-timer,.quiz-timer-details,#quiz-header{transition:none}.quiz-timer.is-expired .quiz-timer-rail,.quiz-timer.is-expired #submit-btn{animation:none}}
-</style>
-</head>
-<body class="min-h-screen pb-12">
-<main id="unit-picker" class="picker-screen is-active max-w-4xl mx-auto px-4 py-16">
-<section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-8 shadow-xl text-center">
-<p class="text-sm uppercase tracking-widest text-indigo-300 mb-3">Bài tập Tiếng Anh</p>
-<h1 class="text-3xl md:text-4xl font-bold text-slate-100 mb-3">Chọn Unit</h1>
-<p class="text-slate-400 mb-8">Chọn một Unit để xem các phần bài tập.</p>
-<div class="grid sm:grid-cols-2 gap-4 text-left">
-<button id="open-unit1" type="button" class="rounded-2xl border border-indigo-500 bg-indigo-950/50 hover:bg-indigo-900/60 p-6 text-left transition">
-<span class="block text-xl font-bold text-indigo-300">Unit 1</span>
-<span class="block text-sm text-slate-300 mt-2">A Long and Healthy Life · 45 câu</span>
-</button>
-<button id="open-unit2" type="button" class="rounded-2xl border border-indigo-500 bg-indigo-950/50 hover:bg-indigo-900/60 p-6 text-left transition">
-<span class="block text-xl font-bold text-indigo-300">Unit 2</span>
-<span class="block text-sm text-slate-300 mt-2">The Generation Gap · 55 câu</span>
-</button>
-<button id="open-unit3" type="button" class="rounded-2xl border border-indigo-500 bg-indigo-950/50 hover:bg-indigo-900/60 p-6 text-left transition">
-<span class="block text-xl font-bold text-indigo-300">Unit 3</span>
-<span class="block text-sm text-slate-300 mt-2">Cities of the Future · 50 câu</span>
-</button>
-</div>
-<button id="open-combined-exam" type="button" class="unit-exam-button" aria-label="Tạo đề tổng hợp Unit 1, Unit 2 và Unit 3">
-<span class="unit-exam-button-icon" aria-hidden="true">✦</span>
-<span class="unit-exam-button-copy"><strong>Đề tổng hợp Unit 1 + Unit 2 + Unit 3</strong><span>Chọn 1 trong 10 mã đề ngẫu nhiên · 31 câu mỗi đề</span></span>
-<span class="unit-exam-button-arrow" aria-hidden="true">→</span>
-</button>
-</section>
-</main>
+// ==UserScript==
+// @name       Azota SUPREME Anti-Cheat & Traffic Limit Bypass (v15.3)
+// @namespace    https://oriciin.cloud
+// @version      15.4.0
+// @description  Hệ thống Tường lửa 6 Lớp (Firewall v13.0), tự động vượt thông báo quá tải VIP Azota, mở khóa bôi đen chuột/copy & chặn quảng cáo.
+// @author       Oriciin & AI Collaborator
+// @match        *://*.azota.vn/*
+// @run-at       document-start
+// ==/UserScript==
 
-<main id="combined-exam-picker" class="picker-screen hidden max-w-4xl mx-auto px-4 py-12">
-<button id="back-to-units-from-combined" type="button" class="mb-6 px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-sm">← Chọn Unit khác</button>
-<section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 md:p-8 shadow-xl">
-<p class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1 + Unit 2 + Unit 3</p>
-<h1 class="text-2xl md:text-3xl font-bold text-slate-100 mb-2">Chọn mã đề tổng hợp</h1>
-<p class="text-slate-400 mb-6">Mỗi đề có 31 câu lấy từ cả ba Unit: ngữ pháp, từ vựng và hội thoại; đồng nghĩa, trái nghĩa; hai bài Reading; một bài điền đoạn văn; điền động từ; viết lại câu và kết hợp câu. Mã đề giữ nguyên bộ câu hỏi khi chia sẻ bằng token.</p>
-<div id="combined-exam-options" class="grid sm:grid-cols-2 gap-4"></div>
-</section>
-</main>
+(function() {
+    'use strict';
+    console.clear();
+    
+    const consoleStyle = `
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #0000ff, #8b00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        padding: 5px 0;
+    `;
+    
+    console.log("%c§§§§§§§§§§§§△△△△△△§§§§§§§§§§§§§§ [TƯỜNG LỬA v15.3 SUPREME] 🚀 Khởi động Anti-Cheat 6 Lớp, Auto Bypass & AdBlock thành công! §§§§§§§§§§§§△△△△△△§§§§§§§§§§§§§§", consoleStyle);
 
-<main id="unit1-section-picker" class="picker-screen hidden max-w-4xl mx-auto px-4 py-12">
-<button id="back-to-units" type="button" class="mb-6 px-4 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-sm">← Chọn Unit khác</button>
-<section class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 md:p-8 shadow-xl">
-<p id="section-unit-label" class="text-sm uppercase tracking-widest text-indigo-300 mb-2">Unit 1</p>
-<h1 id="section-unit-title" class="text-2xl md:text-3xl font-bold text-slate-100 mb-2">A Long and Healthy Life</h1>
-<p class="text-slate-400 mb-6">Chọn một phần để bắt đầu. Các câu có đoạn văn sẽ tự hiển thị đoạn đọc tương ứng.</p>
-<div id="unit1-category-grid" class="grid sm:grid-cols-2 gap-4">
-<button type="button" data-category="multiple-choice" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition">
-<span class="block font-bold text-indigo-300">Trắc nghiệm ngữ pháp</span><span class="block text-sm text-slate-400 mt-2">20 câu</span>
-</button>
-<button type="button" data-category="dialogue" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition">
-<span class="block font-bold text-indigo-300">Hội thoại</span><span class="block text-sm text-slate-400 mt-2">5 câu giao tiếp</span>
-</button>
-<button type="button" data-category="reading" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition">
-<span class="block font-bold text-indigo-300">Reading</span><span class="block text-sm text-slate-400 mt-2">10 câu · 5 câu đọc hiểu và 5 câu điền đoạn văn</span>
-</button>
-<button type="button" data-category="synonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition">
-<span class="block font-bold text-indigo-300">Từ đồng nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span>
-</button>
-<button type="button" data-category="antonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition">
-<span class="block font-bold text-indigo-300">Từ trái nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span>
-</button>
-</div>
-<div id="unit2-category-grid" class="hidden grid sm:grid-cols-2 gap-4">
-<button type="button" data-category="modal-practice" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Modal verbs · Điền từ</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="synonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ đồng nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="antonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ trái nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="grammar" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Ngữ pháp · Modal verbs</span><span class="block text-sm text-slate-400 mt-2">15 câu</span></button>
-<button type="button" data-category="sentence-transformations" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Viết lại câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="sentence-combining" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Kết hợp câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="dialogue" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Speaking · Hội thoại</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="reading" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Reading</span><span class="block text-sm text-slate-400 mt-2">10 câu · 5 điền từ và 5 đọc hiểu</span></button>
-</div>
-<div id="unit3-category-grid" class="hidden grid sm:grid-cols-2 gap-4">
-<button type="button" data-category="multiple-choice" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ vựng · Trắc nghiệm</span><span class="block text-sm text-slate-400 mt-2">15 câu</span></button>
-<button type="button" data-category="dialogue" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Hội thoại</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="synonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ đồng nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="antonyms" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Từ trái nghĩa</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="reading" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Reading</span><span class="block text-sm text-slate-400 mt-2">10 câu · 5 điền từ và 5 đọc hiểu</span></button>
-<button type="button" data-category="sentence-transformations" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Viết lại câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-<button type="button" data-category="sentence-combining" class="rounded-xl border border-slate-600 bg-slate-900/60 hover:border-indigo-400 p-5 text-left transition"><span class="block font-bold text-indigo-300">Kết hợp câu</span><span class="block text-sm text-slate-400 mt-2">5 câu</span></button>
-</div>
-<button id="generate-exam" type="button" class="unit-exam-button" aria-label="Tạo đề luyện tổng hợp theo dạng đề thi">
-<span class="unit-exam-button-icon" aria-hidden="true">✦</span>
-<span class="unit-exam-button-copy"><strong>Làm đề theo dạng bài thi</strong><span id="exam-time-summary">Đề tổng hợp Unit 1 đủ 45 câu · không giới hạn thời gian</span></span>
-<span class="unit-exam-button-arrow" aria-hidden="true">→</span>
-</button>
-<div class="exam-time-picker" role="group" aria-labelledby="exam-time-heading">
-<p id="exam-time-heading" class="exam-time-heading">Chọn thời gian làm đề</p>
-<div class="exam-time-options">
-<button type="button" class="exam-time-mode exam-time-mode-infinite" data-exam-duration="0" aria-pressed="true">
-<span class="exam-time-mode-symbol" aria-hidden="true">∞</span><span class="exam-time-mode-copy"><strong>Infinite Time</strong><span>Không giới hạn · Mặc định</span></span>
-</button>
-<button type="button" class="exam-time-mode" data-exam-duration="7200" aria-pressed="false">
-<span class="exam-time-mode-symbol" aria-hidden="true">◷</span><span class="exam-time-mode-copy"><strong>Trung bình</strong><span>120 phút</span></span>
-</button>
-<button type="button" class="exam-time-mode" data-exam-duration="3000" aria-pressed="false">
-<span class="exam-time-mode-symbol" aria-hidden="true">⚡</span><span class="exam-time-mode-copy"><strong>Pro</strong><span>50 phút</span></span>
-</button>
-<button type="button" class="exam-time-mode" data-exam-duration="600" aria-pressed="false">
-<span class="exam-time-mode-symbol" aria-hidden="true">⌁</span><span class="exam-time-mode-copy"><strong>Smart</strong><span>10 phút</span></span>
-</button>
-<button type="button" class="exam-time-mode" data-exam-duration="30" aria-pressed="false">
-<span class="exam-time-mode-symbol" aria-hidden="true">✦</span><span class="exam-time-mode-copy"><strong>Ultimate Braint</strong><span>30 giây</span></span>
-</button>
-</div>
-</div>
-</section>
-</main>
+    // =========================================================================
+    // PHẦN 0: HỆ THỐNG CHẶN QUẢNG CÁO & POPUP RÁC (AD-BLOCKER)
+    // =========================================================================
+    function initAdBlocker() {
+        // 1. Chèn CSS ẩn các banner, iframe quảng cáo, lớp phủ modal rác thường gặp
+        const adStyle = document.createElement('style');
+        adStyle.id = 'suprem-adblock-style';
+        adStyle.textContent = `
+            iframe[src*="ads"], iframe[src*="googlesyndication"], iframe[src*="facebook"], 
+            .adsbygoogle, .ad-banner, .advertisement, div[id*="google_ads"], 
+            div[class*="popup-ads"], div[class*="banner-ads"], .swal2-container.swal2-backdrop-show {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+        `;
+        (document.head || document.documentElement).appendChild(adStyle);
 
-<div id="quiz-app" hidden>
-<header id="quiz-header" class="bg-slate-800 border-b border-slate-700 sticky top-0 z-10 px-4 py-3 shadow-md">
-<div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
-<div class="flex items-center space-x-3">
-<h1 id="header-unit-title" class="font-bold text-base sm:text-lg text-indigo-400">Unit 1: A Long and Healthy Life</h1>
-<span class="quiz-header-codes text-xs bg-slate-700 px-2 py-1 rounded text-slate-300 break-all">Đề: <span id="header-exam-code" class="font-mono text-emerald-400">--------</span> | Đáp án: <span id="header-answer-code" class="font-mono text-cyan-400">--------</span></span>
-</div>
-<div class="flex items-center space-x-2">
-<button data-action="toggle-grid" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition">📋 Danh sách</button>
-<button data-action="open-settings" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-medium transition">⚙️ Cài đặt</button>
-</div>
-</div>
-</header>
+        // 2. Chặn các yêu cầu mạng tải script quảng cáo bên thứ ba (nếu có)
+        const originalFetch = window.fetch;
+        window.fetch = async function(...args) {
+            const url = args[0]?.toString() || '';
+            if (/ads|tracker|analytics|telemetry|banner/i.test(url) && !url.includes('azota.vn')) {
+                return new Response(JSON.stringify({}), { status: 200, headers: { 'Content-Type': 'application/json' } });
+            }
+            return originalFetch.apply(this, args);
+        };
 
-<main class="max-w-4xl mx-auto px-4 mt-6">
-<div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-<p id="active-category-label" class="text-sm font-semibold text-indigo-300"></p>
-<button id="back-to-sections" type="button" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-xs">← Danh sách phần</button>
-</div>
-<div id="quiz-status-bar" class="quiz-status-bar bg-slate-800/80 rounded-2xl border border-slate-700 p-4 mb-6 flex flex-wrap gap-4 items-center justify-between">
-<div>
-<span id="question-badge" class="inline-block bg-indigo-900/60 text-indigo-300 border border-indigo-700 text-xs font-semibold px-2.5 py-1 rounded-full mb-1">Câu hỏi 1 / --</span>
-<p id="answered-count" class="text-xs text-slate-400">Đã làm 0 / --</p>
-</div>
-<div id="quiz-status-actions" class="quiz-status-actions">
-<button id="unanswered-filter-btn" data-action="toggle-unanswered" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-2 rounded-lg transition">Chỉ câu chưa làm</button>
-<div id="quiz-timer" class="quiz-timer" hidden>
-<div class="quiz-timer-details">
-<div class="quiz-timer-main" role="timer" aria-live="off"><span aria-hidden="true">◷</span><span id="quiz-timer-value">∞</span></div>
-<span id="quiz-elapsed-value" class="quiz-timer-elapsed">Đã dùng 00:00</span>
-<span class="quiz-timer-expired-message">Hết giờ · Không thể sửa đáp án</span>
-<button id="submit-btn" type="button" class="rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition shadow-lg shadow-emerald-900/30">Nộp bài</button>
-</div>
-<button id="quiz-timer-rail" type="button" class="quiz-timer-rail" aria-label="Mở thanh thời gian" aria-expanded="false">
-<span class="quiz-timer-rail-icon" aria-hidden="true">◷</span><span id="quiz-timer-compact" class="quiz-timer-compact">∞</span>
-</button>
-</div>
-</div>
-</div>
+        // 3. Theo dõi DOM để tự động dọn dẹp các khung quảng cáo hoặc pop-up chèn sau khi tải trang
+        const adObserver = new MutationObserver((mutations) => {
+            for (let mutation of mutations) {
+                if (mutation.addedNodes) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const el = node;
+                            // Kiểm tra các từ khóa quảng cáo hoặc modal trôi nổi đáng ngờ
+                            const className = (el.className && typeof el.className === 'string') ? el.className.toLowerCase() : '';
+                            const idName = (el.id && typeof el.id === 'string') ? el.id.toLowerCase() : '';
+                            
+                            if (className.includes('ads') || className.includes('banner') || idName.includes('ads') || idName.includes('pop-up')) {
+                                el.remove();
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
-<section id="question-panel" class="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 shadow-xl mb-6">
-<div id="question-list" class="space-y-8"></div>
-</section>
+        if (document.documentElement) {
+            adObserver.observe(document.documentElement, { childList: true, subtree: true });
+        }
+    }
 
-<div id="navigation-controls" class="hidden flex items-center justify-between">
-<button id="prev-btn" data-action="prev-question" class="px-5 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium transition disabled:opacity-40 disabled:cursor-not-allowed">← Câu trước</button>
-<div class="flex items-center space-x-2">
-<button id="next-btn" data-action="next-question" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition shadow-lg shadow-indigo-900/30 disabled:opacity-40 disabled:cursor-not-allowed">Câu tiếp theo →</button>
-</div>
-</div>
+    initAdBlocker();
 
-<section id="results-panel" class="hidden bg-slate-800/90 rounded-2xl border border-slate-700 p-6 shadow-xl text-center">
-<h2 class="text-2xl font-bold text-slate-100 mb-2">Kết Quả Bài Làm</h2>
-<p id="results-score" class="text-xl font-bold text-emerald-400 mb-1">Số câu đúng: 0 / 0</p>
-<p id="results-unanswered" class="text-sm text-slate-400 mb-6"></p>
-<div class="flex flex-wrap justify-center gap-3 mb-6">
-<button data-action="review-submitted" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-medium text-sm transition">Xem lại bài làm</button>
-<button id="review-wrong-btn" data-action="toggle-wrong" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 rounded-xl font-medium text-sm transition">Xem lại câu sai</button>
-<button id="retry-wrong-btn" data-action="retry-wrong" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 rounded-xl font-medium text-sm transition">Làm lại câu sai</button>
-<button data-action="restart-quiz" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-medium text-sm transition">Làm lại từ đầu</button>
-</div>
-<p id="no-wrong-answers" class="hidden text-emerald-400 font-medium my-4"></p>
-<div id="wrong-review" class="hidden space-y-4 text-left border-t border-slate-700 pt-6"></div>
-</section>
-</main>
+    // =========================================================================
+    // PHẦN 1: HỆ THỐNG TƯỜNG LỬA 6 LỚP (ANTI-DETECTION FIREWALL)
+    // =========================================================================
 
-<div id="grid-modal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm items-center justify-center p-4">
-<div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 shadow-2xl max-h-[85vh] flex flex-col">
-<div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700">
-<h3 id="question-grid-title" class="font-bold text-lg text-slate-100">Danh sách câu hỏi</h3>
-<button data-action="toggle-grid" class="text-slate-400 hover:text-white text-xl">✕</button>
-</div>
-<div id="question-grid" class="grid grid-cols-5 sm:grid-cols-8 gap-2 overflow-y-auto p-1 mb-4"></div>
-<div class="flex justify-end"><button data-action="toggle-grid" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-medium">Đóng</button></div>
-</div>
-</div>
+    // Lớp 1: Bẫy Function Constructor (Vô hiệu hóa vòng lặp 'debugger')
+    const nativeConstructor = Function.prototype.constructor;
+    Function.prototype.constructor = function(...args) {
+        if (args && args.some(arg => String(arg).includes('debugger'))) return function() {};
+        return nativeConstructor.apply(this, args);
+    };
 
-<dialog id="settings-modal" class="rounded-2xl bg-slate-800 text-slate-100 border border-slate-700 p-6 max-w-lg w-full shadow-2xl">
-<div class="flex justify-between items-center mb-6 pb-2 border-b border-slate-700">
-<h3 class="text-lg font-bold">Cài đặt & Mã đề</h3>
-<form method="dialog"><button class="text-slate-400 hover:text-white text-xl">✕</button></form>
-</div>
-<div class="space-y-5 text-sm">
-<div>
-<label for="theme-setting" class="block mb-2 font-medium">Giao diện:</label>
-<select id="theme-setting" class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm">
-<option value="system">Theo hệ thống (mặc định)</option>
-<option value="light">Sáng</option>
-<option value="dark">Tối</option>
-</select>
-</div>
-<div>
-<label class="block mb-2 font-medium">Kích thước chữ (px):</label>
-<div class="flex items-center space-x-3">
-<input type="range" id="font-size-setting" min="14" max="22" value="16" class="w-full accent-indigo-500">
-<output id="font-size-value" class="font-mono text-indigo-400 w-8">16</output>
-</div>
-</div>
-<div>
-<label class="block mb-2 font-medium">Màu nền:</label>
-<input type="color" id="background-color-setting" value="#0f172a" class="w-full h-10 rounded cursor-pointer bg-slate-700 border-none">
-</div>
-<hr class="border-slate-700">
-<div>
-<label class="block mb-1 font-medium">Mã xáo trộn câu hỏi:</label>
-<div class="flex gap-2 mb-2">
-<input type="text" id="exam-code-input" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 font-mono text-sm uppercase w-full">
-<button data-action="apply-exam-code" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap">Áp dụng</button>
-<button data-action="new-exam-code" class="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap">Đổi mới</button>
-</div>
-<input type="hidden" id="current-exam-code">
-</div>
-<div>
-<label class="block mb-1 font-medium">Mã xáo trộn đáp án:</label>
-<div class="flex gap-2 mb-2">
-<input type="text" id="answer-code-input" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 font-mono text-sm uppercase w-full">
-<button data-action="apply-answer-code" class="bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap">Áp dụng</button>
-<button data-action="new-answer-code" class="bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap">Đổi mới</button>
-</div>
-<input type="hidden" id="current-answer-code">
-</div>
-<div class="pt-2">
-<button data-action="share-exam-link" class="w-full bg-emerald-600 hover:bg-emerald-500 py-2 rounded-xl font-semibold transition">🔗 Chia sẻ link đề thi này</button>
-<input type="text" id="exam-share-link" readonly class="hidden w-full mt-2 bg-slate-900 border border-slate-700 text-slate-300 text-xs p-2 rounded font-mono">
-</div>
-<details class="rounded-xl border border-amber-500/40 bg-amber-950/20 p-3">
-<summary class="cursor-pointer font-semibold text-amber-300">Mã phiên bản</summary>
-<div class="pt-2">
-<form id="developer-command-form" class="space-y-2">
-<label for="developer-command-input" class="block text-xs font-semibold text-amber-300">Mã phiên bản</label>
-<div class="flex gap-2">
-<input id="developer-command-input" type="text" autocomplete="off" spellcheck="false" aria-label="Mã phiên bản" placeholder="441RR724NUU237" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs">
-<button type="submit" class="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-500">Xác nhận</button>
-</div>
-</form>
-</div>
-</details>
-<p id="exam-code-status" class="text-xs text-slate-400 mt-2 min-h-[1.25rem]"></p>
-</div>
-<div class="mt-6 flex justify-between">
-<button data-action="reset-settings" class="text-xs text-slate-400 hover:text-slate-200 underline">Khôi phục mặc định</button>
-<form method="dialog"><button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-medium">Đóng</button></form>
-</div>
-</dialog>
+    // Lớp 2: Làm giả timing Performance
+    const originalNow = window.performance.now;
+    window.performance.now = function() { return Math.floor(originalNow.apply(this, arguments)); };
 
-<aside id="developer-board" hidden role="dialog" aria-label="Bảng công cụ">
-<div id="developer-board-drag-handle" class="flex items-center justify-between gap-3 border-b border-slate-700 px-4 py-3">
-<div><h2 class="font-bold">Bảng công cụ</h2><p class="text-xs text-slate-400">Kéo thanh này để di chuyển</p></div>
-<button id="developer-board-collapse" type="button" aria-label="Thu nhỏ bảng lệnh" title="Thu nhỏ" class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-700 font-mono text-sm font-bold hover:bg-slate-600">{}</button>
-</div>
-<div class="space-y-3 p-4">
-<div class="grid grid-cols-2 gap-2">
-<button type="button" class="developer-command-button" data-dev-command="cmd::[board]">cmd::[board]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[open-scren]">cmd::[open-scren]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[fasle]">cmd::[fasle]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[true]">cmd::[true]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[ai]">cmd::[ai]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[true-ai]">cmd::[true-ai]</button>
-<button type="button" class="developer-command-button" data-dev-command="cmd::[time.5]">cmd::[time.5] · +5 phút</button>
-<button type="button" class="developer-command-button col-span-2" data-dev-command="cmd::[close-scren]">cmd::[close-scren] · Bật lại chống gian lận</button>
-</div>
-<form id="developer-board-command-form" class="space-y-2">
-<label for="developer-board-command-input" class="block text-xs font-semibold text-slate-300">Lệnh thủ công</label>
-<div class="flex gap-2">
-<input id="developer-board-command-input" type="text" autocomplete="off" spellcheck="false" placeholder="cmd::[time.10]" class="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 font-mono text-xs text-slate-100">
-<button type="submit" class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-500">Chạy</button>
-</div>
-</form>
-<details class="rounded-lg border border-slate-700 p-2">
-<summary class="cursor-pointer text-xs font-semibold">Sửa/xóa phần tử và câu hỏi</summary>
-<ul class="mt-2 space-y-1 text-[11px] leading-relaxed text-slate-300">
-<li><code>cmd::[edit|#element-id|text|Nội dung mới]</code> · sửa nội dung chữ của phần tử có id.</li>
-<li><code>cmd::[delete|#element-id]</code> · xóa phần tử khỏi giao diện.</li>
-<li><code>cmd::[question-edit|ID|Nội dung câu mới]</code> · sửa nội dung câu hỏi theo ID.</li>
-<li><code>cmd::[question-delete|ID]</code> · xóa câu khỏi bài hiện tại.</li>
-<li><code>cmd::[restore]</code> · hoàn tác thao tác gần nhất; dùng lại để đi lùi tiếp.</li>
-</ul>
-</details>
-<p id="developer-board-status" role="status" aria-live="polite" class="min-h-5 text-xs text-slate-300">Sẵn sàng.</p>
-<p class="text-[11px] leading-relaxed text-slate-400">Các công cụ tác động trực tiếp lên giao diện hiện tại.</p>
-</div>
-</aside>
-<button id="developer-board-bubble" type="button" hidden aria-label="Mở lại bảng công cụ" title="Mở bảng công cụ">{}</button>
+    // Lớp 3: Vô hiệu hóa Console Inspection
+    ['log', 'warn', 'error', 'info', 'table', 'clear'].forEach(method => {
+        const original = console[method];
+        console[method] = function(...args) {
+            if (args.some(arg => arg && (typeof arg === 'function' || arg.toString().includes('Element')))) return;
+            if (typeof original === 'function') original.apply(console, args);
+        };
+    });
 
-<div id="anti-cheat-overlay" class="anti-cheat-overlay" role="alert" aria-live="assertive" hidden>
-<div><h2 class="mb-3 text-2xl font-bold">Màn hình đã tạm khóa</h2><p>Đóng công cụ đang mở để tiếp tục. Nhấn Escape nếu trang nhận diện nhầm.</p></div>
-</div>
+    // Lớp 4: Cố định kích thước màn hình ảo
+    const SCREEN_WIDTH = window.innerWidth || 1366, SCREEN_HEIGHT = window.innerHeight || 768;
+    const freezeProperty = (target, prop, value) => {
+        try { Object.defineProperty(target, prop, { get: () => value, set: () => {}, configurable: false, enumerable: true }); } catch (e) {}
+    };
 
-<div id="submit-loading" hidden class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex-col items-center justify-center p-4">
-<div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl max-w-sm w-full text-center shadow-2xl">
-<div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-<h3 class="text-lg font-bold mb-2">Đang chấm bài...</h3>
-<p id="submit-progress-status" class="text-xs text-slate-400 mb-4">Đang xử lý dữ liệu</p>
-<div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden mb-2"><div id="submit-progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-200"></div></div>
-<span id="submit-progress-label" class="text-xs font-mono text-indigo-400">0%</span>
-</div>
-</div>
-</div>
+    freezeProperty(window, 'innerWidth', SCREEN_WIDTH); freezeProperty(window, 'innerHeight', SCREEN_HEIGHT);
+    freezeProperty(window, 'outerWidth', SCREEN_WIDTH); freezeProperty(window, 'outerHeight', SCREEN_HEIGHT);
+    freezeProperty(window, 'screenX', 0); freezeProperty(window, 'screenY', 0);
+    freezeProperty(window, 'screenLeft', 0); freezeProperty(window, 'screenTop', 0);
+    freezeProperty(screen, 'width', SCREEN_WIDTH); freezeProperty(screen, 'height', SCREEN_HEIGHT);
+    freezeProperty(screen, 'availWidth', SCREEN_WIDTH); freezeProperty(screen, 'availHeight', SCREEN_HEIGHT);
 
-<script id="java-data-function" src="../../java/java_data_function.js"></script>
-<script src="234817098819625098650164961430986908346908130986098160198.js"></script>
-</body>
-</html>
+    // Lớp 5: Chống chặn phím tắt F12, Ctrl+Shift+I/J, Ctrl+U
+    const preventMonitorShortcuts = function(e) {
+        const keyF12 = e.keyCode === 123 || e.key === 'F12';
+        const keyInspect = e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'j');
+        const keyViewSource = e.ctrlKey && (e.keyCode === 85 || e.key.toLowerCase() === 'u');
+        if (keyF12 || keyInspect || keyViewSource) e.stopPropagation();
+    };
+    window.addEventListener('keydown', preventMonitorShortcuts, true);
+    window.addEventListener('keyup', preventMonitorShortcuts, true);
+
+    // Lớp 6: Giả lập trạng thái Fullscreen & Active Tab
+    const fakePromise = () => Promise.resolve();
+    Element.prototype.requestFullscreen = fakePromise; Element.prototype.webkitRequestFullscreen = fakePromise;
+    freezeProperty(document, 'fullscreenElement', document.documentElement); freezeProperty(document, 'webkitFullscreenElement', document.documentElement);
+    freezeProperty(document, 'visibilityState', 'visible'); freezeProperty(document, 'hidden', false);
+
+    // Bắt và vô hiệu hóa các sự kiện toxic
+    const toxicEvents = [
+        'visibilitychange', 'blur', 'beforeunload', 'pagehide', 'unload',
+        'fullscreenchange', 'webkitfullscreenchange', 'resize', 'mouseleave', 'mouseout',
+        'selectstart', 'copy', 'cut', 'contextmenu', 'dragstart'
+    ];
+
+    const nativeAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+        if (toxicEvents.includes(type)) return;
+        return nativeAddEventListener.call(this, type, listener, options);
+    };
+
+    // =========================================================================
+    // PHẦN 2: AUTO BYPASS MÀN HÌNH BÁO QUÁ TẢI / NÂNG VIP AZOTA   (bị lỗi)
+    // =========================================================================
+
+    // =========================================================================
+    // PHẦN 3: MỞ KHÓA BÔI ĐEN VĂN BẢN (ENABLE CSS SELECTION)
+    // =========================================================================
+    function enableCSSSelection() {
+        if (document.getElementById('unlock-selection-style')) return;
+        const style = document.createElement('style');
+        style.id = 'unlock-selection-style';
+        style.textContent = `
+            *, body, div, p, span, h1, h2, h3, h4, h5, h6, label {
+                -webkit-user-select: text !important;
+                -moz-user-select: text !important;
+                -ms-user-select: text !important;
+                user-select: text !important;
+            }
+        `;
+        (document.head || document.documentElement).appendChild(style);
+    }
+
+    // Chạy các tiến trình quét ngầm
+    window.addEventListener('load', () => {
+        enableCSSSelection();
+        setInterval(() => {
+            enableCSSSelection();
+            autoBypassTrafficLimit();
+        }, 1000);
+    });
+})();
