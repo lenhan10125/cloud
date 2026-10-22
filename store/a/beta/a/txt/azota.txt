@@ -1,0 +1,192 @@
+// ==UserScript==
+// @name       Azota SUPREME Anti-Cheat & Traffic Limit Bypass (v15.3)
+// @namespace    https://oriciin.cloud
+// @version      15.4.0
+// @description  Hệ thống Tường lửa 6 Lớp (Firewall v13.0), tự động vượt thông báo quá tải VIP Azota, mở khóa bôi đen chuột/copy & chặn quảng cáo.
+// @author       Oriciin & AI Collaborator
+// @match        *://*.azota.vn/*
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    console.clear();
+    
+    const consoleStyle = `
+        font-size: 15px;
+        font-weight: bold;
+        background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #00ffff, #0000ff, #8b00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        padding: 5px 0;
+    `;
+    
+    console.log("%c§§§§§§§§§§§§△△△△△△§§§§§§§§§§§§§§ [TƯỜNG LỬA v15.3 SUPREME] 🚀 Khởi động Anti-Cheat 6 Lớp, Auto Bypass & AdBlock thành công! §§§§§§§§§§§§△△△△△△§§§§§§§§§§§§§§", consoleStyle);
+
+    // =========================================================================
+    // PHẦN 0: HỆ THỐNG CHẶN QUẢNG CÁO & POPUP RÁC (AD-BLOCKER)
+    // =========================================================================
+    function initAdBlocker() {
+        // 1. Chèn CSS ẩn các banner, iframe quảng cáo, lớp phủ modal rác thường gặp
+        const adStyle = document.createElement('style');
+        adStyle.id = 'suprem-adblock-style';
+        adStyle.textContent = `
+            iframe[src*="ads"], iframe[src*="googlesyndication"], iframe[src*="facebook"], 
+            .adsbygoogle, .ad-banner, .advertisement, div[id*="google_ads"], 
+            div[class*="popup-ads"], div[class*="banner-ads"], .swal2-container.swal2-backdrop-show {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+        `;
+        (document.head || document.documentElement).appendChild(adStyle);
+
+        // 2. Chặn các yêu cầu mạng tải script quảng cáo bên thứ ba (nếu có)
+        const originalFetch = window.fetch;
+        window.fetch = async function(...args) {
+            const url = args[0]?.toString() || '';
+            if (/ads|tracker|analytics|telemetry|banner/i.test(url) && !url.includes('azota.vn')) {
+                return new Response(JSON.stringify({}), { status: 200, headers: { 'Content-Type': 'application/json' } });
+            }
+            return originalFetch.apply(this, args);
+        };
+
+        // 3. Theo dõi DOM để tự động dọn dẹp các khung quảng cáo hoặc pop-up chèn sau khi tải trang
+        const adObserver = new MutationObserver((mutations) => {
+            for (let mutation of mutations) {
+                if (mutation.addedNodes) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            const el = node;
+                            // Kiểm tra các từ khóa quảng cáo hoặc modal trôi nổi đáng ngờ
+                            const className = (el.className && typeof el.className === 'string') ? el.className.toLowerCase() : '';
+                            const idName = (el.id && typeof el.id === 'string') ? el.id.toLowerCase() : '';
+                            
+                            if (className.includes('ads') || className.includes('banner') || idName.includes('ads') || idName.includes('pop-up')) {
+                                el.remove();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        if (document.documentElement) {
+            adObserver.observe(document.documentElement, { childList: true, subtree: true });
+        }
+    }
+
+    initAdBlocker();
+
+    // =========================================================================
+    // PHẦN 1: HỆ THỐNG TƯỜNG LỬA 6 LỚP (ANTI-DETECTION FIREWALL)
+    // =========================================================================
+
+    // Lớp 1: Bẫy Function Constructor (Vô hiệu hóa vòng lặp 'debugger')
+    const nativeConstructor = Function.prototype.constructor;
+    Function.prototype.constructor = function(...args) {
+        if (args && args.some(arg => String(arg).includes('debugger'))) return function() {};
+        return nativeConstructor.apply(this, args);
+    };
+
+    // Lớp 2: Làm giả timing Performance
+    const originalNow = window.performance.now;
+    window.performance.now = function() { return Math.floor(originalNow.apply(this, arguments)); };
+
+    // Lớp 3: Vô hiệu hóa Console Inspection
+    ['log', 'warn', 'error', 'info', 'table', 'clear'].forEach(method => {
+        const original = console[method];
+        console[method] = function(...args) {
+            if (args.some(arg => arg && (typeof arg === 'function' || arg.toString().includes('Element')))) return;
+            if (typeof original === 'function') original.apply(console, args);
+        };
+    });
+
+    // Lớp 4: Cố định kích thước màn hình ảo
+    const SCREEN_WIDTH = window.innerWidth || 1366, SCREEN_HEIGHT = window.innerHeight || 768;
+    const freezeProperty = (target, prop, value) => {
+        try { Object.defineProperty(target, prop, { get: () => value, set: () => {}, configurable: false, enumerable: true }); } catch (e) {}
+    };
+
+    freezeProperty(window, 'innerWidth', SCREEN_WIDTH); freezeProperty(window, 'innerHeight', SCREEN_HEIGHT);
+    freezeProperty(window, 'outerWidth', SCREEN_WIDTH); freezeProperty(window, 'outerHeight', SCREEN_HEIGHT);
+    freezeProperty(window, 'screenX', 0); freezeProperty(window, 'screenY', 0);
+    freezeProperty(window, 'screenLeft', 0); freezeProperty(window, 'screenTop', 0);
+    freezeProperty(screen, 'width', SCREEN_WIDTH); freezeProperty(screen, 'height', SCREEN_HEIGHT);
+    freezeProperty(screen, 'availWidth', SCREEN_WIDTH); freezeProperty(screen, 'availHeight', SCREEN_HEIGHT);
+
+    // Lớp 5: Chống chặn phím tắt F12, Ctrl+Shift+I/J, Ctrl+U
+    const preventMonitorShortcuts = function(e) {
+        const keyF12 = e.keyCode === 123 || e.key === 'F12';
+        const keyInspect = e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'j');
+        const keyViewSource = e.ctrlKey && (e.keyCode === 85 || e.key.toLowerCase() === 'u');
+        if (keyF12 || keyInspect || keyViewSource) e.stopPropagation();
+    };
+    window.addEventListener('keydown', preventMonitorShortcuts, true);
+    window.addEventListener('keyup', preventMonitorShortcuts, true);
+
+    // Lớp 6: Giả lập trạng thái Fullscreen & Active Tab
+    const fakePromise = () => Promise.resolve();
+    Element.prototype.requestFullscreen = fakePromise; Element.prototype.webkitRequestFullscreen = fakePromise;
+    freezeProperty(document, 'fullscreenElement', document.documentElement); freezeProperty(document, 'webkitFullscreenElement', document.documentElement);
+    freezeProperty(document, 'visibilityState', 'visible'); freezeProperty(document, 'hidden', false);
+
+    // Bắt và vô hiệu hóa các sự kiện toxic
+    const toxicEvents = [
+        'visibilitychange', 'blur', 'beforeunload', 'pagehide', 'unload',
+        'fullscreenchange', 'webkitfullscreenchange', 'resize', 'mouseleave', 'mouseout',
+        'selectstart', 'copy', 'cut', 'contextmenu', 'dragstart'
+    ];
+
+    const nativeAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+        if (toxicEvents.includes(type)) return;
+        return nativeAddEventListener.call(this, type, listener, options);
+    };
+
+    // =========================================================================
+    // PHẦN 2: AUTO BYPASS MÀN HÌNH BÁO QUÁ TẢI / NÂNG VIP AZOTA
+    // =========================================================================
+    function autoBypassTrafficLimit() {
+        const errorBox = document.querySelector('.text-danger');
+        if (errorBox && errorBox.innerText.includes('Đang có quá đông học sinh thi')) {
+            console.warn('[Auto-Bypass] Phát hiện màn hình nghẽn VIP! Đang kích hoạt reload bypass...');
+            const boxContainer = errorBox.closest('.box, .flex');
+            if (boxContainer) {
+                boxContainer.remove();
+            }
+            if (typeof window.location.reload === 'function') {
+                setTimeout(() => { window.location.reload(); }, 2000);
+            }
+        }
+    }
+
+    // =========================================================================
+    // PHẦN 3: MỞ KHÓA BÔI ĐEN VĂN BẢN (ENABLE CSS SELECTION)
+    // =========================================================================
+    function enableCSSSelection() {
+        if (document.getElementById('unlock-selection-style')) return;
+        const style = document.createElement('style');
+        style.id = 'unlock-selection-style';
+        style.textContent = `
+            *, body, div, p, span, h1, h2, h3, h4, h5, h6, label {
+                -webkit-user-select: text !important;
+                -moz-user-select: text !important;
+                -ms-user-select: text !important;
+                user-select: text !important;
+            }
+        `;
+        (document.head || document.documentElement).appendChild(style);
+    }
+
+    // Chạy các tiến trình quét ngầm
+    window.addEventListener('load', () => {
+        enableCSSSelection();
+        setInterval(() => {
+            enableCSSSelection();
+            autoBypassTrafficLimit();
+        }, 1000);
+    });
+})();
