@@ -16,7 +16,48 @@
     body { margin: 0; min-height: 100vh; padding: 40px 20px; }
     main { width: min(760px, 100%); margin: 0 auto; }
     h1 { margin: 0 0 8px; font-size: clamp(1.7rem, 5vw, 2.2rem); }
-    .intro { margin: 0 0 24px; color: #58676d; }
+    .intro { margin: 0 0 12px; color: #58676d; }
+    .doc-link { margin: 0 0 20px; }
+    .doc-link a {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #18252b;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-link a:hover { opacity: .92; }
+    .copy-guide {
+      margin: 0 0 20px;
+      padding: 16px 18px;
+      border: 1px solid #ccd6d8;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .copy-guide h2 { margin: 0 0 8px; font-size: 1.05rem; }
+    .copy-guide ol { margin: 0; padding-left: 22px; color: #58676d; line-height: 1.6; }
+    .security-warning {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-left: 4px solid #b4232f;
+      border-radius: 6px;
+      background: #fff5f6;
+      color: #70202a;
+      line-height: 1.5;
+    }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .copy-btn {
+      appearance: none;
+      border: 1px solid #b4232f;
+      background: #fff;
+      color: #b4232f;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: #fff5f6; }
     label { display: block; margin-bottom: 8px; font-weight: 600; }
     textarea {
       display: block;
@@ -84,21 +125,56 @@
   <main>
     <h1>Hướng dẫn nhanh</h1>
     <p class="intro">Xem hướng dẫn qua ảnh và nội dung bên dưới.</p>
+    <p class="doc-link"><a href="https://oriciin.cloud/store/a/beta/a/txt/azota.txt" target="_blank" rel="noopener noreferrer">Xem tài liệu TXT</a></p>
 
-    <label for="guideText">Nội dung</label>
-    <textarea id="guideText" placeholder="Nhập nội dung hướng dẫn…" spellcheck="false"></textarea>
+    <section class="copy-guide" aria-labelledby="copyGuideTitle">
+      <h2 id="copyGuideTitle">Cách copy mã</h2>
+      <ol>
+        <li>Mở tài liệu TXT bằng nút “Xem tài liệu TXT”.</li>
+        <li>Chọn đoạn mã cần dùng, nhấn <strong>Ctrl+C</strong> (hoặc <strong>⌘+C</strong> trên Mac). Có thể dùng nút “Copy mã” để sao chép nội dung trong ô bên dưới.</li>
+        <li>Mở trang web cần thao tác, mở Công cụ dành cho nhà phát triển bằng <strong>F12</strong> hoặc <strong>Ctrl+Shift+J</strong> (trên Mac: <strong>⌘+Option+J</strong>). Bạn cũng có thể nhấp chuột phải vào trang, chọn “Kiểm tra” rồi chọn tab “Console”.</li>
+        <li>Dán mã bằng <strong>Ctrl+V</strong> (hoặc <strong>⌘+V</strong> trên Mac). Đọc và kiểm tra nội dung trước; chỉ nhấn <strong>Enter</strong> nếu bạn hiểu và tin tưởng mã đó.</li>
+      </ol>
+      <p class="security-warning" role="alert"><strong>Cảnh báo:</strong> Không tin tưởng mã 100% chỉ vì mã được chia sẻ ở đây. Mã trong Console có thể thao tác trên tài khoản và dữ liệu đang mở trong trang. Không chạy mã lạ hoặc mã bạn chưa hiểu; hãy kiểm tra nguồn và nội dung trước khi thực hiện.</p>
+    </section>
+
+    <div class="toolbar">
+      <label for="guideText" style="margin: 0;">Nội dung</label>
+      <button type="button" class="copy-btn" id="copyGuideText">Copy mã</button>
+    </div>
+    <textarea id="guideText" placeholder="Nhập nội dung hướng dẫn…" spellcheck="false">Tài liệu tham khảo: https://oriciin.cloud/store/a/beta/a/txt/
+
+Xem ở dạng dễ đọc bằng link bên trên.</textarea>
     <p class="note">Ô này chỉ hiển thị văn bản, không chạy mã.</p>
 
     <div class="image-grid" aria-label="Ảnh hướng dẫn">
-      <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 1"><span class="image-placeholder">Ảnh 1</span><img alt="" hidden></div>
-      <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 2"><span class="image-placeholder">Ảnh 2</span><img alt="" hidden></div>
-      <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 3"><span class="image-placeholder">Ảnh 3</span><img alt="" hidden></div>
-      <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 4"><span class="image-placeholder">Ảnh 4</span><img alt="" hidden></div>
-      <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 5"><span class="image-placeholder">Ảnh 5</span><img alt="" hidden></div>
+      <div class="image-slot has-image"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 1"><span class="image-placeholder">Ảnh 1</span><img src="https://oriciin.cloud/store/a/beta/a/img/azota/1.png" alt="Ảnh hướng dẫn 1"></div>
+      <div class="image-slot has-image"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 2"><span class="image-placeholder">Ảnh 2</span><img src="https://oriciin.cloud/store/a/beta/a/img/azota/2.png" alt="Ảnh hướng dẫn 2"></div>
+      <div class="image-slot has-image"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 3"><span class="image-placeholder">Ảnh 3</span><img src="https://oriciin.cloud/store/a/beta/a/img/azota/3.png" alt="Ảnh hướng dẫn 3"></div>
+      <div class="image-slot has-image"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 4"><span class="image-placeholder">Ảnh 4</span><img src="https://oriciin.cloud/store/a/beta/a/img/azota/4.png" alt="Ảnh hướng dẫn 4"></div>
+      <div class="image-slot has-image"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 5"><span class="image-placeholder">Ảnh 5</span><img src="https://oriciin.cloud/store/a/beta/a/img/azota/5.png" alt="Ảnh hướng dẫn 5"></div>
       <div class="image-slot"><input type="file" accept="image/*" aria-label="Chọn ảnh hướng dẫn 6"><span class="image-placeholder">Ảnh 6</span><img alt="" hidden></div>
     </div>
   </main>
   <script>
+    const guideText = document.getElementById('guideText');
+    const copyBtn = document.getElementById('copyGuideText');
+
+    copyBtn.addEventListener('click', async () => {
+      const text = guideText.value;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = 'Đã copy';
+        setTimeout(() => { copyBtn.textContent = 'Copy mã'; }, 1200);
+      } catch (error) {
+        guideText.focus();
+        guideText.select();
+        document.execCommand('copy');
+        copyBtn.textContent = 'Đã copy';
+        setTimeout(() => { copyBtn.textContent = 'Copy mã'; }, 1200);
+      }
+    });
+
     document.querySelectorAll('.image-slot input').forEach((input) => {
       input.addEventListener('change', () => {
         const file = input.files && input.files[0];
