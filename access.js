@@ -1,7 +1,9 @@
 (() => {
     const tokenKey = "oriciin.access-token";
     const tokenPattern = /^[a-f0-9]{64}$/;
-    const requiresToken = document.currentScript?.dataset.requireToken === "true";
+    const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const isRootPage = currentPath === "/root" || currentPath === "/root.html";
+    const requiresToken = document.currentScript?.dataset.requireToken === "true" && !isRootPage;
 
     if (requiresToken) {
         document.documentElement.style.visibility = "hidden";
