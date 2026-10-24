@@ -6,9 +6,9 @@
       scrollbar-width: thin !important;
       scrollbar-color: transparent transparent !important;
     }
-    html:hover, html:focus-within, html.mini-scrollbar-active,
-    body:hover, body:focus-within, body.mini-scrollbar-active,
-    *:hover, *:focus-within, *.mini-scrollbar-active {
+    html.mini-scrollbar-active,
+    body.mini-scrollbar-active,
+    *.mini-scrollbar-active {
       scrollbar-color: #6366f1 transparent !important;
     }
     *::-webkit-scrollbar {
@@ -23,14 +23,9 @@
       border: 1px solid transparent !important;
       border-radius: 999px !important;
     }
-    *:hover::-webkit-scrollbar-thumb,
-    *:focus-within::-webkit-scrollbar-thumb,
     *.mini-scrollbar-active::-webkit-scrollbar-thumb {
       background: #6366f1 !important;
       border-color: transparent !important;
-    }
-    *::-webkit-scrollbar-thumb:hover {
-      background: #818cf8 !important;
     }
     *::-webkit-scrollbar-corner {
       background: transparent !important;
@@ -678,7 +673,14 @@
     const settingsBtn = document.getElementById('settingsBtn');
     const overlay = document.getElementById('settingsOverlay');
     const closeBtn = document.getElementById('settingsClose');
-    const themeOptions = document.querySelectorAll('#themeOptions .settings-option');
+    const themeOptions = document.querySelectorAll('.settings-option[data-theme-choice]');
+    const themePickerOverlay = document.getElementById('themePickerOverlay');
+    const themePickerClose = document.getElementById('themePickerClose');
+    const themePickerSearch = document.getElementById('themePickerSearch');
+    const themePickerOptions = document.getElementById('themePickerOptions');
+    const themePickerEmpty = document.getElementById('themePickerEmpty');
+    const quickThemeBtn = document.getElementById('quickThemeBtn');
+    const backToTopBtn = document.getElementById('backToTopBtn');
     const wallpaperInput = document.getElementById('wallpaperInput');
     const wallpaperPreview = document.getElementById('wallpaperPreview');
     const wallpaperRemoveBtn = document.getElementById('wallpaperRemoveBtn');
@@ -750,7 +752,43 @@
       }
       themeOptions.forEach(btn => {
         btn.classList.toggle('is-active', btn.dataset.themeChoice === state.theme);
+        btn.setAttribute('aria-checked', String(btn.dataset.themeChoice === state.theme));
       });
+    }
+
+    function openThemePicker(){
+      if(!overlay.hidden){
+        overlay.hidden = true;
+        settingsBtn.setAttribute('aria-expanded', 'false');
+      }
+      if(!searchOverlay.hidden){
+        searchOverlay.hidden = true;
+        document.getElementById('searchBtn').setAttribute('aria-expanded', 'false');
+      }
+      themePickerOverlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      themePickerSearch.value = '';
+      filterThemeOptions('');
+      window.setTimeout(() => themePickerSearch.focus(), 10);
+    }
+
+    function closeThemePicker(){
+      themePickerOverlay.hidden = true;
+      if(overlay.hidden && searchOverlay.hidden) document.body.style.overflow = '';
+      quickThemeBtn.focus();
+    }
+
+    function filterThemeOptions(query){
+      const normalizedQuery = query.trim().toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+      let visibleCount = 0;
+      themePickerOptions.querySelectorAll('[data-theme-choice]').forEach(option => {
+        const name = option.textContent.trim().toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+        option.hidden = !name.includes(normalizedQuery);
+        if(!option.hidden) visibleCount += 1;
+      });
+      themePickerEmpty.hidden = visibleCount > 0;
     }
 
     function applyWallpaper(){
@@ -793,8 +831,52 @@
         applyTheme();
         persist(false);
         setStatus('Đã áp dụng giao diện: ' + btn.textContent.trim() + '.');
+        if(!themePickerOverlay.hidden) closeThemePicker();
       });
     });
+
+    quickThemeBtn.addEventListener('click', () => {
+      const effectiveTheme = state.theme === 'system'
+        ? (mediaQuery.matches ? 'dark' : 'light')
+        : state.theme;
+      state.theme = effectiveTheme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      persist(false);
+    });
+    themePickerClose.addEventListener('click', closeThemePicker);
+    themePickerOverlay.querySelectorAll('[data-theme-picker-close]').forEach(el => {
+      el.addEventListener('click', closeThemePicker);
+    });
+    themePickerSearch.addEventListener('input', () => filterThemeOptions(themePickerSearch.value));
+    themePickerSearch.addEventListener('keydown', event => {
+      if(event.key === 'Enter'){
+        const firstVisible = themePickerOptions.querySelector('[data-theme-choice]:not([hidden])');
+        if(firstVisible){
+          event.preventDefault();
+          firstVisible.click();
+        }
+      }
+    });
+    document.addEventListener('keydown', event => {
+      const tag = (event.target.tagName || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea' || event.target.isContentEditable;
+      if(event.ctrlKey && event.altKey && event.key.toLowerCase() === 'l' && !isTyping){
+        event.preventDefault();
+        if(themePickerOverlay.hidden) openThemePicker();
+        else closeThemePicker();
+      } else if(!themePickerOverlay.hidden && event.key === 'Escape'){
+        closeThemePicker();
+      }
+    });
+
+    function updateBackToTopVisibility(){
+      backToTopBtn.hidden = window.scrollY < 240;
+    }
+    window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    updateBackToTopVisibility();
 
     wallpaperInput.addEventListener('change', (e) => {
       const file = e.target.files && e.target.files[0];
@@ -1122,6 +1204,143 @@
     }
   }
   typeNext();
+  },
+  'lenhan': function () {
+    const searchBtn = document.getElementById('searchBtn');
+    const overlay = document.getElementById('searchOverlay');
+    const input = document.getElementById('searchInput');
+    const resultsEl = document.getElementById('searchResults');
+    const closeBtn = document.getElementById('searchClose');
+    if(!searchBtn || !overlay || !input || !resultsEl || !closeBtn) return;
+
+    let indexReady = Array.isArray(window.LENHAN_SEARCH_INDEX);
+    let indexError = window.LENHAN_SEARCH_INDEX_ERROR || '';
+    let index = indexReady ? window.LENHAN_SEARCH_INDEX : [];
+    let activeIndex = -1;
+    let visibleLimit = 30;
+
+    function normalize(value){
+      return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+    }
+    function escapeHtml(value){
+      return String(value || '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+    }
+    function render(query){
+      const q = query.trim();
+      if(!q){
+        resultsEl.innerHTML = '<div class="search-hint">Nhập tên hoặc mô tả sinh vật để tìm hồ sơ.</div>';
+        activeIndex = -1;
+        return;
+      }
+      if(!indexReady){
+        resultsEl.innerHTML = '<div class="search-hint">Đang tải dữ liệu tìm kiếm…</div>';
+        activeIndex = -1;
+        return;
+      }
+      if(indexError){
+        resultsEl.innerHTML = '<div class="search-empty">Không tải được dữ liệu tìm kiếm. Vui lòng thử tải lại trang.</div>';
+        activeIndex = -1;
+        return;
+      }
+      const normalizedQuery = normalize(q);
+      const matches = index.filter(item =>
+        normalize(item.title).includes(normalizedQuery) ||
+        normalize(item.desc).includes(normalizedQuery) ||
+        normalize(item.tag).includes(normalizedQuery)
+      );
+      if(!matches.length){
+        resultsEl.innerHTML = '<div class="search-empty">Không tìm thấy hồ sơ phù hợp.</div>';
+        activeIndex = -1;
+        return;
+      }
+      const visibleMatches = matches.slice(0, visibleLimit).map(item => {
+        const url = new URL(item.url, window.location.href);
+        if(url.origin !== window.location.origin) return '';
+        return '<a class="search-result" href="' + escapeHtml(url.href) + '">' +
+          '<span class="search-result-tag">' + escapeHtml(item.tag) + '</span>' +
+          '<span class="search-result-title">' + escapeHtml(item.title) + '</span>' +
+          '<span class="search-result-desc">' + escapeHtml(item.desc) + '</span></a>';
+      }).join('');
+      const loadMore = visibleLimit < matches.length
+        ? '<button class="load-more search-load-more" type="button" data-search-more>Tải thêm ' + Math.min(10, matches.length - visibleLimit) + ' kết quả (' + Math.min(visibleLimit, matches.length) + '/' + matches.length + ')</button>'
+        : '';
+      resultsEl.innerHTML = '<div class="search-result-count">' + Math.min(visibleLimit, matches.length) + ' / ' + matches.length + ' kết quả</div>' + visibleMatches + loadMore;
+      activeIndex = -1;
+    }
+    function setActive(nextIndex){
+      const items = resultsEl.querySelectorAll('.search-result');
+      items.forEach(item => item.classList.remove('is-active'));
+      if(items[nextIndex]){
+        items[nextIndex].classList.add('is-active');
+        items[nextIndex].scrollIntoView({block:'nearest'});
+      }
+      activeIndex = nextIndex;
+    }
+    function openSearch(){
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      searchBtn.setAttribute('aria-expanded', 'true');
+      input.value = '';
+      render('');
+      input.focus();
+    }
+    function closeSearch(){
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      searchBtn.setAttribute('aria-expanded', 'false');
+      searchBtn.focus();
+    }
+
+    searchBtn.addEventListener('click', openSearch);
+    closeBtn.addEventListener('click', closeSearch);
+    overlay.querySelectorAll('[data-search-close]').forEach(element => element.addEventListener('click', closeSearch));
+    input.addEventListener('input', () => {
+      visibleLimit = 30;
+      render(input.value);
+    });
+    input.addEventListener('keydown', event => {
+      const items = resultsEl.querySelectorAll('.search-result');
+      if(event.key === 'ArrowDown'){
+        event.preventDefault();
+        if(items.length) setActive((activeIndex + 1) % items.length);
+      }else if(event.key === 'ArrowUp'){
+        event.preventDefault();
+        if(items.length) setActive((activeIndex - 1 + items.length) % items.length);
+      }else if(event.key === 'Enter'){
+        const target = activeIndex >= 0 ? items[activeIndex] : items[0];
+        if(target){event.preventDefault();target.click();}
+      }
+    });
+    resultsEl.addEventListener('click', event => {
+      if(event.target.closest('[data-search-more]')){
+        visibleLimit += 10;
+        render(input.value);
+        return;
+      }
+      const result = event.target.closest('.search-result');
+      if(!result) return;
+      const destination = new URL(result.href, window.location.href);
+      if(destination.pathname === window.location.pathname && destination.hash && typeof window.LENHAN_OPEN_CARD === 'function'){
+        const id = decodeURIComponent(destination.hash.slice(1));
+        if(window.LENHAN_OPEN_CARD(id)) event.preventDefault();
+      }
+      closeSearch();
+    });
+    document.addEventListener('keydown', event => {
+      if(!overlay.hidden && event.key === 'Escape'){closeSearch();return;}
+      const tag = (event.target.tagName || '').toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea' || event.target.isContentEditable;
+      if(overlay.hidden && !isTyping && (event.key === '/' || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k'))){
+        event.preventDefault();
+        openSearch();
+      }
+    });
+    window.addEventListener('lenhan:search-index-ready', event => {
+      index = Array.isArray(event.detail) ? event.detail : [];
+      indexError = window.LENHAN_SEARCH_INDEX_ERROR || '';
+      indexReady = true;
+      if(!overlay.hidden) render(input.value);
+    });
   },
   'index': function () {
         const dotCanvas = document.getElementById("dot-background");

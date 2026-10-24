@@ -288,6 +288,31 @@
   .notice-manager-item-message{font-size:11px;color:var(--ink-soft);overflow-wrap:anywhere;white-space:pre-wrap;}
   .notice-manager-item-meta{font-size:10px;color:var(--ink-soft);margin-top:4px;}
 
+  .quick-actions{
+    position:fixed;right:20px;bottom:20px;z-index:150;
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .quick-action{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    width:44px;height:44px;border:1px solid var(--line);border-radius:50%;
+    background:var(--surface);color:var(--ink);box-shadow:0 4px 14px rgba(20,32,39,.16);
+    cursor:pointer;transition:opacity .2s,transform .2s,border-color .2s,color .2s;
+  }
+  .quick-action:hover,.quick-action:focus-visible{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
+  .quick-action:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+  .quick-action[hidden]{display:none;}
+  .quick-action::after{
+    content:attr(data-tooltip);position:absolute;right:calc(100% + 10px);
+    padding:7px 10px;border-radius:7px;background:var(--surface-dark);color:#fff;
+    font:12px 'Inter',sans-serif;white-space:nowrap;opacity:0;pointer-events:none;
+    transform:translateX(4px);transition:opacity .15s,transform .15s;
+  }
+  .quick-action:hover::after,.quick-action:focus-visible::after{opacity:1;transform:translateX(0);}
+  .theme-picker-panel{max-height: min(70vh, 460px);}
+  .theme-picker-options{padding:8px;display:grid;gap:6px;}
+  .theme-picker-options .settings-option{width:100%;text-align:left;}
+  .theme-picker-empty{margin:0;padding:14px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
   /* ── Hero ───────────────────────────────── */
   .hero{padding:72px 0 88px;}
   .hero-grid{
@@ -444,6 +469,7 @@
     .header-actions .btn-ghost{display:none;}
     .search-overlay{padding:0;}
     .search-panel{max-width:none;width:100%;height:100%;max-height:100%;border-radius:0;border:none;}
+    .quick-actions{right:14px;bottom:14px;}
   }
 </style>
 </head>
@@ -507,9 +533,9 @@
       <div class="settings-group">
         <span class="settings-group-label">Giao diện</span>
         <div class="settings-options" role="radiogroup" aria-label="Chọn giao diện" id="themeOptions">
-          <button class="settings-option" type="button" data-theme-choice="light">Sáng</button>
-          <button class="settings-option" type="button" data-theme-choice="dark">Tối</button>
-          <button class="settings-option" type="button" data-theme-choice="system">Theo hệ thống</button>
+          <button class="settings-option" type="button" role="radio" data-theme-choice="light">Sáng</button>
+          <button class="settings-option" type="button" role="radio" data-theme-choice="dark">Tối</button>
+          <button class="settings-option" type="button" role="radio" data-theme-choice="system">Theo hệ thống</button>
         </div>
       </div>
 
@@ -589,6 +615,28 @@
       </div>
       <p class="settings-status" id="settingsStatus" role="status" aria-live="polite"></p>
     </div>
+  </div>
+</div>
+
+<div class="search-overlay" id="themePickerOverlay" role="dialog" aria-modal="true" aria-label="Chọn chủ đề" hidden>
+  <div class="search-backdrop" data-theme-picker-close></div>
+  <div class="search-panel theme-picker-panel">
+    <div class="settings-header">
+      <h3 class="font-display">Chọn chủ đề</h3>
+      <button class="search-close" id="themePickerClose" type="button" aria-label="Đóng chọn chủ đề">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="search-input-wrap">
+      <svg class="search-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-3.8-3.8"/></svg>
+      <input type="search" id="themePickerSearch" class="search-input" placeholder="Tìm chủ đề theo tên…" autocomplete="off" />
+    </div>
+    <div class="theme-picker-options" id="themePickerOptions" role="radiogroup" aria-label="Các chủ đề">
+      <button class="settings-option" type="button" role="radio" data-theme-choice="light">Sáng</button>
+      <button class="settings-option" type="button" role="radio" data-theme-choice="dark">Tối</button>
+      <button class="settings-option" type="button" role="radio" data-theme-choice="system">Theo hệ thống</button>
+    </div>
+    <p class="theme-picker-empty" id="themePickerEmpty" role="status" hidden>Không tìm thấy chủ đề phù hợp.</p>
   </div>
 </div>
 
@@ -721,6 +769,15 @@
     </div>
   </div>
 </footer>
+
+<div class="quick-actions" aria-label="Thao tác nhanh">
+  <button class="quick-action" id="quickThemeBtn" type="button" aria-label="Đổi chủ đề nhanh" data-tooltip="Đổi chủ đề · Ctrl+Alt+L mở danh sách">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42m-9.88 9.88-1.42 1.42"/><circle cx="12" cy="12" r="4"/></svg>
+  </button>
+  <button class="quick-action" id="backToTopBtn" type="button" aria-label="Lên đầu trang" data-tooltip="Lên đầu trang" hidden>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7M12 19V5"/></svg>
+  </button>
+</div>
 
 <script id="java-data-function" src="/store/java/java_data_function.js"></script>
 

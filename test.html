@@ -1,854 +1,518 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <!--
-        SECURITY HARDENING LOG:
-        1. [XSS] Input validation & sanitization on all user-supplied URL inputs (background URL)
-        2. [IFRAME] Added sandbox attribute to third-party chat iframe (Cbox) with strict permissions
-        3. [CSP] Content-Security-Policy meta tag added to restrict resource loading
-        4. [REFERRER] Referrer-Policy meta tag added
-        5. [CLICKJACK] X-Frame-Options equivalent via CSP frame-ancestors
-        6. [OPEN-REDIRECT] URL whitelist validation before applying background images
-        7. [NOOPENER] All external <a> links get rel="noopener noreferrer"
-        8. [SANITIZE] DOMPurify-style manual sanitization for any innerHTML assignment replaced with textContent
-    -->
-    <link rel="icon" type="image/x-icon" href="ORC.ico">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bản Đồ Thế Giới Hậu Thảm Họa – Bách Khoa Lịch Sử & Sinh Thái</title>
+<style>
+:root {
+  --bg: #070a12;
+  --card: #0f172a;
+  --card-hover: #1e293b;
+  --border: #1e293b;
+  --cyan: #38bdf8;
+  --green: #4ade80;
+  --purple: #c084fc;
+  --amber: #fbbf24;
+  --red: #f43f5e;
+  --rose: #fb7185;
+  --blue: #60a5fa;
+  --text: #f1f5f9;
+  --sub: #94a3b8;
+  --muted: #64748b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+header { background: linear-gradient(180deg, #0f172a 0%, #070a12 100%); border-bottom: 2px solid var(--cyan); padding: 18px 16px; text-align: center; }
+h1 { font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: var(--cyan); text-shadow: 0 0 20px rgba(56, 189, 248, 0.4); text-transform: uppercase; letter-spacing: 1px; }
+header p { color: var(--sub); font-size: 0.85rem; margin-top: 4px; }
 
-    <!-- ① CSP: cho phép tài nguyên từ các nguồn tin cậy, chặn inline script nguy hiểm (unsafe-eval) -->
-    <meta http-equiv="Content-Security-Policy"
-          content="
-            default-src 'self';
-            script-src 'self' 'unsafe-inline';
-            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-            font-src https://fonts.gstatic.com;
-            img-src 'self' data: https: blob:;
-            frame-src https://www5.cbox.ws;
-            connect-src 'self' https://www.hentaiorc.xyz https://hentaiorc.xyz https://www.cloudflare.com https://images.unsplash.com;
-            object-src 'none';
-            base-uri 'self';
-            form-action 'none';
-          ">
+.stats-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.stat-card { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 0.78rem; color: var(--sub); display: flex; align-items: center; gap: 6px; }
+.stat-card b { color: var(--text); font-size: 0.85rem; }
+.stat-card .highlight { color: var(--green); }
+.stat-card .warning { color: var(--amber); }
 
-    <!-- ② Referrer policy: không gửi thông tin referrer tới bên thứ ba -->
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+main { max-width: 1400px; width: 100%; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(350px, 1fr); gap: 16px; flex: 1; }
+.box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; }
 
-    <!-- ③ X-Content-Type-Options equivalent hint -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+.controls-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.modes { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.modes small { color: var(--sub); font-size: 0.8rem; margin-right: 4px; }
+button { font: inherit; cursor: pointer; border: none; transition: all 0.2s ease; }
+.btn { background: #1a233a; color: var(--sub); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; font-weight: 500; }
+.btn:hover { background: #253352; color: var(--text); }
+.btn.on { background: var(--cyan); color: #020617; border-color: var(--cyan); font-weight: 700; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
 
-    <title>CHAT SERVER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon: #00f3ff;
-            --gold: #FFD700;
-            --dark: #0a0a0a;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.search-box { position: relative; min-width: 180px; }
+.search-box input { width: 100%; background: #070a12; border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: var(--text); outline: none; }
+.search-box input:focus { border-color: var(--cyan); }
 
-        body, html {
-            min-height: 100%; width: 100%;
-            font-family: 'Nunito', sans-serif;
-            color: #fff;
-            background: var(--dark);
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            overflow-x: hidden;
-            transition: background 0.6s ease;
-        }
+.map-container { position: relative; width: 100%; background: #040711; border-radius: 8px; overflow: hidden; border: 1px solid #1a233a; }
+svg { width: 100%; height: auto; display: block; }
+.reg { cursor: pointer; stroke-width: 2; transition: fill-opacity 0.25s, stroke-width 0.25s, filter 0.25s; }
+.reg:hover, .reg:focus { fill-opacity: 0.75 !important; stroke-width: 3.5; outline: none; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+.reg.sel { fill-opacity: 0.85 !important; stroke: #ffffff; stroke-width: 4; filter: drop-shadow(0 0 12px var(--cyan)); }
+.lbl { fill: #ffffff; font-size: 11px; font-weight: 700; text-anchor: middle; pointer-events: none; paint-order: stroke; stroke: #000000; stroke-width: 3px; stroke-linejoin: round; }
+.trench { animation: pulseTrench 3s ease-in-out infinite; }
+@keyframes pulseTrench { 50% { filter: drop-shadow(0 0 14px #3b82f6); stroke-width: 3; } }
 
-        .bg-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 0; pointer-events: none;
-            transition: opacity 0.4s;
-        }
-        .bg-overlay.hidden { opacity: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--sub); }
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
 
-        #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-        .p { position: absolute; border-radius: 50%; background: var(--neon); opacity: 0; animation: rise linear infinite; }
-        @keyframes rise {
-            0%   { transform: translateY(0) scale(1); opacity: 0; }
-            20%  { opacity: 0.3; }
-            80%  { opacity: 0.12; }
-            100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
-        }
+#panel { min-height: 480px; }
+#panel h2 { color: var(--amber); font-size: 1.25rem; line-height: 1.3; }
+.panel-sub { color: var(--sub); font-size: 0.82rem; margin-top: 2px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
 
-        @keyframes neon-burn {
-            0%, 100% {
-                text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
-                box-shadow: inset 0 0 15px var(--neon), 0 0 10px rgba(0,243,255,0.2);
-            }
-            50% {
-                text-shadow: 0 0 20px var(--neon), 0 0 40px var(--neon), 0 0 60px var(--neon);
-                box-shadow: inset 0 0 45px var(--neon), 0 0 25px rgba(0,243,255,0.5);
-            }
-        }
+.kv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.kv-card { background: #070a12; border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 0.72rem; color: var(--sub); }
+.kv-card b { display: block; color: var(--text); font-size: 0.82rem; margin-top: 2px; }
 
-        nav {
-            position: sticky; top: 0; z-index: 1000;
-            height: 64px;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(0,243,255,0.15);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 28px;
-        }
-        .nav-logo img { height: 38px; filter: drop-shadow(0 0 6px rgba(0,243,255,0.4)); }
-        .nav-logo { text-decoration: none; }
-        .nav-right { display: flex; align-items: center; gap: 14px; }
-        .nav-home-btn {
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #ccc; font-family: 'Nunito', sans-serif;
-            font-size: 13px; font-weight: 700;
-            padding: 7px 18px; border-radius: 20px;
-            cursor: pointer; text-decoration: none; transition: 0.25s;
-        }
-        .nav-home-btn:hover { background: rgba(0,243,255,0.12); border-color: var(--neon); color: var(--neon); }
+.tabs { display: flex; gap: 6px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px; flex-wrap: wrap; }
+.tab-btn { background: transparent; color: var(--sub); border: 1px solid transparent; border-radius: 6px; padding: 4px 10px; font-size: 0.78rem; }
+.tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.tab-btn.on { background: rgba(56, 189, 248, 0.15); color: var(--cyan); border-color: var(--cyan); font-weight: 600; }
 
-        .settings-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid var(--neon);
-            color: var(--neon); font-size: 18px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0,243,255,0.3);
-            transition: 0.3s;
-        }
-        .settings-btn:hover { transform: rotate(60deg); box-shadow: 0 0 20px var(--neon); }
+.panel-content { font-size: 0.85rem; color: #cbd5e1; flex: 1; overflow-y: auto; max-height: 520px; padding-right: 4px; }
+.panel-content::-webkit-scrollbar { width: 4px; }
+.panel-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-        .settings-panel {
-            position: fixed; top: 72px; right: 16px;
-            width: 310px;
-            background: rgba(8,8,12,0.97);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--neon);
-            border-radius: 20px;
-            padding: 22px;
-            z-index: 2000;
-            transform-origin: top right;
-            transform: scale(0); opacity: 0;
-            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            box-shadow: 0 0 40px rgba(0,243,255,0.15);
-        }
-        .settings-panel.open { transform: scale(1); opacity: 1; pointer-events: auto; }
-        .sp-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.3rem; letter-spacing: 3px;
-            color: var(--neon); text-shadow: 0 0 10px var(--neon);
-            margin-bottom: 16px;
-        }
-        .sp-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin: 14px 0 8px; }
-        .bg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
-        .bg-chip {
-            height: 48px; border-radius: 9px;
-            border: 2px solid transparent;
-            cursor: pointer; transition: 0.25s;
-            background-size: cover; background-position: center;
-            position: relative; overflow: hidden;
-        }
-        .bg-chip:hover { transform: scale(1.06); border-color: rgba(0,243,255,0.5); }
-        .bg-chip.sel { border-color: var(--neon); box-shadow: 0 0 12px var(--neon); }
-        .bg-chip span { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.65); font-size: 9px; text-align: center; padding: 2px; color: #fff; }
-        .bg-url-row { display: flex; gap: 7px; margin-top: 6px; }
-        .bg-url-input {
-            flex: 1; background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 9px; padding: 7px 11px;
-            color: white; font-size: 11px; outline: none; transition: 0.25s;
-        }
-        .bg-url-input:focus { border-color: var(--neon); }
-        .bg-url-input::placeholder { color: rgba(255,255,255,0.25); }
-        .sp-apply {
-            background: var(--neon); color: #000;
-            border: none; border-radius: 9px;
-            padding: 7px 13px; font-size: 11px; font-weight: 900;
-            cursor: pointer; transition: 0.2s; white-space: nowrap;
-        }
-        .sp-apply:hover { box-shadow: 0 0 12px var(--neon); }
+.item-card { border-left: 3px solid var(--cyan); background: rgba(2, 6, 23, 0.4); border-top: 1px solid rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03); padding: 10px 12px; margin-bottom: 8px; border-radius: 0 8px 8px 0; font-size: 0.82rem; line-height: 1.5; }
+.item-card b { display: flex; align-items: center; gap: 6px; color: var(--cyan); font-size: 0.85rem; margin-bottom: 4px; flex-wrap: wrap; }
+.badge { font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 700; border: 1px solid; display: inline-block; }
+.d { color: var(--rose); border-color: rgba(244, 63, 94, 0.4); background: rgba(244, 63, 94, 0.1); }
+.s { color: var(--purple); border-color: rgba(192, 132, 252, 0.4); background: rgba(192, 132, 252, 0.1); }
+.f { color: var(--green); border-color: rgba(74, 222, 128, 0.4); background: rgba(74, 222, 128, 0.1); }
+.t { color: var(--amber); border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.1); }
 
-        /* ④ Error message for invalid URL input */
-        .url-error {
-            font-size: 10px; color: #ff4455;
-            margin-top: 4px; display: none;
-            letter-spacing: 0.5px;
-        }
-        .url-error.show { display: block; }
+.hint { color: var(--sub); font-size: 0.88rem; text-align: center; padding: 60px 16px; margin: auto; }
 
-        .overlay-row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
-        .overlay-row span { font-size: 12px; color: rgba(255,255,255,0.55); }
-        .tog { position: relative; width: 40px; height: 22px; }
-        .tog input { opacity: 0; width: 0; height: 0; }
-        .tog-sl { position: absolute; inset: 0; border-radius: 22px; background: rgba(255,255,255,0.15); cursor: pointer; transition: 0.3s; }
-        .tog-sl::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
-        .tog input:checked + .tog-sl { background: var(--neon); }
-        .tog input:checked + .tog-sl::before { transform: translateX(18px); }
-        .sp-reset { margin-top: 14px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); border-radius: 9px; padding: 8px; font-size: 11px; cursor: pointer; transition: 0.25s; }
-        .sp-reset:hover { border-color: var(--neon); color: var(--neon); }
-
-        .main-wrapper {
-            position: relative; z-index: 1;
-            display: flex; flex-direction: column; align-items: center;
-            padding: 40px 20px 0;
-            min-height: calc(100vh - 64px);
-        }
-
-        .notice-container {
-            width: 100%; max-width: 800px;
-            background: rgba(0,0,0,0.75);
-            border-left: 4px solid var(--neon);
-            padding: 20px 24px; border-radius: 14px;
-            margin-bottom: 28px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,243,255,0.05);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0,243,255,0.15);
-            border-left: 4px solid var(--neon);
-            transition: 0.3s;
-        }
-        .notice-container:hover { animation: neon-burn 1.5s infinite alternate ease-in-out; }
-        .notice-header {
-            display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-        }
-        .notice-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--neon); flex-shrink: 0;
-            box-shadow: 0 0 8px var(--neon);
-            animation: pulse 1.5s ease infinite;
-        }
-        @keyframes pulse {
-            0%,100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.6); opacity: 0.6; }
-        }
-        .notice-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.1rem; letter-spacing: 3px;
-            color: var(--neon);
-        }
-        .notice-body { color: rgba(255,255,255,0.75); line-height: 1.7; font-size: 14px; }
-
-        .chat-toolbar {
-            width: 100%; max-width: 800px;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-        .chat-toolbar-left { display: flex; align-items: center; gap: 8px; }
-        .chat-toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-
-        .btn-reload {
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(0,243,255,0.08);
-            border: 1px solid rgba(0,243,255,0.35);
-            color: var(--neon);
-            font-family: 'Nunito', sans-serif;
-            font-size: 12px; font-weight: 700;
-            padding: 7px 16px; border-radius: 20px;
-            cursor: pointer; transition: 0.25s;
-            letter-spacing: 1px;
-        }
-        .btn-reload:hover {
-            background: rgba(0,243,255,0.18);
-            box-shadow: 0 0 14px rgba(0,243,255,0.35);
-        }
-        .btn-reload:active .reload-icon { transform: rotate(360deg); }
-        .reload-icon {
-            display: inline-block;
-            transition: transform 0.5s ease;
-            font-size: 14px;
-        }
-        .btn-reload.spinning .reload-icon {
-            animation: spin 0.6s linear;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .btn-net {
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.7);
-            font-family: 'Nunito', sans-serif;
-            font-size: 12px; font-weight: 700;
-            padding: 7px 14px; border-radius: 20px;
-            cursor: pointer; transition: 0.25s;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-        .btn-net:hover {
-            background: rgba(255,215,0,0.1);
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-        .btn-net.running {
-            border-color: var(--neon);
-            color: var(--neon);
-            background: rgba(0,243,255,0.07);
-        }
-
-        .net-result {
-            font-size: 11px; font-weight: 700;
-            padding: 4px 10px; border-radius: 12px;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.5);
-            transition: 0.3s;
-            white-space: nowrap;
-            display: none;
-        }
-        .net-result.show { display: inline-block; }
-        .net-result.good { border-color: #00ff88; color: #00ff88; background: rgba(0,255,136,0.08); }
-        .net-result.ok   { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
-        .net-result.bad  { border-color: #ff4455; color: #ff4455; background: rgba(255,68,85,0.08); }
-
-        .chat-frame {
-            width: 100%; max-width: 800px;
-            height: 580px;
-            background: rgba(15,15,20,0.85);
-            border-radius: 16px;
-            border: 1px solid rgba(0,243,255,0.12);
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,243,255,0.05);
-            margin-bottom: 0;
-            transition: box-shadow 0.3s;
-        }
-        .chat-frame.reloading {
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 25px rgba(0,243,255,0.4);
-        }
-
-        .wave-wrap {
-            position: relative; z-index: 1;
-            width: 100%; height: 80px; overflow: hidden;
-            margin-top: 40px;
-        }
-        .wave-wrap svg { display: block; }
-        .parallax > use { animation: wave-move 20s cubic-bezier(.55,.5,.45,.5) infinite; }
-        .parallax > use:nth-child(1) { animation-delay:-2s; animation-duration:7s; }
-        .parallax > use:nth-child(2) { animation-delay:-3s; animation-duration:10s; }
-        .parallax > use:nth-child(3) { animation-delay:-4s; animation-duration:13s; }
-        .parallax > use:nth-child(4) { animation-delay:-5s; animation-duration:20s; }
-        @keyframes wave-move {
-            0%   { transform: translate3d(-90px,0,0); }
-            100% { transform: translate3d(85px,0,0); }
-        }
-
-        footer {
-            position: relative; z-index: 1;
-            background: rgba(0,0,0,0.85);
-            border-top: 1px solid rgba(0,243,255,0.12);
-            padding: 28px 40px;
-            width: 100%;
-        }
-        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
-        .footer-logo { display: flex; align-items: center; gap: 10px; }
-        .footer-logo img { height: 28px; opacity: 0.7; }
-        .footer-logo span { font-family: 'Bebas Neue'; font-size: 1.1rem; letter-spacing: 3px; color: rgba(255,255,255,0.4); }
-        .update-banner {
-            display: flex; align-items: flex-start; gap: 10px;
-            background: rgba(0,243,255,0.05);
-            border: 1px solid rgba(0,243,255,0.15);
-            border-radius: 10px; padding: 12px 18px;
-            font-size: 13px;
-        }
-        .update-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--neon); flex-shrink: 0; margin-top: 4px; box-shadow: 0 0 8px var(--neon); animation: pulse 1.5s ease infinite; }
-        .update-label { color: var(--gold); font-weight: 900; margin-right: 6px; }
-        .update-text { color: rgba(255,255,255,0.55); line-height: 1.5; }
-        .footer-copy { font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
-
-        #popup-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 10001;
-            justify-content: center; align-items: center;
-            backdrop-filter: blur(5px);
-            transition: opacity 0.3s ease;
-        }
-        #main-popup {
-            width: 90%; max-width: 500px; min-height: 300px; border-radius: 30px;
-            position: relative; padding: 40px; box-sizing: border-box;
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,1);
-            border: 1px solid #99CCFF;
-            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
-        }
-        #popup-overlay.closing { opacity: 0; pointer-events: none; }
-        #popup-overlay.closing #main-popup { transform: translate(-45vw,-45vh) scale(0); opacity: 0; }
-    </style>
+@media (max-width: 960px) {
+  main { grid-template-columns: 1fr; }
+  #panel { min-height: auto; }
+}
+</style>
 </head>
 <body>
 
-<div class="bg-overlay" id="bgOverlay"></div>
-<div id="particles"></div>
+<header>
+  <h1>Bản Đồ Thế Giới Hậu Thảm Họa</h1>
+  <p>Hệ thống giám sát địa chính trị, sinh thái & các cựu chiến trường toàn cầu</p>
+  <div class="stats-grid">
+    <div class="stat-card">Dân số toàn cầu: <b>5,3 Tỷ</b></div>
+    <div class="stat-card">Tỷ lệ giới tính: <b class="warning">1 Nam : 5–6 Nữ</b></div>
+    <div class="stat-card">Tỷ lệ sinh bé trai: <b class="highlight">48% (Ma Trận RTC)</b></div>
+    <div class="stat-card">Hệ sinh thái mới: <b>124+ Loài</b> (24 loài săn người)</div>
+    <div class="stat-card">Chủng tộc: <b style="color:var(--rose)">Da đen tuyệt chủng</b></div>
+  </div>
+</header>
 
-<!-- POPUP -->
-<div id="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-text">
-    <div id="main-popup">
-        <button onclick="closePopup()"
-                aria-label="Đóng thông báo"
-                style="position:absolute;top:15px;right:20px;background:rgba(255,255,255,0.2);border:none;color:white;font-size:24px;cursor:pointer;border-radius:50%;width:35px;height:35px;display:flex;align-items:center;justify-content:center;">&times;</button>
-        <!-- ⑤ Dùng textContent thay innerHTML để ngăn XSS khi gán nội dung động -->
-        <div id="popup-text" style="word-wrap:break-word;width:100%;white-space:pre-wrap;line-height:1.5;"></div>
-    </div>
-</div>
-
-<!-- NAV -->
-<nav>
-    <!-- ⑦ rel="noopener noreferrer" trên mọi link ngoài -->
-    <a class="nav-logo" href="https://hentaiorc.xyz" rel="noopener noreferrer">
-        <img src="https://hentaiorc.xyz/logo/ORC.main.png" alt="ORC Studio" onerror="this.style.display='none'">
-    </a>
-    <div class="nav-right">
-        <a class="nav-home-btn" href="https://hentaiorc.xyz" rel="noopener noreferrer">← Trang chủ</a>
-        <button class="settings-btn" id="settingsBtn" title="Cài đặt hình nền" aria-label="Mở cài đặt hình nền" aria-expanded="false">⚙</button>
-    </div>
-</nav>
-
-<!-- SETTINGS PANEL -->
-<div class="settings-panel" id="settingsPanel" role="region" aria-label="Cài đặt hình nền">
-    <div class="sp-title">⚙ Cài đặt</div>
-
-    <div class="sp-label">🎨 Hình nền</div>
-    <div class="bg-grid" id="bgGrid">
-        <button class="bg-chip sel" data-bg="none" style="background:#0a0a0a;">
-            <span>Đen</span>
-        </button>
-        <button class="bg-chip" data-bg="https://r4.wallpaperflare.com/wallpaper/118/736/916/gawr-gura-hololive-blue-eyes-white-hair-hd-wallpaper-6631b6686024bc6e11599a9da016af34.jpg"
-            style="background-image:url(https://r4.wallpaperflare.com/wallpaper/118/736/916/gawr-gura-hololive-blue-eyes-white-hair-hd-wallpaper-6631b6686024bc6e11599a9da016af34.jpg);background-size:cover">
-            <span>Anime</span>
-        </button>
-        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80"
-            style="background-image:url(https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=300&q=50);background-size:cover">
-            <span>Vũ trụ</span>
-        </button>
-        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80"
-            style="background-image:url(https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=300&q=50);background-size:cover">
-            <span>Retro</span>
-        </button>
-        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80"
-            style="background-image:url(https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=50);background-size:cover">
-            <span>Núi</span>
-        </button>
-        <button class="bg-chip" data-bg="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80"
-            style="background-image:url(https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=50);background-size:cover">
-            <span>Thành phố</span>
-        </button>
+<main>
+  <section class="box">
+    <div class="controls-bar">
+      <div class="modes">
+        <small>Chế độ tô màu:</small>
+        <button class="btn on" data-m="fac">Thế lực</button>
+        <button class="btn" data-m="dg">Mức nguy hiểm</button>
+      </div>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Tìm vùng / sinh vật..." oninput="onSearch(this.value)">
+      </div>
     </div>
 
-    <div class="sp-label">🔗 URL tùy chỉnh</div>
-    <div class="bg-url-row">
-        <!--
-            ① maxlength giới hạn độ dài input, autocomplete off để tránh lộ dữ liệu
-        -->
-        <input type="url" id="bgUrl" class="bg-url-input"
-               placeholder="https://example.com/bg.jpg"
-               maxlength="512"
-               autocomplete="off"
-               spellcheck="false">
-        <button class="sp-apply" id="bgApply">OK</button>
-    </div>
-    <!-- ① Thông báo lỗi XSS validation -->
-    <div class="url-error" id="urlError">⚠ URL không hợp lệ. Chỉ chấp nhận https://</div>
-
-    <div class="overlay-row">
-        <span>Lớp phủ tối</span>
-        <label class="tog">
-            <input type="checkbox" id="overlayTog" checked>
-            <span class="tog-sl"></span>
-        </label>
-    </div>
-
-    <button class="sp-reset" id="bgReset">↺ Đặt lại mặc định</button>
-</div>
-
-<!-- MAIN -->
-<div class="main-wrapper">
-    <div class="notice-container">
-        <div class="notice-header">
-            <div class="notice-dot"></div>
-            <span class="notice-title">NOTICE · THÔNG BÁO</span>
-        </div>
-        <!-- ⑧ Nội dung được gán bằng textContent trong JS, không dùng innerHTML -->
-        <div class="notice-body" id="updateNotice">Đang tải thông báo từ máy chủ...</div>
-    </div>
-
-    <!-- CHAT TOOLBAR -->
-    <div class="chat-toolbar">
-        <div class="chat-toolbar-left">
-            <button class="btn-reload" id="reloadChatBtn" title="Tải lại khung chat">
-                <span class="reload-icon" aria-hidden="true">↻</span> RELOAD CHAT
-            </button>
-        </div>
-        <div class="chat-toolbar-right">
-            <button class="btn-net" id="pingBtn" title="Kiểm tra độ trễ mạng">
-                📡 TEST PING
-            </button>
-            <button class="btn-net" id="speedBtn" title="Kiểm tra tốc độ mạng">
-                ⚡ TEST TỐC ĐỘ
-            </button>
-            <span class="net-result" id="netResult" aria-live="polite"></span>
-        </div>
-    </div>
-
-    <!--
-        ② iframe sandbox: chỉ cho phép những gì Cbox cần.
-           - allow-scripts        : Cbox cần JS để hiện chat
-           - allow-same-origin    : Cbox cần đọc cookie/storage của chính nó
-           - allow-popups         : Cbox dùng cửa sổ mới cho đăng nhập
-           - allow-forms          : Cbox cần form để gửi tin nhắn
-           KHÔNG có: allow-top-navigation (chặn redirect trang cha),
-                      allow-downloads (chặn tải file tự động),
-                      allow-pointer-lock, allow-modals
-    -->
-    <div class="chat-frame" id="chatFrame">
-        <iframe id="chatIframe"
-                src="https://www5.cbox.ws/box/?boxid=961747&boxtag=8h6smg"
-                width="100%" height="100%"
-                allowtransparency="yes"
-                allow="autoplay"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"
-                title="ORC Chat Box"
-                referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-    </div>
-</div>
-
-<!-- WAVES -->
-<div class="wave-wrap">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none" width="100%" height="80" aria-hidden="true">
+    <div class="map-container">
+      <svg id="map" viewBox="0 0 800 500" role="group" aria-label="Bản đồ thế giới giả tưởng">
         <defs>
-            <path id="gw" d="M-160 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44h-352z"/>
+          <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#080e1e"/>
+            <stop offset="100%" stop-color="#030611"/>
+          </linearGradient>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#162038" stroke-width="0.6"/>
+          </pattern>
         </defs>
-        <g class="parallax">
-            <use href="#gw" x="48" y="0"  fill="rgba(0,243,255,0.08)"/>
-            <use href="#gw" x="48" y="3"  fill="rgba(0,243,255,0.12)"/>
-            <use href="#gw" x="48" y="5"  fill="rgba(0,243,255,0.06)"/>
-            <use href="#gw" x="48" y="7"  fill="rgba(0,243,255,0.18)"/>
-        </g>
-    </svg>
-</div>
-
-<!-- FOOTER -->
-<footer>
-    <div class="footer-inner">
-        <div class="footer-logo">
-            <img src="https://hentaiorc.xyz/logo/ORC.main.png" alt="ORC" onerror="this.style.display='none'">
-            <span>ORICHIIN STUDIO</span>
-        </div>
-
-        <div class="update-banner">
-            <div class="update-dot" aria-hidden="true"></div>
-            <div>
-                <span class="update-label">CẬP NHẬT:</span>
-                <span class="update-text" id="updateText">Đang kiểm tra thông tin...</span>
-            </div>
-        </div>
-
-        <div class="footer-copy">© 2026 ORICHIIN STUDIO · All rights reserved</div>
+        <rect width="800" height="500" fill="url(#sea)"/>
+        <rect width="800" height="500" fill="url(#grid)"/>
+        <g id="regs"></g>
+      </svg>
     </div>
-</footer>
 
-<script src="store/java/java_data_function.js"></script>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <aside class="box" id="panel">
+    <div class="hint">🗺️ Chọn một vùng trên bản đồ để xem chi tiết lịch sử, sinh vật & lực lượng.</div>
+  </aside>
+</main>
+
 <script>
-/* ══════════════════════════════════════════════════
-   SECURITY UTILITIES
-══════════════════════════════════════════════════ */
+const DG = ['', '#4ade80', '#a3e635', '#fbbf24', '#f97316', '#f43f5e'];
+const DGN = ['', 'An toàn', 'Thấp', 'Trung bình', 'Cao', 'Tử thần (SSS)'];
+const TAG = { d: 'Tử thần', s: 'Hỗ trợ', f: 'Thực phẩm', t: 'Titan / Tối cao' };
+const TC = { d: '#f43f5e', s: '#c084fc', f: '#4ade80', t: '#fbbf24' };
 
-/**
- * ① XSS PREVENTION — Kiểm tra URL đầu vào từ người dùng.
- * Chỉ chấp nhận https:// và giới hạn ký tự hợp lệ.
- * Ngăn javascript:, data:, vbscript: và các vector tấn công khác.
- */
-function isSafeImageUrl(url) {
-    if (!url || typeof url !== 'string') return false;
-    url = url.trim();
-    // Chỉ cho phép https
-    if (!/^https:\/\//i.test(url)) return false;
-    // Chặn các ký tự nguy hiểm
-    if (/[<>"'`]/.test(url)) return false;
-    // Giới hạn độ dài
-    if (url.length > 512) return false;
-    try {
-        const parsed = new URL(url);
-        // Bảo đảm protocol là https
-        if (parsed.protocol !== 'https:') return false;
-        return true;
-    } catch (_) {
-        return false;
+const R = [
+  {
+    id: 'mau',
+    n: 'Lãnh Địa Mẫu Hệ',
+    sub: 'Chính quyền Mẫu Hệ & Trạm Thu Hoạch Ma Lực',
+    fac: 'Chính Quyền Mẫu Hệ',
+    col: '#9d4edd',
+    dg: 3,
+    era: 'Kỷ nguyên 2 → 5',
+    pts: '40,40 220,30 250,110 210,180 80,170 30,110',
+    c: [135, 110],
+    ov: 'Nơi khởi nguồn Sắc lệnh “Quốc Hữu Hóa Nam Giới” khi tỷ lệ nam giới tụt xuống Báo Động Đỏ 1:10 (<9%). Nam giới bị cưỡng chế thu hồi làm tài sản sinh học trong Trại Bảo Tồn Áp Suất Kín và Trạm Trích Xuất Máu. Sau khi tỷ lệ phục hồi mốc 1:5, sắc lệnh bị dỡ bỏ, nam giới được công nhận là “Thế Hệ Di Sản”.',
+    ev: [
+      ['Sắc Lệnh Huyết Thu Hoạch', 'Cưỡng chế trích xuất máu tiêu cực của nữ pháp sư hạ cấp làm chất tẩy ăn mòn kết giới cổ đại.'],
+      ['Khủng Hoảng Nhân Khẩu 1:10', 'Chiến tranh ma năng tiêu diệt phần lớn nam giới, biến họ thành nguồn tài nguyên bị săn lùng.'],
+      ['Bãi Bỏ Sắc Lệnh Quốc Hữu Hóa', 'Sau thỏa thuận đình chiến toàn cầu, khôi phục nhân quyền và cho phép gia đình 1:1 công khai.']
+    ],
+    cr: [
+      ['f', 'Thạch Tinh Ngưu', 'Bò sừng thạch anh triệt tiêu ma lực dư thừa, thịt giàu đạm giúp thải độc ma năng.'],
+      ['f', 'Nấm Mộc Tinh', 'Chuyển hóa ma lực tiêu cực thành amino axit và nước sạch.'],
+      ['d', 'Cảnh Sát Ma Pháp', 'Lực lượng cưỡng chế sử dụng giáp ma năng và cối thu hoạch ma lực.']
+    ],
+    ch: ['Bộ Trưởng Quốc Phòng Mẫu Hệ', 'Các Nữ Tộc Trưởng thượng lưu']
+  },
+  {
+    id: 'eur',
+    n: 'Eurasia Phóng Xạ',
+    sub: 'Thảm họa Lò Phản Ứng Eurasia – Lửa Xanh Tím Cherenkov',
+    fac: 'Titan BloodShinGodzilla',
+    col: '#ff5a3c',
+    dg: 5,
+    era: 'Kỷ nguyên 3 → 5',
+    pts: '220,30 410,25 450,110 390,190 210,180 250,110',
+    c: [320, 110],
+    ov: 'Vụ nổ Lò Phản Ứng Địa Nhiệt - Hạt Nhân Eurasia sinh ra Kẻ Phóng Xạ Lửa Xanh Tím (Cherenkov Decay Fire). Kẻ này bị Shin Godzilla nuốt chửng, biến chất tuyến tính thành BloodShinGodzilla — Vua Titan Cổ Đại cao hàng trăm mét, liên tục chảy Máu Axit Phóng Xạ có pH tiệm cận âm.',
+    ev: [
+      ['Vụ Nổ Phân Hạch Eurasia', 'Mặt Trời Đen bùng nổ thiêu rụi bán kính 300km, sinh ra Kẻ Phóng Xạ Lửa Xanh Tím.'],
+      ['BloodShinGodzilla Thức Tỉnh', 'Shin Godzilla nuốt Kẻ Phóng Xạ, tiến hóa thành Vua Titan chảy máu axit nung chảy bê tông và vỏ Trái Đất.'],
+      ['Cú Chặn Đòn Của 001', '001 xả thân chịu Máu Axit Phóng Xạ để bảo vệ Vùng Điểm Mù và gia đình 1 vợ 1 chồng.']
+    ],
+    cr: [
+      ['t', 'BloodShinGodzilla', 'Vua Titan Cổ Đại cao hàng trăm mét; máu axit pH tiệm cận âm nung chảy giáp thép ROKET trong 0.05s.'],
+      ['d', 'Kẻ Phóng Xạ Lửa Xanh Tím', 'Thực thể mang lò phản ứng sống, xả tia Gamma phân rã tế bào.']
+    ],
+    ch: ['Kẻ Sống Sót Phóng Xạ (Cựu tù nhân bộc phát Cherenkov)']
+  },
+  {
+    id: 'roket',
+    n: 'Cộng Hòa Quỹ Đạo ROKET',
+    sub: 'Pháo đài Nam giới Cơ khí & Mạng Lưới THGM',
+    fac: 'Liên Minh ROKET & THGM',
+    col: '#00f2fe',
+    dg: 2,
+    era: 'Kỷ nguyên 2 → 5',
+    pts: '410,25 600,40 640,140 560,195 390,190 450,110',
+    c: [510, 115],
+    ov: 'Tổ chức kháng chiến thuần nam giới cơ khí sở hữu hỏa lực Thanh Vonfram Quỹ Đạo Mach 22, Giáp Khí Nén Lặng Âm và Súng Quang Phổ UV. ROKET phối hợp cùng THGM phát tán 1.000 tỷ vi khuẩn lam Cyanobacteria-K, tái tạo khí quyển và đánh sập độc quyền không khí Vault-Aura.',
+    ev: [
+      ['Chiến Dịch Tái Sinh Khí Quyển', 'Phát tán 1.000 tỷ vi khuẩn lam Cyanobacteria-K xả Oxy gấp 500 lần thảm thực vật.'],
+      ['Cuộc Đột Kích Giải Cứu Hạ Đô', 'Dội thanh Vonfram Mach 22 xé rách Hạ Đô ngầm 3km, giải cứu 14.000 tù nhân.'],
+      ['Dự Án 1.000 Hạt Giống', 'Tuyển chọn và đào tạo 1.000 tân binh thành Binh Đoàn Động Năng Thế Hệ II.']
+    ],
+    cr: [
+      ['s', 'Cyanobacteria-K', 'Vi khuẩn lam biến tính hấp thụ ma lực tiêu cực, giải phóng Oxy thuần khiết.'],
+      ['s', 'Mỏ Neo Không Gian', 'Tháp phát sóng khóa chặt cấu trúc không gian chống Dị Thể Cắt Không Gian.']
+    ],
+    ch: ['Đại Thủ Lĩnh ROKET', '1.000 Chỉ Huy Động Năng Thế Hệ II', 'Hệ thống AI Mạng THGM']
+  },
+  {
+    id: 'trung',
+    n: 'Sư Đoàn Thiết Giáp Trung Ương',
+    sub: 'Thành Lũy Số & Pháo Đài Kháng Ma Phương Đông',
+    fac: 'Trục Kháng Ma Phương Đông',
+    col: '#e11d48',
+    dg: 2,
+    era: 'Kỷ nguyên 4 → 5',
+    pts: '560,195 640,140 750,180 730,280 580,280 540,210',
+    c: [635, 215],
+    ov: 'Quốc gia duy nhất duy trì tỷ lệ 1 Nam : 5 Nữ nhờ chính sách bế quan tỏa cảng “Thành Lũy Số” và Vault-Gen Quốc Gia. Trung Quốc vũ trang hóa nam giới thành Sư Đoàn Thiết Giáp Trung Ương, trang bị giáp cơ khí triệt tiêu ma thuật và pháo đài nhiệt áp.',
+    ev: [
+      ['Dập Tắt Đảo Chính FFN', 'Cắt đứt toàn bộ cáp quang quốc tế (Protocol Zero-Net) và xả khí độc đông màng thần kinh Hàn Tuyết.'],
+      ['Thành Lũy Sinh Học', 'Đóng đinh biên giới, chống lại các Đội Săn Đầu Người và hạm đội Mẫu Hệ.'],
+      ['Đón Đầu Vệt Sáng 001', 'Dàn trận địa pháo động năng đón vệt sáng Mach 2.6 của 001 trước khi chuyển sang hợp tác.']
+    ],
+    cr: [
+      ['s', 'Bộ Giáp Cơ Lao', 'Giáp cơ khí đảo ngược công nghệ ROKET giúp tiêu tán ma thuật tiêu cực.']
+    ],
+    ch: ['Trung Tướng Tác Chánh Mạng', 'Các Tướng Lĩnh Sư Đoàn Thiết Giáp']
+  },
+  {
+    id: 'diem',
+    n: 'Vùng Điểm Mù & Công Hội Mạo Hiểm Giả',
+    sub: 'Khu dân cư an toàn & Trụ sở Công Hội Rank S-E',
+    fac: 'Công Hội Mạo Hiểm Giả & THGM',
+    col: '#00ff87',
+    dg: 1,
+    era: 'Kỷ nguyên 5',
+    pts: '80,170 210,180 250,280 150,330 50,280',
+    c: [150, 250],
+    ov: 'Vùng dân cư được 001 che chở và đặt trụ sở Công Hội Mạo Hiểm Giả. Nơi đây áp dụng Thẻ Mạo Hiểm Giả THGM (Rank S đến E), trồng dải Nấm Cảm Âm Cảm Chấn (bán kính 300m) và nuôi Thiềm Giáp Kì Đà để gác Mái Vòm Sinh Thái.',
+    ev: [
+      ['Đột Kích Của Big Mimic', 'Quái vật khổng lồ giả giọng người thân cuỗm đi 14 con Dạ Linh Tàn Tĩnh.'],
+      ['Bẫy Đêm Bằng Nấm Cảm Âm', '001 cùng biệt kích ROKET phục kích đấm nát cụm miệng tổ ong của Big Mimic.'],
+      ['Thành Lập Hệ Thống Công Hội', 'Chính thức hóa trào lưu Thợ Săn Tàn Tích thành các nhiệm vụ hộ tống và khai thác thạch anh.']
+    ],
+    cr: [
+      ['s', 'Thiềm Giáp Kì Đà', 'Kì đà gác cổng, đánh mùi rêu bùn rỉ sắt của Xà Ma từ 500m, hú sóng âm và cắn giòn da Xà Ma.'],
+      ['s', 'Nấm Cảm Âm Cảm Chấn', 'Bộc phát ánh huỳnh quang đỏ rực khi Big Mimic bước vào bán kính 300m.'],
+      ['f', 'Cá Nguyệt Lam', 'Thịt cá phát sáng lam, giàu Omega-3 biến tính giúp tăng bạch cầu cho trẻ sơ sinh nam.']
+    ],
+    ch: ['001 (Kẻ Mạnh Nhất)', 'Các Mạo Hiểm Giả Rank S', 'Thợ Săn Tàn Tích']
+  },
+  {
+    id: 'thap',
+    n: 'Thủ Phủ Tháp Thiên Không',
+    sub: 'Trung tâm Apex Spire 2.100m & Ma Trận RTC Vệ Tinh',
+    fac: '001 & Đại Mạng Lưới THGM',
+    col: '#ff9e00',
+    dg: 1,
+    era: 'Kỷ nguyên 4 → 5',
+    pts: '210,180 390,190 420,290 330,340 250,280',
+    c: [320, 255],
+    ov: 'Tòa Tháp Thiên Không (Apex Spire) cao 2.100m, nơi 001 (15 tuổi) tuyên ngôn “Ta là kẻ mạnh nhất hiện tại”, nhảy xuống tạo hố sâu 8m rồi chạy Mach 2.6 (900m/s). Nơi đặt Ma Trận RTC Vệ Tinh kết nối sóng Phản Chuyển Thuật Thức của 001 để trung hòa ma lực tiêu cực toàn cầu real-time.',
+    ev: [
+      ['Tuyên Ngôn 001', '001 nhảy tự do từ độ cao 2.100m, xóa sạch thương tích bằng RTC và chạy Mach 2.6 xé rách 3 đô thị.'],
+      ['Ma Trận RTC Real-time', 'Kết nối mạch năng lượng dương của 001 lên vệ tinh địa tĩnh, hạ nồng độ ma lực tiêu cực.'],
+      ['Kỷ Nguyên Bảo Hộ Nhi Đồng', 'Nuôi dưỡng bé trai “Mầm Sống Thủy Tinh” (60% bạch cầu) và bảo vệ tỷ lệ sơ sinh 48%.']
+    ],
+    cr: [
+      ['s', 'Thực Thể Halo', 'Tỏa Vòng Halo vàng kim/lam ngọc (Absolute Luminescence), phân rã oán hận bán kính 500m.'],
+      ['f', 'Thạch Sơn Dương', 'Thịt đậm đà giúp làm dịu thần kinh, sừng thạch anh làm thiết bị dẫn truyền.']
+    ],
+    ch: ['001 (15 tuổi - Lửa Xanh Lam RTC)', 'Người Sở Hữu Vòng Halo']
+  },
+  {
+    id: 'ffn',
+    n: 'Tàn Tích Huyết Ngược & Cánh Lao FFN',
+    sub: 'Cựu chiến trường Mặt Trận Huyết Ngược & FFN',
+    fac: 'THGM - Cánh Lao Tiến Công FFN',
+    col: '#f472b6',
+    dg: 4,
+    era: 'Kỷ nguyên 2 → 5',
+    pts: '390,190 560,195 580,280 480,340 420,290',
+    c: [485, 260],
+    ov: 'Mặt Trận Huyết Ngược từng dùng bom Axit Máu chống bóc tách, bị đàn áp sau 5 tháng. Tổ chức FFN (Freedom - Happy - None-government) dùng vi-chip thần kinh và chất Euphoria-X triệt tiêu đau đớn, sau sáp nhập làm Cánh Lao Tiến Công (Algorithmic Rage) cho THGM.',
+    ev: [
+      ['Công Xã Huyết Ngược', 'Phong trào xã hội chủ nghĩa bùng nổ 5 tháng trước khi bị chính quyền xả độc đông màng.'],
+      ['FFN Sáp Nhập THGM', 'Công nghiệp hóa Euphoria-X thành Mạng Lưới Hive-Mind không độ trễ, bọc giáp ROKET mở đường máu.'],
+      ['Trận Đánh Trung Đông', 'San bằng các Lò Thu Hoạch Địa Nhiệt của Nhóm Tài Phiệt, giải phóng khí nén.']
+    ],
+    cr: [
+      ['d', 'Dạ Ma Oán Thù', 'Thân khói đen ngưng kết từ người bị tra tấn, chuyên săn nhịp tim; sợ tia UV.'],
+      ['d', 'Sương Huyết Hận Thù', 'Dải sương máu đỏ hút kiệt máu và ma lực qua đường hô hấp; bị ion hóa bởi tia UV.']
+    ],
+    ch: ['Các Chiến Binh Cảm Tử FFN Bọc Thép', 'Tàn quân Huyết Ngược']
+  },
+  {
+    id: 'ha_do',
+    n: 'Cựu Hạ Đô Sin-City',
+    sub: 'Thành phố tội phạm ngầm 3km – Cựu Nông Trại Sinh Học',
+    fac: 'Phế Tích Kháng Chiến',
+    col: '#a855f7',
+    dg: 4,
+    era: 'Kỷ nguyên 5',
+    pts: '580,280 730,280 750,370 600,370 480,340',
+    c: [620, 325],
+    ov: 'Thành phố ngầm sâu 3km từng giam giữ 14.000 nam giới trong các nang sinh học thạch anh. ROKET giội 4 thanh Vonfram Mach 22 xé rách vòm bê tông, phối hợp cùng FFN và THGM xông xuống giải cứu toàn bộ 14.000 người, biến nơi đây thành phế tích.',
+    ev: [
+      ['Chiến Dịch Giải Cứu Hạ Đô', 'ROKET giội tên lửa quỹ đạo, FFN khoác giáp ROKET tiêm Euphoria-X mở đường máu.'],
+      ['Sự Phân Lực Lượng 14.000 Nam', '1.000 người gia nhập ROKET, 5.000 theo FFN, 3.000 theo THGM, 5.000 về quê nhà lập Khu Tự Vệ.'],
+      ['Tái Cấu Trúc Cán Cân 1:7 → 1:5', 'Sự phân tán nam giới phá tan hoàn toàn độc quyền tài sản sinh học của giới tài phiệt.']
+    ],
+    cr: [
+      ['d', 'Dạ Nham Tàn Thể', 'Chủng bò sát thạch anh đen hình thành từ tàn thể sụp đổ; tự bùng nổ dưới ánh sáng UV/RTC.']
+    ],
+    ch: ['Cựu Tù Nhân Hạ Đô', 'Biệt Đội Cảm Tử FFN-ROKET']
+  },
+  {
+    id: 'nam_cuc',
+    n: 'Thung Lũng Băng Nam Cực',
+    sub: 'Project Aethelgard & Trạm Trôi Dạt Eden-0',
+    fac: 'Thánh Địa Tự Do (Egalitarian Sanctuaries)',
+    col: '#38bdf8',
+    dg: 1,
+    era: 'Kỷ nguyên 1 → 5',
+    pts: '50,340 250,340 230,395 60,395',
+    c: [150, 370],
+    ov: 'Thánh Địa Tự Do ẩn nấp 2km dưới băng Nam Cực và tầng bình lưu. Nơi duy nhất duy trì tỷ lệ Nam/Nữ 1:1 bình đẳng tuyệt đối, không có Thẻ Bảo Trợ hay ma thuật tiêu cực. Đây là nơi gia đình 001 ẩn nấp và nuôi dưỡng cậu suốt 10 năm ẩn dật.',
+    ev: [
+      ['Khởi Tạo Project Aethelgard', 'Xây dựng phức hợp khép kín dưới địa nhiệt Nam Cực từ trước Cuộc Sụp Đổ.'],
+      ['Nơi Dung Dưỡng 001', '001 sống 10 năm tại Nam Cực, rèn luyện tâm trí tĩnh lặng và Phản Chuyển Thuật Thức (RTC).'],
+      ['Chỉ Thị Số 0 Của ROKET', 'Cấm mọi đòn đánh hay can thiệp quân sự vào bán kính 200km quanh Nam Cực.']
+    ],
+    cr: [
+      ['f', 'Cá Tuyết Nguyện Cầu', 'Cá nước lạnh giàu vi chất khôi phục miễn dịch cho trẻ em.']
+    ],
+    ch: ['Gia đình 001 (Bố mẹ đào tẩu)', 'Cựu Binh ROKET Gác Cổng']
+  },
+  {
+    id: 'den',
+    n: 'Tọa Độ Đen & Các Nhà Tù Ngầm',
+    sub: 'Cội nguồn 24 loài sinh vật săn người',
+    fac: 'Thảm Họa Tử Thần (Không thuộc phe nào)',
+    col: '#c084fc',
+    dg: 5,
+    era: 'Kỷ nguyên 5',
+    pts: '640,140 780,110 790,200 750,180',
+    c: [730, 150],
+    ov: 'Các phế tích nhà tù, phòng tra tấn cũ — nơi ma lực oán hận ngấm sâu vào thạch anh đẻ ra 24 loài săn người điên loạn. Nơi xuất hiện Dị Thể Cắt Không Gian (chém bị thương tay 001), Xà Ma Ẩn Tích, Kẻ Tra Tấn Đêm và Big Mimic.',
+    ev: [
+      ['Dị Thể Cắt Không Gian Đột Kích', 'Chui qua Sub-Dimension, tạo vết cắt phẳng lì làm bị thương tay 001 trước khi biến mất.'],
+      ['Kẻ Tra Tấn Đêm Xuất Hiện', 'Tiêm dịch kích thích thần kinh giữ nạn nhân tỉnh táo để xé thịt nham nhở, gieo hoảng loạn.'],
+      ['Khoanh Vùng Tọa Độ Đen', 'Liên minh rải Đèn Quang Phổ UV và cắm Mỏ Neo Không Gian phong tỏa các hầm nhà tù.']
+    ],
+    cr: [
+      ['d', 'Big Mimic', 'Cao hàng chục mét, da biến màu tàng hình, nén bê tông lún 12cm, cụm miệng tổ ong nhại giọng người.'],
+      ['d', 'Xà Ma Ẩn Tích', 'Mãng xà tàng hình, da cứng gấp 3 lần thép, tỏa mùi sắt rỉ pha rêu bùn, chuyên săn trẻ nhỏ.'],
+      ['d', 'Kẻ Tra Tấn Đêm', 'Dị thể tra tấn thần kinh tiêm dịch kích thích; cắn xé nham nhở để hút ma lực hoảng loạn.'],
+      ['d', 'Dị Thể Cắt Không Gian', 'Thực thể ẩn mình trong Sub-Dimension, cắt nát cấu trúc không gian.'],
+      ['s', 'Dạ Linh Tàn Tĩnh', 'Dài 30cm, tàng hình, không tấn công người, trút màng vảy ngưng tụ RTC/Vitamin D, E, B12 dưỡng thai.']
+    ],
+    ch: ['24 Loài Sinh Vật Săn Người']
+  },
+  {
+    id: 'ranh',
+    n: 'Rãnh Thái Bình Dương 30km',
+    sub: 'Atlantis Đen – Ngai vàng Vua Lời Nguyền Biển Sâu',
+    fac: 'Vua Lời Nguyền Biển Sâu & KAJU Warden',
+    col: '#3b82f6',
+    dg: 5,
+    era: 'Kỷ nguyên 1, 3 & 5',
+    pts: '50,410 750,410 720,485 80,485',
+    c: [400, 450],
+    trench: 1,
+    ov: 'Cột sáng hơi thở băng bộc phát từ rãnh sâu 30km lộ ra Atlantis Đen bằng Thạch Anh Đen và Viên Ma Năng Băng. Nơi giam giữ Praefectus fundi maris profundi (Thống Đốc Biển Sâu 5 Phase) và Vua Lời Nguyền Biển Sâu sở hữu Lõi Ma Năng Vũ Trụ từ thiên thạch, Thanh Kiếm Biển Sâu và Lời Nguyền Tinh Hà.',
+    ev: [
+      ['KAJU Warden Thức Tỉnh', '30m cai ngục mù hoàn toàn, đi nện chân săn rung chấn qua 6 Nhịp Chấn (Nhịp 4 hú Abyssal Screech).'],
+      ['Praefectus Thức Tỉnh & Phong Ấn', 'Vua Ngầm rút kiếm 5 Khắc Ấn kích hoạt Praefectus Phase 1-3; ROKET & THGM can thiệp cắm lại kiếm phong ấn Phase 5.'],
+      ['Thiên Thạch Rơi & Lời Nguyền Tinh Hà', 'Thiên thạch vũ trụ rơi xuống rãnh 30km nạp Lõi Ma Năng Vũ Trụ cho Vua Lời Nguyền, thao túng trọng lực và không khí.']
+    ],
+    cr: [
+      ['t', 'Vua Lời Nguyền Biển Sâu', 'Sở hữu Thanh Kiếm Biển Sâu (Lời nguyền ràng buộc & Chúc phúc biển sâu) và Lời Nguyền Tinh Hà.'],
+      ['t', 'Praefectus fundi maris profundi', 'Thống Đốc Biển Sâu 5 Phase; Phase 3 Thủy Ngục Kết Giới; Phase 5 Bong bóng chân không implosion.'],
+      ['t', 'KAJU Warden', 'Khổng lồ 30m thạch anh đen, mù hoàn toàn, dẫm chân săn chấn động theo bộ đếm 6 nhịp.'],
+      ['d', 'Thủy Quái Sóng Âm', 'Leviathan biển sâu phát siêu âm bóp nát tàu ngầm.']
+    ],
+    ch: ['Vua Lời Nguyền Biển Sâu', 'Praefectus (Đang bị phong ấn trên đài hiến tế Rêu Đỏ)']
+  }
+];
+
+let mode = 'fac';
+let sel = null;
+let tabNow = 'ov';
+let filterText = '';
+
+const g = document.getElementById('regs');
+const P = document.getElementById('panel');
+
+function paint() {
+  g.innerHTML = '';
+  R.forEach(r => {
+    if (filterText && !r.n.toLowerCase().includes(filterText) && !r.sub.toLowerCase().includes(filterText) && !r.fac.toLowerCase().includes(filterText)) {
+      return;
     }
+    const col = mode === 'fac' ? r.col : DG[r.dg];
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    p.setAttribute('points', r.pts);
+    p.setAttribute('fill', col);
+    p.setAttribute('fill-opacity', '0.45');
+    p.setAttribute('stroke', col);
+    p.setAttribute('class', 'reg' + (r.id === sel ? ' sel' : '') + (r.trench ? ' trench' : ''));
+    p.setAttribute('tabindex', '0');
+    p.setAttribute('role', 'button');
+    p.setAttribute('aria-label', r.n);
+
+    p.onclick = () => pick(r.id);
+    p.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(r.id); } };
+
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', r.c[0]);
+    t.setAttribute('y', r.c[1]);
+    t.setAttribute('class', 'lbl');
+    t.textContent = r.n;
+
+    g.append(p, t);
+  });
+
+  const legendEl = document.getElementById('legend');
+  if (mode === 'fac') {
+    legendEl.innerHTML = R.map(r => `<div class="legend-item"><i class="legend-i" style="background:${r.col}"></i>${r.fac}</div>`).join('');
+  } else {
+    legendEl.innerHTML = DG.slice(1).map((c, i) => `<div class="legend-item"><i class="legend-i" style="background:${c}"></i>${DGN[i + 1]}</div>`).join('');
+  }
 }
 
-/**
- * ⑧ An toàn gán nội dung text vào DOM — dùng textContent thay innerHTML.
- * Ngăn XSS nếu server trả về nội dung độc hại.
- */
-function safeSetText(el, text) {
-    if (el) el.textContent = text;
+function pick(id) {
+  sel = id;
+  tabNow = 'ov';
+  paint();
+  render();
+  if (window.innerWidth < 960) P.scrollIntoView({ behavior: 'smooth' });
 }
 
-/* ══════════════════════════════════════════════════
-   PARTICLES
-══════════════════════════════════════════════════ */
-const pc = document.getElementById('particles');
-for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'p';
-    const s = Math.random() * 3 + 1;
-    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}vw;top:${Math.random()*100}vh;animation-duration:${Math.random()*12+7}s;animation-delay:${Math.random()*8}s;`;
-    pc.appendChild(p);
+function render() {
+  const r = R.find(x => x.id === sel);
+  if (!r) return;
+
+  const contentMap = {
+    ov: `<p style="line-height:1.6">${r.ov}</p>`,
+    ev: r.ev.map(e => `<div class="item-card"><b>${e[0]}</b>${e[1]}</div>`).join(''),
+    cr: r.cr.map(c => `
+      <div class="item-card" style="border-left-color:${TC[c[0]]}">
+        <b style="color:${TC[c[0]]}">
+          <span class="badge ${c[0]}">${TAG[c[0]]}</span> ${c[1]}
+        </b>
+        ${c[2]}
+      </div>
+    `).join(''),
+    ch: r.ch ? r.ch.map(c => `<div class="item-card"><b>👤 ${c}</b>Lực lượng / Nhân vật trọng tâm hoạt động tại khu vực.</div>`).join('') : '<p>Chưa có dữ liệu nhân vật.</p>'
+  };
+
+  P.innerHTML = `
+    <h2>${r.n}</h2>
+    <div class="panel-sub">${r.sub}</div>
+    <div class="kv-grid">
+      <div class="kv-card">Thế lực<b>${r.fac}</b></div>
+      <div class="kv-card">Nguy hiểm<b style="color:${DG[r.dg]}">${DGN[r.dg]}</b></div>
+      <div class="kv-card">Thời kỳ<b>${r.era}</b></div>
+    </div>
+    <div class="tabs">
+      ${[
+        ['ov', 'Tổng quan'],
+        ['ev', 'Lịch sử (' + r.ev.length + ')'],
+        ['cr', 'Sinh vật (' + r.cr.length + ')'],
+        ['ch', 'Nhân vật']
+      ].map(t => `<button data-t="${t[0]}" class="tab-btn ${t[0] === tabNow ? 'on' : ''}">${t[1]}</button>`).join('')}
+    </div>
+    <div class="panel-content">${contentMap[tabNow]}</div>
+  `;
+
+  P.querySelectorAll('.tabs button').forEach(b => {
+    b.onclick = () => { tabNow = b.dataset.t; render(); };
+  });
 }
 
-/* ══════════════════════════════════════════════════
-   SETTINGS PANEL
-══════════════════════════════════════════════════ */
-const settingsBtn   = document.getElementById('settingsBtn');
-const settingsPanel = document.getElementById('settingsPanel');
-const bgGrid        = document.getElementById('bgGrid');
-const bgUrlInput    = document.getElementById('bgUrl');
-const bgApplyBtn    = document.getElementById('bgApply');
-const bgResetBtn    = document.getElementById('bgReset');
-const overlayTog    = document.getElementById('overlayTog');
-const bgOverlay     = document.getElementById('bgOverlay');
-const urlError      = document.getElementById('urlError');
-
-let spOpen = false;
-settingsBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    spOpen = !spOpen;
-    settingsPanel.classList.toggle('open', spOpen);
-    settingsBtn.setAttribute('aria-expanded', spOpen);
-});
-document.addEventListener('click', e => {
-    if (spOpen && !settingsPanel.contains(e.target) && e.target !== settingsBtn) {
-        spOpen = false;
-        settingsPanel.classList.remove('open');
-        settingsBtn.setAttribute('aria-expanded', 'false');
-    }
+document.querySelectorAll('.modes button').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('.modes button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    mode = b.dataset.m;
+    paint();
+  };
 });
 
-function applyBg(url) {
-    if (!url || url === 'none') {
-        document.body.style.backgroundImage = 'none';
-        document.body.style.backgroundColor = '#0a0a0a';
-    } else {
-        // ① Chỉ áp dụng URL đã qua kiểm tra an toàn
-        document.body.style.backgroundImage = `url(${url})`;
-        document.body.style.backgroundColor = '';
-    }
+function onSearch(val) {
+  filterText = val.trim().toLowerCase();
+  paint();
 }
 
-bgGrid.querySelectorAll('.bg-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-        bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
-        btn.classList.add('sel');
-        urlError.classList.remove('show');
-        applyBg(btn.dataset.bg); // Data từ HTML tĩnh, tin cậy
-    });
-});
-
-bgApplyBtn.addEventListener('click', () => {
-    const raw = bgUrlInput.value.trim();
-    urlError.classList.remove('show');
-
-    // ① Validate trước khi dùng
-    if (!raw) return;
-    if (!isSafeImageUrl(raw)) {
-        urlError.classList.add('show');
-        bgUrlInput.focus();
-        return;
-    }
-    bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
-    applyBg(raw);
-});
-
-// Xóa lỗi khi người dùng gõ lại
-bgUrlInput.addEventListener('input', () => {
-    urlError.classList.remove('show');
-});
-
-// Enter trong ô URL cũng trigger apply
-bgUrlInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') bgApplyBtn.click();
-});
-
-bgResetBtn.addEventListener('click', () => {
-    bgGrid.querySelectorAll('.bg-chip').forEach(b => b.classList.remove('sel'));
-    bgGrid.querySelector('[data-bg="none"]').classList.add('sel');
-    bgUrlInput.value = '';
-    urlError.classList.remove('show');
-    applyBg('none');
-});
-
-overlayTog.addEventListener('change', function() {
-    bgOverlay.classList.toggle('hidden', !this.checked);
-});
-
-/* ══════════════════════════════════════════════════
-   POPUP
-══════════════════════════════════════════════════ */
-function closePopup() {
-    const overlay = document.getElementById('popup-overlay');
-    overlay.classList.add('closing');
-    setTimeout(() => {
-        overlay.style.display = 'none';
-        overlay.classList.remove('closing');
-    }, 400);
-}
-window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closePopup();
-});
-
-/* ══════════════════════════════════════════════════
-   RELOAD CHAT
-══════════════════════════════════════════════════ */
-const reloadBtn  = document.getElementById('reloadChatBtn');
-const chatIframe = document.getElementById('chatIframe');
-const chatFrame  = document.getElementById('chatFrame');
-// ② src được hardcode, không nhận từ input người dùng
-const CHAT_SRC   = 'https://www5.cbox.ws/box/?boxid=961747&boxtag=8h6smg';
-
-reloadBtn.addEventListener('click', () => {
-    if (reloadBtn.disabled) return;
-    reloadBtn.disabled = true;
-    reloadBtn.classList.add('spinning');
-    chatFrame.classList.add('reloading');
-
-    chatIframe.src = 'about:blank';
-    setTimeout(() => {
-        chatIframe.src = CHAT_SRC;
-        chatFrame.classList.remove('reloading');
-        reloadBtn.classList.remove('spinning');
-        reloadBtn.disabled = false;
-    }, 600);
-});
-
-/* ══════════════════════════════════════════════════
-   NETWORK TEST
-══════════════════════════════════════════════════ */
-const pingBtn   = document.getElementById('pingBtn');
-const speedBtn  = document.getElementById('speedBtn');
-const netResult = document.getElementById('netResult');
-
-function showResult(text, quality) {
-    // ⑧ textContent thay vì innerHTML
-    netResult.textContent = text;
-    netResult.className   = 'net-result show ' + quality;
-}
-
-pingBtn.addEventListener('click', async () => {
-    if (pingBtn.classList.contains('running')) return;
-    pingBtn.classList.add('running');
-    pingBtn.textContent = '📡 Đang đo...';
-    netResult.className = 'net-result show';
-    netResult.textContent = '...';
-
-    const samples = [];
-    for (let i = 0; i < 4; i++) {
-        const t0 = performance.now();
-        try {
-            await fetch('https://www.cloudflare.com/cdn-cgi/trace?_=' + Date.now() + i, { cache: 'no-store', mode: 'no-cors' });
-        } catch (_) {}
-        samples.push(Math.round(performance.now() - t0));
-        await new Promise(r => setTimeout(r, 150));
-    }
-    const avg = Math.round(samples.reduce((a,b) => a+b, 0) / samples.length);
-    const quality = avg < 80 ? 'good' : avg < 200 ? 'ok' : 'bad';
-    const label   = avg < 80 ? '🟢' : avg < 200 ? '🟡' : '🔴';
-    showResult(`${label} Ping: ${avg} ms`, quality);
-
-    pingBtn.textContent = '📡 TEST PING';
-    pingBtn.classList.remove('running');
-});
-
-speedBtn.addEventListener('click', async () => {
-    if (speedBtn.classList.contains('running')) return;
-    speedBtn.classList.add('running');
-    speedBtn.textContent = '⚡ Đang đo...';
-    netResult.className = 'net-result show';
-    netResult.textContent = '...';
-
-    const testUrl = 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=90&_=' + Date.now();
-    const t0 = performance.now();
-    let bytes = 0;
-    try {
-        const res = await fetch(testUrl, { cache: 'no-store' });
-        const buf = await res.arrayBuffer();
-        bytes = buf.byteLength;
-    } catch (_) {
-        showResult('⚠ Không thể đo', 'bad');
-        speedBtn.textContent = '⚡ TEST TỐC ĐỘ';
-        speedBtn.classList.remove('running');
-        return;
-    }
-    const elapsed = (performance.now() - t0) / 1000;
-    const mbps    = ((bytes * 8) / elapsed / 1_000_000).toFixed(1);
-    const quality = mbps >= 10 ? 'good' : mbps >= 2 ? 'ok' : 'bad';
-    const label   = mbps >= 10 ? '🟢' : mbps >= 2 ? '🟡' : '🔴';
-    showResult(`${label} Tốc độ: ${mbps} Mbps`, quality);
-
-    speedBtn.textContent = '⚡ TEST TỐC ĐỘ';
-    speedBtn.classList.remove('running');
-});
-
-/* ══════════════════════════════════════════════════
-   FETCH DATA TỪ SERVER
-   ⑧ Dùng textContent — không dùng innerHTML
-   để ngăn XSS nếu nội dung server bị can thiệp.
-══════════════════════════════════════════════════ */
-async function loadMainNotice() {
-    try {
-        const r = await fetch('https://www.hentaiorc.xyz/notice.txt?v=' + Date.now());
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const txt = await r.text();
-        safeSetText(document.getElementById('updateNotice'), txt);
-        publishTestNotice('third-party:main-notice', txt);
-    } catch (_) {
-        safeSetText(document.getElementById('updateNotice'), 'Lỗi tải thông báo — vui lòng kiểm tra kết nối mạng.');
-    }
-}
-
-async function loadFooterUpdate() {
-    try {
-        const r = await fetch('https://www.hentaiorc.xyz/update.txt?v=' + Date.now());
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        const txt = await r.text();
-        safeSetText(document.getElementById('updateText'), txt);
-        publishTestNotice('third-party:footer-update', txt);
-    } catch (_) {
-        safeSetText(document.getElementById('updateText'), 'Lỗi tải thông tin cập nhật — vui lòng kiểm tra kết nối mạng.');
-    }
-}
-
-function publishTestNotice(id, message) {
-    const notice = {
-        type: 'orccop:test-notice',
-        id,
-        message: message.trim()
-    };
-    const isProviderFrame = new URLSearchParams(window.location.search).has('noticeProvider');
-    if (isProviderFrame && window.parent !== window) {
-        window.parent.postMessage(notice, window.location.origin);
-    }
-    if (message.trim() && window.orccopNotifications) {
-        try {
-            window.orccopNotifications.publish({
-                id,
-                title: id === 'third-party:main-notice' ? 'Thông báo mới' : 'Cập nhật mới',
-                message: message.trim(),
-                source: id === 'third-party:main-notice' ? 'third-party-note' : 'third-party-update'
-            });
-        } catch (error) {
-            console.error('Không thể lưu dữ liệu thông báo.', error);
-        }
-    }
-}
-
-loadMainNotice();
-loadFooterUpdate();
+paint();
 </script>
 </body>
 </html>
