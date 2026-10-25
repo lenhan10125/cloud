@@ -2,6 +2,19 @@
 (() => {
 	const languageStorageKey = "oriciin:lenhan:language";
 	const wikiBasePath = new URL(".", document.currentScript.src);
+	const wikiNavigation = document.querySelector(".wiki-nav-scroll");
+	if (wikiNavigation) {
+		wikiNavigation.addEventListener("wheel", event => {
+			const maxScroll = wikiNavigation.scrollWidth - wikiNavigation.clientWidth;
+			const canScroll = event.deltaY > 0
+				? wikiNavigation.scrollLeft < maxScroll
+				: event.deltaY < 0 && wikiNavigation.scrollLeft > 0;
+			if (maxScroll > 0 && canScroll && Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+				wikiNavigation.scrollLeft += event.deltaY;
+				event.preventDefault();
+			}
+		}, { passive: false });
+	}
 	let pageLanguage = "vi";
 	try {
 		pageLanguage = window.localStorage.getItem(languageStorageKey) === "en" ? "en" : "vi";
@@ -1939,7 +1952,8 @@
 		if (themeSearch) themeSearch.placeholder = labels.themeSearch;
 		document.querySelectorAll(".wiki-tab[data-view]").forEach(tab => {
 			const label = labels.tabs[tab.dataset.view];
-			if (label) tab.textContent = label;
+			const labelElement = tab.querySelector(".wiki-tab-label");
+			if (label && labelElement) labelElement.textContent = label;
 		});
 		const themeButton = document.getElementById("themeToggle");
 		const theme = window.LenhanThemes?.current();
