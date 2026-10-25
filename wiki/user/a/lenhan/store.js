@@ -1,6 +1,7 @@
 
 (() => {
 	const languageStorageKey = "oriciin:lenhan:language";
+	const wikiBasePath = new URL(".", document.currentScript.src);
 	let pageLanguage = "vi";
 	try {
 		pageLanguage = window.localStorage.getItem(languageStorageKey) === "en" ? "en" : "vi";
@@ -1018,7 +1019,7 @@
 		const imagePath = window.ITEM_IMAGE_BY_ID && window.ITEM_IMAGE_BY_ID[item.id];
 		const label = imagePath ? `Ảnh của ${item.name}` : "Chưa có hình ảnh vật phẩm";
 		const image = imagePath
-			? `<img src="${escapeHtml(imagePath)}" alt="${escapeHtml(label)}" loading="lazy"><span class="item-image-placeholder" aria-hidden="true">X</span>`
+			? `<img src="${escapeHtml(`${wikiBasePath}${imagePath}`)}" alt="${escapeHtml(label)}" loading="lazy"><span class="item-image-placeholder" aria-hidden="true">X</span>`
 			: '<span class="item-image-placeholder">X</span>';
 		return `<span class="${className}${imagePath ? " image-loading" : ""}"${imagePath ? " data-image-loader" : ""} role="img" aria-label="${escapeHtml(label)}">${image}</span>`;
 	}
@@ -1287,7 +1288,7 @@
 	}
 
 	function renderMap() {
-		element("viewRoot").innerHTML = `<section class="center-map-section" aria-label="Bản đồ thế giới OCEN"><iframe class="center-map-frame" src="word.html?embed=map#map" title="Bản đồ thế giới OCEN tương tác" loading="lazy"></iframe></section>`;
+		element("viewRoot").innerHTML = `<section class="center-map-section" aria-label="Bản đồ thế giới OCEN"><iframe class="center-map-frame" src="${wikiBasePath}word.html?embed=map#map" title="Bản đồ thế giới OCEN tương tác" loading="lazy"></iframe></section>`;
 	}
 
 	function matchingElementCreatures() {
@@ -1415,7 +1416,7 @@
 			: "";
 		const imagePath = window.CREATURE_IMAGE_BY_ID && window.CREATURE_IMAGE_BY_ID[item.id];
 		const profileImage = imagePath
-			? `<div class="pi-image creature-image image-loading" data-image-loader><img src="${escapeHtml(imagePath)}" alt="Ảnh của ${escapeHtml(item.name)}" loading="lazy"><span class="item-image-placeholder" aria-hidden="true">X</span></div>`
+			? `<div class="pi-image creature-image image-loading" data-image-loader><img src="${escapeHtml(`${wikiBasePath}${imagePath}`)}" alt="Ảnh của ${escapeHtml(item.name)}" loading="lazy"><span class="item-image-placeholder" aria-hidden="true">X</span></div>`
 			: `<div class="pi-image">Bách khoa sinh vật · Lenhan</div>`;
 		element("viewRoot").innerHTML = `<article class="wiki" id="${escapeHtml(item.id)}"><h1 class="title">${escapeHtml(item.name)}${danger ? ` <span class="danger-badge ${danger.className}">${danger.label}</span>` : ""}</h1><div class="byline">${escapeHtml(item.category)} · Hồ sơ #${item.number}${sourceCode}${detailed ? " · Hồ sơ chi tiết" : ""}</div><div class="lead"><div><nav class="toc"><div class="tocTitle">Mục lục</div><ol>${toc}${relatedItemsSection ? '<li><a href="#profile-related-items">Vật phẩm liên quan</a></li>' : ""}<li><a href="#profile-quick-reference">Bảng tổng hợp nhanh</a></li></ol></nav><div class="chips"><span class="tag">${escapeHtml(group)}</span><span class="tag">Biểu mẫu chuẩn hóa</span></div>${elementLinks}</div><aside class="infobox"><h2 class="pi-title">${escapeHtml(item.name)}</h2>${profileImage}<div class="pi-data-list">${renderDataRow("Mã hồ sơ", item.id)}${item.generatedFromStory ? renderDataRow("Mã nguồn truyện", `#${item.sourceNumber}`) : ""}${renderDataRow("Phân loại", item.category)}${renderDataRow("Danh mục", group)}${renderDataRow("Mô tả", item.summary)}${renderDataRow("Hồ sơ chi tiết", detailStatus)}</div></aside></div>${sectionContent}${relatedItemsSection}${quickReference}${originalDetails}<footer class="footer">Nguồn dữ liệu: ${sourceLabel} · Đường dẫn hồ sơ: index.html#${escapeHtml(item.id)}</footer></article>`;
 		setupImageLoading();
@@ -1533,7 +1534,7 @@
 			return;
 		}
 		const loadingTask = window.WikiOriLoader?.start("Đang tải dữ liệu tìm kiếm…");
-		fetch("search.txt")
+		fetch(`${wikiBasePath}search.txt`)
 			.then(response => {
 				if (!response.ok) throw new Error(`HTTP ${response.status}`);
 				return response.text();
@@ -1545,7 +1546,7 @@
 				}).filter(item => item.id && item.url && item.title);
 				items.forEach(item => entries.push({
 					id: item.id,
-					url: `index.html#${item.id}`,
+					url: `${wikiBasePath}index.html#${item.id}`,
 					title: item.name,
 					tag: `Vật phẩm · ${item.rarity === "unknown" ? "Chưa rõ phẩm cấp" : item.rarity}`,
 					desc: item.note || `Vật phẩm thu được từ ${item.sources[0]?.name || "nguồn chưa rõ"}`
@@ -1811,7 +1812,7 @@
 	loadSearchIndex();
 	}
 
-	const dataFile = pageLanguage === "en" ? "data_en.txt" : "data.txt";
+	const dataFile = `${wikiBasePath}${pageLanguage === "en" ? "data_en.txt" : "data.txt"}`;
 	const languageSelect = document.getElementById("languageSelect");
 	if (languageSelect) {
 		languageSelect.value = pageLanguage;
@@ -1857,7 +1858,7 @@
 				: `Không tải được ${dataFile}: ${error.message}`;
 			if (viewRoot) viewRoot.innerHTML = pageLanguage === "en"
 				? `<div class="empty"><h2>Could not load the bestiary</h2><p>Check that ${dataFile} is in the same folder as this page.</p></div>`
-				: `<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp ${dataFile} trong cùng thư mục với trang này.</p></div>`;
+				: `<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp ${dataFile.split("/").pop()} trong thư mục của trang này.</p></div>`;
 		});
 
 	function applyStaticLanguage() {

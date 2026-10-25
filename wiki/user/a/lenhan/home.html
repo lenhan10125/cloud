@@ -109,7 +109,8 @@ button,input{font:inherit}
 .wiki-brand{display:flex;align-items:center;gap:7px;flex:none;margin-right:8px;padding:6px 8px;color:var(--gold);font:900 13px/1 'Merriweather',serif;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
 .wiki-brand img{display:block;width:104px;height:auto}
 .wiki-brand strong{color:var(--ink)}
-.wiki-tab{display:block;padding:9px 14px;border:1px solid transparent;border-bottom:0;border-radius:3px 3px 0 0;color:#c8c1b8;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap}
+.wiki-tab{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid transparent;border-bottom:0;border-radius:3px 3px 0 0;color:#c8c1b8;text-decoration:none;font-size:12px;font-weight:600;white-space:nowrap}
+.wiki-tab svg{width:16px;height:16px;flex:none}
 .wiki-tab:hover,.wiki-tab.active{border-color:var(--chromeLine);background:var(--chrome2);color:var(--gold)}
 .language-control{margin-left:auto}
 .language-control select{min-height:32px;padding:6px 8px;border:1px solid var(--chromeLine);border-radius:3px;background:var(--chrome2);color:var(--ink);font:inherit;font-size:10px;cursor:pointer}
@@ -395,12 +396,12 @@ button,input{font:inherit}
 		<a class="wiki-brand" href="index.html" aria-label="WIKO ORI — Trang chính Lenhan">
 			<img src="../../../store/logo.png" alt="WIKI ORI">
 		</a>
-		<a class="wiki-tab" href="#center" data-view="center">Trung tâm</a>
-		<a class="wiki-tab" href="#elements" data-view="elements">Trang nguyên tố</a>
-		<a class="wiki-tab" href="#catalog" data-view="catalog">Mục lục</a>
-			<a class="wiki-tab" href="#glossary" data-view="glossary">Thuật ngữ</a>
-			<a class="wiki-tab" href="#items" data-view="items">Vật phẩm</a>
-			<a class="wiki-tab" href="#map" data-view="map">Bản đồ</a>
+		<a class="wiki-tab" href="#center" data-view="center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M4 5.5v16M8 7h8M8 11h8"></path></svg>Trung tâm</a>
+		<a class="wiki-tab" href="#elements" data-view="elements"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 2 2.2 6.2L21 10l-6.8 2.1L12 19l-2.2-6.9L3 10l6.8-1.8L12 2Z"></path><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"></path></svg>Trang nguyên tố</a>
+		<a class="wiki-tab" href="#catalog" data-view="catalog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M8 8h8M8 12h5"></path></svg>Mục lục</a>
+		<a class="wiki-tab" href="#glossary" data-view="glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M8 8h8M8 12h5"></path></svg>Thuật ngữ</a>
+		<a class="wiki-tab" href="#items" data-view="items"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"></path><path d="m4.5 7.7 7.5 4.2 7.5-4.2M12 12v9"></path></svg>Vật phẩm</a>
+		<a class="wiki-tab" href="#map" data-view="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>Bản đồ</a>
 			<details class="wiki-settings" id="wikiSettings">
 				<summary aria-label="Cài đặt / Settings" title="Cài đặt / Settings">⚙</summary>
 				<div class="wiki-settings-panel">
