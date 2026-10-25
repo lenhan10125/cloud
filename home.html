@@ -116,6 +116,16 @@
   .btn-primary:hover{background:var(--teal-deep);}
   .btn-ghost{border-color:var(--line);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--ink);}
+  .wiki-button{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    min-height:40px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;
+    background:var(--surface);color:var(--ink);text-decoration:none;font-size:13px;font-weight:700;
+    transition:border-color .2s,transform .2s,box-shadow .2s;
+  }
+  .wiki-button:hover{transform:translateY(-1px);border-color:#2f6df6;box-shadow:0 5px 16px rgba(47,109,246,.16);}
+  .wiki-button img{display:block;width:82px;height:auto;padding:4px 6px;border-radius:6px;background:#f5f7fa;}
+  .guide-action{border:0;background:none;padding:0;color:var(--teal);font:inherit;font-weight:600;cursor:pointer;}
+  .guide-action:hover{text-decoration:underline;}
 
   .menu-btn{
     display:none;background:none;border:1px solid var(--line);
@@ -485,11 +495,16 @@
     </a>
     <nav class="main-nav">
       <a href="#cong-cu">Sản phẩm</a>
+      <a href="#chi-dan">Chỉ dẫn</a>
       <a href="#gioi-thieu">Giới thiệu</a>
       <a href="#chuyen-doi">Chuyển đổi</a>
       <a href="#lien-he">Liên hệ</a>
     </nav>
     <div class="header-actions">
+      <a class="wiki-button" href="/wiki/index.html" aria-label="Mở Wiki ORI">
+        <img src="/wiki/store/logo.png" alt="WIKI ORI">
+        <span>Wiki</span>
+      </a>
       <a href="#chuyen-doi" class="btn btn-ghost">Tên miền mới</a>
       <a href="#lien-he" class="btn btn-primary">Liên hệ</a>
       <button class="search-btn" id="settingsBtn" type="button" aria-label="Account" aria-haspopup="dialog" aria-expanded="false">
@@ -707,6 +722,40 @@
     </div>
   </section>
 
+  <section id="chi-dan">
+    <div class="section-head">
+      <div>
+        <h2>Chỉ dẫn sử dụng</h2>
+        <p>Bắt đầu nhanh với các công cụ và cài đặt trên ORICIIN.</p>
+      </div>
+      <a class="wiki-button" href="/wiki/index.html" aria-label="Mở Wiki ORI">
+        <img src="/wiki/store/logo.png" alt="WIKI ORI">
+        <span>Khám phá Wiki</span>
+      </a>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <span class="card-tag">01 · Khám phá</span>
+        <h3>Mở công cụ</h3>
+        <p>Chọn “Sản phẩm” trên thanh điều hướng hoặc cuộn đến “Công cụ nổi bật”, rồi mở công cụ bạn cần.</p>
+        <a class="card-link" href="#cong-cu">Xem công cụ →</a>
+      </article>
+      <article class="card">
+        <span class="card-tag">02 · Tìm kiếm</span>
+        <h3>Tìm nội dung</h3>
+        <p>Nhấn nút tìm kiếm ở góc trên để tra cứu công cụ hoặc trang trong ORICIIN.</p>
+        <button class="card-link guide-action" id="guideSearchButton" type="button">Mở tìm kiếm →</button>
+      </article>
+      <article class="card">
+        <span class="card-tag">03 · Cài đặt</span>
+        <h3>Tùy chỉnh trải nghiệm</h3>
+        <p>Mở phần tài khoản để đổi giao diện, quản lý hình nền, quyền riêng tư và bộ nhớ đệm.</p>
+        <button class="card-link guide-action" id="guideSettingsButton" type="button">Mở cài đặt →</button>
+      </article>
+    </div>
+    <p style="margin:18px 0 0;color:var(--ink-soft);">Cần hướng dẫn chi tiết về sao chép mã và lưu ý an toàn? <a href="/root.html">Xem hướng dẫn copy mã</a>.</p>
+  </section>
+
   <!-- Giới thiệu / mission -->
   <section id="gioi-thieu">
     <div class="about">
@@ -764,6 +813,7 @@
     <div class="footer-links">
       <a href="#top">Trang chủ</a>
       <a href="#cong-cu">Công cụ</a>
+      <a href="#chi-dan">Chỉ dẫn</a>
       <a href="#gioi-thieu">Giới thiệu</a>
       <a href="#lien-he">Liên hệ</a>
     </div>
@@ -780,6 +830,14 @@
 </div>
 
 <script id="java-data-function" src="/store/java/java_data_function.js"></script>
+<script>
+  document.getElementById('guideSearchButton').addEventListener('click', function () {
+    document.getElementById('searchBtn').click();
+  });
+  document.getElementById('guideSettingsButton').addEventListener('click', function () {
+    document.getElementById('settingsBtn').click();
+  });
+</script>
 
 </body>
 </html>

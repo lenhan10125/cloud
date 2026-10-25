@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
+<script src="../../../js/loading.js"></script>
 <style>
 :root{--bg:#090d16;--card:#131b2e;--cyan:#00f2fe;--green:#00ff87;--purple:#9d4edd;--amber:#ff9e00;--red:#ff0055;--text:#e2e8f0;--sub:#94a3b8;--bd:#2a365c;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -23,7 +24,13 @@ button{font:inherit;cursor:pointer}
 .bar button.on,.tabs button.on{background:var(--cyan);color:var(--bg);border-color:var(--cyan);font-weight:600}
 .bar .sp{margin-left:auto}
 svg{width:100%;height:auto;display:block;border-radius:8px;background:#050a18;touch-action:none}
-.sphere{fill:#0a1630;pointer-events:none}.grat{fill:none;stroke:#16234a;stroke-width:.4;pointer-events:none}
+#map{cursor:grab}
+#map.globe-dragging{cursor:grabbing}
+.sphere{fill:url(#globe-ocean);stroke:#39618f;stroke-width:1.2;filter:drop-shadow(0 0 18px #167ac455);pointer-events:none}.grat{fill:none;stroke:#7994bd;stroke-opacity:.38;stroke-width:.55;pointer-events:none}
+.globe-moving .sphere{filter:none}
+.globe-moving .grat{opacity:.12}
+.globe-moving .ring{animation:none;opacity:.5}
+.globe-moving .c{transition:none}
 .c{cursor:pointer;stroke:#0a1630;transition:fill-opacity .15s}
 .c:hover{fill-opacity:.95!important;stroke:#fff}
 .c.rg{fill-opacity:.7!important}
@@ -63,26 +70,27 @@ svg{width:100%;height:auto;display:block;border-radius:8px;background:#050a18;to
 .more{width:100%;margin-top:4px;background:var(--bg);color:var(--cyan);border:1px solid var(--bd);border-radius:6px;padding:6px}
 .cnt{font-size:.78rem;color:var(--sub);margin-bottom:4px}
 @media(max-width:900px){main{grid-template-columns:1fr}}
-html.map-embed body{min-height:0;background:#090d16}
-html.map-embed header,html.map-embed .gs,html.map-embed .bar,html.map-embed #panel{display:none}
-html.map-embed main{display:block;max-width:none;padding:0}
-html.map-embed main>.box{padding:0;border:0;border-radius:0;background:transparent}
-html.map-embed #map{max-height:75vh}
-html.map-embed .legend{justify-content:center;padding:0 8px 8px}
+html.map-embed,html.map-embed body{min-height:100%;height:100%;background:#090d16;overflow:auto}
+html.map-embed header{display:none}
+html.map-embed main{width:100%;max-width:none;min-height:100%;margin:0;padding:10px;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:10px}
+html.map-embed main>.box{min-width:0;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card)}
+html.map-embed #panel{max-height:calc(100dvh - 20px);overflow:auto}
+html.map-embed .legend{justify-content:center;padding:0 8px 4px}
+@media(max-width:900px){html.map-embed main{grid-template-columns:minmax(0,1fr)}html.map-embed #panel{max-height:none}}
 </style>
 <script>if(new URLSearchParams(location.search).get("embed")==="map")document.documentElement.classList.add("map-embed");</script>
 </head>
 <body>
 <header>
   <h1>BẢN ĐỒ THẾ GIỚI HẬU THẢM HỌA</h1>
-  <p>Bấm vào từng quốc gia để xem lịch sử, thế lực và sinh vật tại đó. Cuộn chuột hoặc chụm hai ngón để phóng to.</p>
+  <p>Kéo hoặc vuốt để xoay; thả tay để quả địa cầu trượt theo quán tính. Cuộn chuột hoặc chụm hai ngón để phóng to, chọn quốc gia để xem thông tin.</p>
   <div class="stats"><span>Dân số: <b>5,3 tỷ</b></span><span>Giới tính: <b>1 nam : 5–6 nữ</b></span><span>Tỷ lệ sinh bé trai: <b>48%</b></span><span>Hệ sinh thái: <b>387 loài</b></span></div>
 </header>
 <main>
   <section class="box">
     <div class="gs"><input id="gq" type="search" placeholder="🔍 Tìm trong 387 sinh vật (tên Việt hoặc Anh)…" autocomplete="off"><div class="gres" id="gres" hidden></div></div>
-    <div class="bar"><small>Tô màu theo:</small><button class="on" data-m="fac">Thế lực</button><button data-m="dg">Mức nguy hiểm</button><button class="sp" id="reset">⟲ Đặt lại</button></div>
-    <svg id="map" viewBox="0 0 960 500" aria-label="Bản đồ thế giới"></svg>
+    <div class="bar"><small>Tô màu theo:</small><button class="on" data-m="fac">Thế lực</button><button data-m="dg">Mức nguy hiểm</button><small class="sp">Vuốt để xoay · thả tay để trượt</small><button id="reset">⟲ Đặt lại</button></div>
+    <svg id="map" viewBox="0 0 960 620" aria-label="Quả địa cầu tương tác"></svg>
     <div class="legend" id="legend"></div>
   </section>
   <aside class="box" id="panel"><div class="hint">🗺️ Chọn một quốc gia trên bản đồ (hoặc chấm xanh ở Thái Bình Dương) để xem chi tiết.</div></aside>
@@ -159,34 +167,129 @@ const CN={
 };
 
 /* ===== Dựng bản đồ ===== */
-const W=960,H=500,svg=d3.select('#map'),zg=svg.append('g');
-const proj=d3.geoNaturalEarth1().fitExtent([[4,4],[W-4,H-4]],{type:'Sphere'}),path=d3.geoPath(proj);
-zg.append('path').attr('class','sphere').attr('d',path({type:'Sphere'}));
-zg.append('path').attr('class','grat').attr('d',path(d3.geoGraticule10()));
+const W=960,H=620,svg=d3.select('#map'),zg=svg.append('g');
+const defs=svg.append('defs'),ocean=defs.append('radialGradient').attr('id','globe-ocean').attr('cx','38%').attr('cy','32%').attr('r','72%');
+ocean.append('stop').attr('offset','0%').attr('stop-color','#183968');
+ocean.append('stop').attr('offset','72%').attr('stop-color','#0b1d3b');
+ocean.append('stop').attr('offset','100%').attr('stop-color','#050d20');
+const initialRotation=[-142.2,-11.3];
+let rotation=initialRotation.slice(),zoomLevel=1;
+const globeRadius=Math.min(W,H)/2-16;
+const proj=d3.geoOrthographic().clipAngle(90).rotate(rotation).translate([W/2,H/2]).scale(globeRadius);
+const path=d3.geoPath(proj),graticule=d3.geoGraticule10();
+const sphere=zg.append('path').attr('class','sphere');
+const grid=zg.append('path').attr('class','grat');
+let mapPin=null,worldFeatures=[];
+const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let rotationVelocity=[0,0],inertiaFrame=0,lastInertiaTime=0,inertiaElapsed=0;
+function updateGlobe(){
+  proj.rotate(rotation).scale(globeRadius*zoomLevel);
+  sphere.attr('d',path({type:'Sphere'}));
+  grid.attr('d',path(graticule));
+  zg.selectAll('.c').attr('d',path);
+  if(mapPin){
+    const front= d3.geoDistance([142.2,11.3],[-rotation[0],-rotation[1]]) <= Math.PI/2;
+    const [x,y]=proj([142.2,11.3]);
+    mapPin.attr('cx',x).attr('cy',y).style('display',front?null:'none');
+    zg.selectAll('.ring').attr('cx',x).attr('cy',y).style('display',front?null:'none');
+  }
+}
+function setGlobeMotion(active){
+  svg.classed('globe-moving',active);
+  proj.precision(active ? 1.4 : 0.65);
+  if(!active)updateGlobe();
+}
+function stopInertia(){
+  if(inertiaFrame)cancelAnimationFrame(inertiaFrame);
+  inertiaFrame=0;lastInertiaTime=0;inertiaElapsed=0;
+}
+function finishGlobeMotion(){
+  stopInertia();rotationVelocity=[0,0];svg.classed('globe-dragging',false);setGlobeMotion(false);
+}
+function animateInertia(time){
+  if(!lastInertiaTime)lastInertiaTime=time;
+  const elapsed=Math.min(32,time-lastInertiaTime);
+  lastInertiaTime=time;inertiaElapsed+=elapsed;
+  const previousLatitude=rotation[1];
+  rotation=[rotation[0]+rotationVelocity[0]*elapsed,Math.max(-85,Math.min(85,rotation[1]+rotationVelocity[1]*elapsed))];
+  if(rotation[1]===previousLatitude)rotationVelocity[1]=0;
+  const friction=Math.pow(.93,elapsed/16.67);
+  rotationVelocity=rotationVelocity.map(value=>value*friction);
+  updateGlobe();
+  if(inertiaElapsed<2200&&Math.max(Math.abs(rotationVelocity[0]),Math.abs(rotationVelocity[1]))>.006){
+    inertiaFrame=requestAnimationFrame(animateInertia);
+  }else finishGlobeMotion();
+}
+function startInertia(){
+  if(prefersReducedMotion||Math.max(Math.abs(rotationVelocity[0]),Math.abs(rotationVelocity[1]))<.025){
+    finishGlobeMotion();return;
+  }
+  lastInertiaTime=0;inertiaElapsed=0;inertiaFrame=requestAnimationFrame(animateInertia);
+}
 
 const byName={};R.forEach(r=>r.list.forEach(n=>byName[n]=r.id));
 const reg=id=>R.find(r=>r.id===id);
 let mode='fac',sel={c:null,r:null},tabNow='ov',K=1,crQ='',crG=0,crLim=30,openN=null;
 const color=r=>mode==='fac'?r.col:DG[r.dg];
 
-const zoom=d3.zoom().scaleExtent([1,8]).translateExtent([[0,0],[W,H]]).on('zoom',e=>{
-  K=e.transform.k;zg.attr('transform',e.transform);
-  zg.selectAll('.c').attr('stroke-width',.5/K);
-  zg.selectAll('.pin').attr('r',5/K).attr('stroke-width',1.5/K);
-  zg.selectAll('.ring').attr('r',5/K).attr('stroke-width',1.5/K);
+const zoom=d3.zoom().scaleExtent([1,8]).filter(event=>event.type==='wheel'||event.type.startsWith('touch')).on('zoom',e=>{
+  zoomLevel=e.transform.k;updateGlobe();
+  zg.selectAll('.c').attr('stroke-width',.5/zoomLevel);
+  zg.selectAll('.pin').attr('r',5/zoomLevel).attr('stroke-width',1.5/zoomLevel);
+  zg.selectAll('.ring').attr('r',5/zoomLevel).attr('stroke-width',1.5/zoomLevel);
 });
 svg.call(zoom);
-document.getElementById('reset').onclick=()=>svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity);
+const pointers=new Map();
+let previousPointer=null,dragged=false,suppressClick=false;
+svg.node().addEventListener('pointerdown',event=>{
+  if(event.pointerType==='mouse'&&event.button!==0)return;
+  stopInertia();rotationVelocity=[0,0];
+  pointers.set(event.pointerId,[event.clientX,event.clientY]);
+  if(pointers.size===1){previousPointer=[event.clientX,event.clientY];lastPointerTime=event.timeStamp;dragged=false;svg.classed('globe-dragging',true);setGlobeMotion(true)}
+  else rotationVelocity=[0,0];
+});
+svg.node().addEventListener('pointermove',event=>{
+  if(!pointers.has(event.pointerId))return;
+  const current=[event.clientX,event.clientY];
+  pointers.set(event.pointerId,current);
+  if(pointers.size!==1||!previousPointer)return;
+  const dx=current[0]-previousPointer[0],dy=current[1]-previousPointer[1];
+  if(Math.abs(dx)+Math.abs(dy)>2&&!dragged){dragged=true;svg.node().setPointerCapture(event.pointerId)}
+  const degreesPerPixel=360/(2*Math.PI*globeRadius*zoomLevel);
+  const elapsed=Math.max(1,event.timeStamp-lastPointerTime);
+  const longitudeDelta=dx*degreesPerPixel,latitudeDelta=-dy*degreesPerPixel;
+  const smoothVelocity=(current,delta)=>Math.max(-.8,Math.min(.8,current*.65+delta/elapsed*.35));
+  rotationVelocity=[smoothVelocity(rotationVelocity[0],longitudeDelta),smoothVelocity(rotationVelocity[1],latitudeDelta)];
+  rotation=[rotation[0]+longitudeDelta,Math.max(-85,Math.min(85,rotation[1]+latitudeDelta))];
+  previousPointer=current;lastPointerTime=event.timeStamp;updateGlobe();
+});
+const releasePointer=event=>{
+  if(!pointers.has(event.pointerId))return;
+  pointers.delete(event.pointerId);
+  if(pointers.size===0){
+    if(dragged){suppressClick=true;setTimeout(()=>{suppressClick=false},0);startInertia()}
+    else finishGlobeMotion();
+    previousPointer=null;svg.classed('globe-dragging',false);
+  }else{previousPointer=[...pointers.values()][0];lastPointerTime=event.timeStamp;rotationVelocity=[0,0]}
+};
+svg.node().addEventListener('pointerup',releasePointer);
+svg.node().addEventListener('pointercancel',releasePointer);
+svg.node().addEventListener('click',event=>{if(suppressClick){event.stopImmediatePropagation();event.preventDefault()}},true);
+document.getElementById('reset').onclick=()=>{
+  rotation=initialRotation.slice();
+  svg.transition().duration(350).call(zoom.transform,d3.zoomIdentity);
+};
 
 d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(w=>{
-  const feats=topojson.feature(w,w.objects.countries).features.filter(f=>f.properties.name!=='Antarctica');
-  zg.selectAll('.c').data(feats).join('path').attr('class','c').attr('d',path).attr('stroke-width',.5)
+  worldFeatures=topojson.feature(w,w.objects.countries).features.filter(f=>f.properties.name!=='Antarctica');
+  zg.selectAll('.c').data(worldFeatures).join('path').attr('class','c').attr('stroke-width',.5)
     .on('click',(e,d)=>pick(d.properties.name))
     .append('title').text(d=>d.properties.name);
-  const [px,py]=proj([142.2,11.3]);               // Rãnh Mariana
-  zg.append('circle').attr('class','ring').attr('cx',px).attr('cy',py).attr('r',5).attr('stroke-width',1.5);
-  zg.append('circle').attr('class','pin').attr('cx',px).attr('cy',py).attr('r',5).attr('stroke-width',1.5)
+  zg.append('circle').attr('class','ring').attr('r',5).attr('stroke-width',1.5);
+  zg.append('circle').attr('class','pin').attr('r',5).attr('stroke-width',1.5)
     .on('click',()=>pick(null,'ranh')).append('title').text('Rãnh Thái Bình Dương 30km');
+  mapPin=zg.select('.pin');
+  updateGlobe();
   paint();
 }).catch(()=>{document.getElementById('legend').innerHTML='<div class="err">Không tải được dữ liệu bản đồ. Hãy kiểm tra kết nối mạng rồi tải lại trang.</div>'});
 

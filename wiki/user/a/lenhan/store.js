@@ -1,22 +1,24 @@
 
 (() => {
+	const languageStorageKey = "oriciin:lenhan:language";
+	let pageLanguage = "vi";
+	try {
+		pageLanguage = window.localStorage.getItem(languageStorageKey) === "en" ? "en" : "vi";
+	} catch (error) {
+		console.warn("Không thể đọc ngôn ngữ đã lưu:", error);
+	}
+	window.LENHAN_LANGUAGE = pageLanguage;
+	document.documentElement.lang = pageLanguage;
+
 	function initializeCatalog() {
 	const creatures = Array.isArray(window.LENHAN_CREATURES) ? window.LENHAN_CREATURES : [];
 	const creaturesById = new Map(creatures.map(creature => [creature.id, creature]));
+	const unknownProfileValue = pageLanguage === "en" ? "no recorded data" : "không có dữ liệu được ghi nhận";
 	const archiveAvailable = creatures.length > 0;
 	const initialPageSize = 30;
 	const pageIncrement = 10;
 	const datasheetCreatures = () => creatures.filter(creature => creature.categoryId !== "group-02" || Boolean(creature.details));
 	const groups = [...new Map(creatures.map(item => [item.categoryId, { id: item.categoryId, title: item.category }])).values()];
-	const items = buildItemCatalog();
-	const itemsById = new Map(items.map(item => [item.id, item]));
-	const itemLinkCandidates = items
-		.flatMap(item => [item.rawName, item.name].map(name => ({ item, escapedName: escapeHtml(name) })))
-		.sort((a, b) => b.escapedName.length - a.escapedName.length);
-	const itemLinkPattern = itemLinkCandidates.length
-		? new RegExp(itemLinkCandidates.map(candidate => candidate.escapedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi")
-		: null;
-	const itemsByEscapedName = new Map(itemLinkCandidates.map(candidate => [candidate.escapedName.toLocaleLowerCase("vi"), candidate.item]));
 	const elements = [
 		{ id: "fire", label: "Lửa", formLabel: "Hệ Lửa (Fire)", aliases: ["lua", "fire"] },
 		{ id: "water", label: "Nước", formLabel: "Hệ Nước (Water)", aliases: ["nuoc", "water"] },
@@ -28,20 +30,37 @@
 		{ id: "dark", label: "Ám", formLabel: "Hệ Ám/Bóng tối (Dark/Unification)", aliases: ["bong toi", "shadow", "dark", "am"] },
 		{ id: "poison", label: "Độc", formLabel: "Hệ Độc tố (Poison/Acid)", aliases: ["poison", "acid", "axit", "doc"] }
 	];
-	const state = { group: null, groupsCollapsed: false, query: "", selectedId: null, selectedItemId: null, itemIdQuery: "", itemNameQuery: "", itemRank: "", view: "center", elementId: "fire", minPercent: -500, maxPercent: 100, includeUnknown: true, elementQuery: "", simulationCreatureId: "", simulationElementIds: [], simulationValues: {}, simulationApplied: false, catalogQuery: "", catalogGroup: "", catalogSpecies: "", catalogTags: [], glossaryQuery: "", glossaryCreatureId: "", glossaryTerm: "", pageLimits: {} };
+	const items = buildItemCatalog();
+	const itemsById = new Map(items.map(item => [item.id, item]));
+	const itemLinkCandidates = items
+		.flatMap(item => [item.rawName, item.name].map(name => ({ item, escapedName: escapeHtml(name) })))
+		.sort((a, b) => b.escapedName.length - a.escapedName.length);
+	const itemLinkPattern = itemLinkCandidates.length
+		? new RegExp(itemLinkCandidates.map(candidate => candidate.escapedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi")
+		: null;
+	const itemsByEscapedName = new Map(itemLinkCandidates.map(candidate => [candidate.escapedName.toLocaleLowerCase("vi"), candidate.item]));
+	const state = { group: null, groupsCollapsed: false, query: "", selectedId: null, selectedItemId: null, itemIdQuery: "", itemNameQuery: "", itemRank: "", view: "center", elementId: "fire", minPercent: -500, maxPercent: 100, includeUnknown: true, elementQuery: "", simulationCreatureId: "", simulationElementIds: [], simulationValues: {}, simulationApplied: false, catalogQuery: "", catalogGroup: "", catalogSpecies: "", catalogTags: [], glossaryQuery: "", glossaryCreatureId: "", glossaryTerm: "", glossaryType: "", pageLimits: {} };
 	let activeTab = state.view;
 	const navigationHistory = [];
-	const profileSections = [
+	const profileSections = pageLanguage === "en" ? [
+		{ roman: "I", title: "IDENTIFICATION INFORMATION" },
+		{ roman: "II", title: "BIOLOGY & APPEARANCE" },
+		{ roman: "III", title: "ATTRIBUTES AND STATS" },
+		{ roman: "IV", title: "RESISTANCE AND WEAKNESSES" },
+		{ roman: "V", title: "SKILLS & ABILITIES" },
+		{ roman: "VI", title: "ECOLOGY AND BEHAVIOR" },
+		{ roman: "VII", title: "REWARDS FOR DEFEAT" },
+		{ roman: "VIII", title: "HISTORY / LEGEND" }
+	] : [
 		{ roman: "I", title: "THÔNG TIN ĐỊNH DANH" },
 		{ roman: "II", title: "ĐẶC ĐIỂM SINH HỌC & NGOẠI HÌNH" },
-		{ roman: "III", title: "THUỘC TÍNH VÀ CHỈ SỐ LÀM MẪU" },
+		{ roman: "III", title: "THUỘC TÍNH VÀ CHỈ SỐ" },
 		{ roman: "IV", title: "BẢNG KHÁNG VÀ ĐIỂM YẾU" },
 		{ roman: "V", title: "HỆ THỐNG KỸ NĂNG & NĂNG LỰC" },
 		{ roman: "VI", title: "SINH THÁI HỌC VÀ HÀNH VI" },
 		{ roman: "VII", title: "PHẦN THƯỞNG KHI TIÊU DIỆT" },
 		{ roman: "VIII", title: "LỊCH SỬ / GIAI THOẠI TRUYỀN THUYẾT" }
 	];
-	const unknownProfileValue = "không có dữ liệu được ghi nhận";
 	const emptyProfileSections = [
 		{
 			roman: "I", title: "THÔNG TIN ĐỊNH DANH", fields: [
@@ -57,7 +76,7 @@
 			]
 		},
 		{
-			roman: "III", title: "THUỘC TÍNH VÀ CHỈ SỐ LÀM MẪU", fields: [
+			roman: "III", title: "THUỘC TÍNH VÀ CHỈ SỐ", fields: [
 				"HP (Sinh lực / Máu), giới hạn tối đa và tốc độ tự hồi phục mỗi giây", "MP (Ma lực / Năng lượng), giới hạn tối đa và tốc độ tự hồi phục mỗi giây",
 				"SP/Stamina (Thể lực / Thể năng) và tốc độ tiêu hao khi chạy",
 				"Giáp vật lý và tỷ lệ sát thương vật lý được giảm", "Giáp phép thuật (Magic Barrier/Shield) và lượng sát thương phép hấp thụ tối đa",
@@ -198,10 +217,6 @@
 			scrollToPageTop();
 			closeMenu();
 		});
-		element("miniThemeButton").addEventListener("click", () => {
-			closeMenu();
-			window.LenhanThemes?.openPicker?.();
-		});
 		document.addEventListener("keydown", event => {
 			if (event.key === "Escape" && container.classList.contains("is-open")) closeMenu();
 		});
@@ -316,8 +331,76 @@
 		return {
 			type: match?.type || "Nguyên liệu chưa phân loại",
 			appearance: match
-				? `Dựa trên tên vật phẩm, hình thái có thể là: ${match.appearance}${materialKey ? ` Tên vật phẩm cũng gợi ý chất liệu hoặc thành phần “${materials[materialKey]}”.` : ""}${colorKey ? ` Tên gọi gợi sắc ${colors[colorKey]}.` : ""}`
-				: `Hồ sơ nguồn chưa mô tả hình dạng cụ thể. Tên “${item.name}” chưa đủ để xác định hình thái vật lý đáng tin cậy.`
+				? `Hình thái: ${match.appearance}${materialKey ? ` Chất liệu hoặc thành phần: ${materials[materialKey]}.` : ""}${colorKey ? ` Màu sắc: ${colors[colorKey]}.` : ""}`
+				: `Hồ sơ nguồn chưa mô tả hình dạng cụ thể của ${item.name}.`
+		};
+	}
+
+	function completeItemProfile(item) {
+		const source = creaturesById.get(item.sources[0]?.id);
+		const inferred = inferItemProfile(item);
+		const sourceSummary = source?.summary || "";
+		const sourceAppearance = extractCreatureField(source, /cau tao da|dac diem nhan dang|dac diem hinh thai|ngoai hinh/i);
+		const habitat = extractCreatureField(source, /moi truong song(?: chu yeu)?|habitat/i);
+		const diet = extractCreatureField(source, /che do an uong|thuc an|diet/i);
+		const weakness = extractCreatureField(source, /diem yeu vat ly|diem yeu tam ly/i);
+		const sourceContext = [sourceAppearance, sourceSummary].filter(Boolean).join(" ");
+		const attributes = source && parseAffinities(source);
+		const strongestAttribute = attributes && Object.entries(attributes)
+			.sort(([, first], [, second]) => second - first)[0];
+		const weakestAttribute = attributes && Object.entries(attributes)
+			.sort(([, first], [, second]) => first - second)[0];
+		const attributeLabels = {
+			fire: "Lửa", water: "Nước", earth: "Đất/Mộc", lightning: "Lôi",
+			wind: "Phong", ice: "Băng", light: "Quang", dark: "Ám", poison: "Độc"
+		};
+		const sourceName = source?.name || "sinh vật chưa xác định";
+		const materialType = item.type || inferred.type;
+		const generatedStats = [
+			["Tấn công vật lý", "Không áp dụng khi vật phẩm ở dạng nguyên liệu."],
+			["Sát thương phép thuật", strongestAttribute ? `Mang dư tính hệ ${attributeLabels[strongestAttribute[0]]} từ sinh vật nguồn.` : unknownProfileValue],
+			["Phòng thủ / Giáp", "Không có chỉ số giáp độc lập; độ bền phụ thuộc cách chế tác."],
+			["Kháng phép", weakestAttribute ? `Kháng hệ ${attributeLabels[weakestAttribute[0]]}, yếu tố có mức kháng thấp nhất của sinh vật nguồn.` : unknownProfileValue],
+			["Độ bền / Độ chịu lực", "Độ bền vật liệu phụ thuộc phương thức bảo quản."],
+			["Thuộc tính đòn đánh", strongestAttribute ? `Dư tính hệ ${attributeLabels[strongestAttribute[0]]} được lưu giữ sau khi tinh luyện.` : unknownProfileValue],
+			["Thuộc tính phòng ngự", weakness ? `Vật liệu có tác dụng đối phó điểm yếu của sinh vật nguồn: ${weakness}` : unknownProfileValue]
+		];
+		const stats = item.stats?.length
+			? item.stats.map(([label, value]) => [label, /^none-data$/i.test(String(value || "").trim())
+				? generatedStats.find(([statLabel]) => statLabel === label)?.[1] || unknownProfileValue
+				: value])
+			: generatedStats;
+		const inferredEffect = strongestAttribute
+			? `Sau khi tinh luyện, ${item.rawName} lưu giữ dư tính hệ ${attributeLabels[strongestAttribute[0]]} của ${sourceName}.`
+			: `${item.rawName} được dùng làm nguyên liệu nghiên cứu đặc tính của ${sourceName}.`;
+		const defaultDescription = [
+			inferred.appearance,
+			sourceContext ? `Hồ sơ ${sourceName} mô tả: ${sourceContext}` : "",
+			habitat ? `Nguồn sinh vật sống tại ${habitat}` : ""
+		].filter(Boolean).join(" ");
+		const rank = extractCreatureField(source, /cap do nguy hiem|xep hang|rank|danger level/i);
+		const itemUse = /loi|hat nhan|tinh the|tinh tuy|ma luc|nang luong|doc|tuyen|dich|mau|huyet/i.test(normalizeText(item.rawName))
+			? "Dùng để tinh luyện hoặc phối chế thành dược liệu, chất xúc tác."
+			: "Dùng làm nguyên liệu chế tác, nghiên cứu hoặc vật phẩm trao đổi.";
+		return {
+			...item,
+			ancientName: item.ancientName || item.name,
+			type: item.type || materialType,
+			description: item.description || escapeHtml(defaultDescription),
+			note: item.note || `Thông tin vật phẩm liên hệ với hồ sơ nguồn${sourceSummary ? `: ${sourceSummary}` : ` (${sourceName})`}`,
+			usableLevel: item.usableLevel || "Không áp dụng khi vật phẩm ở dạng nguyên liệu.",
+			classes: item.classes || "Thợ săn, thợ rèn, giả kim thuật sư và nhà nghiên cứu.",
+			obtain: {
+				quest: item.obtain?.quest || `Thu thập ${item.rawName} từ ${sourceName} để nghiên cứu đặc tính.`,
+				crafting: item.obtain?.crafting || `Làm sạch và tinh luyện ${item.rawName}.`,
+				location: item.obtain?.location || (habitat ? `Khu vực sinh sống của ${sourceName}: ${habitat}` : unknownProfileValue),
+				conditions: item.obtain?.conditions || item.dropChance || `${unknownProfileValue}${rank ? `; hồ sơ nguồn xếp ${sourceName}: ${rank}` : ""}.`
+			},
+			stats,
+			effects: item.effects?.length ? item.effects : [inferredEffect, itemUse],
+			upgrade: item.upgrade || unknownProfileValue,
+			commerce: item.commerce || unknownProfileValue,
+			lore: item.lore || `${item.rawName} gắn với đặc tính của ${sourceName}.${diet ? ` Tập tính ăn uống được ghi nhận: ${diet}` : ""}`
 		};
 	}
 
@@ -450,7 +533,8 @@
 			const name = String(rawName || "").trim().replace(/[.;,]+$/, "").trim();
 			if (!name || /^(?:none-data|mẫu vật phù hợp với mô tả|mẫu vật có đặc tính)/i.test(name)) return;
 			const normalizedName = normalizeText(name);
-			let item = found.get(normalizedName);
+			const itemKey = `${creature.id}:${normalizedName}`;
+			let item = found.get(itemKey);
 			if (!item) {
 				item = {
 					id: `item-${String(found.size + 1).padStart(4, "0")}`,
@@ -462,7 +546,7 @@
 					note: "",
 					sources: []
 				};
-				found.set(normalizedName, item);
+				found.set(itemKey, item);
 			}
 			const source = { id: creature.id, name: creature.name };
 			if (!item.sources.some(entry => entry.id === source.id)) item.sources.push(source);
@@ -573,11 +657,11 @@
 				const baseName = stylizedItemName(item.rawName, creaturesById.get(item.sources[0]?.id) || { name: "" });
 				const occurrence = (names.get(baseName) || 0) + 1;
 				names.set(baseName, occurrence);
-				return {
+				return completeItemProfile({
 					...item,
 					...enriched,
 					name: enriched?.name || (occurrence > 1 ? `${baseName} ${["II", "III", "IV", "V"][occurrence - 2] || occurrence}` : baseName)
-				};
+				});
 			});
 	}
 
@@ -742,11 +826,11 @@
 			return;
 		}
 		const baseValues = parseAffinities(creature);
-		output.innerHTML = `<div class="simulation-summary">Mô phỏng cho <strong>${escapeHtml(creature.name)}</strong> · dữ liệu gốc không bị thay đổi.</div><div class="table-scroll"><table class="record-table"><thead><tr><th>Nguyên tố</th><th>Kháng gốc</th><th>Kháng mô phỏng</th><th>Hiệu ứng ước tính</th></tr></thead><tbody>${state.simulationElementIds.map(id => {
+		output.innerHTML = `<div class="simulation-summary">Mô phỏng cho <strong>${escapeHtml(creature.name)}</strong> · dữ liệu gốc không bị thay đổi.</div><div class="table-scroll element-table-scroll"><table class="record-table"><thead><tr><th>Nguyên tố</th><th>Kháng gốc</th><th>Kháng mô phỏng</th><th>Hiệu ứng ước tính</th></tr></thead><tbody>${state.simulationElementIds.map(id => {
 			const elemental = elements.find(item => item.id === id);
 			const base = baseValues[id];
 			const simulated = state.simulationValues[id] ?? 0;
-			return `<tr><td>${escapeHtml(elemental.label)}</td><td>${base === undefined ? '<span class="unknown-value">Không rõ</span>' : `${base}%`}</td><td>${simulated}%</td><td>${escapeHtml(resistanceEffect(simulated))}</td></tr>`;
+			return `<tr><td data-label="Nguyên tố">${escapeHtml(elemental.label)}</td><td data-label="Kháng gốc">${base === undefined ? '<span class="unknown-value">Không rõ</span>' : `${base}%`}</td><td data-label="Kháng mô phỏng">${simulated}%</td><td data-label="Hiệu ứng ước tính">${escapeHtml(resistanceEffect(simulated))}</td></tr>`;
 		}).join("")}</tbody></table></div>`;
 	}
 
@@ -779,9 +863,16 @@
 	function dangerInfo(creature) {
 		const text = String(creature.details || "");
 		if (/thần thoại|tai ương toàn cầu/i.test(text)) return { label: "Thần thoại", className: "danger-violet", order: 7 };
-		const rank = text.match(/rank\s*(SSS|SS|S|A\+?|B|C|D|E|F)(?=\s|\(|$)/i)?.[1]?.toUpperCase();
+		const rawRank = text.match(/rank\s*(ERROR|SSS\+?|SS\+?|S|A\+?|B|C|D|E|F)(?=\s|\(|$)/i)?.[1]?.toUpperCase()
+			|| text.match(/(?:cấp độ nguy hiểm|danger level)\s*\/\s*(?:xếp hạng|rank)[^\n]*?(?:rank\s*)?(ERROR|SSS\+?|SS\+?|S|A\+?|B|C|D|E|F)/i)?.[1]?.toUpperCase();
+		const fallbackRank = /(theo phân loại hiện hành|catalog\s*·\s*id\s*creature)/i.test(text)
+			? (creature.categoryId === "group-02" ? "F" : "D")
+			: null;
+		const rank = rawRank || fallbackRank;
 		if (!rank) return null;
-		if (rank === "SSS" || rank === "SS") return { label: `Rank ${rank}`, className: "danger-violet", order: 7 };
+		if (rank === "ERROR") return { label: "Rank ERROR", className: "danger-error", order: 10 };
+		if (rank === "SSS+") return { label: `Rank ${rank}`, className: "danger-error", order: 9 };
+		if (rank === "SS+" || rank === "SSS" || rank === "SS") return { label: `Rank ${rank}`, className: "danger-violet", order: 8 };
 		if (rank === "S") return { label: `Rank ${rank}`, className: "danger-indigo", order: 6 };
 		if (rank.startsWith("A")) return { label: `Rank ${rank}`, className: "danger-blue", order: 5 };
 		if (rank === "B") return { label: `Rank ${rank}`, className: "danger-green", order: 4 };
@@ -822,7 +913,7 @@
 		creatures.forEach(creature => {
 			const details = String(creature.details || "");
 			if (!details) {
-				entries.push({ id: creature.id, name: creature.name, category: creature.category, term: "Mô tả tóm tắt", definition: creature.summary || "Không có thông tin", value: creature.summary || "Không có thông tin" });
+				entries.push({ id: creature.id, creatureId: creature.id, type: "creature", name: creature.name, category: creature.category, term: "Mô tả tóm tắt", definition: creature.summary || "Không có thông tin", value: creature.summary || "Không có thông tin" });
 				return;
 			}
 			details.split(/\r?\n/).forEach(line => {
@@ -831,29 +922,48 @@
 				while ((match = pattern.exec(line))) {
 					const term = match[1].trim();
 					const value = match[2].replace(/\*+/g, "").trim() || "Không có thông tin";
-					entries.push({ id: creature.id, name: creature.name, category: creature.category, term, definition: glossaryDefinition(term, value), value });
+					entries.push({ id: creature.id, creatureId: creature.id, type: "creature", name: creature.name, category: creature.category, term, definition: glossaryDefinition(term, value), value });
 				}
 			});
 		});
-		return entries;
+		const systemTerms = [
+			["Rank SS+", "Bậc phân loại dành cho Titan và thực thể có sức đe dọa cực cao; mọi hồ sơ trong nhóm Titan phải đạt từ mức này."],
+			["Rank ERROR", "Nhãn ngoại lệ vượt thang xếp hạng thông thường, dành cho mối đe dọa cấp hành tinh hoặc đại thảm họa."],
+			["Cấp hành tinh", "Mức nguy hiểm có thể tác động đến quy mô hành tinh, hệ sinh thái toàn cầu hoặc cấu trúc địa chất."],
+			["Đại thảm họa", "Sự kiện hoặc thực thể có khả năng gây hậu quả diện rộng, kéo dài và đe dọa sự tồn vong."],
+			["Mach", "Tỷ số giữa tốc độ của một vật thể và tốc độ âm thanh trong môi trường đang xét."],
+			["Mach 1+", "Tốc độ bằng hoặc vượt tốc độ âm thanh; giá trị thực tế thay đổi theo môi trường."],
+			["Ngưỡng Titan", "Trong danh mục này, nhóm Titan có rank tối thiểu SS+; Rank ERROR biểu thị ngoại lệ cấp hành tinh/đại thảm họa."]
+		].map(([term, definition], index) => ({ id: `system-term-${String(index + 1).padStart(2, "0")}`, type: "system", name: "Hệ thống", category: "Hệ thống", term, definition, value: definition }));
+		const creatureTerms = [
+			["Sinh vật Titan", "Sinh vật thuộc nhóm Titan, được xếp từ Rank SS+ trở lên."],
+			["Sinh vật phi vật lý", "Thực thể không có cơ thể vật chất ổn định; có thể tồn tại dưới dạng năng lượng, trường lực hoặc khái niệm."],
+			["Sinh vật siêu thanh", "Sinh vật có khả năng di chuyển đạt Mach 1 trở lên."],
+			["Sinh vật khổng lồ", "Sinh vật có chiều cao hoặc chiều dài cơ thể từ 20 m trở lên."],
+			["Thực thể cấp hành tinh", "Sinh vật hoặc thực thể có tầm ảnh hưởng đe dọa ở quy mô hành tinh."],
+			["Sinh vật đại thảm họa", "Sinh vật có thể khởi phát hoặc duy trì một thảm họa trên diện rộng."],
+			["Kích thước Titan", "Hồ sơ Titan ghi rõ kích thước; nhóm khổng lồ đạt tối thiểu 20 m."]
+		].map(([term, definition], index) => ({ id: `creature-term-${String(index + 1).padStart(2, "0")}`, type: "creature", name: "Sinh vật", category: "Sinh vật", term, definition, value: definition }));
+		return [...entries, ...systemTerms, ...creatureTerms];
 	}
 
 	function renderGlossaryResults() {
 		const query = normalizeText(state.glossaryQuery.trim());
 		const rows = glossaryEntries().filter(entry =>
+			(!state.glossaryType || entry.type === state.glossaryType) &&
 			(!state.glossaryCreatureId || entry.id === state.glossaryCreatureId) &&
 			(!state.glossaryTerm || entry.term === state.glossaryTerm) &&
 			(!query || normalizeText(`${entry.term} ${entry.definition} ${entry.value} ${entry.name} ${entry.id} ${entry.category}`).includes(query))
 		);
 		const shown = Math.min(pageLimit("glossary"), rows.length);
 		element("glossaryCount").textContent = `${shown} / ${rows.length} thuật ngữ / dữ liệu`;
-		element("glossaryResults").innerHTML = rows.length ? `<div class="table-scroll"><table class="record-table"><thead><tr><th>Thuật ngữ</th><th>Giải nghĩa</th><th>Thông tin trong hồ sơ</th><th>Sinh vật</th></tr></thead><tbody>${rows.slice(0, shown).map(entry => `<tr><td class="glossary-term">${escapeHtml(entry.term)}</td><td class="glossary-definition">${escapeHtml(entry.definition)}</td><td>${escapeHtml(entry.value)}</td><td><a class="glossary-creature" href="#${entry.id}">${escapeHtml(entry.name)}</a><div class="itemMeta">${escapeHtml(entry.id)} · ${escapeHtml(entry.category)}</div></td></tr>`).join("")}</tbody></table></div>${loadMoreButton("glossary", shown, rows.length)}` : '<div class="glossary-empty">Không tìm thấy thuật ngữ hoặc hồ sơ phù hợp.</div>';
+		element("glossaryResults").innerHTML = rows.length ? `<div class="table-scroll"><table class="record-table"><thead><tr><th>Loại</th><th>Thuật ngữ</th><th>Giải nghĩa</th><th>Thông tin trong hồ sơ</th><th>Thực thể liên quan</th></tr></thead><tbody>${rows.slice(0, shown).map(entry => `<tr><td>${entry.type === "system" ? "Hệ thống" : "Sinh vật"}</td><td class="glossary-term">${escapeHtml(entry.term)}</td><td class="glossary-definition">${escapeHtml(entry.definition)}</td><td>${escapeHtml(entry.value)}</td><td>${entry.creatureId ? `<a class="glossary-creature" href="#${entry.creatureId}">${escapeHtml(entry.name)}</a>` : escapeHtml(entry.name)}<div class="itemMeta">${escapeHtml(entry.id)} · ${escapeHtml(entry.category)}</div></td></tr>`).join("")}</tbody></table></div>${loadMoreButton("glossary", shown, rows.length)}` : '<div class="glossary-empty">Không tìm thấy thuật ngữ hoặc hồ sơ phù hợp.</div>';
 	}
 
 	function renderGlossary() {
 		const entries = glossaryEntries();
 		const terms = [...new Set(entries.map(entry => entry.term))].sort((a, b) => a.localeCompare(b, "vi"));
-		element("viewRoot").innerHTML = `<section><h1 class="view-title">Thuật ngữ hồ sơ</h1><p class="view-lead">Tra cứu thuật ngữ, ý nghĩa và hồ sơ sinh vật liên quan.</p><div class="glossary-toolbar"><label class="view-control">Tìm thuật ngữ hoặc hồ sơ<input id="glossarySearch" type="search" value="${escapeHtml(state.glossaryQuery)}" placeholder="Ví dụ: STR, kháng nguyên tố, creature-001"></label><label class="view-control">Sinh vật<select id="glossaryCreature"><option value="">Tất cả sinh vật</option>${creatures.map(creature => `<option value="${creature.id}"${state.glossaryCreatureId === creature.id ? " selected" : ""}>${escapeHtml(creature.name)}</option>`).join("")}</select></label><label class="view-control">Thuật ngữ<select id="glossaryTerm"><option value="">Tất cả thuật ngữ</option>${terms.map(term => `<option value="${escapeHtml(term)}"${state.glossaryTerm === term ? " selected" : ""}>${escapeHtml(term)}</option>`).join("")}</select></label></div><div class="result-count" id="glossaryCount"></div><div id="glossaryResults"></div></section>`;
+		element("viewRoot").innerHTML = `<section><h1 class="view-title">Thuật ngữ hồ sơ</h1><p class="view-lead">Tra cứu thuật ngữ, ý nghĩa và hồ sơ sinh vật liên quan.</p><div class="glossary-toolbar"><label class="view-control">Tìm thuật ngữ hoặc hồ sơ<input id="glossarySearch" type="search" value="${escapeHtml(state.glossaryQuery)}" placeholder="Ví dụ: STR, Rank ERROR, creature-001"></label><label class="view-control">Loại thuật ngữ<select id="glossaryType"><option value="">Tất cả loại</option><option value="system"${state.glossaryType === "system" ? " selected" : ""}>Hệ thống</option><option value="creature"${state.glossaryType === "creature" ? " selected" : ""}>Sinh vật</option></select></label><label class="view-control">Sinh vật<select id="glossaryCreature"><option value="">Tất cả sinh vật</option>${creatures.map(creature => `<option value="${creature.id}"${state.glossaryCreatureId === creature.id ? " selected" : ""}>${escapeHtml(creature.name)}</option>`).join("")}</select></label><label class="view-control">Thuật ngữ<select id="glossaryTerm"><option value="">Tất cả thuật ngữ</option>${terms.map(term => `<option value="${escapeHtml(term)}"${state.glossaryTerm === term ? " selected" : ""}>${escapeHtml(term)}</option>`).join("")}</select></label></div><div class="result-count" id="glossaryCount"></div><div id="glossaryResults"></div></section>`;
 		renderGlossaryResults();
 	}
 
@@ -933,9 +1043,8 @@
 		const rarityLabel = rarity ? `${rarity}${item.dropChance ? ` · ${item.dropChance}` : ""}` : "";
 		const detailRows = rows => (rows || []).map(([label, value]) => itemField(label, value)).join("");
 		const inferred = inferItemProfile(item);
-		const inferredMarkup = '<p class="inference-note">Thông tin suy luận từ tên vật phẩm và hồ sơ sinh vật nguồn; không phải dữ liệu xác nhận độc lập.</p>';
-		const itemDescription = item.description || `${inferredMarkup}${escapeHtml(inferred.appearance)}`;
-		const itemType = item.type || `${inferredMarkup}${escapeHtml(inferred.type)}`;
+		const itemDescription = item.description || escapeHtml(inferred.appearance);
+		const itemType = item.type || escapeHtml(inferred.type);
 		const sourceHabitats = item.sources.map(source => {
 			const creature = creaturesById.get(source.id);
 			const habitat = creature && extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i);
@@ -1045,16 +1154,19 @@
 		groupList.classList.toggle("is-collapsed", state.groupsCollapsed);
 		groupList.innerHTML = groups.map((group, index) => {
 			const count = creatures.filter(item => item.categoryId === group.id).length;
-			return `<button class="group${state.group === index ? " active" : ""}" data-group="${index}">${escapeHtml(group.title)}<span>${count} hồ sơ</span></button>`;
+			return `<button class="group${state.group === index ? " active" : ""}" data-group="${index}">${escapeHtml(group.title)}<span>${count} ${pageLanguage === "en" ? "records" : "hồ sơ"}</span></button>`;
 		}).join("");
 		element("groupTitleText").textContent = state.group === null
-			? "Phân loại hồ sơ"
-			: groups[state.group]?.title.replace(/^[IVX]+\.\s*/, "") || "Phân loại hồ sơ";
+			? (pageLanguage === "en" ? "Browse records" : "Phân loại hồ sơ")
+			: groups[state.group]?.title.replace(/^[IVX]+\.\s*/, "") || (pageLanguage === "en" ? "Browse records" : "Phân loại hồ sơ");
 		const toggle = element("browseToggle");
 		toggle.textContent = state.groupsCollapsed ? "<" : ">";
 		toggle.setAttribute("aria-expanded", String(!state.groupsCollapsed));
-		toggle.setAttribute("aria-label", state.groupsCollapsed ? "Hiện các nhóm hồ sơ" : "Ẩn các nhóm hồ sơ");
-		toggle.title = state.groupsCollapsed ? "Hiện các nhóm hồ sơ" : "Ẩn các nhóm hồ sơ";
+		const toggleLabel = pageLanguage === "en"
+			? (state.groupsCollapsed ? "Show creature groups" : "Hide creature groups")
+			: (state.groupsCollapsed ? "Hiện các nhóm hồ sơ" : "Ẩn các nhóm hồ sơ");
+		toggle.setAttribute("aria-label", toggleLabel);
+		toggle.title = toggleLabel;
 	}
 
 	function pageLimit(key) {
@@ -1064,7 +1176,7 @@
 	function loadMoreButton(key, shown, total) {
 		if (shown >= total) return "";
 		const remaining = Math.min(pageIncrement, total - shown);
-		return `<button class="load-more" type="button" data-load-more="${escapeHtml(key)}">Tải thêm ${remaining} mục (${shown}/${total})</button>`;
+		return `<button class="load-more" type="button" data-load-more="${escapeHtml(key)}">${pageLanguage === "en" ? `Load ${remaining} more (${shown}/${total})` : `Tải thêm ${remaining} mục (${shown}/${total})`}</button>`;
 	}
 
 	function renderList() {
@@ -1076,9 +1188,14 @@
 		const shown = Math.min(pageLimit("list"), filtered.length);
 		element("list").innerHTML = filtered.slice(0, shown).map(item => {
 			const danger = dangerInfo(item);
-			return `<a class="item${item.id === state.selectedId ? " active" : ""}" data-entry="${item.id}" href="#${item.id}"><span class="itemName">${escapeHtml(item.name)}</span><span class="itemMeta">#${item.number} · ${item.details ? "Hồ sơ chi tiết" : "Tóm tắt"}${danger ? ` · <span class="danger-badge ${danger.className}">${danger.label}</span>` : ""}</span></a>`;
+			const detailLabel = pageLanguage === "en"
+				? (item.details ? "Detailed profile" : "Summary")
+				: (item.details ? "Hồ sơ chi tiết" : "Tóm tắt");
+			return `<a class="item${item.id === state.selectedId ? " active" : ""}" data-entry="${item.id}" href="#${item.id}"><span class="itemName">${escapeHtml(item.name)}</span><span class="itemMeta">#${item.number} · ${detailLabel}${danger ? ` · <span class="danger-badge ${danger.className}">${danger.label}</span>` : ""}</span></a>`;
 		}).join("") + loadMoreButton("list", shown, filtered.length);
-		element("count").textContent = `${shown} / ${filtered.length} kết quả · ${creatures.length} hồ sơ`;
+		element("count").textContent = pageLanguage === "en"
+			? `${shown} / ${filtered.length} results · ${creatures.length} records`
+			: `${shown} / ${filtered.length} kết quả · ${creatures.length} hồ sơ`;
 	}
 
 	function renderCenter() {
@@ -1170,8 +1287,7 @@
 	}
 
 	function renderMap() {
-		const factions = ["Lãnh Địa Mẫu Hệ", "Vùng Eurasia Phóng Xạ", "Cộng Hòa ROKET", "Vùng Điểm Mù", "Thủ Phủ Tháp Thiên Không", "Tàn Tích Huyết Ngược & FFN", "Tọa Độ Đen", "Rãnh Thái Bình Dương 30km", "Vùng Hoang Dã Săn Bắt"];
-		element("viewRoot").innerHTML = `<section class="center-map-section" aria-labelledby="center-map-title"><h1 class="view-title">Bản đồ thế giới OCEN</h1><p class="view-lead">Tìm sinh vật, chọn khu vực, xem lịch sử và thế lực ngay trên bản đồ.</p><iframe class="center-map-frame" src="word.html" title="Bản đồ thế giới OCEN đầy đủ chức năng" loading="lazy"></iframe><h2>Các thế lực và khu vực</h2><div class="center-factions" aria-label="Danh sách tên các thế lực và khu vực">${factions.map(name => `<span class="center-faction">${escapeHtml(name)}</span>`).join("")}</div><a class="center-map-action" href="word.html#map">Mở bản đồ riêng</a></section>`;
+		element("viewRoot").innerHTML = `<section class="center-map-section" aria-label="Bản đồ thế giới OCEN"><iframe class="center-map-frame" src="word.html?embed=map#map" title="Bản đồ thế giới OCEN tương tác" loading="lazy"></iframe></section>`;
 	}
 
 	function matchingElementCreatures() {
@@ -1191,9 +1307,9 @@
 		const knownCount = datasheets.filter(creature => Object.hasOwn(parseAffinities(creature), state.elementId)).length;
 		const shown = Math.min(pageLimit("elements"), rows.length);
 		element("elementCount").textContent = `${shown} / ${rows.length} sinh vật · ${knownCount} đã có tỷ lệ · ${datasheets.length - knownCount} chưa có tỷ lệ trong nguồn`;
-		element("elementResults").innerHTML = rows.length ? `<div class="table-scroll"><table class="record-table"><thead><tr><th>Sinh vật</th><th>Nhóm</th><th>Kháng nguyên tố</th><th>Mô tả</th></tr></thead><tbody>${rows.slice(0, shown).map(creature => {
+		element("elementResults").innerHTML = rows.length ? `<div class="table-scroll element-table-scroll"><table class="record-table"><thead><tr><th>Sinh vật</th><th>Nhóm</th><th>Kháng nguyên tố</th><th>Mô tả</th></tr></thead><tbody>${rows.slice(0, shown).map(creature => {
 			const value = parseAffinities(creature)[state.elementId];
-			return `<tr><td><a class="record-link" href="#${creature.id}">${escapeHtml(creature.name)}</a><span class="itemMeta">${escapeHtml(creature.id)}</span></td><td>${escapeHtml(creature.category.replace(/^[IVX]+\.\s*/, ""))}</td><td>${value === undefined ? `<span class="unknown-value">${escapeHtml(unknownProfileValue)}</span>` : `${value}%`}</td><td class="record-summary">${escapeHtml(creature.summary)}</td></tr>`;
+			return `<tr><td data-label="Sinh vật"><a class="record-link" href="#${creature.id}">${escapeHtml(creature.name)}</a><span class="itemMeta">${escapeHtml(creature.id)}</span></td><td data-label="Nhóm">${escapeHtml(creature.category.replace(/^[IVX]+\.\s*/, ""))}</td><td data-label="Kháng nguyên tố">${value === undefined ? `<span class="unknown-value">${escapeHtml(unknownProfileValue)}</span>` : `${value}%`}</td><td data-label="Mô tả" class="record-summary">${escapeHtml(creature.summary)}</td></tr>`;
 		}).join("")}</tbody></table></div>${loadMoreButton("elements", shown, rows.length)}` : '<div class="empty-results">Không có sinh vật khớp bộ lọc.</div>';
 	}
 
@@ -1290,12 +1406,10 @@
 		const sourceCode = item.generatedFromStory
 			? ` · Mã nguồn truyện #${item.sourceNumber}`
 			: item.supplementedDetails ? " · Hồ sơ đã được bổ sung dữ liệu" : "";
-		const sourceLabel = item.generatedFromStory || item.supplementedDetails
-			? "data.txt; nội dung được bổ sung, chỉ số là giá trị tham khảo"
-			: "data.txt";
+		const sourceLabel = "data.txt · dữ liệu chính thức trong thế giới Ocen";
 		const detailStatus = item.generatedFromStory || item.supplementedDetails
-			? "Đã bổ sung; chỉ số là giá trị tham khảo"
-			: "Thông tin gốc được giữ nguyên";
+			? "Thông tin chính thức trong thế giới Ocen"
+			: "Thông tin gốc trong hồ sơ";
 		const originalDetails = item.originalDetails
 			? `<details class="profile-source-note"><summary>Hồ sơ gốc trước khi hợp nhất</summary>${renderMarkdown(expandProfileAbbreviations(item.originalDetails))}</details>`
 			: "";
@@ -1321,6 +1435,34 @@
 		element("sidebarOpenButton").setAttribute("aria-expanded", String(open));
 		element("sidebarOpenButton").setAttribute("aria-label", open ? "Danh mục đang mở" : "Mở danh mục");
 		document.body.style.overflow = open ? "hidden" : "";
+	}
+
+	function setupSidebarSwipe() {
+		let gesture = null;
+		const interactiveSelector = "input, textarea, select, button, a, [contenteditable='true']";
+		document.addEventListener("pointerdown", event => {
+			if (!event.isPrimary || event.button !== 0 || !(event.target instanceof Element)) return;
+			const sidebar = document.querySelector(".sidebar");
+			const sidebarOpen = sidebar.classList.contains("is-open");
+			if (sidebarOpen) {
+				if (!sidebar.contains(event.target) || event.target.closest(interactiveSelector)) return;
+			} else if (event.clientX > 24) return;
+			gesture = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, sidebarOpen };
+		}, { passive: true });
+		document.addEventListener("pointerup", event => {
+			if (!gesture || gesture.pointerId !== event.pointerId) return;
+			const start = gesture;
+			gesture = null;
+			const deltaX = event.clientX - start.x;
+			const deltaY = event.clientY - start.y;
+			if (Math.abs(deltaX) < 64 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.25) return;
+			if ((!start.sidebarOpen && deltaX > 0) || (start.sidebarOpen && deltaX < 0)) {
+				setSidebarOpen(!start.sidebarOpen);
+			}
+		}, { passive: true });
+		document.addEventListener("pointercancel", event => {
+			if (gesture?.pointerId === event.pointerId) gesture = null;
+		}, { passive: true });
 	}
 
 	function renderRoute() {
@@ -1512,6 +1654,10 @@
 			state.glossaryCreatureId = event.target.value;
 			state.pageLimits.glossary = initialPageSize;
 			renderGlossaryResults();
+		} else if (event.target.id === "glossaryType") {
+			state.glossaryType = event.target.value;
+			state.pageLimits.glossary = initialPageSize;
+			renderGlossaryResults();
 		} else if (event.target.id === "glossaryTerm") {
 			state.glossaryTerm = event.target.value;
 			state.pageLimits.glossary = initialPageSize;
@@ -1616,6 +1762,7 @@
 		renderCatalog();
 	});
 	element("sidebarOpenButton").addEventListener("click", () => setSidebarOpen(true));
+	setupSidebarSwipe();
 	element("browseToggle").addEventListener("click", () => {
 		state.groupsCollapsed = !state.groupsCollapsed;
 		renderGroups();
@@ -1656,23 +1803,45 @@
 		element("status").textContent = "Không tìm thấy dữ liệu lưu trữ.";
 		element("viewRoot").innerHTML = '<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp data.txt trong cùng thư mục với trang này.</p></div>';
 	} else {
-		element("status").textContent = `${creatures.length} card · ${creatures.filter(item => item.details).length} hồ sơ chi tiết.`;
+		element("status").textContent = pageLanguage === "en"
+			? `${creatures.length} cards · ${creatures.filter(item => item.details).length} detailed profiles.`
+			: `${creatures.length} card · ${creatures.filter(item => item.details).length} hồ sơ chi tiết.`;
 		renderRoute();
 	}
 	loadSearchIndex();
 	}
 
-	fetch("data.txt")
+	const dataFile = pageLanguage === "en" ? "data_en.txt" : "data.txt";
+	const languageSelect = document.getElementById("languageSelect");
+	if (languageSelect) {
+		languageSelect.value = pageLanguage;
+		languageSelect.addEventListener("change", () => {
+			try {
+				window.localStorage.setItem(languageStorageKey, languageSelect.value);
+			} catch (error) {
+				console.error("Không thể lưu ngôn ngữ đã chọn:", error);
+				const status = document.getElementById("status");
+				if (status) status.textContent = pageLanguage === "en"
+					? "Could not save the selected language."
+					: "Không thể lưu ngôn ngữ đã chọn.";
+				return;
+			}
+			window.location.reload();
+		});
+	}
+	applyStaticLanguage();
+
+	fetch(dataFile)
 		.then(response => {
 			if (!response.ok) throw new Error(`HTTP ${response.status}`);
 			return response.json();
 		})
 		.then(catalog => {
-			if (!Array.isArray(catalog)) throw new Error("data.txt phải chứa một danh sách hồ sơ sinh vật.");
+			if (!Array.isArray(catalog)) throw new Error(`${dataFile} must contain an array of creature records.`);
 			const ids = new Set();
 			for (const creature of catalog) {
 				if (!creature || typeof creature.id !== "string" || ids.has(creature.id)) {
-					throw new Error("data.txt chứa hồ sơ không hợp lệ hoặc ID bị trùng.");
+					throw new Error(`${dataFile} contains an invalid record or duplicate ID.`);
 				}
 				ids.add(creature.id);
 			}
@@ -1680,10 +1849,100 @@
 			initializeCatalog();
 		})
 		.catch(error => {
-			console.error("Không thể tải danh mục sinh vật từ data.txt:", error);
+			console.error(`Không thể tải danh mục sinh vật từ ${dataFile}:`, error);
 			const status = document.getElementById("status");
 			const viewRoot = document.getElementById("viewRoot");
-			if (status) status.textContent = `Không tải được data.txt: ${error.message}`;
-			if (viewRoot) viewRoot.innerHTML = '<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp data.txt trong cùng thư mục với trang này.</p></div>';
+			if (status) status.textContent = pageLanguage === "en"
+				? `Could not load ${dataFile}: ${error.message}`
+				: `Không tải được ${dataFile}: ${error.message}`;
+			if (viewRoot) viewRoot.innerHTML = pageLanguage === "en"
+				? `<div class="empty"><h2>Could not load the bestiary</h2><p>Check that ${dataFile} is in the same folder as this page.</p></div>`
+				: `<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp ${dataFile} trong cùng thư mục với trang này.</p></div>`;
 		});
+
+	function applyStaticLanguage() {
+		const labels = pageLanguage === "en" ? {
+			title: "Creature Bestiary | Lenhan",
+			brand: "CREATURE BESTIARY",
+			brandDescription: "Creature profiles · Lenhan",
+			filter: "Filter creatures...",
+			filterLabel: "Filter creature list",
+			searchLabel: "Search creature profiles",
+			loading: "Loading data...",
+			groupTitle: "Browse records",
+			collapseGroups: "Hide creature groups",
+			openCatalog: "Open creature catalog",
+			closeCatalog: "Close creature catalog",
+			navigation: "Bestiary navigation",
+			tabs: { center: "Home", elements: "Elements", catalog: "Catalog", glossary: "Glossary", items: "Items", map: "Map" },
+			searchDialog: "Search creatures",
+			searchPlaceholder: "Search creatures in search.txt...",
+			closeSearch: "Close search",
+			themeTitle: "Choose a theme",
+			themeSearch: "Search themes by name...",
+			closeTheme: "Close theme picker",
+			themeShortcut: "Shortcut: Ctrl + Alt + L"
+		} : {
+			title: "Bách khoa Dị thể | Lenhan",
+			brand: "BÁCH KHOA DỊ THỂ",
+			brandDescription: "Hồ sơ sinh vật · Lenhan",
+			filter: "Lọc danh sách...",
+			filterLabel: "Lọc danh sách sinh vật",
+			searchLabel: "Tìm kiếm hồ sơ sinh vật",
+			loading: "Đang nạp dữ liệu...",
+			groupTitle: "Phân loại hồ sơ",
+			collapseGroups: "Ẩn các nhóm hồ sơ",
+			openCatalog: "Mở danh mục",
+			closeCatalog: "Đóng danh mục",
+			navigation: "Điều hướng bách khoa",
+			tabs: { center: "Trung tâm", elements: "Trang nguyên tố", catalog: "Mục lục", glossary: "Thuật ngữ", items: "Vật phẩm", map: "Bản đồ" },
+			searchDialog: "Tìm sinh vật",
+			searchPlaceholder: "Tìm sinh vật trong search.txt...",
+			closeSearch: "Đóng tìm kiếm",
+			themeTitle: "Chọn chủ đề",
+			themeSearch: "Tìm chủ đề theo tên…",
+			closeTheme: "Đóng chọn chủ đề",
+			themeShortcut: "Phím tắt: Ctrl + Alt + L"
+		};
+		document.title = labels.title;
+		const setText = (selector, value) => {
+			const target = document.querySelector(selector);
+			if (target) target.textContent = value;
+		};
+		const setAttribute = (selector, attribute, value) => {
+			const target = document.querySelector(selector);
+			if (target) target.setAttribute(attribute, value);
+		};
+		setText(".brand h1", labels.brand);
+		setText(".brand p", labels.brandDescription);
+		setText("#status", labels.loading);
+		setText("#groupTitleText", labels.groupTitle);
+		setText("#themePickerTitle", labels.themeTitle);
+		setText(".theme-picker-shortcut", labels.themeShortcut);
+		const filter = document.getElementById("search");
+		if (filter) filter.placeholder = labels.filter;
+		setAttribute("#search", "aria-label", labels.filterLabel);
+		setAttribute("#searchBtn", "aria-label", labels.searchLabel);
+		setAttribute("#browseToggle", "aria-label", labels.collapseGroups);
+		setAttribute("#browseToggle", "title", labels.collapseGroups);
+		setAttribute("#sidebarOpenButton", "aria-label", labels.openCatalog);
+		setAttribute("#sidebarOpenButton", "title", labels.openCatalog);
+		setAttribute("#sidebarBackdrop", "aria-label", labels.closeCatalog);
+		setAttribute(".wiki-nav", "aria-label", labels.navigation);
+		setAttribute("#searchOverlay", "aria-label", labels.searchDialog);
+		setAttribute("#searchClose", "aria-label", labels.closeSearch);
+		setAttribute("#themePickerClose", "aria-label", labels.closeTheme);
+		const searchInput = document.getElementById("searchInput");
+		if (searchInput) searchInput.placeholder = labels.searchPlaceholder;
+		const themeSearch = document.getElementById("themePickerSearch");
+		if (themeSearch) themeSearch.placeholder = labels.themeSearch;
+		document.querySelectorAll(".wiki-tab[data-view]").forEach(tab => {
+			const label = labels.tabs[tab.dataset.view];
+			if (label) tab.textContent = label;
+		});
+		const themeButton = document.getElementById("themeToggle");
+		const theme = window.LenhanThemes?.current();
+		if (themeButton && theme) themeButton.textContent = `${pageLanguage === "en" ? "Theme" : "Chủ đề"}: ${theme.name}`;
+		window.dispatchEvent(new CustomEvent("lenhan:language-change", { detail: pageLanguage }));
+	}
 })();

@@ -8,15 +8,30 @@
     cycle: 5200,        // ms cho 1 vòng viết chữ
     minShow: 2600,      // thời gian hiện tối thiểu (ms) để kịp thấy chữ
     autoHide: true,     // tự ẩn khi trang tải xong
-    colorMain: '#1b2a41',
-    colorAccent: '#2f6df6',
-    colorMainDark: '#e8eefb',
-    colorAccentDark: '#6ea0ff',
-    bgLight: '#f5f7fa',
-    bgDark: '#0e1522'
+    themeStorageKey: 'wiki-ori-loader-theme',
+    sessionCode: 'C21H23K132M',
+    defaultTheme: 'logo',
+    themes: {
+      logo: {
+        inkLight: '#1b2a41',
+        accentLight: '#2f6df6',
+        inkDark: '#e8eefb',
+        accentDark: '#6ea0ff',
+        bgLight: '#f5f7fa',
+        bgDark: '#0e1522'
+      },
+      ocen: {
+        inkLight: '#342a16',
+        accentLight: '#b8892c',
+        inkDark: '#f2eee5',
+        accentDark: '#e2bd61',
+        bgLight: '#faf8f1',
+        bgDark: '#141414'
+      }
+    }
   };
 
-  var startTime = Date.now();
+  var lastShowTime = Date.now();
   var loaded = false;
   var activeTasks = new Map();
   var nextTaskId = 0;
@@ -27,17 +42,19 @@
   /* ===== CSS ===== */
   var css =
     '#wiki-ori-loader{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;' +
-    'background:' + CONFIG.bgLight + ';transition:opacity .5s ease;' +
-    '--wo-ink:' + CONFIG.colorMain + ';--wo-accent:' + CONFIG.colorAccent + '}' +
-    '@media (prefers-color-scheme:dark){#wiki-ori-loader{background:' + CONFIG.bgDark + ';' +
-    '--wo-ink:' + CONFIG.colorMainDark + ';--wo-accent:' + CONFIG.colorAccentDark + '}}' +
+    'background:var(--wo-bg-light,#f5f7fa);transition:opacity .5s ease;' +
+    '--wo-ink:var(--wo-ink-light,#1b2a41);--wo-accent:var(--wo-accent-light,#2f6df6)}' +
+    '@media (prefers-color-scheme:dark){#wiki-ori-loader{background:var(--wo-bg-dark,#0e1522);' +
+    '--wo-ink:var(--wo-ink-dark,#e8eefb);--wo-accent:var(--wo-accent-dark,#6ea0ff)}}' +
     '#wiki-ori-loader.wo-hide{opacity:0;pointer-events:none}' +
     '#wiki-ori-loader .wo-content{display:grid;justify-items:center;gap:18px;width:min(88vw,600px)}' +
     '#wiki-ori-loader svg{width:min(80vw,560px);height:auto;overflow:visible}' +
-    '#wiki-ori-loader-label{color:var(--wo-ink);font:500 14px/1.5 Arial,sans-serif;text-align:center}' +
+    '#wiki-ori-loader-label{color:var(--wo-accent);font:500 14px/1.5 Arial,sans-serif;text-align:center}' +
     '#wiki-ori-loader path{fill:none;stroke:var(--wo-ink);stroke-width:7;stroke-linecap:round;' +
     'stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}' +
-    '#wiki-ori-loader path.wo-accent{stroke:var(--wo-accent)}';
+    '#wiki-ori-loader path.wo-accent{stroke:var(--wo-accent)}' +
+    '#wiki-ori-loader .wo-meta{display:grid;gap:4px;color:var(--wo-accent);font:500 11px/1.5 Arial,sans-serif;text-align:center}' +
+    '#wiki-ori-loader .wo-session{opacity:.8}';
 
   function ensureLoader() {
     if (wrap) return;
@@ -64,8 +81,28 @@
       '<path class="wo-accent" pathLength="1" d="M360 100 V20 H385 C417 20 417 62 385 62 H360"/>' +
       '<path class="wo-accent" pathLength="1" d="M388 62 L420 100"/>' +
       '<path class="wo-accent" pathLength="1" d="M452 20 V100"/>' +
-      '</svg><span id="wiki-ori-loader-label"></span></div>';
+      '</svg><span id="wiki-ori-loader-label"></span>' +
+      '<div class="wo-meta"><time id="wiki-ori-loader-clock"></time>' +
+      '<span class="wo-session">Mã phiên: ' + CONFIG.sessionCode + '</span></div></div>';
     document.documentElement.appendChild(wrap);
+
+    var clock = document.getElementById('wiki-ori-loader-clock');
+    var clockFormatter;
+    try {
+      clockFormatter = new Intl.DateTimeFormat(undefined, {
+        dateStyle: 'medium',
+        timeStyle: 'medium'
+      });
+    } catch (error) {
+      clockFormatter = null;
+    }
+    function updateClock() {
+      var now = new Date();
+      clock.textContent = (clockFormatter ? clockFormatter.format(now) : now.toLocaleString()) +
+        ' (giờ địa phương)';
+    }
+    updateClock();
+    window.setInterval(updateClock, 1000);
 
     var paths = wrap.querySelectorAll('path');
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -92,9 +129,7 @@
   function show(label) {
     ensureLoader();
     window.clearTimeout(hideTimer);
-    wrap.style.background = 'var(--chrome, ' + CONFIG.bgLight + ')';
-    wrap.style.setProperty('--wo-ink', 'var(--bodyText, ' + CONFIG.colorMain + ')');
-    wrap.style.setProperty('--wo-accent', 'var(--gold, ' + CONFIG.colorAccent + ')');
+    lastShowTime = Date.now();
     wrap.setAttribute('aria-hidden', 'false');
     wrap.setAttribute('aria-label', label || 'Đang tải');
     var labelElement = document.getElementById('wiki-ori-loader-label');
@@ -125,14 +160,71 @@
   function scheduleAutoHide() {
     if (!loaded || activeTasks.size) return;
     var minimumDisplay = Math.max(CONFIG.minShow, CONFIG.cycle);
-    var elapsed = Date.now() - startTime;
+    var elapsed = Date.now() - lastShowTime;
     window.clearTimeout(hideTimer);
     hideTimer = window.setTimeout(hide, Math.max(350, minimumDisplay - elapsed));
   }
 
-  window.WikiOriLoader = { show: show, hide: hide, start: start, finish: finish };
+  function applyTheme(themeId) {
+    if (!Object.prototype.hasOwnProperty.call(CONFIG.themes, themeId)) {
+      throw new TypeError('Giao diện loading không hợp lệ.');
+    }
+    var theme = CONFIG.themes[themeId];
+    wrap.style.setProperty('--wo-ink-light', theme.inkLight);
+    wrap.style.setProperty('--wo-accent-light', theme.accentLight);
+    wrap.style.setProperty('--wo-ink-dark', theme.inkDark);
+    wrap.style.setProperty('--wo-accent-dark', theme.accentDark);
+    wrap.style.setProperty('--wo-bg-light', theme.bgLight);
+    wrap.style.setProperty('--wo-bg-dark', theme.bgDark);
+  }
+
+  function getTheme() {
+    try {
+      var savedTheme = window.localStorage.getItem(CONFIG.themeStorageKey);
+      return Object.prototype.hasOwnProperty.call(CONFIG.themes, savedTheme)
+        ? savedTheme
+        : CONFIG.defaultTheme;
+    } catch (error) {
+      console.error('Không thể đọc giao diện loading đã lưu:', error);
+      return CONFIG.defaultTheme;
+    }
+  }
+
+  function setTheme(themeId) {
+    if (!Object.prototype.hasOwnProperty.call(CONFIG.themes, themeId)) {
+      throw new TypeError('Giao diện loading không hợp lệ.');
+    }
+    window.localStorage.setItem(CONFIG.themeStorageKey, themeId);
+    applyTheme(themeId);
+  }
+
+  window.WikiOriLoader = {
+    show: show,
+    hide: hide,
+    start: start,
+    finish: finish,
+    getTheme: getTheme,
+    setTheme: setTheme,
+    sessionCode: CONFIG.sessionCode
+  };
   ensureLoader();
+  applyTheme(getTheme());
   show('Đang tải dữ liệu…');
+
+  if (typeof window.fetch === 'function') {
+    var nativeFetch = window.fetch;
+    window.fetch = function () {
+      var taskId = start('Đang tải dữ liệu…');
+      try {
+        return nativeFetch.apply(this, arguments).finally(function () {
+          finish(taskId);
+        });
+      } catch (error) {
+        finish(taskId);
+        throw error;
+      }
+    };
+  }
 
   if (CONFIG.autoHide) {
     window.addEventListener('load', function () {

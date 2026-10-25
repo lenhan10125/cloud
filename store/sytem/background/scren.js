@@ -255,9 +255,14 @@
 		root.dataset.wikiTheme = theme.id;
 		if (persist) saveTheme(theme.id);
 		if (themeButton) {
-			themeButton.textContent = `Chủ đề: ${theme.name}`;
-			themeButton.setAttribute("aria-label", `Chủ đề hiện tại: ${theme.name}. Bấm để đổi chủ đề; nhấn Ctrl+Alt+L để chọn`);
-			themeButton.title = `Chủ đề hiện tại: ${theme.name} · Bấm để chuyển · Ctrl+Alt+L để chọn chủ đề`;
+			const isEnglish = document.documentElement.lang === "en";
+			themeButton.textContent = `${isEnglish ? "Theme" : "Chủ đề"}: ${theme.name}`;
+			themeButton.setAttribute("aria-label", isEnglish
+				? `Current theme: ${theme.name}. Click to choose a theme.`
+				: `Chủ đề hiện tại: ${theme.name}. Bấm để chọn chủ đề.`);
+			themeButton.title = isEnglish
+				? `Current theme: ${theme.name} · Click to choose a theme`
+				: `Chủ đề hiện tại: ${theme.name} · Bấm để chọn chủ đề`;
 		}
 		window.dispatchEvent(new CustomEvent("lenhan:theme-change", { detail: theme }));
 		return theme;
@@ -270,7 +275,6 @@
 
 	const savedId = readSavedTheme();
 	applyTheme(themes.some(theme => theme.id === savedId) ? savedId : "obsidian", false);
-	themeButton?.addEventListener("click", nextTheme);
 	const themePicker = document.getElementById("themePickerOverlay");
 	const themePickerSearch = document.getElementById("themePickerSearch");
 	const themePickerOptions = document.getElementById("themePickerOptions");
@@ -287,7 +291,9 @@
 		if (!matches.length) {
 			const empty = document.createElement("p");
 			empty.className = "theme-picker-empty";
-			empty.textContent = "Không tìm thấy chủ đề phù hợp.";
+			empty.textContent = document.documentElement.lang === "en"
+				? "No matching themes found."
+				: "Không tìm thấy chủ đề phù hợp.";
 			themePickerOptions.appendChild(empty);
 			return;
 		}
@@ -327,6 +333,7 @@
 		themeButton.focus();
 	}
 
+	themeButton?.addEventListener("click", openThemePicker);
 	themePickerSearch.addEventListener("input", () => renderThemeOptions(themePickerSearch.value));
 	themePickerSearch.addEventListener("keydown", event => {
 		if (event.key !== "Enter") return;
@@ -355,6 +362,14 @@
 			applyTheme(event.newValue, false);
 			if (!themePicker.hidden) renderThemeOptions(themePickerSearch.value);
 		}
+	});
+
+	window.addEventListener("lenhan:language-change", () => {
+		const isEnglish = document.documentElement.lang === "en";
+		document.getElementById("themePickerTitle").textContent = isEnglish ? "Choose a theme" : "Chọn chủ đề";
+		themePickerSearch.placeholder = isEnglish ? "Search themes by name..." : "Tìm chủ đề theo tên…";
+		if (!themePicker.hidden) renderThemeOptions(themePickerSearch.value);
+		applyTheme(currentId, false);
 	});
 
 	window.LenhanThemes = Object.freeze({

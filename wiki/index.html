@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="color-scheme" content="dark">
+	<meta name="theme-color" content="#141414">
+	<meta name="description" content="Danh sách thư mục Wiki do người dùng tạo.">
+	<title>WIKO ORI | Thư mục Wiki</title>
+	<link rel="icon" href="store/favicon.ico" sizes="any">
+	<script src="js/loading.js"></script>
+	<style>
+		:root {
+			color-scheme: dark;
+			--bg: #141414;
+			--surface: #202020;
+			--line: #383838;
+			--gold: #e2bd61;
+			--text: #eee;
+			--muted: #aaa49a;
+		}
+		* { box-sizing: border-box; }
+		body {
+			display: grid;
+			min-width: 320px;
+			min-height: 100vh;
+			margin: 0;
+			place-items: center;
+			padding: 24px;
+			background:
+				radial-gradient(ellipse at 50% 0, rgb(226 189 97 / 8%), transparent 32rem),
+				var(--bg);
+			color: var(--text);
+			font: 14px/1.6 "Segoe UI", sans-serif;
+		}
+		main { width: min(100%, 760px); }
+		header { display: flex; align-items: center; gap: 12px; margin-bottom: 34px; }
+		.brand-logo { display: block; width: min(210px, 55vw); height: auto; }
+		.brand-subtitle { color: var(--muted); font-size: 10px; letter-spacing: .12em; }
+		.heading { margin-bottom: 18px; }
+		h1 { margin: 0; font: 700 clamp(25px, 5vw, 34px)/1.25 Georgia, serif; }
+		.intro { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+		.theme-tools { display: flex; align-items: center; gap: 10px; margin: -8px 0 22px; color: var(--muted); font-size: 10px; }
+		.theme-select {
+			min-height: 36px;
+			padding: 6px 10px;
+			border: 1px solid var(--line);
+			border-radius: 4px;
+			background: var(--surface);
+			color: var(--text);
+			font: inherit;
+		}
+		.theme-select:focus { border-color: var(--gold); outline: 2px solid #e2bd6133; }
+		.theme-status { margin: 0; color: var(--muted); font-size: 10px; }
+		.folder-tools { display: grid; gap: 12px; margin: 20px 0 16px; }
+		.search-field, .date-field { display: grid; gap: 6px; color: var(--muted); font-size: 10px; font-weight: 700; }
+		.search-input-wrap { display: flex; align-items: center; gap: 9px; }
+		.search-input, .date-input {
+			width: 100%;
+			min-height: 42px;
+			padding: 9px 11px;
+			border: 1px solid var(--line);
+			border-radius: 4px;
+			background: #191919;
+			color: var(--text);
+		}
+		.search-input:focus, .date-input:focus { border-color: var(--gold); outline: 2px solid #e2bd6133; }
+		.search-input::placeholder { color: #777; }
+		.search-clear, .history-button {
+			min-height: 38px;
+			padding: 0 11px;
+			border: 1px solid var(--line);
+			border-radius: 4px;
+			background: var(--surface);
+			color: var(--text);
+			font-size: 10px;
+			font-weight: 700;
+			cursor: pointer;
+		}
+		.search-clear:hover, .history-button:hover { border-color: var(--gold); color: var(--gold); }
+		.folder-list { display: grid; gap: 10px; }
+		.folder-card {
+			display: grid;
+			grid-template-columns: 44px minmax(0, 1fr) auto;
+			align-items: center;
+			gap: 14px;
+			padding: 16px;
+			border: 1px solid var(--line);
+			border-radius: 5px;
+			background: linear-gradient(130deg, var(--surface), #191919);
+			color: inherit;
+			text-decoration: none;
+			transition: border-color .18s ease, transform .18s ease, background .18s ease;
+		}
+		.folder-card:hover {
+			transform: translateY(-2px);
+			border-color: var(--gold);
+			background: #25231e;
+		}
+		.folder-icon {
+			display: grid;
+			width: 44px;
+			height: 44px;
+			place-items: center;
+			border: 1px solid #51472f;
+			border-radius: 4px;
+			color: var(--gold);
+		}
+		.folder-icon svg { width: 22px; height: 22px; }
+		.folder-title { display: block; font-size: 13px; font-weight: 700; }
+		.folder-path { display: block; margin-top: 3px; color: var(--muted); font: 10px/1.5 Consolas, monospace; overflow-wrap: anywhere; }
+		.folder-arrow { color: var(--gold); font-size: 18px; }
+		.search-count, .history-status { margin: 0; color: var(--muted); font-size: 10px; }
+		.no-results { margin: 0; padding: 14px; border: 1px dashed var(--line); color: var(--muted); font-size: 11px; }
+		.history-panel { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+		.history-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: 11px; }
+		.history-heading h2 { margin: 0; font: 700 17px/1.3 Georgia, serif; }
+		.history-controls { display: flex; align-items: end; gap: 8px; }
+		.date-field { min-width: 150px; }
+		.date-input { min-height: 36px; padding: 6px 8px; font-size: 11px; }
+		.history-list { display: grid; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+		.history-entry { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 11px; border: 1px solid #2d2d2d; border-radius: 3px; background: #191919; font-size: 11px; }
+		.history-entry time { flex: none; color: var(--muted); font: 9px Consolas, monospace; }
+		footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line); color: #777; font-size: 10px; }
+		a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+		@media (max-width: 480px) {
+			body { padding: 20px 16px; }
+			header { margin-bottom: 28px; }
+			.folder-card { grid-template-columns: 38px minmax(0, 1fr) auto; gap: 11px; padding: 13px; }
+			.folder-icon { width: 38px; height: 38px; }
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<header>
+			<img class="brand-logo" src="store/logo.png" alt="WIKI ORI">
+			<div class="brand-subtitle">THƯ MỤC WIKI</div>
+		</header>
+		<div class="theme-tools">
+			<label for="loaderTheme">Giao diện chữ loading</label>
+			<select class="theme-select" id="loaderTheme">
+				<option value="logo">Theo màu logo WIKO ORI</option>
+				<option value="ocen">Vàng Ocen</option>
+			</select>
+			<p class="theme-status" id="themeStatus" role="status">Giao diện áp dụng cho tất cả trang Wiki.</p>
+		</div>
+		<section aria-labelledby="folder-heading">
+			<div class="heading">
+				<h1 id="folder-heading">Thư mục người dùng</h1>
+				<p class="intro">Tìm thư mục Wiki hoặc xem lại lịch sử tìm kiếm theo ngày.</p>
+			</div>
+			<div class="folder-tools">
+				<label class="search-field" for="folderSearch">Tìm thư mục
+					<span class="search-input-wrap">
+						<input class="search-input" id="folderSearch" type="search" placeholder="Tên thư mục hoặc đường dẫn..." autocomplete="off">
+						<button class="search-clear" id="clearFolderSearch" type="button">Xóa</button>
+					</span>
+				</label>
+				<p class="search-count" id="folderSearchCount" aria-live="polite"></p>
+			</div>
+			<nav class="folder-list" id="folderList" aria-label="Danh sách thư mục Wiki">
+				<a class="folder-card" href="user/a/lenhan/index.html">
+					<span class="folder-icon" aria-hidden="true">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h5l2 2H19a2 2 0 0 1 2 2v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/>
+							<path d="M3 9h18"/>
+						</svg>
+					</span>
+					<span><span class="folder-title">Lenhan</span><span class="folder-path">user/a/lenhan/</span></span>
+					<span class="folder-arrow" aria-hidden="true">↗</span>
+				</a>
+			</nav>
+			<p class="no-results" id="folderNoResults" hidden>Không tìm thấy thư mục phù hợp.</p>
+			<section class="history-panel" aria-labelledby="history-heading">
+				<div class="history-heading">
+					<div><h2 id="history-heading">Lịch sử tìm kiếm</h2><p class="intro">Chọn ngày để xem các từ khóa đã tìm.</p></div>
+					<div class="history-controls">
+						<label class="date-field" for="historyDate">Ngày
+							<input class="date-input" id="historyDate" type="date">
+						</label>
+						<button class="history-button" id="chooseHistoryFolder" type="button">Chọn nơi lưu</button>
+					</div>
+				</div>
+				<p class="history-status" id="historyStatus" role="status">Lịch sử lưu trong trình duyệt. Khi chọn thư mục wiki/store/box, date.txt sẽ có thêm mã phiên khởi tạo.</p>
+				<ul class="history-list" id="historyList" aria-live="polite"></ul>
+			</section>
+		</section>
+		<footer>WIKO ORI · Điều hướng thư mục Wiki</footer>
+	</main>
+	<script>
+		(() => {
+			const themeSelect = document.getElementById("loaderTheme");
+			const themeStatus = document.getElementById("themeStatus");
+			themeSelect.value = window.WikiOriLoader.getTheme();
+			themeSelect.addEventListener("change", () => {
+				try {
+					window.WikiOriLoader.setTheme(themeSelect.value);
+					themeStatus.textContent = "Đã lưu giao diện loading cho tất cả trang Wiki.";
+				} catch (error) {
+					console.error("Không thể lưu giao diện loading:", error);
+					themeStatus.textContent = "Không thể lưu giao diện. Hãy kiểm tra quyền lưu trữ của trình duyệt.";
+					themeSelect.value = window.WikiOriLoader.getTheme();
+				}
+			});
+
+			const folders = [...document.querySelectorAll(".folder-card")];
+			const searchInput = document.getElementById("folderSearch");
+			const resultCount = document.getElementById("folderSearchCount");
+			const noResults = document.getElementById("folderNoResults");
+			const dateInput = document.getElementById("historyDate");
+			const historyList = document.getElementById("historyList");
+			const historyStatus = document.getElementById("historyStatus");
+			const historyStorageKey = "wiki-ori-search-history";
+			const handleDatabaseName = "wiki-ori-file-handles";
+			const handleStoreName = "directories";
+			const directoryHandleKey = "history-directory";
+			let history = loadLocalHistory();
+			let directoryHandle = null;
+			let saveQueue = Promise.resolve();
+
+			function localDateString(date = new Date()) {
+				const year = date.getFullYear();
+				const month = String(date.getMonth() + 1).padStart(2, "0");
+				const day = String(date.getDate()).padStart(2, "0");
+				return `${year}-${month}-${day}`;
+			}
+
+			function loadLocalHistory() {
+				try {
+					const value = JSON.parse(window.localStorage.getItem(historyStorageKey) || "[]");
+					return Array.isArray(value)
+						? value.filter(item => item && /^\d{4}-\d{2}-\d{2}$/.test(item.date) && typeof item.query === "string")
+						: [];
+				} catch (error) {
+					console.error("Không thể đọc lịch sử tìm kiếm trong trình duyệt:", error);
+					return [];
+				}
+			}
+
+			function storeLocalHistory() {
+				try {
+					window.localStorage.setItem(historyStorageKey, JSON.stringify(history));
+					return true;
+				} catch (error) {
+					console.error("Không thể lưu lịch sử tìm kiếm trong trình duyệt:", error);
+					historyStatus.textContent = "Không thể lưu lịch sử trong trình duyệt. Hãy kiểm tra quyền lưu trữ của trang.";
+					return false;
+				}
+			}
+
+			function setFolderSearch() {
+				const query = searchInput.value.trim().toLocaleLowerCase("vi");
+				let visible = 0;
+				folders.forEach(folder => {
+					const matches = folder.textContent.toLocaleLowerCase("vi").includes(query);
+					folder.hidden = !matches;
+					if (matches) visible += 1;
+				});
+				resultCount.textContent = `${visible} / ${folders.length} thư mục`;
+				noResults.hidden = visible !== 0;
+			}
+
+			function renderHistory() {
+				const selectedDate = dateInput.value;
+				const entries = history.filter(item => item.date === selectedDate).slice().reverse();
+				historyList.innerHTML = entries.length
+					? entries.map(item => `<li class="history-entry"><span>${escapeHtml(item.query)}</span><time datetime="${escapeHtml(item.date)}">${escapeHtml(item.time)}</time></li>`).join("")
+					: '<li class="no-results">Không có tìm kiếm nào được ghi nhận trong ngày này.</li>';
+			}
+
+			function escapeHtml(value) {
+				return String(value).replace(/[&<>"']/g, character => ({
+					"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+				}[character]));
+			}
+
+			function openHandleDatabase() {
+				return new Promise((resolve, reject) => {
+					const request = indexedDB.open(handleDatabaseName, 1);
+					request.onupgradeneeded = () => request.result.createObjectStore(handleStoreName);
+					request.onsuccess = () => resolve(request.result);
+					request.onerror = () => reject(request.error);
+				});
+			}
+
+			async function getSavedDirectoryHandle() {
+				if (!("indexedDB" in window)) return null;
+				const database = await openHandleDatabase();
+				return new Promise((resolve, reject) => {
+					const transaction = database.transaction(handleStoreName, "readonly");
+					const request = transaction.objectStore(handleStoreName).get(directoryHandleKey);
+					request.onsuccess = () => {
+						database.close();
+						resolve(request.result || null);
+					};
+					request.onerror = () => {
+						database.close();
+						reject(request.error);
+					};
+				});
+			}
+
+			async function saveDirectoryHandle(handle) {
+				const database = await openHandleDatabase();
+				return new Promise((resolve, reject) => {
+					const transaction = database.transaction(handleStoreName, "readwrite");
+					transaction.objectStore(handleStoreName).put(handle, directoryHandleKey);
+					transaction.oncomplete = () => {
+						database.close();
+						resolve();
+					};
+					transaction.onerror = () => {
+						database.close();
+						reject(transaction.error);
+					};
+				});
+			}
+
+			async function writeTextFile(directory, filename, contents) {
+				const fileHandle = await directory.getFileHandle(filename, { create: true });
+				const writable = await fileHandle.createWritable();
+				await writable.write(contents);
+				await writable.close();
+			}
+
+			async function syncHistoryFiles() {
+				if (!directoryHandle) return false;
+				const permission = await directoryHandle.queryPermission({ mode: "readwrite" });
+				if (permission !== "granted") {
+					const requested = await directoryHandle.requestPermission({ mode: "readwrite" });
+					if (requested !== "granted") {
+						historyStatus.textContent = "Chưa được cấp quyền ghi vào date.txt và search.txt; lịch sử vẫn lưu trong trình duyệt.";
+						return false;
+					}
+				}
+				const dates = [...history.map(item => item.date), `SESSION:${window.WikiOriLoader.sessionCode}`].join("\n");
+				const queries = history.map(item => item.query.replace(/[\r\n]+/g, " ")).join("\n");
+				await writeTextFile(directoryHandle, "date.txt", dates ? `${dates}\n` : "");
+				await writeTextFile(directoryHandle, "search.txt", queries ? `${queries}\n` : "");
+				historyStatus.textContent = "Lịch sử đã được đồng bộ; date.txt cũng lưu mã phiên khởi tạo.";
+				return true;
+			}
+
+			async function chooseHistoryFolder() {
+				if (!window.showDirectoryPicker) {
+					historyStatus.textContent = "Trình duyệt này không hỗ trợ ghi tệp trực tiếp. Lịch sử tìm kiếm vẫn lưu trong trình duyệt.";
+					return;
+				}
+				try {
+					directoryHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+					await saveDirectoryHandle(directoryHandle);
+					await syncHistoryFiles();
+				} catch (error) {
+					if (error.name === "AbortError") return;
+					console.error("Không thể chọn thư mục lưu lịch sử:", error);
+					historyStatus.textContent = "Không thể truy cập thư mục đã chọn. Hãy chọn lại wiki/store/box.";
+				}
+			}
+
+			function recordSearch(query) {
+				const now = new Date();
+				history.push({
+					date: localDateString(now),
+					time: now.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+					query
+				});
+				if (!storeLocalHistory()) return;
+				dateInput.value = localDateString(now);
+				renderHistory();
+				saveQueue = saveQueue
+					.then(syncHistoryFiles)
+					.catch(error => {
+						console.error("Không thể đồng bộ lịch sử vào date.txt / search.txt:", error);
+						historyStatus.textContent = "Lịch sử đã lưu trong trình duyệt nhưng không ghi được vào date.txt / search.txt.";
+					});
+			}
+
+			searchInput.addEventListener("input", setFolderSearch);
+			document.getElementById("clearFolderSearch").addEventListener("click", () => {
+				searchInput.value = "";
+				setFolderSearch();
+				searchInput.focus();
+			});
+			searchInput.addEventListener("keydown", event => {
+				if (event.key !== "Enter") return;
+				event.preventDefault();
+				const query = searchInput.value.trim();
+				if (query) recordSearch(query);
+			});
+			dateInput.addEventListener("change", renderHistory);
+			document.getElementById("chooseHistoryFolder").addEventListener("click", chooseHistoryFolder);
+
+			dateInput.value = localDateString();
+			setFolderSearch();
+			renderHistory();
+			getSavedDirectoryHandle()
+				.then(handle => {
+					directoryHandle = handle;
+					if (!directoryHandle) return;
+					return syncHistoryFiles();
+				})
+				.catch(error => {
+					console.error("Không thể khôi phục quyền lưu lịch sử:", error);
+					historyStatus.textContent = "Lịch sử đang lưu trong trình duyệt. Chọn lại thư mục để bật đồng bộ tệp.";
+				});
+		})();
+	</script>
+</body>
+</html>
