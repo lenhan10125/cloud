@@ -8,6 +8,7 @@
 	<meta name="description" content="WIKO ORI — cổng khám phá Bách khoa Dị thể Ocen: tra cứu sinh vật, nguyên tố, vật phẩm, thuật ngữ và bản đồ thế giới.">
 	<title>WIKO ORI — Bách khoa thế giới Ocen</title>
 	<link rel="icon" href="../../../store/favicon.ico" sizes="any">
+	<script src="../../cache/setting.js"></script>
 	<script src="../../../js/loading.js"></script>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -638,7 +639,7 @@
 				dataStatus.textContent = `${catalog.length.toLocaleString("vi")} hồ sơ đã sẵn sàng · dữ liệu được nạp từ Bách khoa Dị thể.`;
 			}
 
-			fetch(dataUrl)
+			fetch(dataUrl, window.OriciinWikiSettings?.requestOptions || { cache: "no-store" })
 				.then(response => {
 					if (!response.ok) throw new Error(`HTTP ${response.status}`);
 					return response.json();

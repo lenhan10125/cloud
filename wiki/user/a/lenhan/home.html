@@ -6,6 +6,7 @@
 <meta name="color-scheme" content="dark light">
 <title>Bách khoa Dị thể | Lenhan</title>
 <link rel="icon" href="../../../store/favicon.ico" sizes="any">
+<script src="../../cache/setting.js"></script>
 <script src="../../../js/loading.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,6 +128,10 @@ button,input{font:inherit}
 .wiki-settings-panel .language-control select,.wiki-settings-panel .theme-button{width:100%;min-height:36px;font-size:12px}
 .wiki-settings-panel .language-control select{text-align:center}
 .wiki-settings-panel .theme-button{white-space:normal}
+.font-size-control{display:grid;gap:5px;color:var(--boxText);font-size:12px}
+.font-size-control span{display:flex;justify-content:space-between;gap:10px}
+.font-size-control input{width:100%;margin:0;accent-color:var(--gold);cursor:pointer}
+.wiki{font-size:var(--wiki-reading-size,20px)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .mini-actions{position:fixed;right:18px;bottom:18px;z-index:160;display:grid;justify-items:center;gap:8px}
 .mini-actions-list{display:grid;justify-items:center;gap:8px;max-height:0;overflow:hidden;opacity:0;transform:translateY(10px);transition:max-height .22s ease,opacity .18s ease,transform .22s ease}
@@ -283,8 +288,8 @@ button,input{font:inherit}
 .section h4{margin:14px 0 5px;font-size:13px}
 .profile-source-note{margin:12px 0;padding:9px 11px;border:1px solid var(--chromeLine);background:var(--boxBgAlt);color:var(--boxText);font-size:12px}
 .profile-source-note summary{color:var(--link);cursor:pointer;font-weight:700}
-.section p{margin:7px 0;font-size:13px}
-.section ul,.section ol{padding-left:23px;margin:7px 0;font-size:13px}
+.section p{margin:7px 0;font-size:var(--wiki-reading-size,20px)}
+.section ul,.section ol{padding-left:23px;margin:7px 0;font-size:var(--wiki-reading-size,20px)}
 .section li{padding:2px 0}
 .section blockquote{margin:10px 0;padding:8px 13px;border-left:3px solid var(--gold);background:#2b2b2b;color:#ddd}
 .section hr{border:0;border-top:1px solid var(--line);margin:18px 0}
@@ -409,6 +414,7 @@ button,input{font:inherit}
 				<summary aria-label="Cài đặt / Settings" title="Cài đặt / Settings">⚙</summary>
 				<div class="wiki-settings-panel">
 					<label class="language-control"><span class="sr-only">Ngôn ngữ / Language</span><select id="languageSelect" aria-label="Ngôn ngữ / Language"><option value="vi">VN</option><option value="en">EN</option></select></label>
+					<label class="font-size-control" for="wikiFontSize"><span>Cỡ chữ nội dung <output id="wikiFontSizeValue" for="wikiFontSize">20px</output></span><input id="wikiFontSize" type="range" min="12" max="32" step="1" value="20" aria-label="Cỡ chữ nội dung"></label>
 					<button class="theme-button" id="themeToggle" type="button" aria-label="Đổi chủ đề" aria-haspopup="dialog" aria-expanded="false">Chủ đề</button>
 				</div>
 			</details>
@@ -459,5 +465,45 @@ button,input{font:inherit}
 <script src="img/id.js"></script>
 <script src="store.js"></script>
 <script id="java-data-function" src="../../../../store/java/java_data_function.js"></script>
+<script>
+(() => {
+	const fontSizeControl = document.getElementById("wikiFontSize");
+	const fontSizeValue = document.getElementById("wikiFontSizeValue");
+	const fontSizeStorageKey = "oriciin:lenhan:font-size";
+	const defaultFontSize = 20;
+	fontSizeControl.value = String(defaultFontSize);
+
+	try {
+		const savedFontSize = window.localStorage.getItem(fontSizeStorageKey);
+		if (savedFontSize !== null) {
+			const parsedFontSize = Number(savedFontSize);
+			if (Number.isInteger(parsedFontSize) && parsedFontSize >= 12 && parsedFontSize <= 32) {
+				fontSizeControl.value = String(parsedFontSize);
+			} else {
+				console.warn("Cỡ chữ đã lưu không hợp lệ; sử dụng cỡ chữ mặc định.");
+			}
+		}
+	} catch (error) {
+		console.error("Không thể đọc cỡ chữ đã lưu:", error);
+	}
+
+	function applyFontSize() {
+		const fontSize = Number(fontSizeControl.value);
+		document.documentElement.style.setProperty("--wiki-reading-size", `${fontSize}px`);
+		fontSizeValue.value = `${fontSize}px`;
+		fontSizeValue.textContent = `${fontSize}px`;
+	}
+
+	fontSizeControl.addEventListener("input", applyFontSize);
+	fontSizeControl.addEventListener("change", () => {
+		try {
+			window.localStorage.setItem(fontSizeStorageKey, fontSizeControl.value);
+		} catch (error) {
+			console.error("Không thể lưu cỡ chữ:", error);
+		}
+	});
+	applyFontSize();
+})();
+</script>
 </body>
 </html>

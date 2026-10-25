@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
+<script src="../../cache/setting.js"></script>
 <script src="../../../js/loading.js"></script>
 <style>
 :root{--bg:#090d16;--card:#131b2e;--cyan:#00f2fe;--green:#00ff87;--purple:#9d4edd;--amber:#ff9e00;--red:#ff0055;--text:#e2e8f0;--sub:#94a3b8;--bd:#2a365c;color-scheme:dark}
@@ -280,7 +281,7 @@ document.getElementById('reset').onclick=()=>{
   svg.transition().duration(350).call(zoom.transform,d3.zoomIdentity);
 };
 
-d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(w=>{
+d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json',window.OriciinWikiSettings.requestOptions).then(w=>{
   worldFeatures=topojson.feature(w,w.objects.countries).features.filter(f=>f.properties.name!=='Antarctica');
   zg.selectAll('.c').data(worldFeatures).join('path').attr('class','c').attr('stroke-width',.5)
     .on('click',(e,d)=>pick(d.properties.name))

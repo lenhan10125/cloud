@@ -1,7 +1,7 @@
 
 (() => {
-	const languageStorageKey = "oriciin:lenhan:language";
 	const wikiBasePath = new URL(".", document.currentScript.src);
+	const requestOptions = window.OriciinWikiSettings?.requestOptions || { cache: "no-store" };
 	const wikiNavigation = document.querySelector(".wiki-nav-scroll");
 	if (wikiNavigation) {
 		wikiNavigation.addEventListener("wheel", event => {
@@ -16,11 +16,7 @@
 		}, { passive: false });
 	}
 	let pageLanguage = "vi";
-	try {
-		pageLanguage = window.localStorage.getItem(languageStorageKey) === "en" ? "en" : "vi";
-	} catch (error) {
-		console.warn("Không thể đọc ngôn ngữ đã lưu:", error);
-	}
+	pageLanguage = new URL(window.location.href).searchParams.get("lang") === "en" ? "en" : "vi";
 	window.LENHAN_LANGUAGE = pageLanguage;
 	document.documentElement.lang = pageLanguage;
 
@@ -1213,7 +1209,32 @@
 	}
 
 	function renderCenter() {
-		const worldHistory = [
+		const worldHistory = pageLanguage === "en" ? [
+			{
+				title: "1. Black Atlantis and the KAJU Wardens",
+				text: "A frozen beam from the Pacific Trench reveals Black Atlantis and its Ice Mana Cores. Blind KAJU Wardens hunt by following a sequence of six seismic pulses."
+			},
+			{
+				title: "2. Praefectus Awakens and Is Sealed",
+				text: "Removing the five-seal sword from a red-quartz skeleton revives Praefectus. After several battle phases and the Water Prison Barrier, the sword is restored to seal the entity."
+			},
+			{
+				title: "3. Atmospheric Change and the Rise of the Titans",
+				text: "Cyanobacteria-K purifies the atmosphere and oceans; a Eurasian catastrophe gives rise to BloodShinGodzilla. Zero-Mana zones also form in deep caves and ravines."
+			},
+			{
+				title: "4. The Galactic Curse",
+				text: "The Deep-Sea Curse King absorbs a meteorite's mana core, transforms the Abyssal Sovereign Blade, and gains power over matter, gravity, and cosmic radiation."
+			},
+			{
+				title: "5. Ecosystems and the Creature Catalog",
+				text: "The records describe man-hunting and neutral species, edible creatures, ecological supporters, deep-sea monsters, and Titans. Current records are maintained separately in the creature catalog."
+			},
+			{
+				title: "6. The Current Environmental State",
+				text: "The atmosphere and continents are recovering, but the Black Coordinates remain. Lakes and rivers are relatively clean, while the Pacific Trench is still affected by the Galactic Curse."
+			}
+		] : [
 			{
 				title: "1. Atlantis Đen và KAJU Warden",
 				text: "Cột sáng băng giá từ rãnh Thái Bình Dương để lộ Atlantis Đen và các Viên Ma Năng Băng. KAJU Warden mù săn theo một chuỗi sáu nhịp rung chấn."
@@ -1239,7 +1260,53 @@
 				text: "Khí quyển và lục địa đang hồi phục, nhưng Tọa Độ Đen vẫn tồn tại. Sông hồ tương đối sạch; rãnh sâu Thái Bình Dương còn chịu ảnh hưởng của Lời Nguyền Tinh Hà."
 			}
 		];
-		const fullHistory = [
+		const fullHistory = pageLanguage === "en" ? [
+			{
+				title: "1. The First Era and the Black Atlantis Hotspot",
+				paragraphs: [
+					"A pillar of freezing light erupts from a trench 30 km beneath the Pacific Ocean, tearing through the sea surface and releasing a wave of negative thermal energy.",
+					"Under pressure recorded in the source as 300,000 m, the ruins of Black Atlantis (Abyssal Necropolis), built from Black Quartz and Eternal Ice, are revealed. They contain Absolute Ice Cores that radiate negative heat, freezing cellular decay and suppressing thermal overload.",
+					"The KAJU Wardens are ancient biomechanical organisms about 30 m tall, made of quartz alloy. Blind, they track ground vibrations through the Six-Beat Seismic Protocol: during beats 1–3, the rock absorbs compression and glows with blue veins; beat 4 brings an Abyssal Screech; beat 5 is absolute silence; on beat 6, the KAJU emerge and attack anything causing vibrations."
+				]
+			},
+			{
+				title: "2. Praefectus Awakens and Enters Its Battle Phases",
+				paragraphs: [
+					"Praefectus fundi maris profundi (Governor of the Deep Sea) is unsealed when the five-marked sword is pulled from the chest of a red-quartz skeleton at an altar. The KAJU Wardens immediately stop moving. A burst of cold restores flesh and veins to the skeleton, forming a young figure with a feminine face clad in Red Moss Bio-Armor. The KAJU forces then go berserk and begin destroying their surroundings.",
+					"During Phases 1 and 2, Praefectus teleports and is protected by a Six-Layer Shield; the shield disappears for 10 seconds after each teleport. Ice-Radiation Ultraviolet Beams cause cellular decay. Phase 3 opens the Water Prison Barrier, a 5 km-radius sphere that compresses its interior under extreme pressure.",
+					"In Phase 5, a vacuum frenzy triggers implosions in the 30 km-deep trench, stripping local air molecules and crushing objects in 1/1000 of a second. The ancient sword is driven back into Praefectus's chest, locking the five seals and forcing the entity into emergency stasis."
+				]
+			},
+			{
+				title: "3. Atmospheric Mutation and Surface Ecosystems",
+				paragraphs: [
+					"About one trillion modified Cyanobacteria-K spread through the atmosphere and oceans. They absorb toxins, negative mana, and heavy metals while releasing oxygen at a rate the source describes as 500 times that of ordinary vegetation.",
+					"A geothermal-nuclear catastrophe in Eurasia produces temperatures of millions of degrees and gamma rays. A creature absorbs this energy and becomes Cherenkov Decay Fire, a form capable of breaking down cells. An ancient entity beneath the mantle later devours it, and it evolves into BloodShinGodzilla, the Ancient Titan King. Its radioactive acid blood is described as having a pH approaching a negative value, melting concrete and forming boiling acid lakes.",
+					"Deep ravines and cave systems create Zero-Mana Blind Spots, where mana levels approach zero and negative magic has no effect."
+				]
+			},
+			{
+				title: "4. The Cosmic Meteorite and the Deep-Sea Curse King",
+				paragraphs: [
+					"The Deep-Sea Curse King takes control of Praefectus's ancient energy. He wields the Abyssal Sovereign Blade, carrying the Binding Curse and Deep-Sea Blessing, which make every drop of water on Earth loyal to him.",
+					"A meteorite containing an ultra-dense cosmic crystal tears through the atmosphere and falls into a 30 km-deep Pacific trench. The Curse King absorbs its Cosmic Mana Core, transforming the sword and awakening the Galactic Curse. His control expands to the molecular density of air, gravity, and cosmic radiation."
+				]
+			},
+			{
+				title: "5. Natural Ecosystem Classification",
+				paragraphs: [
+					"The source describes several groups: 24 man-hunting species born from resentful mana in the Black Coordinates; 40 neutral, edible species that thrive in clean environments; 60 aggressive species that must be hunted or sensitive species that may flee but can be eaten; 15 inedible neutral species that support and defend the ecosystem; as well as deep-sea monsters and ancient Titans.",
+					"The original chapter title states 124 new species, while groups I–IV total 139 (24 + 40 + 60 + 15), not including deep-sea monsters and Titans. The source's total therefore needs verification; the current classifications and records are maintained in the creature catalog rather than duplicated here."
+				]
+			},
+			{
+				title: "6. Current Environmental and Geological Conditions",
+				paragraphs: [
+					"The atmosphere is recovering through Cyanobacteria-K populations and the neutralization of negative mana by positive-energy waves. Black Coordinates containing resentful mana remain on the continents, along with bands of vibration-sensitive fungi around quartz-mining areas.",
+					"Continental rivers and lakes are described as toxin-free and home to neutral aquatic species. In contrast, the Pacific Ocean—especially its 30 km-deep trench—remains under the Galactic Curse and is recorded as having a pressure of 3,000 atmospheres."
+				]
+			}
+		] : [
 			{
 				title: "1. Kỷ nguyên khởi đầu và điểm nóng Atlantis Đen",
 				paragraphs: [
@@ -1290,14 +1357,16 @@
 		const existingAdditionalCount = creatures.filter(creature => ["group-04", "group-05", "group-06"].includes(creature.categoryId)).length;
 		const generatedAdditionCount = creatures.filter(creature => creature.generatedFromStory).length;
 		const fullHistoryMarkup = fullHistory.map((chapter, index) => `<article class="world-full-history-chapter"><h3>${escapeHtml(chapter.title)}</h3>${chapter.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}</article>`).join("");
-		const overview = `<section class="world-overview" aria-labelledby="world-overview-title"><header class="world-overview-header"><span class="world-overview-kicker">TỔNG QUAN THẾ GIỚI</span><h2 id="world-overview-title">OCEN</h2><p>Thế giới giả tưởng hậu thảm họa: Atlantis Đen và KAJU trỗi dậy từ rãnh Thái Bình Dương; Praefectus bị phong ấn; khí quyển biến đổi, các Titan xuất hiện và Lời Nguyền Tinh Hà bao phủ đại dương. Lục địa đang hồi phục, nhưng Tọa Độ Đen và vùng biển sâu vẫn nguy hiểm.</p></header><div class="world-history">${worldHistory.map((entry, index) => `<article class="world-history-item"><span class="world-history-number">${String(index + 1).padStart(2, "0")}</span><div><h3>${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.text)}</p></div></article>`).join("")}</div><details class="world-full-history"><summary>Đọc mục mô tả lịch sử đầy đủ</summary><div class="world-full-history-content">${fullHistoryMarkup}</div></details><div class="world-overview-note"><strong>Danh mục hiện tại:</strong> ${creatures.length} hồ sơ sinh vật trong ${groups.length} nhóm; lịch sử đầy đủ được giữ riêng ở trên để không trùng lặp với các hồ sơ sinh vật.</div></section>`;
+		const overview = pageLanguage === "en"
+			? `<section class="world-overview" aria-labelledby="world-overview-title"><header class="world-overview-header"><span class="world-overview-kicker">WORLD OVERVIEW</span><h2 id="world-overview-title">OCEN</h2><p>A post-catastrophe fantasy world: Black Atlantis and the KAJU rise from the Pacific Trench; Praefectus is sealed; the atmosphere changes, Titans emerge, and the Galactic Curse spreads across the ocean. The continents are recovering, but the Black Coordinates and deep-sea regions remain dangerous.</p></header><div class="world-history">${worldHistory.map((entry, index) => `<article class="world-history-item"><span class="world-history-number">${String(index + 1).padStart(2, "0")}</span><div><h3>${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.text)}</p></div></article>`).join("")}</div><details class="world-full-history"><summary>Read the full historical account</summary><div class="world-full-history-content">${fullHistoryMarkup}</div></details><div class="world-overview-note"><strong>Current catalog:</strong> ${creatures.length} creature records across ${groups.length} groups. The full history is kept separate to avoid duplicating creature profiles.</div></section>`
+			: `<section class="world-overview" aria-labelledby="world-overview-title"><header class="world-overview-header"><span class="world-overview-kicker">TỔNG QUAN THẾ GIỚI</span><h2 id="world-overview-title">OCEN</h2><p>Thế giới giả tưởng hậu thảm họa: Atlantis Đen và KAJU trỗi dậy từ rãnh Thái Bình Dương; Praefectus bị phong ấn; khí quyển biến đổi, các Titan xuất hiện và Lời Nguyền Tinh Hà bao phủ đại dương. Lục địa đang hồi phục, nhưng Tọa Độ Đen và vùng biển sâu vẫn nguy hiểm.</p></header><div class="world-history">${worldHistory.map((entry, index) => `<article class="world-history-item"><span class="world-history-number">${String(index + 1).padStart(2, "0")}</span><div><h3>${escapeHtml(entry.title)}</h3><p>${escapeHtml(entry.text)}</p></div></article>`).join("")}</div><details class="world-full-history"><summary>Đọc mục mô tả lịch sử đầy đủ</summary><div class="world-full-history-content">${fullHistoryMarkup}</div></details><div class="world-overview-note"><strong>Danh mục hiện tại:</strong> ${creatures.length} hồ sơ sinh vật trong ${groups.length} nhóm; lịch sử đầy đủ được giữ riêng ở trên để không trùng lặp với các hồ sơ sinh vật.</div></section>`;
 		const content = groups.map(group => {
 			const members = creatures.filter(item => item.categoryId === group.id);
 			const key = `center:${group.id}`;
 			const shown = Math.min(pageLimit(key), members.length);
-			return `<section class="center-group"><h3>${escapeHtml(group.title)}</h3><p>${shown} / ${members.length} sinh vật</p><div class="center-members">${members.slice(0, shown).map(item => `<a class="center-member" href="#${item.id}">${escapeHtml(item.name)}</a>`).join("")}</div>${loadMoreButton(key, shown, members.length)}</section>`;
+			return `<section class="center-group"><h3>${escapeHtml(group.title)}</h3><p>${shown} / ${members.length} ${pageLanguage === "en" ? "creatures" : "sinh vật"}</p><div class="center-members">${members.slice(0, shown).map(item => `<a class="center-member" href="#${item.id}">${escapeHtml(item.name)}</a>`).join("")}</div>${loadMoreButton(key, shown, members.length)}</section>`;
 		}).join("");
-		element("viewRoot").innerHTML = `<section><h1 class="view-title">Trung tâm dị thể</h1>${overview}<div class="center-groups">${content}</div></section>`;
+		element("viewRoot").innerHTML = `<section><h1 class="view-title">${pageLanguage === "en" ? "Creature Bestiary Home" : "Trung tâm dị thể"}</h1>${overview}<div class="center-groups">${content}</div></section>`;
 	}
 
 	function renderMap() {
@@ -1547,7 +1616,7 @@
 			return;
 		}
 		const loadingTask = window.WikiOriLoader?.start("Đang tải dữ liệu tìm kiếm…");
-		fetch(`${wikiBasePath}search.txt`)
+		fetch(`${wikiBasePath}search.txt`, requestOptions)
 			.then(response => {
 				if (!response.ok) throw new Error(`HTTP ${response.status}`);
 				return response.text();
@@ -1830,22 +1899,15 @@
 	if (languageSelect) {
 		languageSelect.value = pageLanguage;
 		languageSelect.addEventListener("change", () => {
-			try {
-				window.localStorage.setItem(languageStorageKey, languageSelect.value);
-			} catch (error) {
-				console.error("Không thể lưu ngôn ngữ đã chọn:", error);
-				const status = document.getElementById("status");
-				if (status) status.textContent = pageLanguage === "en"
-					? "Could not save the selected language."
-					: "Không thể lưu ngôn ngữ đã chọn.";
-				return;
-			}
-			window.location.reload();
+			const url = new URL(window.location.href);
+			if (languageSelect.value === "en") url.searchParams.set("lang", "en");
+			else url.searchParams.delete("lang");
+			window.location.assign(url);
 		});
 	}
 	applyStaticLanguage();
 
-	fetch(dataFile)
+	fetch(dataFile, requestOptions)
 		.then(response => {
 			if (!response.ok) throw new Error(`HTTP ${response.status}`);
 			return response.json();

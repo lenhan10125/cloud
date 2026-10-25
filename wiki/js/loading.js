@@ -179,6 +179,12 @@
   }
 
   function getTheme() {
+    if (window.OriciinWikiSettings) {
+      var configuredTheme = window.OriciinWikiSettings.getTheme(CONFIG.themeStorageKey);
+      return Object.prototype.hasOwnProperty.call(CONFIG.themes, configuredTheme)
+        ? configuredTheme
+        : CONFIG.defaultTheme;
+    }
     try {
       var savedTheme = window.localStorage.getItem(CONFIG.themeStorageKey);
       return Object.prototype.hasOwnProperty.call(CONFIG.themes, savedTheme)
@@ -194,7 +200,11 @@
     if (!Object.prototype.hasOwnProperty.call(CONFIG.themes, themeId)) {
       throw new TypeError('Giao diện loading không hợp lệ.');
     }
-    window.localStorage.setItem(CONFIG.themeStorageKey, themeId);
+    if (window.OriciinWikiSettings) {
+      window.OriciinWikiSettings.setTheme(CONFIG.themeStorageKey, themeId);
+    } else {
+      window.localStorage.setItem(CONFIG.themeStorageKey, themeId);
+    }
     applyTheme(themeId);
   }
 
