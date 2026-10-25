@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--chrome:#141414;--chrome2:#202020;--chromeLine:#383838;--gold:#e2bd61;--blood:#a93443;--paper:#242424;--ink:#f1f1f1;--muted:#b5b5b5;--line:#4b4b4b;--link:#6ca9ff;--soft:#333;--mainBg:#241b19;--bodyText:#eee;--sidebarMuted:#a99c88;--controlBg:#171717;--controlText:#f1ece4;--tableBg:#1b1b1b;--tableHeader:#303030;--searchSurface:#242424}
+:root{--chrome:#141414;--chrome2:#202020;--chromeLine:#383838;--gold:#e2bd61;--blood:#a93443;--paper:#242424;--ink:#f1f1f1;--muted:#b5b5b5;--line:#4b4b4b;--link:#6ca9ff;--soft:#333;--mainBg:#241b19;--bodyText:#eee;--sidebarMuted:#a99c88;--controlBg:#171717;--controlText:#f1ece4;--tableBg:#1b1b1b;--tableHeader:#303030;--searchSurface:#242424;--wiki-reading-size:20px}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;background:var(--chrome);color:var(--bodyText);font:14px/1.6 'Noto Sans',sans-serif}
@@ -489,13 +489,19 @@ button,input{font:inherit}
 
 	function applyFontSize() {
 		const fontSize = Number(fontSizeControl.value);
-		document.documentElement.style.setProperty("--wiki-reading-size", `${fontSize}px`);
-		fontSizeValue.value = `${fontSize}px`;
-		fontSizeValue.textContent = `${fontSize}px`;
+		const safeFontSize = Number.isFinite(fontSize) ? fontSize : defaultFontSize;
+		const valueText = `${safeFontSize}px`;
+		document.documentElement.style.setProperty("--wiki-reading-size", valueText);
+		document.body.style.setProperty("--wiki-reading-size", valueText);
+		fontSizeValue.value = valueText;
+		fontSizeValue.textContent = valueText;
 	}
 
-	fontSizeControl.addEventListener("input", applyFontSize);
+	fontSizeControl.addEventListener("input", () => {
+		applyFontSize();
+	});
 	fontSizeControl.addEventListener("change", () => {
+		applyFontSize();
 		try {
 			window.localStorage.setItem(fontSizeStorageKey, fontSizeControl.value);
 		} catch (error) {
