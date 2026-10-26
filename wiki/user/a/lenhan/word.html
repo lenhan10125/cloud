@@ -85,11 +85,12 @@ html.map-embed .legend{justify-content:center;padding:0 8px 4px}
 <header>
   <h1>BẢN ĐỒ THẾ GIỚI HẬU THẢM HỌA</h1>
   <p>Kéo hoặc vuốt để xoay; thả tay để quả địa cầu trượt theo quán tính. Cuộn chuột hoặc chụm hai ngón để phóng to, chọn quốc gia để xem thông tin.</p>
-  <div class="stats"><span>Dân số: <b>5,3 tỷ</b></span><span>Giới tính: <b>1 nam : 5–6 nữ</b></span><span>Tỷ lệ sinh bé trai: <b>48%</b></span><span>Hệ sinh thái: <b>387 loài</b></span></div>
+  <div class="stats"><span>Dân số: <b>5,3 tỷ</b></span><span>Giới tính: <b>1 nam : 5–6 nữ</b></span><span>Tỷ lệ sinh bé trai: <b>48%</b></span><span>Hệ sinh thái: <b id="creatureCount">387 loài</b></span></div>
 </header>
 <main>
   <section class="box">
     <div class="gs"><input id="gq" type="search" placeholder="🔍 Tìm trong 387 sinh vật (tên Việt hoặc Anh)…" autocomplete="off"><div class="gres" id="gres" hidden></div></div>
+    <div id="catalogStatus" class="err" role="status" hidden></div>
     <div class="bar"><small>Tô màu theo:</small><button class="on" data-m="fac">Thế lực</button><button data-m="dg">Mức nguy hiểm</button><small class="sp">Vuốt để xoay · thả tay để trượt</small><button id="reset">⟲ Đặt lại</button></div>
     <svg id="map" viewBox="0 0 960 620" aria-label="Quả địa cầu tương tác"></svg>
     <div class="legend" id="legend"></div>
@@ -146,6 +147,48 @@ const CR=[[1,1,"Dạ Ma Oán Thù","Umbral Griever","Thân dạng khói đen cô
 const BR={};CR.forEach(c=>(BR[c[11]]=BR[c[11]]||[]).push(c));
 const fold=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
 CR.forEach(c=>c.f=fold(c[2]+' '+c[3]));
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+async function syncCreatureCatalog(){
+  const status=document.getElementById('catalogStatus');
+  try{
+    const options=window.OriciinWikiSettings?.requestOptions||{cache:'no-store'};
+    const load=async file=>{
+      const response=await fetch(new URL(file,location.href),options);
+      if(!response.ok)throw new Error(`Không tải được ${file}: HTTP ${response.status}`);
+      return response.json();
+    };
+    const [vietnamese,english]=await Promise.all([load('data.txt'),load('data_en.txt')]);
+    if(!Array.isArray(vietnamese)||!Array.isArray(english)||vietnamese.length!==CR.length||english.length!==CR.length){
+      throw new Error('Số lượng hồ sơ trong data.txt, data_en.txt và bản đồ không khớp.');
+    }
+    const byId=list=>new Map(list.map(creature=>[creature.id,creature]));
+    const vietnameseById=byId(vietnamese),englishById=byId(english);
+    const updates=CR.map(creature=>{
+      const id=`creature-${String(creature[0]).padStart(3,'0')}`;
+      const vi=vietnameseById.get(id),en=englishById.get(id);
+      const categoryId=`group-${String(creature[1]).padStart(2,'0')}`;
+      if(!vi||!en||vi.number!==creature[0]||en.number!==creature[0]||vi.categoryId!==categoryId||en.categoryId!==categoryId||typeof vi.name!=='string'||typeof en.name!=='string'||typeof vi.summary!=='string'){
+        throw new Error(`Hồ sơ ${id} trong bộ dữ liệu không khớp với bản đồ.`);
+      }
+      return {creature,name:vi.name,englishName:en.name,summary:vi.summary};
+    });
+    updates.forEach(({creature,name,englishName,summary})=>{
+      creature[2]=name;
+      creature[3]=englishName;
+      creature[4]=summary;
+      creature.f=fold(`${name} ${englishName}`);
+    });
+    document.getElementById('creatureCount').textContent=`${CR.length} loài`;
+    document.getElementById('gq').placeholder=`🔍 Tìm trong ${CR.length} sinh vật (tên Việt hoặc Anh)…`;
+    status.hidden=true;
+    if(sel.r)render();
+  }catch(error){
+    console.error('Không thể đồng bộ dữ liệu sinh vật cho bản đồ:',error);
+    status.textContent='Không thể đồng bộ data.txt và data_en.txt với bản đồ. Dữ liệu bản đồ cũ vẫn được giữ.';
+    status.hidden=false;
+  }
+}
 
 /* ===== Ghi chú riêng cho từng quốc gia (quốc gia khác dùng thông tin theo vùng) ===== */
 const CN={
@@ -314,8 +357,8 @@ function drawList(){
   let L=all.filter(c=>(!crG||c[1]===crG)&&(!q||c.f.includes(q)));
   const shown=L.slice(0,crLim);
   const row=c=>{const col=GM[c[1]][1],o=openN===c[0];
-    const kv=[['Tên Anh',c[3]],['Cấp thợ săn',c[6]],['Điểm yếu',c[7]],['Vật phẩm',c[8]],['Môi trường',c[9]],['Ăn uống',c[10]]].filter(k=>k[1]).map(k=>`<div><span>${k[0]}:</span> ${k[1]}</div>`).join('');
-    return `<div class="cr" style="border-left-color:${col}"><div class="cr-h" data-n="${c[0]}"><span class="tag" style="color:${col};border-color:${col}">${GM[c[1]][0]}</span><b>${c[2]}</b><em>${c[5]}</em></div>${o?`<div class="cr-b"><p>${c[4]}</p>${kv}</div>`:''}</div>`};
+    const kv=[['Tên Anh',c[3]],['Cấp thợ săn',c[6]],['Điểm yếu',c[7]],['Vật phẩm',c[8]],['Môi trường',c[9]],['Ăn uống',c[10]]].filter(k=>k[1]).map(k=>`<div><span>${k[0]}:</span> ${escapeHtml(k[1])}</div>`).join('');
+    return `<div class="cr" style="border-left-color:${col}"><div class="cr-h" data-n="${c[0]}"><span class="tag" style="color:${col};border-color:${col}">${GM[c[1]][0]}</span><b>${escapeHtml(c[2])}</b><em>${escapeHtml(c[5])}</em></div>${o?`<div class="cr-b"><p>${escapeHtml(c[4])}</p>${kv}</div>`:''}</div>`};
   box.innerHTML=`<div class="chips"><button data-g="0" class="${crG?'':'on'}" style="${crG?'':'background:#00f2fe;border-color:#00f2fe'}">Tất cả ${all.length}</button>${cg.map((n,g)=>n?`<button data-g="${g}" class="${crG===g?'on':''}" style="${crG===g?`background:${GM[g][1]};border-color:${GM[g][1]}`:`color:${GM[g][1]}`}">${GM[g][0]} ${n}</button>`:'').join('')}</div>
   <div class="cnt">${L.length} sinh vật${q||crG?' khớp bộ lọc':''}</div>${shown.map(row).join('')||'<div class="hint">Không có sinh vật nào khớp.</div>'}${L.length>shown.length?`<button class="more">Xem thêm (${L.length-shown.length} còn lại)</button>`:''}`;
   box.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{crG=+b.dataset.g;crLim=30;drawList()});
@@ -354,7 +397,7 @@ function render(){
     const s=fold(q.value.trim());
     if(s.length<2){res.hidden=true;return}
     hits=CR.filter(c=>c.f.includes(s)).slice(0,8);
-    res.innerHTML=hits.map((c,i)=>`<div data-i="${i}">${c[2]}<small>${GM[c[1]][0]} · ${reg(c[11]).n}</small></div>`).join('')||'<div>Không tìm thấy.</div>';
+    res.innerHTML=hits.map((c,i)=>`<div data-i="${i}">${escapeHtml(c[2])}<small>${GM[c[1]][0]} · ${reg(c[11]).n}</small></div>`).join('')||'<div>Không tìm thấy.</div>';
     res.hidden=false;
     res.querySelectorAll('[data-i]').forEach(e=>e.onclick=()=>go(hits[+e.dataset.i]));
   };
@@ -366,6 +409,7 @@ document.querySelectorAll('.bar button[data-m]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.bar button[data-m]').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');mode=b.dataset.m;paint();
 });
+syncCreatureCatalog();
 </script>
 </body>
 </html>

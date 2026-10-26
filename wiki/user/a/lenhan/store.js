@@ -872,17 +872,14 @@
 
 	function dangerInfo(creature) {
 		const text = String(creature.details || "");
-		if (/thần thoại|tai ương toàn cầu/i.test(text)) return { label: "Thần thoại", className: "danger-violet", order: 7 };
-		const rawRank = text.match(/rank\s*(ERROR|SSS\+?|SS\+?|S|A\+?|B|C|D|E|F)(?=\s|\(|$)/i)?.[1]?.toUpperCase()
-			|| text.match(/(?:cấp độ nguy hiểm|danger level)\s*\/\s*(?:xếp hạng|rank)[^\n]*?(?:rank\s*)?(ERROR|SSS\+?|SS\+?|S|A\+?|B|C|D|E|F)/i)?.[1]?.toUpperCase();
-		const fallbackRank = /(theo phân loại hiện hành|catalog\s*·\s*id\s*creature)/i.test(text)
-			? (creature.categoryId === "group-02" ? "F" : "D")
-			: null;
-		const rank = rawRank || fallbackRank;
+		if (/cấp tối cao|highest level/i.test(text)) return { label: "Cấp Tối Cao", className: "danger-error", order: 11 };
+		const rank = text.match(/\b(?:rank|hạng)\s*(EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E|ERROR)(?!\s*(?:đến|to|[-–—])\s*(?:rank\s*)?(?:EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E))(?=\s*(?:\([^)]*\)|\/\s*Phase\s*\d+)?(?:\s|$))/i)?.[1]?.toUpperCase();
 		if (!rank) return null;
-		if (rank === "ERROR") return { label: "Rank ERROR", className: "danger-error", order: 10 };
+		if (rank === "ERROR") return null;
+		if (rank === "EX") return { label: "Rank EX", className: "danger-error", order: 10 };
 		if (rank === "SSS+") return { label: `Rank ${rank}`, className: "danger-error", order: 9 };
 		if (rank === "SS+" || rank === "SSS" || rank === "SS") return { label: `Rank ${rank}`, className: "danger-violet", order: 8 };
+		if (rank === "S+") return { label: `Rank ${rank}`, className: "danger-indigo", order: 7 };
 		if (rank === "S") return { label: `Rank ${rank}`, className: "danger-indigo", order: 6 };
 		if (rank.startsWith("A")) return { label: `Rank ${rank}`, className: "danger-blue", order: 5 };
 		if (rank === "B") return { label: `Rank ${rank}`, className: "danger-green", order: 4 };
@@ -937,16 +934,17 @@
 			});
 		});
 		const systemTerms = [
-			["Rank SS+", "Bậc phân loại dành cho Titan và thực thể có sức đe dọa cực cao; mọi hồ sơ trong nhóm Titan phải đạt từ mức này."],
-			["Rank ERROR", "Nhãn ngoại lệ vượt thang xếp hạng thông thường, dành cho mối đe dọa cấp hành tinh hoặc đại thảm họa."],
-			["Cấp hành tinh", "Mức nguy hiểm có thể tác động đến quy mô hành tinh, hệ sinh thái toàn cầu hoặc cấu trúc địa chất."],
-			["Đại thảm họa", "Sự kiện hoặc thực thể có khả năng gây hậu quả diện rộng, kéo dài và đe dọa sự tồn vong."],
+			["Rank thợ săn", "Hạng hội viên từ E đến S; THGM tính theo chỉ số sinh học, số quái vật đã hạ và tỷ lệ hoàn thành nhiệm vụ an toàn. Đây là hạng của thợ săn, không phải hạng sức mạnh sinh vật."],
+			["Hạng nguy hiểm sinh vật", "Chỉ dùng hạng được ghi rõ trong truyện. Mức nguy hiểm không đồng nghĩa với sức mạnh thuần túy; vai trò, hành vi và hậu quả của từng cá thể cũng quan trọng."],
+			["Level cá thể", "Cấp độ riêng của sinh vật theo bảng status (thường ghi trên thang 1000); không phải Level tối thiểu mà thợ săn cần đạt."],
+			["Rank SS+", "Một hạng nguy hiểm cao được dùng cho một số cá thể; không phải ngưỡng bắt buộc cho toàn bộ Titan."],
+			["Rank EX / Phase 5", "Cấp Tận Diệt được ghi cho Vua Lời Nguyền Biển Sâu ở Phase 5; không đồng nhất với Rank ERROR."],
+			["Cấp Tối Cao", "Nhãn riêng cho 001, được mô tả là kẻ bảo vệ nhân loại; không phải Rank ERROR hoặc một mốc nguy hiểm thông thường."],
 			["Mach", "Tỷ số giữa tốc độ của một vật thể và tốc độ âm thanh trong môi trường đang xét."],
-			["Mach 1+", "Tốc độ bằng hoặc vượt tốc độ âm thanh; giá trị thực tế thay đổi theo môi trường."],
-			["Ngưỡng Titan", "Trong danh mục này, nhóm Titan có rank tối thiểu SS+; Rank ERROR biểu thị ngoại lệ cấp hành tinh/đại thảm họa."]
+			["Mach 1+", "Tốc độ bằng hoặc vượt tốc độ âm thanh; giá trị thực tế thay đổi theo môi trường."]
 		].map(([term, definition], index) => ({ id: `system-term-${String(index + 1).padStart(2, "0")}`, type: "system", name: "Hệ thống", category: "Hệ thống", term, definition, value: definition }));
 		const creatureTerms = [
-			["Sinh vật Titan", "Sinh vật thuộc nhóm Titan, được xếp từ Rank SS+ trở lên."],
+			["Sinh vật Titan", "Phân loại chủng loài, không tự quyết định hạng nguy hiểm; ví dụ trong truyện có KAJU Warden hạng SS và BloodShinGodzilla hạng SSS+."],
 			["Sinh vật phi vật lý", "Thực thể không có cơ thể vật chất ổn định; có thể tồn tại dưới dạng năng lượng, trường lực hoặc khái niệm."],
 			["Sinh vật siêu thanh", "Sinh vật có khả năng di chuyển đạt Mach 1 trở lên."],
 			["Sinh vật khổng lồ", "Sinh vật có chiều cao hoặc chiều dài cơ thể từ 20 m trở lên."],
@@ -973,7 +971,7 @@
 	function renderGlossary() {
 		const entries = glossaryEntries();
 		const terms = [...new Set(entries.map(entry => entry.term))].sort((a, b) => a.localeCompare(b, "vi"));
-		element("viewRoot").innerHTML = `<section><h1 class="view-title">Thuật ngữ hồ sơ</h1><p class="view-lead">Tra cứu thuật ngữ, ý nghĩa và hồ sơ sinh vật liên quan.</p><div class="glossary-toolbar"><label class="view-control">Tìm thuật ngữ hoặc hồ sơ<input id="glossarySearch" type="search" value="${escapeHtml(state.glossaryQuery)}" placeholder="Ví dụ: STR, Rank ERROR, creature-001"></label><label class="view-control">Loại thuật ngữ<select id="glossaryType"><option value="">Tất cả loại</option><option value="system"${state.glossaryType === "system" ? " selected" : ""}>Hệ thống</option><option value="creature"${state.glossaryType === "creature" ? " selected" : ""}>Sinh vật</option></select></label><label class="view-control">Sinh vật<select id="glossaryCreature"><option value="">Tất cả sinh vật</option>${creatures.map(creature => `<option value="${creature.id}"${state.glossaryCreatureId === creature.id ? " selected" : ""}>${escapeHtml(creature.name)}</option>`).join("")}</select></label><label class="view-control">Thuật ngữ<select id="glossaryTerm"><option value="">Tất cả thuật ngữ</option>${terms.map(term => `<option value="${escapeHtml(term)}"${state.glossaryTerm === term ? " selected" : ""}>${escapeHtml(term)}</option>`).join("")}</select></label></div><div class="result-count" id="glossaryCount"></div><div id="glossaryResults"></div></section>`;
+		element("viewRoot").innerHTML = `<section><h1 class="view-title">Thuật ngữ hồ sơ</h1><p class="view-lead">Tra cứu thuật ngữ, ý nghĩa và hồ sơ sinh vật liên quan.</p><div class="glossary-toolbar"><label class="view-control">Tìm thuật ngữ hoặc hồ sơ<input id="glossarySearch" type="search" value="${escapeHtml(state.glossaryQuery)}" placeholder="Ví dụ: STR, Rank EX, creature-001"></label><label class="view-control">Loại thuật ngữ<select id="glossaryType"><option value="">Tất cả loại</option><option value="system"${state.glossaryType === "system" ? " selected" : ""}>Hệ thống</option><option value="creature"${state.glossaryType === "creature" ? " selected" : ""}>Sinh vật</option></select></label><label class="view-control">Sinh vật<select id="glossaryCreature"><option value="">Tất cả sinh vật</option>${creatures.map(creature => `<option value="${creature.id}"${state.glossaryCreatureId === creature.id ? " selected" : ""}>${escapeHtml(creature.name)}</option>`).join("")}</select></label><label class="view-control">Thuật ngữ<select id="glossaryTerm"><option value="">Tất cả thuật ngữ</option>${terms.map(term => `<option value="${escapeHtml(term)}"${state.glossaryTerm === term ? " selected" : ""}>${escapeHtml(term)}</option>`).join("")}</select></label></div><div class="result-count" id="glossaryCount"></div><div id="glossaryResults"></div></section>`;
 		renderGlossaryResults();
 	}
 
@@ -1907,33 +1905,58 @@
 	}
 	applyStaticLanguage();
 
+	function validateCatalog(catalog, file) {
+		if (!Array.isArray(catalog)) throw new Error(`${file} must contain an array of creature records.`);
+		const ids = new Set();
+		for (const creature of catalog) {
+			if (!creature || typeof creature.id !== "string" || ids.has(creature.id)) {
+				throw new Error(`${file} contains an invalid record or duplicate ID.`);
+			}
+			ids.add(creature.id);
+		}
+		return catalog;
+	}
+
+	function showCatalogError(file, error) {
+		console.error(`Không thể tải danh mục sinh vật từ ${file}:`, error);
+		const status = document.getElementById("status");
+		const viewRoot = document.getElementById("viewRoot");
+		if (status) status.textContent = pageLanguage === "en"
+			? `Could not load ${file}: ${error.message}`
+			: `Không tải được ${file}: ${error.message}`;
+		if (viewRoot) viewRoot.innerHTML = pageLanguage === "en"
+			? `<div class="empty"><h2>Could not load the bestiary</h2><p>Check that ${file} is in the same folder as this page.</p></div>`
+			: `<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp ${file.split("/").pop()} trong thư mục của trang này.</p></div>`;
+	}
+
 	fetch(dataFile, requestOptions)
 		.then(response => {
 			if (!response.ok) throw new Error(`HTTP ${response.status}`);
 			return response.json();
 		})
+		.then(catalog => validateCatalog(catalog, dataFile))
 		.then(catalog => {
-			if (!Array.isArray(catalog)) throw new Error(`${dataFile} must contain an array of creature records.`);
-			const ids = new Set();
-			for (const creature of catalog) {
-				if (!creature || typeof creature.id !== "string" || ids.has(creature.id)) {
-					throw new Error(`${dataFile} contains an invalid record or duplicate ID.`);
-				}
-				ids.add(creature.id);
-			}
 			window.LENHAN_CREATURES = catalog;
 			initializeCatalog();
 		})
 		.catch(error => {
-			console.error(`Không thể tải danh mục sinh vật từ ${dataFile}:`, error);
-			const status = document.getElementById("status");
-			const viewRoot = document.getElementById("viewRoot");
-			if (status) status.textContent = pageLanguage === "en"
-				? `Could not load ${dataFile}: ${error.message}`
-				: `Không tải được ${dataFile}: ${error.message}`;
-			if (viewRoot) viewRoot.innerHTML = pageLanguage === "en"
-				? `<div class="empty"><h2>Could not load the bestiary</h2><p>Check that ${dataFile} is in the same folder as this page.</p></div>`
-				: `<div class="empty"><h2>Không nạp được kho sinh vật</h2><p>Hãy kiểm tra tệp ${dataFile.split("/").pop()} trong thư mục của trang này.</p></div>`;
+			if (pageLanguage !== "en") {
+				showCatalogError(dataFile, error);
+				return;
+			}
+			console.error(`English catalog unavailable; falling back to Vietnamese data: ${dataFile}`, error);
+			const fallbackFile = `${wikiBasePath}data.txt`;
+			fetch(fallbackFile, requestOptions)
+				.then(response => {
+					if (!response.ok) throw new Error(`HTTP ${response.status}`);
+					return response.json();
+				})
+				.then(catalog => validateCatalog(catalog, fallbackFile))
+				.then(catalog => {
+					window.LENHAN_CREATURES = catalog;
+					initializeCatalog();
+				})
+				.catch(fallbackError => showCatalogError(fallbackFile, fallbackError));
 		});
 
 	function applyStaticLanguage() {
