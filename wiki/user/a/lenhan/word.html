@@ -89,7 +89,7 @@ html.map-embed .legend{justify-content:center;padding:0 8px 4px}
 </header>
 <main>
   <section class="box">
-    <div class="gs"><input id="gq" type="search" placeholder="🔍 Tìm trong 387 sinh vật (tên Việt hoặc Anh)…" autocomplete="off"><div class="gres" id="gres" hidden></div></div>
+    <div class="gs"><input id="gq" type="search" placeholder="🔍 Tìm sinh vật theo tên hoặc môi trường sống…" autocomplete="off"><div class="gres" id="gres" hidden></div></div>
     <div id="catalogStatus" class="err" role="status" hidden></div>
     <div class="bar"><small>Tô màu theo:</small><button class="on" data-m="fac">Thế lực</button><button data-m="dg">Mức nguy hiểm</button><small class="sp">Vuốt để xoay · thả tay để trượt</small><button id="reset">⟲ Đặt lại</button></div>
     <svg id="map" viewBox="0 0 960 620" aria-label="Quả địa cầu tương tác"></svg>
@@ -171,16 +171,22 @@ async function syncCreatureCatalog(){
       if(!vi||!en||vi.number!==creature[0]||en.number!==creature[0]||vi.categoryId!==categoryId||en.categoryId!==categoryId||typeof vi.name!=='string'||typeof en.name!=='string'||typeof vi.summary!=='string'){
         throw new Error(`Hồ sơ ${id} trong bộ dữ liệu không khớp với bản đồ.`);
       }
-      return {creature,name:vi.name,englishName:en.name,summary:vi.summary};
+      const habitat=vi.details.match(/^\* \*\*Môi trường sống:\*\*\s*(.+)$/m)?.[1]?.trim()||'';
+      const englishHabitat=en.details.match(/^\* \*\*Habitat:\*\*\s*(.+)$/m)?.[1]?.trim()||'';
+      const worldbuilding=en.details.match(/^\* \*\*Source-world comparison \/ fantasy setting:\*\*\s*(.+)$/m)?.[1]?.trim()||'';
+      if(!habitat||!englishHabitat||!worldbuilding)throw new Error(`Hồ sơ ${id} thiếu thông tin môi trường sống hoặc đối chiếu thế giới truyện.`);
+      return {creature,name:vi.name,englishName:en.name,summary:vi.summary,habitat,englishHabitat,worldbuilding};
     });
-    updates.forEach(({creature,name,englishName,summary})=>{
+    updates.forEach(({creature,name,englishName,summary,habitat,englishHabitat,worldbuilding})=>{
       creature[2]=name;
       creature[3]=englishName;
       creature[4]=summary;
-      creature.f=fold(`${name} ${englishName}`);
+      creature[9]=habitat;
+      creature.enHabitat=englishHabitat;
+      creature.f=fold(`${name} ${englishName} ${summary} ${habitat} ${englishHabitat} ${worldbuilding}`);
     });
     document.getElementById('creatureCount').textContent=`${CR.length} loài`;
-    document.getElementById('gq').placeholder=`🔍 Tìm trong ${CR.length} sinh vật (tên Việt hoặc Anh)…`;
+    document.getElementById('gq').placeholder=`🔍 Tìm trong ${CR.length} sinh vật theo tên hoặc môi trường sống…`;
     status.hidden=true;
     if(sel.r)render();
   }catch(error){
@@ -273,7 +279,7 @@ function startInertia(){
 
 const byName={};R.forEach(r=>r.list.forEach(n=>byName[n]=r.id));
 const reg=id=>R.find(r=>r.id===id);
-let mode='fac',sel={c:null,r:null},tabNow='ov',K=1,crQ='',crG=0,crLim=30,openN=null;
+let mode='fac',sel={c:null,r:null},tabNow='ov',K=1,crQ='',crHabQ='',crG=0,crLim=30,openN=null;
 const color=r=>mode==='fac'?r.col:DG[r.dg];
 
 const zoom=d3.zoom().scaleExtent([1,8]).filter(event=>event.type==='wheel'||event.type.startsWith('touch')).on('zoom',e=>{
@@ -348,19 +354,20 @@ function paint(){
     :DG.slice(1).map((c,i)=>`<span><i style="background:${c}"></i>${DGN[i+1]}</span>`).join('');
 }
 
-function pick(country,rid){sel={c:country,r:rid||byName[country]||'hoang'};tabNow='ov';crQ='';crG=0;crLim=30;openN=null;paint();render();if(innerWidth<900)document.getElementById('panel').scrollIntoView({behavior:'smooth'})}
+function pick(country,rid){sel={c:country,r:rid||byName[country]||'hoang'};tabNow='ov';crQ='';crHabQ='';crG=0;crLim=30;openN=null;paint();render();if(innerWidth<900)document.getElementById('panel').scrollIntoView({behavior:'smooth'})}
 
 function drawList(){
   const box=document.getElementById('crbox');if(!box)return;
-  const all=BR[sel.r]||[],q=fold(crQ.trim());
+  const all=BR[sel.r]||[],q=fold(crQ.trim()),habitatQuery=fold(crHabQ.trim());
   const cg=new Array(12).fill(0);all.forEach(c=>cg[c[1]]++);
-  let L=all.filter(c=>(!crG||c[1]===crG)&&(!q||c.f.includes(q)));
+  let L=all.filter(c=>(!crG||c[1]===crG)&&(!q||c.f.includes(q))&&(!habitatQuery||fold(c[9]).includes(habitatQuery)));
   const shown=L.slice(0,crLim);
   const row=c=>{const col=GM[c[1]][1],o=openN===c[0];
-    const kv=[['Tên Anh',c[3]],['Cấp thợ săn',c[6]],['Điểm yếu',c[7]],['Vật phẩm',c[8]],['Môi trường',c[9]],['Ăn uống',c[10]]].filter(k=>k[1]).map(k=>`<div><span>${k[0]}:</span> ${escapeHtml(k[1])}</div>`).join('');
+    const kv=[['Tên Anh',c[3]],['Cấp thợ săn',c[6]],['Điểm yếu',c[7]],['Vật phẩm',c[8]],['Môi trường sống',c[9]],['Ăn uống',c[10]]].filter(k=>k[1]).map(k=>`<div><span>${k[0]}:</span> ${escapeHtml(k[1])}</div>`).join('');
     return `<div class="cr" style="border-left-color:${col}"><div class="cr-h" data-n="${c[0]}"><span class="tag" style="color:${col};border-color:${col}">${GM[c[1]][0]}</span><b>${escapeHtml(c[2])}</b><em>${escapeHtml(c[5])}</em></div>${o?`<div class="cr-b"><p>${escapeHtml(c[4])}</p>${kv}</div>`:''}</div>`};
   box.innerHTML=`<div class="chips"><button data-g="0" class="${crG?'':'on'}" style="${crG?'':'background:#00f2fe;border-color:#00f2fe'}">Tất cả ${all.length}</button>${cg.map((n,g)=>n?`<button data-g="${g}" class="${crG===g?'on':''}" style="${crG===g?`background:${GM[g][1]};border-color:${GM[g][1]}`:`color:${GM[g][1]}`}">${GM[g][0]} ${n}</button>`:'').join('')}</div>
-  <div class="cnt">${L.length} sinh vật${q||crG?' khớp bộ lọc':''}</div>${shown.map(row).join('')||'<div class="hint">Không có sinh vật nào khớp.</div>'}${L.length>shown.length?`<button class="more">Xem thêm (${L.length-shown.length} còn lại)</button>`:''}`;
+  <label class="cnt" for="habitatFilter">Lọc riêng theo môi trường sống</label><input id="habitatFilter" class="crq" placeholder="Ví dụ: rừng, đầm lầy, rãnh Mariana…" value="${escapeHtml(crHabQ)}">
+  <div class="cnt">${L.length} sinh vật${q||habitatQuery||crG?' khớp bộ lọc':''}</div>${shown.map(row).join('')||'<div class="hint">Không có sinh vật nào khớp.</div>'}${L.length>shown.length?`<button class="more">Xem thêm (${L.length-shown.length} còn lại)</button>`:''}`;
   box.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>{crG=+b.dataset.g;crLim=30;drawList()});
   box.querySelectorAll('.cr-h').forEach(e=>e.onclick=()=>{const n=+e.dataset.n;openN=openN===n?null:n;drawList()});
   const m=box.querySelector('.more');if(m)m.onclick=()=>{crLim+=40;drawList()};
@@ -372,14 +379,14 @@ function render(){
   const body={
     ov:note+`<p style="font-size:.92rem">${r.ov}</p>`,
     ev:r.ev.map(e=>`<div class="item"><b>${e[0]}</b>${e[1]}</div>`).join(''),
-    cr:`<input class="crq" placeholder="Tìm sinh vật trong vùng này…" value="${crQ.replace(/"/g,'&quot;')}"><div id="crbox"></div>`
+    cr:`<input class="crq" placeholder="Tìm sinh vật hoặc môi trường sống trong vùng này…" value="${crQ.replace(/"/g,'&quot;')}"><div id="crbox"></div>`
   }[tabNow];
   const P=document.getElementById('panel');
   P.innerHTML=`<h2>${title}</h2><div class="sub">${sel.c?'Thuộc: ':''}${sel.c?r.n+' – ':''}${r.sub}</div>
   <div class="kv"><div>Thế lực<b>${r.fac}</b></div><div>Nguy hiểm<b style="color:${DG[r.dg]}">${DGN[r.dg]}</b></div><div>Thời kỳ<b>${r.era}</b></div></div>
   <div class="tabs">${[['ov','Tổng quan'],['ev','Lịch sử'],['cr','Sinh vật ('+nCr+')']].map(t=>`<button data-t="${t[0]}" class="${t[0]===tabNow?'on':''}">${t[1]}</button>`).join('')}</div>${body}`;
   P.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{tabNow=b.dataset.t;render()});
-  if(tabNow==='cr'){drawList();const q=P.querySelector('.crq');q.oninput=()=>{crQ=q.value;crLim=30;drawList()}}
+  if(tabNow==='cr'){drawList();const q=P.querySelector('.crq'),habitatFilter=P.querySelector('#habitatFilter');q.oninput=()=>{crQ=q.value;crLim=30;drawList()};habitatFilter.oninput=()=>{crHabQ=habitatFilter.value;crLim=30;drawList()}}
 }
 
 /* ===== Tìm sinh vật toàn cục ===== */
@@ -387,7 +394,7 @@ function render(){
   const q=document.getElementById('gq'),res=document.getElementById('gres');let hits=[];
   function go(c){
     res.hidden=true;q.value='';
-    sel={c:null,r:c[11]};tabNow='cr';crQ='';crG=0;openN=c[0];
+    sel={c:null,r:c[11]};tabNow='cr';crQ='';crHabQ='';crG=0;openN=c[0];
     const idx=(BR[c[11]]||[]).indexOf(c);crLim=Math.max(30,idx+1);
     paint();render();
     const el=document.querySelector('.cr-h[data-n="'+c[0]+'"]');

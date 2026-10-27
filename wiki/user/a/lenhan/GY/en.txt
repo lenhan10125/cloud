@@ -1,0 +1,35 @@
+# id<TAB>term<TAB>definition
+system-term-01	HP (Health Points)	Health or life force. Maximum HP and regeneration rate are recorded separately when available.
+system-term-02	MP (Mana Points)	Mana or energy available for skills. A profile may record its maximum and regeneration rate.
+system-term-03	SP / Stamina	Physical stamina used for movement or physical skills; it may be finite or unlimited as stated in the profile.
+system-term-04	EXP / XP	Experience points awarded for defeating a creature, when recorded.
+system-term-05	Coins / Gold	Currency or monetary reward recorded for defeating a creature.
+system-term-06	STR (Strength)	Physical strength, striking force, and lifting ability.
+system-term-07	VIT / CON (Vitality / Constitution)	Endurance and physical resilience, including resistance to illness or toxins when specified.
+system-term-08	AGI (Agility)	Agility, movement speed, and reflexes.
+system-term-09	DEX (Dexterity)	Coordination, precision, and fine motor control.
+system-term-10	INT (Intelligence)	Reasoning, learning, and the ability to use or shape magic.
+system-term-11	WIS (Wisdom)	Awareness, judgment, and intuition.
+system-term-12	MND / MEN (Mind / Mentality)	Willpower and resistance to mental influence.
+system-term-13	CHA (Charisma)	Presence, influence, or authority.
+system-term-14	LUK (Luck)	A luck attribute; its exact effects depend on the source system.
+system-term-15	Physical armor	A defensive value against physical damage. Any reduction or immunity should follow the individual profile.
+system-term-16	Magical armor / barrier	A defensive value or barrier against magical damage; absorption limits may be listed separately.
+system-term-17	Resistance	A percentage describing resistance to an element or effect. Interpret the value using the profile's own notes.
+system-term-18	Weakness	An element, body part, or condition that can impair the creature or increase damage against it.
+system-term-19	Element / affinity	An elemental association used to describe attacks, defenses, or magical effects.
+system-term-20	Rank	A classification whose meaning depends on context: hunter guild rank and creature danger rank are separate systems.
+system-term-21	Hunter rank	A guild or operational grade for a hunter. It does not directly state a creature's danger rank.
+system-term-22	Creature danger rank	A danger classification for a creature, based on the source record; it is not automatically equivalent to combat strength.
+system-term-23	Creature level	A level assigned to an individual creature in its status record. It is distinct from a hunter's recommended level.
+system-term-24	Recommended hunter level	A suggested hunter level for an encounter, not the creature's own level.
+system-term-25	Cooldown	The waiting time before a skill can be used again.
+system-term-26	Skill cost	The amount of mana, stamina, or another resource required to use a skill.
+system-term-27	Range	The recorded effective distance or area of a skill.
+system-term-28	m/s (meters per second)	A unit of speed. It describes distance traveled per second.
+system-term-29	Mach	The ratio of an object's speed to the local speed of sound; the exact speed varies by medium and conditions.
+system-term-30	Mach 1+	A speed at or above the local speed of sound.
+system-term-31	Phase	A named stage or form in a source record. It is not automatically interchangeable with a rank.
+system-term-32	Rank SS+	A high creature danger rank used for certain individuals; it is not a minimum rank for every Titan.
+system-term-33	Rank EX / Phase 5	The Termination-class designation recorded for the King of Abyssal Curses in Phase 5; distinct from Rank ERROR.
+system-term-34	Supreme-class	A distinct title used for 001, described as humanity's protector; it is not Rank ERROR or an ordinary danger threshold.

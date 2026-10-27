@@ -20,7 +20,7 @@
 	window.LENHAN_LANGUAGE = pageLanguage;
 	document.documentElement.lang = pageLanguage;
 
-	function initializeCatalog() {
+	function initializeCatalog(systemTermOverrides = []) {
 	const creatures = Array.isArray(window.LENHAN_CREATURES) ? window.LENHAN_CREATURES : [];
 	const creaturesById = new Map(creatures.map(creature => [creature.id, creature]));
 	const unknownProfileValue = pageLanguage === "en" ? "no recorded data" : "không có dữ liệu được ghi nhận";
@@ -40,15 +40,24 @@
 		{ id: "dark", label: "Ám", formLabel: "Hệ Ám/Bóng tối (Dark/Unification)", aliases: ["bong toi", "shadow", "dark", "am"] },
 		{ id: "poison", label: "Độc", formLabel: "Hệ Độc tố (Poison/Acid)", aliases: ["poison", "acid", "axit", "doc"] }
 	];
-	const items = buildItemCatalog();
-	const itemsById = new Map(items.map(item => [item.id, item]));
-	const itemLinkCandidates = items
-		.flatMap(item => [item.rawName, item.name].map(name => ({ item, escapedName: escapeHtml(name) })))
-		.sort((a, b) => b.escapedName.length - a.escapedName.length);
-	const itemLinkPattern = itemLinkCandidates.length
-		? new RegExp(itemLinkCandidates.map(candidate => candidate.escapedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi")
-		: null;
-	const itemsByEscapedName = new Map(itemLinkCandidates.map(candidate => [candidate.escapedName.toLocaleLowerCase("vi"), candidate.item]));
+	let items = buildItemCatalog();
+	let itemsById = new Map();
+	let itemLinkCandidates = [];
+	let itemLinkPattern = null;
+	let itemsByEscapedName = new Map();
+	function setItemCatalog(catalog) {
+		items = catalog;
+		itemsById = new Map(items.map(item => [item.id, item]));
+		itemLinkCandidates = items
+			.flatMap(item => [item.rawName, item.name].map(name => ({ item, escapedName: escapeHtml(name) })))
+			.sort((a, b) => b.escapedName.length - a.escapedName.length);
+		itemLinkPattern = itemLinkCandidates.length
+			? new RegExp(itemLinkCandidates.map(candidate => candidate.escapedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi")
+			: null;
+		itemsByEscapedName = new Map(itemLinkCandidates.map(candidate => [candidate.escapedName.toLocaleLowerCase("vi"), candidate.item]));
+		window.LENHAN_ITEMS = items;
+	}
+	setItemCatalog(items);
 	const state = { group: null, groupsCollapsed: false, query: "", selectedId: null, selectedItemId: null, itemIdQuery: "", itemNameQuery: "", itemRank: "", view: "center", elementId: "fire", minPercent: -500, maxPercent: 100, includeUnknown: true, elementQuery: "", simulationCreatureId: "", simulationElementIds: [], simulationValues: {}, simulationApplied: false, catalogQuery: "", catalogGroup: "", catalogSpecies: "", catalogTags: [], glossaryQuery: "", glossaryCreatureId: "", glossaryTerm: "", glossaryType: "", pageLimits: {} };
 	let activeTab = state.view;
 	const navigationHistory = [];
@@ -933,16 +942,78 @@
 				}
 			});
 		});
-		const systemTerms = [
-			["Rank thợ săn", "Hạng hội viên từ E đến S; THGM tính theo chỉ số sinh học, số quái vật đã hạ và tỷ lệ hoàn thành nhiệm vụ an toàn. Đây là hạng của thợ săn, không phải hạng sức mạnh sinh vật."],
-			["Hạng nguy hiểm sinh vật", "Chỉ dùng hạng được ghi rõ trong truyện. Mức nguy hiểm không đồng nghĩa với sức mạnh thuần túy; vai trò, hành vi và hậu quả của từng cá thể cũng quan trọng."],
-			["Level cá thể", "Cấp độ riêng của sinh vật theo bảng status (thường ghi trên thang 1000); không phải Level tối thiểu mà thợ săn cần đạt."],
-			["Rank SS+", "Một hạng nguy hiểm cao được dùng cho một số cá thể; không phải ngưỡng bắt buộc cho toàn bộ Titan."],
+		const inlineSystemTerms = (pageLanguage === "en" ? [
+			["HP (Health Points)", "Health or life force. Maximum HP and regeneration rate are recorded separately when available."],
+			["MP (Mana Points)", "Mana or energy available for skills. A profile may record its maximum and regeneration rate."],
+			["SP / Stamina", "Physical stamina used for movement or physical skills; it may be finite or unlimited as stated in the profile."],
+			["EXP / XP", "Experience points awarded for defeating a creature, when recorded."],
+			["Coins / Gold", "Currency or monetary reward recorded for defeating a creature."],
+			["STR (Strength)", "Physical strength, striking force, and lifting ability."],
+			["VIT / CON (Vitality / Constitution)", "Endurance and physical resilience, including resistance to illness or toxins when specified."],
+			["AGI (Agility)", "Agility, movement speed, and reflexes."],
+			["DEX (Dexterity)", "Coordination, precision, and fine motor control."],
+			["INT (Intelligence)", "Reasoning, learning, and the ability to use or shape magic."],
+			["WIS (Wisdom)", "Awareness, judgment, and intuition."],
+			["MND / MEN (Mind / Mentality)", "Willpower and resistance to mental influence."],
+			["CHA (Charisma)", "Presence, influence, or authority."],
+			["LUK (Luck)", "A luck attribute; its exact effects depend on the source system."],
+			["Physical armor", "A defensive value against physical damage. Any reduction or immunity should follow the individual profile."],
+			["Magical armor / barrier", "A defensive value or barrier against magical damage; absorption limits may be listed separately."],
+			["Resistance", "A percentage describing resistance to an element or effect. Interpret the value using the profile's own notes."],
+			["Weakness", "An element, body part, or condition that can impair the creature or increase damage against it."],
+			["Element / affinity", "An elemental association used to describe attacks, defenses, or magical effects."],
+			["Rank", "A classification whose meaning depends on context: hunter guild rank and creature danger rank are separate systems."],
+			["Hunter rank", "A guild or operational grade for a hunter. It does not directly state a creature's danger rank."],
+			["Creature danger rank", "A danger classification for a creature, based on the source record; it is not automatically equivalent to combat strength."],
+			["Creature level", "A level assigned to an individual creature in its status record. It is distinct from a hunter's recommended level."],
+			["Recommended hunter level", "A suggested hunter level for an encounter, not the creature's own level."],
+			["Cooldown", "The waiting time before a skill can be used again."],
+			["Skill cost", "The amount of mana, stamina, or another resource required to use a skill."],
+			["Range", "The recorded effective distance or area of a skill."],
+			["m/s (meters per second)", "A unit of speed. It describes distance traveled per second."],
+			["Mach", "The ratio of an object's speed to the local speed of sound; the exact speed varies by medium and conditions."],
+			["Mach 1+", "A speed at or above the local speed of sound."],
+			["Phase", "A named stage or form in a source record. It is not automatically interchangeable with a rank."],
+			["Rank SS+", "A high creature danger rank used for certain individuals; it is not a minimum rank for every Titan."],
+			["Rank EX / Phase 5", "The Termination-class designation recorded for the King of Abyssal Curses in Phase 5; distinct from Rank ERROR."],
+			["Supreme-class", "A distinct title used for 001, described as humanity's protector; it is not Rank ERROR or an ordinary danger threshold."]
+		] : [
+			["HP (Sinh lực / Máu)", "Sinh lực của cá thể. Hồ sơ có thể ghi riêng HP tối đa và tốc độ hồi phục."],
+			["MP (Ma lực)", "Ma lực hoặc năng lượng dùng cho kỹ năng; hồ sơ có thể ghi giới hạn tối đa và tốc độ hồi phục."],
+			["SP / Stamina (Thể lực)", "Thể lực dùng cho vận động hoặc kỹ năng thể chất; giá trị hữu hạn hay vô hạn tùy hồ sơ."],
+			["EXP / XP (Điểm kinh nghiệm)", "Điểm kinh nghiệm nhận được khi tiêu diệt sinh vật, nếu được ghi nhận."],
+			["Coins / Gold (Tiền / Vàng)", "Đơn vị tiền tệ hoặc phần thưởng tài chính ghi trong hồ sơ."],
+			["STR (Strength - Sức mạnh)", "Sức mạnh cơ bắp, lực đánh và khả năng nâng vác."],
+			["VIT / CON (Vitality / Constitution - Sức bền)", "Sức bền và khả năng chống chịu thể chất; có thể bao gồm kháng bệnh hoặc độc tố nếu hồ sơ nêu rõ."],
+			["AGI (Agility - Nhanh nhẹn)", "Độ nhanh nhẹn, tốc độ di chuyển và phản xạ."],
+			["DEX (Dexterity - Khéo léo)", "Sự phối hợp vận động, độ chính xác và khả năng điều khiển cử động nhỏ."],
+			["INT (Intelligence - Trí tuệ)", "Khả năng suy luận, học hỏi và sử dụng hoặc điều khiển phép thuật."],
+			["WIS (Wisdom - Khôn ngoan)", "Khả năng nhận thức, phán đoán và trực giác."],
+			["MND / MEN (Mind / Mentality - Tinh thần)", "Ý chí và khả năng chống lại ảnh hưởng tinh thần."],
+			["CHA (Charisma - Thần thái)", "Sức ảnh hưởng, uy nghiêm hoặc khả năng tạo thiện cảm."],
+			["LUK (Luck - May mắn)", "Thuộc tính may mắn; tác dụng cụ thể phụ thuộc hệ thống được ghi trong truyện."],
+			["Giáp vật lý", "Giá trị phòng thủ trước sát thương vật lý. Mức giảm sát thương hay miễn nhiễm cần theo ghi chú của từng hồ sơ."],
+			["Giáp phép / Khiên phép", "Giá trị phòng thủ hoặc lớp khiên trước sát thương phép; giới hạn hấp thụ có thể được ghi riêng."],
+			["Kháng", "Tỷ lệ kháng một nguyên tố hoặc hiệu ứng. Cần diễn giải theo ghi chú riêng của hồ sơ."],
+			["Điểm yếu", "Nguyên tố, bộ phận hoặc điều kiện có thể làm suy yếu sinh vật hay khiến nó chịu thêm sát thương."],
+			["Nguyên tố / Thuộc tính hệ", "Mối liên hệ nguyên tố dùng để mô tả đòn đánh, phòng thủ hoặc hiệu ứng ma thuật."],
+			["Rank (Hạng)", "Tên gọi có ý nghĩa tùy ngữ cảnh; hạng thợ săn và hạng nguy hiểm sinh vật là hai hệ riêng."],
+			["Rank thợ săn", "Hạng hội viên hoặc nghiệp vụ của thợ săn; không trực tiếp cho biết hạng nguy hiểm của sinh vật."],
+			["Hạng nguy hiểm sinh vật", "Phân loại mức nguy hiểm dựa trên tư liệu nguồn; không mặc nhiên đồng nghĩa với sức mạnh chiến đấu."],
+			["Level cá thể", "Cấp độ của sinh vật trong bảng trạng thái; khác với cấp độ khuyến nghị cho thợ săn."],
+			["Cấp độ khuyến nghị", "Mốc cấp độ gợi ý cho thợ săn khi đối đầu; không phải cấp độ của chính sinh vật."],
+			["Cooldown (Hồi chiêu)", "Khoảng thời gian cần chờ trước khi có thể dùng lại kỹ năng."],
+			["Tiêu hao kỹ năng", "Lượng ma lực, thể lực hoặc tài nguyên khác cần dùng để kích hoạt kỹ năng."],
+			["Tầm / Phạm vi", "Khoảng cách hiệu quả hoặc vùng ảnh hưởng được ghi cho kỹ năng."],
+			["m/s (mét mỗi giây)", "Đơn vị đo tốc độ, biểu thị quãng đường di chuyển trong một giây."],
+			["Mach", "Tỷ số giữa tốc độ vật thể và tốc độ âm thanh tại môi trường đang xét; tốc độ cụ thể thay đổi theo môi trường và điều kiện."],
+			["Mach 1+", "Tốc độ bằng hoặc vượt tốc độ âm thanh tại môi trường đang xét."],
+			["Phase (Giai đoạn)", "Tên một giai đoạn hoặc dạng biến đổi trong tư liệu; không mặc nhiên đồng nhất với Rank."],
+			["Rank SS+", "Hạng nguy hiểm cao được dùng cho một số cá thể; không phải ngưỡng bắt buộc cho mọi Titan."],
 			["Rank EX / Phase 5", "Cấp Tận Diệt được ghi cho Vua Lời Nguyền Biển Sâu ở Phase 5; không đồng nhất với Rank ERROR."],
-			["Cấp Tối Cao", "Nhãn riêng cho 001, được mô tả là kẻ bảo vệ nhân loại; không phải Rank ERROR hoặc một mốc nguy hiểm thông thường."],
-			["Mach", "Tỷ số giữa tốc độ của một vật thể và tốc độ âm thanh trong môi trường đang xét."],
-			["Mach 1+", "Tốc độ bằng hoặc vượt tốc độ âm thanh; giá trị thực tế thay đổi theo môi trường."]
-		].map(([term, definition], index) => ({ id: `system-term-${String(index + 1).padStart(2, "0")}`, type: "system", name: "Hệ thống", category: "Hệ thống", term, definition, value: definition }));
+			["Cấp Tối Cao", "Danh hiệu riêng cho 001, được mô tả là kẻ bảo vệ nhân loại; không phải Rank ERROR hay mốc nguy hiểm thông thường."]
+		]).map(([term, definition], index) => ({ id: `system-term-${String(index + 1).padStart(2, "0")}`, type: "system", name: pageLanguage === "en" ? "System" : "Hệ thống", category: pageLanguage === "en" ? "System" : "Hệ thống", term, definition, value: definition }));
+		const systemTerms = systemTermOverrides.length ? systemTermOverrides : inlineSystemTerms;
 		const creatureTerms = [
 			["Sinh vật Titan", "Phân loại chủng loài, không tự quyết định hạng nguy hiểm; ví dụ trong truyện có KAJU Warden hạng SS và BloodShinGodzilla hạng SSS+."],
 			["Sinh vật phi vật lý", "Thực thể không có cơ thể vật chất ổn định; có thể tồn tại dưới dạng năng lượng, trường lực hoặc khái niệm."],
@@ -1191,7 +1262,7 @@
 		const query = state.query.toLocaleLowerCase("vi");
 		const filtered = creatures.filter(item =>
 			(state.group === null || item.categoryId === groups[state.group]?.id) &&
-			(!query || `${item.name} ${item.summary} ${item.category}`.toLocaleLowerCase("vi").includes(query))
+			(!query || `${item.name} ${item.summary} ${item.category} ${extractCreatureField(item, /moi truong song(?: chu yeu)?|habitat/i)}`.toLocaleLowerCase("vi").includes(query))
 		);
 		const shown = Math.min(pageLimit("list"), filtered.length);
 		element("list").innerHTML = filtered.slice(0, shown).map(item => {
@@ -1406,7 +1477,8 @@
 		return creatures.filter(creature => {
 			const species = creatureSpecies(creature);
 			const tags = creatureTags(creature);
-			return (!query || normalizeText(`${creature.id} ${creature.name} ${creature.summary} ${creature.category} ${species} ${tags.join(" ")}`).includes(query)) &&
+			const habitat = extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i);
+			return (!query || normalizeText(`${creature.id} ${creature.name} ${creature.summary} ${creature.category} ${species} ${habitat} ${tags.join(" ")}`).includes(query)) &&
 				(!state.catalogGroup || creature.categoryId === state.catalogGroup) &&
 				(!state.catalogSpecies || species === state.catalogSpecies) &&
 				state.catalogTags.every(tag => tags.includes(tag));
@@ -1425,7 +1497,7 @@
 		const tagOptions = [...new Set(creatures.flatMap(creatureTags))].sort((a, b) => a.localeCompare(b, "vi"));
 		const selectedTags = state.catalogTags.map(tag => `<span class="selected-tag">${escapeHtml(tag)}<button type="button" data-remove-tag="${escapeHtml(tag)}" aria-label="Bỏ tag ${escapeHtml(tag)}">×</button></span>`).join("");
 		const availableTags = tagOptions.filter(tag => !state.catalogTags.includes(tag));
-		element("viewRoot").innerHTML = `<section><h1 class="view-title">Mục lục sinh vật</h1><div class="view-toolbar"><label class="view-control">Tìm kiếm<input id="catalogSearch" type="search" value="${escapeHtml(state.catalogQuery)}" placeholder="Tên, ID, mô tả hoặc tag"></label><label class="view-control">Nhóm<select id="catalogGroup"><option value="">Tất cả nhóm</option>${groups.map(group => `<option value="${group.id}"${state.catalogGroup === group.id ? " selected" : ""}>${escapeHtml(group.title)}</option>`).join("")}</select></label><label class="view-control">Loài / phân hệ<select id="catalogSpecies"><option value="">Tất cả loài</option>${speciesOptions.map(species => `<option value="${escapeHtml(species)}"${state.catalogSpecies === species ? " selected" : ""}>${escapeHtml(species)}</option>`).join("")}</select></label></div><div class="tag-filter-box"><div class="tag-filter-heading"><strong>Tag lọc</strong><button class="tag-clear-all" id="clearCatalogTags" type="button"${state.catalogTags.length ? "" : " disabled"}>Xóa tất cả</button></div><div class="selected-tags">${selectedTags || '<span class="tag-empty">Chưa chọn tag</span>'}</div><label class="view-control tag-add-control">Thêm tag<select id="catalogTagAdd"><option value="">Chọn tag để thêm...</option>${availableTags.map(tag => `<option value="${escapeHtml(tag)}">${escapeHtml(tag)}</option>`).join("")}</select></label></div><div class="result-count" id="catalogCount"></div><div id="catalogResults"></div></section>`;
+		element("viewRoot").innerHTML = `<section><h1 class="view-title">Mục lục sinh vật</h1><div class="view-toolbar"><label class="view-control">Tìm kiếm<input id="catalogSearch" type="search" value="${escapeHtml(state.catalogQuery)}" placeholder="Tên, ID, mô tả, tag hoặc môi trường sống"></label><label class="view-control">Nhóm<select id="catalogGroup"><option value="">Tất cả nhóm</option>${groups.map(group => `<option value="${group.id}"${state.catalogGroup === group.id ? " selected" : ""}>${escapeHtml(group.title)}</option>`).join("")}</select></label><label class="view-control">Loài / phân hệ<select id="catalogSpecies"><option value="">Tất cả loài</option>${speciesOptions.map(species => `<option value="${escapeHtml(species)}"${state.catalogSpecies === species ? " selected" : ""}>${escapeHtml(species)}</option>`).join("")}</select></label></div><div class="tag-filter-box"><div class="tag-filter-heading"><strong>Tag lọc</strong><button class="tag-clear-all" id="clearCatalogTags" type="button"${state.catalogTags.length ? "" : " disabled"}>Xóa tất cả</button></div><div class="selected-tags">${selectedTags || '<span class="tag-empty">Chưa chọn tag</span>'}</div><label class="view-control tag-add-control">Thêm tag<select id="catalogTagAdd"><option value="">Chọn tag để thêm...</option>${availableTags.map(tag => `<option value="${escapeHtml(tag)}">${escapeHtml(tag)}</option>`).join("")}</select></label></div><div class="result-count" id="catalogCount"></div><div id="catalogResults"></div></section>`;
 		renderCatalogResults();
 	}
 
@@ -1630,6 +1702,13 @@
 					title: item.name,
 					tag: `Vật phẩm · ${item.rarity === "unknown" ? "Chưa rõ phẩm cấp" : item.rarity}`,
 					desc: item.note || `Vật phẩm thu được từ ${item.sources[0]?.name || "nguồn chưa rõ"}`
+				}));
+				glossaryEntries().filter(entry => entry.type === "system").forEach(entry => entries.push({
+					id: entry.id,
+					url: `${wikiBasePath}home.html#glossary`,
+					title: entry.term,
+					tag: pageLanguage === "en" ? "System term" : "Thuật ngữ hệ thống",
+					desc: entry.definition
 				}));
 				window.LENHAN_SEARCH_INDEX = entries;
 				window.LENHAN_SEARCH_INDEX_ERROR = "";
@@ -1917,6 +1996,92 @@
 		return catalog;
 	}
 
+	function loadSystemTerms() {
+		const termsUrl = new URL(`GY/${pageLanguage}.txt`, wikiBasePath);
+		return fetch(termsUrl, requestOptions)
+			.then(response => {
+				if (!response.ok) throw new Error(`HTTP ${response.status}`);
+				return response.text();
+			})
+			.then(text => {
+				const entries = text.split(/\r?\n/)
+					.filter(line => line.trim() && !line.startsWith("#"))
+					.map((line, index) => {
+						const fields = line.split("\t");
+						if (fields.length !== 3 || fields.some(field => !field.trim())) {
+							throw new Error(`Invalid terminology row ${index + 1} in ${termsUrl.href}`);
+						}
+						const [id, term, definition] = fields.map(field => field.trim());
+						return { id, term, definition };
+					});
+				const ids = new Set(entries.map(entry => entry.id));
+				if (!entries.length || ids.size !== entries.length) {
+					throw new Error(`Empty or duplicate terminology IDs in ${termsUrl.href}`);
+				}
+				return entries.map(({ id, term, definition }) => ({
+					id,
+					type: "system",
+					name: pageLanguage === "en" ? "System" : "Hệ thống",
+					category: pageLanguage === "en" ? "System" : "Hệ thống",
+					term,
+					definition,
+					value: definition
+				}));
+			});
+	}
+
+	function loadItemCatalog() {
+		const itemsUrl = new URL(`item/${pageLanguage}.txt`, wikiBasePath);
+		return fetch(itemsUrl, requestOptions)
+			.then(response => {
+				if (!response.ok) throw new Error(`HTTP ${response.status}`);
+				return response.json();
+			})
+			.then(catalog => {
+				if (!Array.isArray(catalog) || catalog.length !== items.length) {
+					throw new Error(`Expected ${items.length} item records in ${itemsUrl.href}`);
+				}
+				const ids = new Set();
+				for (const item of catalog) {
+					if (!item || typeof item.id !== "string" || ids.has(item.id) ||
+						typeof item.rawName !== "string" || typeof item.name !== "string" ||
+						!Array.isArray(item.sources) || !item.sources.length) {
+						throw new Error(`Invalid item record or duplicate ID in ${itemsUrl.href}`);
+					}
+					ids.add(item.id);
+				}
+				if (catalog.some((item, index) => item.id !== items[index].id)) {
+					throw new Error(`Item IDs or ordering do not match the creature catalog in ${itemsUrl.href}`);
+				}
+				return catalog;
+			});
+	}
+
+	function initializeCatalogWithTerms(catalog) {
+		const terms = loadSystemTerms().catch(error => {
+				const termsUrl = new URL(`GY/${pageLanguage}.txt`, wikiBasePath);
+				console.error(`Could not load system terminology from ${termsUrl.href}:`, error);
+				const status = document.getElementById("status");
+				if (status) status.textContent = pageLanguage === "en"
+					? `Could not load terminology from ${termsUrl.pathname}; using built-in terms. ${error.message}`
+					: `Không tải được thuật ngữ từ ${termsUrl.pathname}; đang dùng thuật ngữ dự phòng. ${error.message}`;
+				return null;
+			});
+		const savedItems = loadItemCatalog().catch(error => {
+			const itemsUrl = new URL(`item/${pageLanguage}.txt`, wikiBasePath);
+			console.error(`Could not load item catalog from ${itemsUrl.href}:`, error);
+			const status = document.getElementById("status");
+			if (status) status.textContent = pageLanguage === "en"
+				? `Could not load items from ${itemsUrl.pathname}; using generated items. ${error.message}`
+				: `Không tải được vật phẩm từ ${itemsUrl.pathname}; đang dùng danh mục tạo từ hồ sơ. ${error.message}`;
+			return null;
+		});
+		Promise.all([terms, savedItems]).then(([systemTerms, itemCatalog]) => {
+			if (itemCatalog) setItemCatalog(itemCatalog);
+			initializeCatalog(systemTerms || []);
+		});
+	}
+
 	function showCatalogError(file, error) {
 		console.error(`Không thể tải danh mục sinh vật từ ${file}:`, error);
 		const status = document.getElementById("status");
@@ -1937,7 +2102,7 @@
 		.then(catalog => validateCatalog(catalog, dataFile))
 		.then(catalog => {
 			window.LENHAN_CREATURES = catalog;
-			initializeCatalog();
+			initializeCatalogWithTerms(catalog);
 		})
 		.catch(error => {
 			if (pageLanguage !== "en") {
@@ -1954,7 +2119,7 @@
 				.then(catalog => validateCatalog(catalog, fallbackFile))
 				.then(catalog => {
 					window.LENHAN_CREATURES = catalog;
-					initializeCatalog();
+					initializeCatalogWithTerms(catalog);
 				})
 				.catch(fallbackError => showCatalogError(fallbackFile, fallbackError));
 		});
@@ -1964,7 +2129,7 @@
 			title: "Creature Bestiary | Lenhan",
 			brand: "CREATURE BESTIARY",
 			brandDescription: "Creature profiles · Lenhan",
-			filter: "Filter creatures...",
+			filter: "Filter creatures by name, description, or habitat...",
 			filterLabel: "Filter creature list",
 			searchLabel: "Search creature profiles",
 			loading: "Loading data...",
@@ -1985,7 +2150,7 @@
 			title: "Bách khoa Dị thể | Lenhan",
 			brand: "BÁCH KHOA DỊ THỂ",
 			brandDescription: "Hồ sơ sinh vật · Lenhan",
-			filter: "Lọc danh sách...",
+			filter: "Lọc theo tên, mô tả hoặc môi trường sống...",
 			filterLabel: "Lọc danh sách sinh vật",
 			searchLabel: "Tìm kiếm hồ sơ sinh vật",
 			loading: "Đang nạp dữ liệu...",

@@ -1,0 +1,35 @@
+# id<TAB>term<TAB>definition
+system-term-01	HP (Sinh lực / Máu)	Sinh lực của cá thể. Hồ sơ có thể ghi riêng HP tối đa và tốc độ hồi phục.
+system-term-02	MP (Ma lực)	Ma lực hoặc năng lượng dùng cho kỹ năng; hồ sơ có thể ghi giới hạn tối đa và tốc độ hồi phục.
+system-term-03	SP / Stamina (Thể lực)	Thể lực dùng cho vận động hoặc kỹ năng thể chất; giá trị hữu hạn hay vô hạn tùy hồ sơ.
+system-term-04	EXP / XP (Điểm kinh nghiệm)	Điểm kinh nghiệm nhận được khi tiêu diệt sinh vật, nếu được ghi nhận.
+system-term-05	Coins / Gold (Tiền / Vàng)	Đơn vị tiền tệ hoặc phần thưởng tài chính ghi trong hồ sơ.
+system-term-06	STR (Strength - Sức mạnh)	Sức mạnh cơ bắp, lực đánh và khả năng nâng vác.
+system-term-07	VIT / CON (Vitality / Constitution - Sức bền)	Sức bền và khả năng chống chịu thể chất; có thể bao gồm kháng bệnh hoặc độc tố nếu hồ sơ nêu rõ.
+system-term-08	AGI (Agility - Nhanh nhẹn)	Độ nhanh nhẹn, tốc độ di chuyển và phản xạ.
+system-term-09	DEX (Dexterity - Khéo léo)	Sự phối hợp vận động, độ chính xác và khả năng điều khiển cử động nhỏ.
+system-term-10	INT (Intelligence - Trí tuệ)	Khả năng suy luận, học hỏi và sử dụng hoặc điều khiển phép thuật.
+system-term-11	WIS (Wisdom - Khôn ngoan)	Khả năng nhận thức, phán đoán và trực giác.
+system-term-12	MND / MEN (Mind / Mentality - Tinh thần)	Ý chí và khả năng chống lại ảnh hưởng tinh thần.
+system-term-13	CHA (Charisma - Thần thái)	Sức ảnh hưởng, uy nghiêm hoặc khả năng tạo thiện cảm.
+system-term-14	LUK (Luck - May mắn)	Thuộc tính may mắn; tác dụng cụ thể phụ thuộc hệ thống được ghi trong truyện.
+system-term-15	Giáp vật lý	Giá trị phòng thủ trước sát thương vật lý. Mức giảm sát thương hay miễn nhiễm cần theo ghi chú của từng hồ sơ.
+system-term-16	Giáp phép / Khiên phép	Giá trị phòng thủ hoặc lớp khiên trước sát thương phép; giới hạn hấp thụ có thể được ghi riêng.
+system-term-17	Kháng	Tỷ lệ kháng một nguyên tố hoặc hiệu ứng. Cần diễn giải theo ghi chú riêng của hồ sơ.
+system-term-18	Điểm yếu	Nguyên tố, bộ phận hoặc điều kiện có thể làm suy yếu sinh vật hay khiến nó chịu thêm sát thương.
+system-term-19	Nguyên tố / Thuộc tính hệ	Mối liên hệ nguyên tố dùng để mô tả đòn đánh, phòng thủ hoặc hiệu ứng ma thuật.
+system-term-20	Rank (Hạng)	Tên gọi có ý nghĩa tùy ngữ cảnh; hạng thợ săn và hạng nguy hiểm sinh vật là hai hệ riêng.
+system-term-21	Rank thợ săn	Hạng hội viên hoặc nghiệp vụ của thợ săn; không trực tiếp cho biết hạng nguy hiểm của sinh vật.
+system-term-22	Hạng nguy hiểm sinh vật	Phân loại mức nguy hiểm dựa trên tư liệu nguồn; không mặc nhiên đồng nghĩa với sức mạnh chiến đấu.
+system-term-23	Level cá thể	Cấp độ của sinh vật trong bảng trạng thái; khác với cấp độ khuyến nghị cho thợ săn.
+system-term-24	Cấp độ khuyến nghị	Mốc cấp độ gợi ý cho thợ săn khi đối đầu; không phải cấp độ của chính sinh vật.
+system-term-25	Cooldown (Hồi chiêu)	Khoảng thời gian cần chờ trước khi có thể dùng lại kỹ năng.
+system-term-26	Tiêu hao kỹ năng	Lượng ma lực, thể lực hoặc tài nguyên khác cần dùng để kích hoạt kỹ năng.
+system-term-27	Tầm / Phạm vi	Khoảng cách hiệu quả hoặc vùng ảnh hưởng được ghi cho kỹ năng.
+system-term-28	m/s (mét mỗi giây)	Đơn vị đo tốc độ, biểu thị quãng đường di chuyển trong một giây.
+system-term-29	Mach	Tỷ số giữa tốc độ vật thể và tốc độ âm thanh tại môi trường đang xét; tốc độ cụ thể thay đổi theo môi trường và điều kiện.
+system-term-30	Mach 1+	Tốc độ bằng hoặc vượt tốc độ âm thanh tại môi trường đang xét.
+system-term-31	Phase (Giai đoạn)	Tên một giai đoạn hoặc dạng biến đổi trong tư liệu; không mặc nhiên đồng nhất với Rank.
+system-term-32	Rank SS+	Hạng nguy hiểm cao được dùng cho một số cá thể; không phải ngưỡng bắt buộc cho mọi Titan.
+system-term-33	Rank EX / Phase 5	Cấp Tận Diệt được ghi cho Vua Lời Nguyền Biển Sâu ở Phase 5; không đồng nhất với Rank ERROR.
+system-term-34	Cấp Tối Cao	Danh hiệu riêng cho 001, được mô tả là kẻ bảo vệ nhân loại; không phải Rank ERROR hay mốc nguy hiểm thông thường.
