@@ -1,14 +1,15 @@
 FROM python:3.11-slim
 
-# Cài đặt Node.js (>= 22), FFmpeg và các công cụ cần thiết
+# Cài đặt Node.js, FFmpeg, curl VÀ unzip (để cài Deno)
 RUN apt-get update && apt-get install -y \
     nodejs \
     npm \
     ffmpeg \
     curl \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Cài đặt Deno (một JS runtime được khuyến nghị)
+# Cài đặt Deno (JS runtime dự phòng)
 RUN curl -fsSL https://deno.land/install.sh | sh
 ENV DENO_INSTALL="/root/.deno"
 ENV PATH="$DENO_INSTALL/bin:$PATH"
