@@ -1,0 +1,56 @@
+[
+  {
+    "id": "fire",
+    "label": "Lửa",
+    "formLabel": "Hệ Lửa (Fire)",
+    "aliases": ["lua", "fire"]
+  },
+  {
+    "id": "water",
+    "label": "Nước",
+    "formLabel": "Hệ Nước (Water)",
+    "aliases": ["nuoc", "water"]
+  },
+  {
+    "id": "earth",
+    "label": "Đất / Mộc",
+    "formLabel": "Hệ Đất/Mộc (Earth/Nature)",
+    "aliases": ["dat", "moc", "earth", "nature"]
+  },
+  {
+    "id": "lightning",
+    "label": "Lôi",
+    "formLabel": "Hệ Lôi/Sấm sét (Thunder/Lightning)",
+    "aliases": ["sam set", "lightning", "thunder", "loi"]
+  },
+  {
+    "id": "wind",
+    "label": "Phong",
+    "formLabel": "Hệ Phong/Gió (Wind)",
+    "aliases": ["gio", "wind", "phong"]
+  },
+  {
+    "id": "ice",
+    "label": "Băng",
+    "formLabel": "Hệ Băng (Ice/Frost)",
+    "aliases": ["frost", "ice", "bang"]
+  },
+  {
+    "id": "light",
+    "label": "Quang",
+    "formLabel": "Hệ Quang/Ánh sáng (Light/Holy)",
+    "aliases": ["anh sang", "holy", "light", "quang", "uv"]
+  },
+  {
+    "id": "dark",
+    "label": "Ám",
+    "formLabel": "Hệ Ám/Bóng tối (Dark/Unification)",
+    "aliases": ["bong toi", "shadow", "dark", "am"]
+  },
+  {
+    "id": "poison",
+    "label": "Độc",
+    "formLabel": "Hệ Độc tố (Poison/Acid)",
+    "aliases": ["poison", "acid", "axit", "doc"]
+  }
+]

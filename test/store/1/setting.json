@@ -1,0 +1,9 @@
+{
+  "bind_ip": "127.0.0.1",
+  "proxy_port": 8888,
+  "management_port": 8765,
+  "username": "5g6BEjzIZ6M",
+  "password_salt": "4bd30634a475461ad1b9c0a6ecc8a303",
+  "password_hash": "6470e19321ed202dba03c457b59f560690a36b07d9feedbd1f5d13e0a807d53d",
+  "proxy_enabled": true
+}

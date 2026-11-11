@@ -1,0 +1,2926 @@
+[
+  {
+    "id": "creature-001",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Phế tích Tọa Độ Đen, nhà tù ngầm, hầm tăm tối không ánh sáng. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-002",
+    "habitat": "Tọa Độ Đen – đường ống kỹ thuật, hầm cáp và móng nhà tù sụp đổ. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Các tuyến đường ống hầm ngầm, móng nhà tù sụp đổ. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-003",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Phối hợp cùng các Tọa Độ Đen tàn bạo nhất. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-004",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Phế tích tĩnh lặng, xung quanh các khu lồng ấp thai nhi. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-005",
+    "habitat": "Ngoại vi Mái Vòm Sinh Thái – phế tích đô thị và các tòa nhà đổ nát, nơi dị thể giả giọng dụ con mồi. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Bên ngoài ranh giới Mái Vòm, phế tích đô thị lớn. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-006",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Theo hồ sơ truyện gốc: Cống ngầm, khu tái thiết đô thị móng yếu. Chi tiết vi sinh cảnh được diễn giải thêm theo tập tính."
+  },
+  {
+    "id": "creature-007",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-008",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-009",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-010",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-011",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-012",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-013",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-014",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-015",
+    "habitat": "Tọa Độ Đen – đường ống kỹ thuật, hầm cáp và móng nhà tù sụp đổ. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-016",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-017",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-018",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-019",
+    "habitat": "Tọa Độ Đen – đường ống kỹ thuật, hầm cáp và móng nhà tù sụp đổ. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-020",
+    "habitat": "Tọa Độ Đen – đường ống kỹ thuật, hầm cáp và móng nhà tù sụp đổ. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-021",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-022",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-023",
+    "habitat": "Tọa Độ Đen – nhà tù ngầm, phòng tra tấn cũ và hành lang tối nơi ma lực oán niệm tụ lại. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-024",
+    "habitat": "Tọa Độ Đen – đường ống kỹ thuật, hầm cáp và móng nhà tù sụp đổ. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-025",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh khô hạn được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-026",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-027",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Môi trường độc được nêu trong hồ sơ; đầm độc là mở rộng fantasy."
+  },
+  {
+    "id": "creature-028",
+    "habitat": "Sơn Mạch Thạch Anh – vách làm tổ, hang trú và mạch tinh thể. Đối chiếu truyện gốc: Sinh cảnh núi/vách đá được nêu; địa danh fantasy là phần mở rộng."
+  },
+  {
+    "id": "creature-029",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-030",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-031",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-032",
+    "habitat": "Tầng bình lưu."
+  },
+  {
+    "id": "creature-033",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-034",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-035",
+    "habitat": "Vùng đá nứt và hang ấm."
+  },
+  {
+    "id": "creature-036",
+    "habitat": "Thung lũng ma lực, quanh nguồn nước sạch."
+  },
+  {
+    "id": "creature-037",
+    "habitat": "Rừng tái sinh."
+  },
+  {
+    "id": "creature-038",
+    "habitat": "Vùng nước lợ hoặc vịnh biển ven bờ."
+  },
+  {
+    "id": "creature-039",
+    "habitat": "Đáy thung lũng nước sạch hoặc dòng suối trong."
+  },
+  {
+    "id": "creature-040",
+    "habitat": "Lưu vực sông lớn, nơi có dòng chảy xiết."
+  },
+  {
+    "id": "creature-041",
+    "habitat": "Nền đất sét; tập tính khác và chế độ ăn chưa được ghi nhận."
+  },
+  {
+    "id": "creature-042",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-043",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-044",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-045",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-046",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-047",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-048",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-049",
+    "habitat": "Sơn Mạch Thạch Anh – vách làm tổ, hang trú và mạch tinh thể. Đối chiếu truyện gốc: Sinh cảnh núi/vách đá được nêu; địa danh fantasy là phần mở rộng."
+  },
+  {
+    "id": "creature-050",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh đất ngập nước được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-051",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-052",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-053",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Môi trường độc được nêu trong hồ sơ; đầm độc là mở rộng fantasy."
+  },
+  {
+    "id": "creature-054",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-055",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-056",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-057",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-058",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Đặc tính địa nhiệt hoặc phóng xạ được chuyển thành vùng ma năng fantasy."
+  },
+  {
+    "id": "creature-059",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-060",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-061",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-062",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-063",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-064",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-065",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-066",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-067",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-068",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-069",
+    "habitat": "Vùng Hỏa Mạch Ocen – hang dung nham nguội, suối địa nhiệt và mạch tinh thể nóng. Đối chiếu truyện gốc: Đặc tính địa nhiệt hoặc phóng xạ được chuyển thành vùng ma năng fantasy."
+  },
+  {
+    "id": "creature-070",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-071",
+    "habitat": "Vùng Đá Nứt Ocen – khe thạch anh, hang ấm và đường hầm bỏ hoang ở rìa Rừng Tái Sinh. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-072",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-073",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-074",
+    "habitat": "Biển Cát Hổ Phách – hang mát dưới cồn và ốc đảo ma lực làm nơi trú, cấp nước. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-075",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-076",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-077",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-078",
+    "habitat": "Vùng Đá Nứt Ocen – khe thạch anh, hang ấm và đường hầm bỏ hoang ở rìa Rừng Tái Sinh. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-079",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Sinh cảnh đất ngập nước được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-080",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-081",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-082",
+    "habitat": "Đầm Lầy Lam Độc – bãi bồi, rễ cây nổi, lau sậy và vũng ma lực làm nơi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh đất ngập nước được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-083",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh khô hạn được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-084",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-085",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-086",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-087",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh núi/vách đá được nêu; địa danh fantasy là phần mở rộng."
+  },
+  {
+    "id": "creature-088",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-089",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-090",
+    "habitat": "Vùng Đá Nứt Ocen – khe thạch anh, hang ấm và đường hầm bỏ hoang ở rìa Rừng Tái Sinh. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-091",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-092",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-093",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-094",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-095",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-096",
+    "habitat": "Đầm Lầy Lam Độc – bãi bồi, rễ cây nổi, lau sậy và vũng ma lực làm nơi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh đất ngập nước được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-097",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-098",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-099",
+    "habitat": "Rừng Tái Sinh Ocen – tầng tán, thảm mục ma lực, nguồn nước sạch và bãi kiếm ăn. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-100",
+    "habitat": "Đầm Độc Phế Tích – bùn ăn mòn, rêu độc, hang đá kín và mạch nước ma lực. Đối chiếu truyện gốc: Môi trường độc được nêu trong hồ sơ; đầm độc là mở rộng fantasy."
+  },
+  {
+    "id": "creature-101",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-102",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-103",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-104",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-105",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-106",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-107",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-108",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Sinh cảnh rừng phù hợp với đặc điểm loài; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-109",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-110",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Sinh cảnh đất ngập nước được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-111",
+    "habitat": "Biển Cát Hổ Phách – hang mát dưới cồn và ốc đảo ma lực làm nơi trú, cấp nước. Đối chiếu truyện gốc: Sinh cảnh khô hạn được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-112",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-113",
+    "habitat": "Vùng Đá Nứt Ocen – khe thạch anh, hang ấm và đường hầm bỏ hoang ở rìa Rừng Tái Sinh. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-114",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Sinh cảnh núi/vách đá được nêu; địa danh fantasy là phần mở rộng."
+  },
+  {
+    "id": "creature-115",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-116",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-117",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-118",
+    "habitat": "Vùng Sinh Thái Tái Thiết Ocen – thung lũng ma lực, nguồn nước sạch và nơi trú ẩn phù hợp tập tính loài. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-119",
+    "habitat": "Biển Cát Hổ Phách – hang mát dưới cồn và ốc đảo ma lực làm nơi trú, cấp nước. Đối chiếu truyện gốc: Sinh cảnh khô hạn được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-120",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-121",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-122",
+    "habitat": "Biển Cát Hổ Phách – hang mát dưới cồn và ốc đảo ma lực làm nơi trú, cấp nước. Đối chiếu truyện gốc: Sinh cảnh khô hạn được nêu; địa danh fantasy được đề xuất."
+  },
+  {
+    "id": "creature-123",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-124",
+    "habitat": "Vùng Đá Nứt Ocen – khe thạch anh, hang ấm và đường hầm bỏ hoang ở rìa Rừng Tái Sinh. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy phù hợp với nhóm và tập tính loài."
+  },
+  {
+    "id": "creature-125",
+    "habitat": "Đầm Lầy Cộng Hưởng Ocen – bờ ao, lau sậy và khe đá ẩm; tiếng kêu trong mai vang xa qua bùn nước. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy theo tập tính lưỡng cư và khả năng cảnh báo."
+  },
+  {
+    "id": "creature-126",
+    "habitat": "Vùng Tro Ma Năng – lò RTC vỡ, bụi tinh thể nhiễm ma lực và hốc trú ẩn được kết tinh bảo vệ. Đối chiếu truyện gốc: Đặc tính địa nhiệt hoặc phóng xạ được chuyển thành vùng ma năng fantasy."
+  },
+  {
+    "id": "creature-127",
+    "habitat": "Tọa Độ Đen – đường thông khí, hầm cống và các khoang rò khí độc nơi bướm lọc độc làm tổ. Đối chiếu truyện gốc: Tư liệu gốc ghi loài hấp thụ khí độc từ hầm ngầm; Tọa Độ Đen là sinh cảnh fantasy phù hợp."
+  },
+  {
+    "id": "creature-128",
+    "habitat": "Tọa Độ Đen – vách đá và hầm cáp từ tính, nơi nhện giăng tơ gia cố đường hầm. Đối chiếu truyện gốc: Tư liệu gốc nêu vách đá trong hầm ngầm; khu hầm cáp là mở rộng fantasy phù hợp."
+  },
+  {
+    "id": "creature-129",
+    "habitat": "Đầm Lầy Cộng Hưởng Ocen – bờ ao, bãi bùn và hang nông để tiếng kêu cảnh báo truyền qua mặt đất. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh; đây là đề xuất fantasy theo tập tính lưỡng cư."
+  },
+  {
+    "id": "creature-130",
+    "habitat": "Biển Cát Hổ Phách – cồn cát và các hầm thông khí nối với đường hầm ngầm của Ocen. Đối chiếu truyện gốc: Tư liệu gốc ghi loài đào đường thoát khí; biển cát là đề xuất fantasy cho sinh cảnh khô hạn."
+  },
+  {
+    "id": "creature-131",
+    "habitat": "Tầng Mây Thượng Giới – vách đá cao, đảo nổi và các luồng khí nơi rùa đo áp suất, báo bão. Đối chiếu truyện gốc: Tư liệu gốc mô tả loài đo áp suất khí quyển; đây là sinh cảnh fantasy đề xuất."
+  },
+  {
+    "id": "creature-132",
+    "habitat": "Đồng Cỏ Ma Lực Ocen – bãi cỏ và thung lũng giàu năng lượng dư thừa, có hang trú dưới rễ cây. Đối chiếu truyện gốc: Tư liệu gốc ghi loài ăn cỏ ma lực; đồng cỏ là sinh cảnh fantasy phù hợp."
+  },
+  {
+    "id": "creature-133",
+    "habitat": "Thủy Vực Ma Lực Ocen – vùng kiếm ăn, hang đáy và dòng chảy ma lực làm nơi trú ẩn. Đối chiếu truyện gốc: Tập tính thủy sinh được nêu; đây là vùng fantasy được đề xuất."
+  },
+  {
+    "id": "creature-134",
+    "habitat": "Vùng Tro Ma Năng – lò RTC vỡ, bụi tinh thể nhiễm ma lực và hốc trú ẩn được kết tinh bảo vệ. Đối chiếu truyện gốc: Đặc tính địa nhiệt hoặc phóng xạ được chuyển thành vùng ma năng fantasy."
+  },
+  {
+    "id": "creature-135",
+    "habitat": "Rừng Tái Sinh – gốc cây rỗng, khe đá và vùng nứt chiều nơi ve cảm nhận dao động. Đối chiếu truyện gốc: Tư liệu gốc mô tả khả năng cảm nhận gợn sóng chiều; vị trí cụ thể là đề xuất fantasy."
+  },
+  {
+    "id": "creature-136",
+    "habitat": "Sườn Đá Quang Phổ Ocen – mỏm đá và bãi cát ngoài trời phơi dưới quang phổ ma lực. Đối chiếu truyện gốc: Tư liệu gốc ghi loài cảnh báo cường độ UV ngoài trời; sườn đá là sinh cảnh fantasy đề xuất."
+  },
+  {
+    "id": "creature-137",
+    "habitat": "Tầng Mây Thượng Giới – vùng không khí trong quanh Mái Vòm Sinh Thái và các luồng gió vi khuẩn lam. Đối chiếu truyện gốc: Tư liệu gốc chưa nêu địa danh cụ thể; tầng khí sạch là sinh cảnh fantasy phù hợp."
+  },
+  {
+    "id": "creature-138",
+    "habitat": "Băng Nguyên Ocen – khe băng, hang kín gió và vùng săn mồi. Đối chiếu truyện gốc: Sinh cảnh lạnh được nêu; khu vực fantasy được đề xuất."
+  },
+  {
+    "id": "creature-139",
+    "habitat": "Vành đai Mái Vòm Sinh Thái – mái vòm, vườn treo và các tháp canh nơi chim tuần tra xua dơi biến dị. Đối chiếu truyện gốc: Mái Vòm Sinh Thái được nêu trong tư liệu gốc; vườn treo và tháp canh là chi tiết fantasy mở rộng."
+  },
+  {
+    "id": "creature-140",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-141",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-142",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-143",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-144",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-145",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-146",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-147",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-148",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-149",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-150",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-151",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-152",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-153",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-154",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-155",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-156",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-157",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-158",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-159",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-160",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-161",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-162",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-163",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-164",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-165",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-166",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-167",
+    "habitat": "Vực Đại Dương Cổ Đại – thềm rãnh, thành phố chìm và hang đáy dành cho titan biển. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-168",
+    "habitat": "Vực Đại Dương Cổ Đại – thềm rãnh, thành phố chìm và hang đáy dành cho titan biển. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-169",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-170",
+    "habitat": "Băng Nguyên Cực Nam – hang băng sâu, khe nứt phát sáng và biển băng săn mồi. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-171",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-172",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-173",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-174",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-175",
+    "habitat": "Băng Nguyên Cực Nam – hang băng sâu, khe nứt phát sáng và biển băng săn mồi. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-176",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-177",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-178",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-179",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-180",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-181",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-182",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và khe tinh thể ma năng. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-183",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-184",
+    "habitat": "Băng Nguyên Cực Nam – hang băng sâu, khe nứt phát sáng và biển băng săn mồi. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-185",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-186",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-187",
+    "habitat": "Vùng Hoang Tàn Cổ Đại – lòng chảo địa nhiệt, phế tích biến dị và hang ổ của titan. Đối chiếu truyện gốc: Tư liệu gốc chưa chốt địa danh cho cá thể; sinh cảnh fantasy được đề xuất theo đặc tính titan."
+  },
+  {
+    "id": "creature-188",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-189",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-190",
+    "habitat": "Lãnh địa Đầm Độc – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Đầm Độc; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-191",
+    "habitat": "Lãnh địa Đầm Độc – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Đầm Độc; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-192",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-193",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-194",
+    "habitat": "Lãnh địa Lôi Vực – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Lôi Vực; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-195",
+    "habitat": "Lãnh địa Lôi Vực – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Lôi Vực; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-196",
+    "habitat": "Lãnh địa Phong Tầng – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Phong Tầng; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-197",
+    "habitat": "Lãnh địa Phong Tầng – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Phong Tầng; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-198",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-199",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-200",
+    "habitat": "Lãnh địa Băng Uyên – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Băng Uyên; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-201",
+    "habitat": "Lãnh địa Băng Uyên – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Băng Uyên; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-202",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-203",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-204",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-205",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-206",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-207",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-208",
+    "habitat": "Lãnh địa Lôi Vực – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Lôi Vực; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-209",
+    "habitat": "Lãnh địa Lôi Vực – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Lôi Vực; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-210",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-211",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-212",
+    "habitat": "Lãnh địa Hỏa Tâm – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Hỏa Tâm; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-213",
+    "habitat": "Lãnh địa Hỏa Tâm – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Hỏa Tâm; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-214",
+    "habitat": "Lãnh địa Quang Giới – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Quang Giới; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-215",
+    "habitat": "Lãnh địa Quang Giới – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Quang Giới; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-216",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-217",
+    "habitat": "Lãnh địa Thạch Mạch Cổ – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Thạch Mạch Cổ; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-218",
+    "habitat": "Lãnh địa Phong Tầng – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Phong Tầng; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-219",
+    "habitat": "Lãnh địa Phong Tầng – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Phong Tầng; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-220",
+    "habitat": "Lãnh địa Đầm Độc – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Đầm Độc; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-221",
+    "habitat": "Lãnh địa Đầm Độc – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Đầm Độc; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-222",
+    "habitat": "Lãnh địa Hải Uyên – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Hải Uyên; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-223",
+    "habitat": "Lãnh địa Hải Uyên – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Hải Uyên; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-224",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-225",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-226",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-227",
+    "habitat": "Lãnh địa Tinh Hà Hư Không – hang ổ quanh tâm mạch nguyên tố, gần khe nứt nơi năng lượng hội tụ. Đối chiếu truyện gốc: Địa danh fantasy đề xuất theo nhánh rồng Tinh Hà Hư Không; nếu truyện gốc chưa nêu nơi cụ thể thì đây không phải địa danh canon."
+  },
+  {
+    "id": "creature-228",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-229",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-230",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-231",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-232",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-233",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-234",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-235",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-236",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-237",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-238",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-239",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-240",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-241",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-242",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-243",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-244",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-245",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-246",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-247",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-248",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-249",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-250",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-251",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-252",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-253",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-254",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-255",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-256",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-257",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-258",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-259",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-260",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-261",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-262",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-263",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-264",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-265",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-266",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-267",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-268",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-269",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-270",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-271",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-272",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-273",
+    "habitat": "Tọa Độ Đen – phân khu Hang Sâu, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-274",
+    "habitat": "Tọa Độ Đen – phân khu Thạch Anh Đen, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-275",
+    "habitat": "Tọa Độ Đen – phân khu Sương Mù, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-276",
+    "habitat": "Tọa Độ Đen – phân khu Tủy Đỏ, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-277",
+    "habitat": "Tọa Độ Đen – phân khu Bóng Tĩnh, gồm hành lang nhà tù, khoang trú ẩn và vùng ma lực tương ứng. Đối chiếu truyện gốc: Tọa Độ Đen là địa danh của thế giới truyện; phân khu được mở rộng theo tập tính loài."
+  },
+  {
+    "id": "creature-278",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-279",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-280",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-281",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-282",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-283",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-284",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-285",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-286",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-287",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-288",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-289",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-290",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-291",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-292",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-293",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-294",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-295",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-296",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-297",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-298",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-299",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-300",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-301",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-302",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-303",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-304",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-305",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-306",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-307",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-308",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-309",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-310",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-311",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-312",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-313",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-314",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-315",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-316",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-317",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-318",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-319",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-320",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-321",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-322",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-323",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-324",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-325",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-326",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-327",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-328",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-329",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-330",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-331",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-332",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-333",
+    "habitat": "Rừng Tái Sinh – khu Lam, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Lam thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-334",
+    "habitat": "Rừng Tái Sinh – khu Tuyết, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Tuyết thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-335",
+    "habitat": "Rừng Tái Sinh – khu Thạch Anh, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Thạch Anh thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-336",
+    "habitat": "Rừng Tái Sinh – khu RTC, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể RTC thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-337",
+    "habitat": "Rừng Tái Sinh – khu Nguyệt, gồm tầng tán, thảm mục và khe suối sạch; cây/nấm ở đất ẩm, thú ăn cỏ tại bãi trống. Đối chiếu truyện gốc: Rừng Tái Sinh và biến thể Nguyệt thuộc thế giới truyện; vi sinh cảnh được mở rộng theo vai trò loài."
+  },
+  {
+    "id": "creature-338",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Nhân Lang Thạch Anh, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-339",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Nhân Lang Thạch Anh, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-340",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Nhân Lang Thạch Anh, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-341",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Điểu Nhân Phong Sương, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-342",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Điểu Nhân Phong Sương, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-343",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Điểu Nhân Phong Sương, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-344",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-345",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-346",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-347",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Tinh Linh Đá, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-348",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Tinh Linh Đá, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-349",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Tinh Linh Đá, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-350",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-351",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-352",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-353",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-354",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-355",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-356",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-357",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-358",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-359",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Thảo Mộc Nhân, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-360",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Thảo Mộc Nhân, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-361",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Thảo Mộc Nhân, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-362",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-363",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-364",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-365",
+    "habitat": "Rừng Tái Sinh Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-366",
+    "habitat": "Đỉnh Núi Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-367",
+    "habitat": "Vùng Đệm Ocen – lãnh địa Tộc Đồng Minh Ocen, có làng trú ẩn, đường tuần tra và vùng kiếm ăn quanh cộng đồng. Đối chiếu truyện gốc: Nhánh tộc và biến thể địa hình được nêu trong hồ sơ; chi tiết khu cư trú là đề xuất fantasy."
+  },
+  {
+    "id": "creature-368",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-369",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-370",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-371",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-372",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-373",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-374",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-375",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-376",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-377",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-378",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-379",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-380",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-381",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-382",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-383",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-384",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-385",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-386",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-387",
+    "habitat": "Rãnh Thái Bình Dương – tầng vực sâu của thế giới Ocen, khe nứt ma lực, hang đáy và thành phố chìm. Đối chiếu truyện gốc: Rãnh Thái Bình Dương được nêu trong tư liệu; độ sâu fantasy được giải thích bằng ma lực và không gian mở rộng."
+  },
+  {
+    "id": "creature-388",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-389",
+    "habitat": "Hầm ngầm hóa chất — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-390",
+    "habitat": "Tầng hầm áp suất âm — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-391",
+    "habitat": "Trục thang máy vô tận — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-392",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-393",
+    "habitat": "Lò thiêu — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-394",
+    "habitat": "Trục thang máy vô tận — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-395",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-396",
+    "habitat": "Trục thang máy vô tận — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-397",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-398",
+    "habitat": "Rãnh nứt không gian — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-399",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-400",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-401",
+    "habitat": "Hầm ngầm hóa chất — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-402",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-403",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-404",
+    "habitat": "Lò phản ứng nhiệt hạch — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-405",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-406",
+    "habitat": "Lò thiêu — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-407",
+    "habitat": "Trạm nghiên cứu vũ khí — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-408",
+    "habitat": "Tầng hầm áp suất âm — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-409",
+    "habitat": "Hầm ngầm hóa chất — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-410",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-411",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-412",
+    "habitat": "Lò thiêu — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-413",
+    "habitat": "Lò phản ứng nhiệt hạch — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-414",
+    "habitat": "Hầm ngầm hóa chất — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-415",
+    "habitat": "Hầm ngầm hóa chất — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-416",
+    "habitat": "Hầm ngầm hóa chất — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-417",
+    "habitat": "Rãnh nứt không gian — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-418",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-419",
+    "habitat": "Lò phản ứng nhiệt hạch — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-420",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-421",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-422",
+    "habitat": "Rãnh nứt không gian — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-423",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-424",
+    "habitat": "Rãnh nứt không gian — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-425",
+    "habitat": "Tầng hầm áp suất âm — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-426",
+    "habitat": "Lò phản ứng nhiệt hạch — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-427",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-428",
+    "habitat": "Lò thiêu — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-429",
+    "habitat": "Lò phản ứng nhiệt hạch — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-430",
+    "habitat": "Rãnh nứt không gian — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-431",
+    "habitat": "Rãnh nứt không gian — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-432",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-433",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-434",
+    "habitat": "Rãnh nứt không gian — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-435",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-436",
+    "habitat": "Tầng hầm áp suất âm — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-437",
+    "habitat": "Trục thang máy vô tận — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-438",
+    "habitat": "Hầm ngầm hóa chất — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-439",
+    "habitat": "Rãnh nứt không gian — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-440",
+    "habitat": "Lò phản ứng nhiệt hạch — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-441",
+    "habitat": "Tầng hầm áp suất âm — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-442",
+    "habitat": "Lò phản ứng nhiệt hạch — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-443",
+    "habitat": "Trạm nghiên cứu vũ khí — Ẩn nấp trong bóng tối tuyệt đối, lẩn khuất giữa các khe nứt không gian."
+  },
+  {
+    "id": "creature-444",
+    "habitat": "Rãnh nứt không gian — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-445",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-446",
+    "habitat": "Hệ thống cống ngầm sụp đổ — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-447",
+    "habitat": "Rãnh nứt không gian — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-448",
+    "habitat": "Rãnh nứt không gian — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-449",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-450",
+    "habitat": "Hầm ngầm hóa chất — Tồn tại trong lõi phóng xạ, hấp thụ ma lực oán niệm của hàng triệu sinh linh."
+  },
+  {
+    "id": "creature-451",
+    "habitat": "Lò phản ứng nhiệt hạch — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-452",
+    "habitat": "Trạm nghiên cứu vũ khí — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-453",
+    "habitat": "Trục thang máy vô tận — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-454",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Môi trường ngập axit vô cơ và bức xạ, thiếu sáng hoàn toàn."
+  },
+  {
+    "id": "creature-455",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Sống bám vào các mạng lưới cáp quang cũ, ăn mòn kim loại sinh học."
+  },
+  {
+    "id": "creature-456",
+    "habitat": "Khu biệt giam Tọa Độ Đen — Môi trường áp suất cực cao, nhiệt độ luôn dao động bất thường từ âm sang hỏa."
+  },
+  {
+    "id": "creature-457",
+    "habitat": "Đường cao tốc đứt đoạn — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-458",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-459",
+    "habitat": "Khu công nghiệp hóa dầu — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-460",
+    "habitat": "Bãi xe quân sự cũ — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-461",
+    "habitat": "Bãi xe quân sự cũ — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-462",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-463",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-464",
+    "habitat": "Tháp viễn thông hỏng — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-465",
+    "habitat": "Đường cao tốc đứt đoạn — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-466",
+    "habitat": "Tháp viễn thông hỏng — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-467",
+    "habitat": "Đường cao tốc đứt đoạn — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-468",
+    "habitat": "Khu công nghiệp hóa dầu — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-469",
+    "habitat": "Đường cao tốc đứt đoạn — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-470",
+    "habitat": "Đường cao tốc đứt đoạn — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-471",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-472",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-473",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-474",
+    "habitat": "Bãi xe quân sự cũ — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-475",
+    "habitat": "Khu công nghiệp hóa dầu — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-476",
+    "habitat": "Tháp viễn thông hỏng — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-477",
+    "habitat": "Khu công nghiệp hóa dầu — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-478",
+    "habitat": "Ga tàu điện ngầm — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-479",
+    "habitat": "Sân bay rỉ sét — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-480",
+    "habitat": "Bãi xe quân sự cũ — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-481",
+    "habitat": "Ga tàu điện ngầm — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-482",
+    "habitat": "Tháp viễn thông hỏng — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-483",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-484",
+    "habitat": "Khu công nghiệp hóa dầu — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-485",
+    "habitat": "Sân bay rỉ sét — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-486",
+    "habitat": "Sân bay rỉ sét — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-487",
+    "habitat": "Khu công nghiệp hóa dầu — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-488",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-489",
+    "habitat": "Bãi xe quân sự cũ — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-490",
+    "habitat": "Bãi xe quân sự cũ — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-491",
+    "habitat": "Bãi xe quân sự cũ — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-492",
+    "habitat": "Ga tàu điện ngầm — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-493",
+    "habitat": "Tháp viễn thông hỏng — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-494",
+    "habitat": "Ga tàu điện ngầm — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-495",
+    "habitat": "Tháp viễn thông hỏng — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-496",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-497",
+    "habitat": "Ga tàu điện ngầm — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-498",
+    "habitat": "Tháp viễn thông hỏng — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-499",
+    "habitat": "Sân bay rỉ sét — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-500",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Làm tổ trong các xác xe tăng và xe bọc thép, ăn kim loại rỉ sét."
+  },
+  {
+    "id": "creature-501",
+    "habitat": "Khu công nghiệp hóa dầu — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-502",
+    "habitat": "Bãi xe quân sự cũ — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-503",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-504",
+    "habitat": "Tháp viễn thông hỏng — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-505",
+    "habitat": "Đường cao tốc đứt đoạn — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-506",
+    "habitat": "Sân bay rỉ sét — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-507",
+    "habitat": "Tháp viễn thông hỏng — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-508",
+    "habitat": "Ga tàu điện ngầm — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-509",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-510",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-511",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-512",
+    "habitat": "Bãi xe quân sự cũ — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-513",
+    "habitat": "Khu công nghiệp hóa dầu — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-514",
+    "habitat": "Ga tàu điện ngầm — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-515",
+    "habitat": "Ga tàu điện ngầm — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-516",
+    "habitat": "Đường cao tốc đứt đoạn — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-517",
+    "habitat": "Khu công nghiệp hóa dầu — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-518",
+    "habitat": "Đường cao tốc đứt đoạn — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-519",
+    "habitat": "Khu công nghiệp hóa dầu — Đào hang sâu dưới lớp nhựa đường, ẩn nấp và tạo bẫy cơ học."
+  },
+  {
+    "id": "creature-520",
+    "habitat": "Ga tàu điện ngầm — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-521",
+    "habitat": "Nhà máy sản xuất thép hoang phế — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-522",
+    "habitat": "Tháp viễn thông hỏng — Hoạt động trên các tòa nhà cao tầng để phục kích con mồi bằng lưới từ trường."
+  },
+  {
+    "id": "creature-523",
+    "habitat": "Các tòa nhà chọc trời gãy đôi — Sinh sống ở ranh giới các vành đai màng lọc không khí, chịu được sương mù axit nhẹ."
+  },
+  {
+    "id": "creature-524",
+    "habitat": "Sân bay rỉ sét — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-525",
+    "habitat": "Đường cao tốc đứt đoạn — Di chuyển nhanh trong các đường hầm điện ngầm, mắt thoái hóa bù lại bằng cảm biến nhiệt."
+  },
+  {
+    "id": "creature-526",
+    "habitat": "Vách đá từ trường — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-527",
+    "habitat": "Vách đá từ trường — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-528",
+    "habitat": "Rừng nguyên sinh khôi phục — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-529",
+    "habitat": "Rừng nấm mộc tinh — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-530",
+    "habitat": "Thung lũng vi khuẩn lam — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-531",
+    "habitat": "Thung lũng vi khuẩn lam — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-532",
+    "habitat": "Thung lũng vi khuẩn lam — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-533",
+    "habitat": "Hoang mạc trung tính — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-534",
+    "habitat": "Thung lũng vi khuẩn lam — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-535",
+    "habitat": "Vách đá từ trường — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-536",
+    "habitat": "Hoang mạc trung tính — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-537",
+    "habitat": "Rừng nấm mộc tinh — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-538",
+    "habitat": "Thung lũng vi khuẩn lam — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-539",
+    "habitat": "Đồng bằng cỏ phát quang — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-540",
+    "habitat": "Thung lũng vi khuẩn lam — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-541",
+    "habitat": "Rừng nấm mộc tinh — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-542",
+    "habitat": "Rừng nguyên sinh khôi phục — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-543",
+    "habitat": "Rừng nguyên sinh khôi phục — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-544",
+    "habitat": "Rừng nấm mộc tinh — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-545",
+    "habitat": "Rừng nguyên sinh khôi phục — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-546",
+    "habitat": "Đồng bằng cỏ phát quang — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-547",
+    "habitat": "Rừng nguyên sinh khôi phục — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-548",
+    "habitat": "Rừng nguyên sinh khôi phục — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-549",
+    "habitat": "Đồng bằng cỏ phát quang — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-550",
+    "habitat": "Hoang mạc trung tính — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-551",
+    "habitat": "Thung lũng vi khuẩn lam — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-552",
+    "habitat": "Vách đá từ trường — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-553",
+    "habitat": "Vách đá từ trường — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-554",
+    "habitat": "Đồng bằng cỏ phát quang — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-555",
+    "habitat": "Sơn mạch thạch anh — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-556",
+    "habitat": "Thung lũng vi khuẩn lam — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-557",
+    "habitat": "Sơn mạch thạch anh — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-558",
+    "habitat": "Đồng bằng cỏ phát quang — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-559",
+    "habitat": "Vách đá từ trường — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-560",
+    "habitat": "Sơn mạch thạch anh — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-561",
+    "habitat": "Đồi khoáng sản — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-562",
+    "habitat": "Rừng nguyên sinh khôi phục — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-563",
+    "habitat": "Thung lũng vi khuẩn lam — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-564",
+    "habitat": "Đồng bằng cỏ phát quang — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-565",
+    "habitat": "Đồi khoáng sản — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-566",
+    "habitat": "Đồng bằng cỏ phát quang — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-567",
+    "habitat": "Rừng nguyên sinh khôi phục — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-568",
+    "habitat": "Rừng nguyên sinh khôi phục — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-569",
+    "habitat": "Sơn mạch thạch anh — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-570",
+    "habitat": "Đồng bằng cỏ phát quang — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-571",
+    "habitat": "Thung lũng vi khuẩn lam — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-572",
+    "habitat": "Hoang mạc trung tính — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-573",
+    "habitat": "Rừng nguyên sinh khôi phục — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-574",
+    "habitat": "Hoang mạc trung tính — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-575",
+    "habitat": "Đồng bằng cỏ phát quang — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-576",
+    "habitat": "Đồi khoáng sản — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-577",
+    "habitat": "Rừng nguyên sinh khôi phục — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-578",
+    "habitat": "Vách đá từ trường — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-579",
+    "habitat": "Rừng nấm mộc tinh — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-580",
+    "habitat": "Vách đá từ trường — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-581",
+    "habitat": "Sơn mạch thạch anh — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-582",
+    "habitat": "Vách đá từ trường — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-583",
+    "habitat": "Hoang mạc trung tính — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-584",
+    "habitat": "Đồi khoáng sản — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-585",
+    "habitat": "Đồi khoáng sản — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-586",
+    "habitat": "Thung lũng vi khuẩn lam — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-587",
+    "habitat": "Thung lũng vi khuẩn lam — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-588",
+    "habitat": "Đồi khoáng sản — Leo trèo vách đá thạch anh, hấp thụ sương tinh khiết để duy trì thể lực."
+  },
+  {
+    "id": "creature-589",
+    "habitat": "Rừng nguyên sinh khôi phục — Sinh trưởng dưới tán rừng xanh tái sinh, thanh lọc độc tố thành khí oxy đặc."
+  },
+  {
+    "id": "creature-590",
+    "habitat": "Rừng nguyên sinh khôi phục — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-591",
+    "habitat": "Thung lũng vi khuẩn lam — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-592",
+    "habitat": "Đồi khoáng sản — Môi trường hoang mạc trung tính ấm áp, không có sự xuất hiện của ma lực ô nhiễm."
+  },
+  {
+    "id": "creature-593",
+    "habitat": "Rừng nấm mộc tinh — Sống tại các đồng cỏ ngậm năng lượng RTC, thực vật nuôi sống chúng phát sáng ban đêm."
+  },
+  {
+    "id": "creature-594",
+    "habitat": "Rừng nguyên sinh khôi phục — Làm tổ trong gốc nấm khổng lồ, ăn bào tử sạch chuyển hóa thành cơ bắp."
+  },
+  {
+    "id": "creature-595",
+    "habitat": "Hồ thủy canh — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-596",
+    "habitat": "Đầm lầy khoáng chất — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-597",
+    "habitat": "Mạch nước ngầm — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-598",
+    "habitat": "Vực thẳm đáy hồ — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-599",
+    "habitat": "Dòng sông vi khuẩn lam — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-600",
+    "habitat": "Vịnh biển thanh lọc — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-601",
+    "habitat": "Đầm lầy khoáng chất — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-602",
+    "habitat": "Suối nước nóng — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-603",
+    "habitat": "Vịnh biển thanh lọc — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-604",
+    "habitat": "Dòng sông vi khuẩn lam — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-605",
+    "habitat": "Rặng san hô thạch anh — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-606",
+    "habitat": "Mạch nước ngầm — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-607",
+    "habitat": "Suối nước nóng — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-608",
+    "habitat": "Đầm lầy khoáng chất — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-609",
+    "habitat": "Vịnh biển thanh lọc — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-610",
+    "habitat": "Vực thẳm đáy hồ — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-611",
+    "habitat": "Dòng sông vi khuẩn lam — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-612",
+    "habitat": "Đầm lầy khoáng chất — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-613",
+    "habitat": "Rặng san hô thạch anh — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-614",
+    "habitat": "Đầm lầy khoáng chất — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-615",
+    "habitat": "Suối nước nóng — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-616",
+    "habitat": "Hồ thủy canh — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-617",
+    "habitat": "Vịnh biển thanh lọc — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-618",
+    "habitat": "Mạch nước ngầm — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-619",
+    "habitat": "Vực thẳm đáy hồ — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-620",
+    "habitat": "Đầm lầy khoáng chất — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-621",
+    "habitat": "Đầm lầy khoáng chất — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-622",
+    "habitat": "Hồ thủy canh — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-623",
+    "habitat": "Vịnh biển thanh lọc — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-624",
+    "habitat": "Đầm lầy khoáng chất — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-625",
+    "habitat": "Vực thẳm đáy hồ — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-626",
+    "habitat": "Đầm lầy khoáng chất — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-627",
+    "habitat": "Dòng sông vi khuẩn lam — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-628",
+    "habitat": "Dòng sông vi khuẩn lam — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-629",
+    "habitat": "Vực thẳm đáy hồ — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-630",
+    "habitat": "Vực thẳm đáy hồ — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-631",
+    "habitat": "Mạch nước ngầm — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-632",
+    "habitat": "Vịnh biển thanh lọc — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-633",
+    "habitat": "Đầm lầy khoáng chất — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-634",
+    "habitat": "Suối nước nóng — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-635",
+    "habitat": "Suối nước nóng — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-636",
+    "habitat": "Dòng sông vi khuẩn lam — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-637",
+    "habitat": "Mạch nước ngầm — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-638",
+    "habitat": "Vực thẳm đáy hồ — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-639",
+    "habitat": "Hồ thủy canh — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-640",
+    "habitat": "Rặng san hô thạch anh — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-641",
+    "habitat": "Đầm lầy khoáng chất — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-642",
+    "habitat": "Đầm lầy khoáng chất — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-643",
+    "habitat": "Dòng sông vi khuẩn lam — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-644",
+    "habitat": "Dòng sông vi khuẩn lam — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-645",
+    "habitat": "Mạch nước ngầm — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-646",
+    "habitat": "Vực thẳm đáy hồ — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-647",
+    "habitat": "Hồ thủy canh — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-648",
+    "habitat": "Suối nước nóng — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-649",
+    "habitat": "Hồ thủy canh — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-650",
+    "habitat": "Rặng san hô thạch anh — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-651",
+    "habitat": "Hồ thủy canh — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-652",
+    "habitat": "Dòng sông vi khuẩn lam — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-653",
+    "habitat": "Suối nước nóng — Bơi lội trong dòng nước khoáng lạnh giá, thân hình trong suốt hoàn toàn vô hình."
+  },
+  {
+    "id": "creature-654",
+    "habitat": "Hồ thủy canh — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-655",
+    "habitat": "Hồ thủy canh — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-656",
+    "habitat": "Dòng sông vi khuẩn lam — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-657",
+    "habitat": "Vực thẳm đáy hồ — Vùng nước nông, nhiệt độ nước ôn hòa 25 độ C, dòng chảy tĩnh lặng và giàu khoáng sinh học."
+  },
+  {
+    "id": "creature-658",
+    "habitat": "Dòng sông vi khuẩn lam — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-659",
+    "habitat": "Đầm lầy khoáng chất — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-660",
+    "habitat": "Vực thẳm đáy hồ — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-661",
+    "habitat": "Vịnh biển thanh lọc — Đào hang dưới lớp bùn thạch anh, ăn các trầm tích ma lực tinh khiết dưới đáy sâu."
+  },
+  {
+    "id": "creature-662",
+    "habitat": "Mạch nước ngầm — Sống dưới đáy các con sông xanh ngắt, hấp thụ vi khuẩn lam để tổng hợp Vitamin cực mạnh."
+  },
+  {
+    "id": "creature-663",
+    "habitat": "Mạch nước ngầm — Cư ngụ ở rặng san hô tinh thể, phát ra ánh sáng sinh học giúp tăng sinh tế bào."
+  },
+  {
+    "id": "creature-664",
+    "habitat": "Đỉnh núi mây bao phủ — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-665",
+    "habitat": "Khe nứt sông băng — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-666",
+    "habitat": "Hang động băng giá — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-667",
+    "habitat": "Bầu trời hạ áp — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-668",
+    "habitat": "Tảng băng trôi vĩnh cửu — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-669",
+    "habitat": "Tảng băng trôi vĩnh cửu — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-670",
+    "habitat": "Khe nứt sông băng — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-671",
+    "habitat": "Vách đá tuyết lở — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-672",
+    "habitat": "Hố tử thần băng đọng — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-673",
+    "habitat": "Hố tử thần băng đọng — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-674",
+    "habitat": "Tầng bình lưu Ocen — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-675",
+    "habitat": "Khe nứt sông băng — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-676",
+    "habitat": "Hang động băng giá — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-677",
+    "habitat": "Hang động băng giá — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-678",
+    "habitat": "Đỉnh núi mây bao phủ — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-679",
+    "habitat": "Tầng bình lưu Ocen — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-680",
+    "habitat": "Vách đá tuyết lở — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-681",
+    "habitat": "Khe nứt sông băng — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-682",
+    "habitat": "Bầu trời hạ áp — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-683",
+    "habitat": "Hang động băng giá — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-684",
+    "habitat": "Hang động băng giá — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-685",
+    "habitat": "Tảng băng trôi vĩnh cửu — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-686",
+    "habitat": "Hang động băng giá — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-687",
+    "habitat": "Bầu trời hạ áp — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-688",
+    "habitat": "Tầng bình lưu Ocen — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-689",
+    "habitat": "Tầng bình lưu Ocen — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-690",
+    "habitat": "Khe nứt sông băng — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-691",
+    "habitat": "Bầu trời hạ áp — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-692",
+    "habitat": "Hang động băng giá — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-693",
+    "habitat": "Khe nứt sông băng — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-694",
+    "habitat": "Hố tử thần băng đọng — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-695",
+    "habitat": "Hang động băng giá — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-696",
+    "habitat": "Tầng bình lưu Ocen — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-697",
+    "habitat": "Khe nứt sông băng — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-698",
+    "habitat": "Tảng băng trôi vĩnh cửu — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-699",
+    "habitat": "Tầng bình lưu Ocen — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-700",
+    "habitat": "Đỉnh núi mây bao phủ — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-701",
+    "habitat": "Tảng băng trôi vĩnh cửu — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-702",
+    "habitat": "Tảng băng trôi vĩnh cửu — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-703",
+    "habitat": "Đỉnh núi mây bao phủ — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-704",
+    "habitat": "Tầng bình lưu Ocen — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-705",
+    "habitat": "Vách đá tuyết lở — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-706",
+    "habitat": "Vách đá tuyết lở — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-707",
+    "habitat": "Hang động băng giá — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-708",
+    "habitat": "Khe nứt sông băng — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-709",
+    "habitat": "Đỉnh núi mây bao phủ — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-710",
+    "habitat": "Hố tử thần băng đọng — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-711",
+    "habitat": "Hố tử thần băng đọng — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-712",
+    "habitat": "Vách đá tuyết lở — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-713",
+    "habitat": "Khe nứt sông băng — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-714",
+    "habitat": "Bầu trời hạ áp — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-715",
+    "habitat": "Tảng băng trôi vĩnh cửu — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-716",
+    "habitat": "Vách đá tuyết lở — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-717",
+    "habitat": "Đỉnh núi mây bao phủ — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-718",
+    "habitat": "Đỉnh núi mây bao phủ — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-719",
+    "habitat": "Hang động băng giá — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-720",
+    "habitat": "Đỉnh núi mây bao phủ — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-721",
+    "habitat": "Bầu trời hạ áp — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-722",
+    "habitat": "Tầng bình lưu Ocen — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-723",
+    "habitat": "Vách đá tuyết lở — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-724",
+    "habitat": "Hang động băng giá — Làm tổ cheo leo trên đỉnh núi, lấy nước từ sương giá, không khí loãng nhưng tuyệt đối vô trùng."
+  },
+  {
+    "id": "creature-725",
+    "habitat": "Tảng băng trôi vĩnh cửu — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  },
+  {
+    "id": "creature-726",
+    "habitat": "Tảng băng trôi vĩnh cửu — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-727",
+    "habitat": "Khe nứt sông băng — Ngủ đông 8 tháng trong hang đá băng sâu, trữ một lớp mỡ sinh học năng lượng cực cao."
+  },
+  {
+    "id": "creature-728",
+    "habitat": "Hố tử thần băng đọng — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-729",
+    "habitat": "Bầu trời hạ áp — Chịu đựng nhiệt độ -60 độ C, sống trong các khe băng nứt nẻ và gió bão liên miên."
+  },
+  {
+    "id": "creature-730",
+    "habitat": "Khe nứt sông băng — Săn mồi rình rập trên các tảng băng trôi rải rác, khả năng tàng hình hoàn hảo giữa bão tuyết."
+  },
+  {
+    "id": "creature-731",
+    "habitat": "Tầng bình lưu Ocen — Bay lượn ở độ cao 10.000m trong tầng bình lưu, hấp thụ bức xạ mặt trời tinh khiết không mây."
+  }
+]

@@ -1,0 +1,2493 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Quản trị hồ sơ sinh vật · Ori</title>
+<style>
+:root{color-scheme:dark;--bg:#10100f;--surface:#181816;--raised:#20201c;--line:#39372f;--gold:#e4c77e;--gold-dim:#ad9155;--text:#f2eee5;--muted:#a7a197;--green:#94c98d;--red:#ed8e83;--yellow:#eacb77;--sans:"Segoe UI",Arial,sans-serif;--mono:Consolas,"Courier New",monospace}
+*{box-sizing:border-box}
+body{margin:0;min-width:320px;background:radial-gradient(ellipse at 82% 0%,#b48f4612,transparent 34rem),var(--bg);color:var(--text);font:14px/1.55 var(--sans)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{width:min(1500px,calc(100% - 32px));margin:auto}
+header{padding:22px 0 16px;border-bottom:1px solid #e4c77e26}
+h1{margin:0;color:var(--gold);font-size:clamp(1.35rem,3vw,2rem)}
+header p{margin:4px 0 0;color:var(--muted)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 0}
+.button,.file-button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:7px 12px;border:1px solid var(--line);border-radius:5px;background:var(--raised);color:var(--text);text-decoration:none}
+.button:hover,.file-button:hover{border-color:var(--gold-dim)}
+.button.primary{background:var(--gold);border-color:var(--gold);color:#19170f;font-weight:700}
+.button.danger{color:var(--red)}
+.button:disabled{opacity:.45;cursor:not-allowed}
+.file-button input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;clip-path:inset(50%)}
+.toolbar .spacer{flex:1}
+.notice{min-height:22px;color:var(--muted);font-size:.88rem}
+.notice.error{color:var(--red)}.notice.success{color:var(--green)}
+.folder-browser{margin:0 0 14px;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.folder-browser h2{margin:0;color:var(--gold);font-size:1rem}
+.folder-browser p{margin:4px 0 10px;color:var(--muted);font-size:.84rem}
+.folder-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.folder-tools .control{flex:1 1 260px;width:auto}
+.folder-tools select.control{flex:0 1 190px}
+.folder-editor{display:grid;gap:8px}
+.folder-editor textarea{width:100%;min-height:320px;resize:vertical;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--text);font: .82rem/1.5 var(--mono);tab-size:2}
+.folder-editor textarea:focus{outline:2px solid var(--gold);outline-offset:2px}
+.folder-editor .dirty{color:var(--yellow)}
+.text-file-tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px}
+.text-file-tab{flex:none;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:6px 9px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--muted)}
+.text-file-tab.active{border-color:var(--gold-dim);color:var(--gold)}
+.text-file-tab.dirty::after{content:" •";color:var(--yellow)}
+.folder-meta{margin:8px 0;color:var(--muted);font-size:.8rem}
+.folder-results{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);gap:10px;align-items:start}
+.folder-file-list{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:4px}
+.folder-file{display:flex;width:100%;gap:8px;align-items:flex-start;padding:8px 10px;border:0;border-bottom:1px solid #39372f80;background:transparent;color:var(--text);text-align:left}
+.folder-file:last-child{border-bottom:0}
+.folder-file:hover,.folder-file.active{background:var(--raised)}
+.folder-file.active{box-shadow:inset 3px 0 var(--gold)}
+.folder-file strong,.folder-file small{display:block;overflow-wrap:anywhere}
+.folder-file small{color:var(--muted);font-size:.75rem}
+.folder-file .file-kind{flex:none;padding:1px 5px;border:1px solid var(--line);border-radius:3px;color:var(--gold-dim);font-size:.68rem}
+.folder-preview{min-height:180px;max-height:360px;overflow:auto;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.folder-preview pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font: .78rem/1.5 var(--mono);color:var(--text)}
+.folder-preview .empty{padding:24px 12px}
+.folder-actions{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px}
+.folder-actions:empty{display:none}
+.folder-note{color:var(--muted);font-size:.76rem}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 14px}
+.stat{padding:5px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--muted)}
+.stat strong{color:var(--text)}
+.layout{display:grid;grid-template-columns:minmax(240px,310px) minmax(0,1fr);gap:14px;align-items:start;padding-bottom:32px}
+.panel{min-width:0;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.panel-head{padding:12px 14px;border-bottom:1px solid var(--line)}
+.panel-head h2{margin:0;color:var(--gold);font-size:1rem}
+.dataset-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px 0}
+.dataset-tab{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 9px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--muted)}
+.dataset-tab.active{border-color:var(--gold-dim);color:var(--gold)}
+.list-tools{padding:10px 12px}
+.control{width:100%;min-height:38px;padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--text)}
+.control:focus{border-color:var(--gold-dim)}
+.creature-list{max-height:calc(100vh - 310px);min-height:140px;overflow:auto;border-top:1px solid var(--line)}
+.creature-row{display:block;width:100%;padding:9px 12px;text-align:left;border:0;border-bottom:1px solid #39372f80;background:transparent;color:var(--text)}
+.creature-row:hover{background:var(--raised)}
+.creature-row.active{background:#e4c77e12;box-shadow:inset 3px 0 var(--gold)}
+.creature-row strong,.creature-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.creature-row small{color:var(--muted)}
+.empty{padding:22px 14px;color:var(--muted);text-align:center}
+.editor{padding:14px}
+.editor-empty{padding:48px 20px;text-align:center;color:var(--muted)}
+.editor-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.editor-top h2{margin:0;color:var(--gold);font-size:1.15rem;overflow-wrap:anywhere}
+.actions{display:flex;flex-wrap:wrap;gap:7px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field{min-width:0}
+.field.wide{grid-column:1/-1}
+.field label{display:block;margin:0 0 4px;color:var(--muted);font-size:.83rem;font-weight:600}
+.field textarea.control{min-height:85px;resize:vertical}
+.field textarea.long{min-height:300px;font-family:var(--mono);font-size:.84rem;line-height:1.5}
+.field textarea.original{min-height:190px}
+.field textarea.json{min-height:140px;font-family:var(--mono);font-size:.84rem}
+.field .help{margin-top:4px;color:var(--muted);font-size:.76rem}
+.attribute-editor{margin:14px 0;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.attribute-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.attribute-head h3{margin:0;color:var(--gold);font-size:.95rem}
+.attribute-head p{flex-basis:100%;margin:0;color:var(--muted);font-size:.78rem}
+.attribute-group{padding:10px 12px;border-bottom:1px solid var(--line)}
+.attribute-group:last-child{border-bottom:0}
+.attribute-group h4{margin:0 0 8px;color:var(--muted);font-size:.82rem}
+.attribute-row{display:grid;grid-template-columns:minmax(120px,.8fr) minmax(160px,1.5fr) auto;gap:7px;align-items:start;margin:6px 0}
+.attribute-row .control{min-height:34px;padding:6px 8px}
+.attribute-row textarea.control{min-height:34px;resize:vertical}
+.attribute-row .remove-line{min-height:34px;padding:4px 9px;border:1px solid var(--line);border-radius:4px;background:var(--raised);color:var(--red)}
+.attribute-empty{padding:8px;color:var(--muted);font-size:.82rem}
+.check-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.check-card{min-width:0;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.check-card strong{display:block;color:var(--gold);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.check-card span{display:block;margin-top:3px;overflow-wrap:anywhere}
+.validation{margin-top:12px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+.validation h3{margin:0;padding:9px 11px;border-bottom:1px solid var(--line);font-size:.9rem}
+.validation ul{margin:0;padding:8px 12px 10px 30px}
+.validation li{padding:2px 0;color:var(--muted)}
+.validation li.error{color:var(--red)}.validation li.warning{color:var(--yellow)}.validation li.ok{color:var(--green)}
+.summary-bar{display:flex;flex-wrap:wrap;gap:7px;padding:10px 12px;color:var(--muted);font-size:.84rem}
+.summary-bar strong{color:var(--text)}
+details.advanced{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+details.advanced summary{cursor:pointer;color:var(--gold);font-weight:600}
+.drop-note{padding:0 12px 12px;color:var(--muted);font-size:.78rem}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.creature-list{max-height:38vh}.check-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.wrap{width:calc(100% - 20px)}.fields,.check-grid{grid-template-columns:1fr}.field.wide{grid-column:auto}.toolbar .spacer{display:none}.editor{padding:10px}.attribute-row{grid-template-columns:minmax(0,1fr) auto}.attribute-row .attribute-value{grid-column:1}.attribute-row .remove-line{grid-column:2;grid-row:1/3}}
+@media(max-width:700px){.folder-results{grid-template-columns:1fr}.folder-file-list,.folder-preview{max-height:260px}}
+:root{--bg:#0b0c0f;--surface:#111318;--raised:#191c23;--line:#292d36;--gold:#a9c7ff;--gold-dim:#7da7f5;--text:#edf0f6;--muted:#9299a8;--green:#70d6a5;--red:#ff838b;--yellow:#f2c66d;--sans:"Segoe UI Variable","Segoe UI",Arial,sans-serif;--mono:"Cascadia Code",Consolas,monospace;--sidebar-rail:64px;--sidebar-wide:252px}
+body{min-height:100vh;background:linear-gradient(180deg,#0d1016 0,#0b0c0f 310px);font-size:13px}
+header.studio-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;height:68px;padding:0 24px 0 84px;border-bottom:1px solid var(--line);background:#101218ed;backdrop-filter:blur(16px)}
+.studio-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.studio-mark{display:grid;width:36px;height:36px;place-items:center;border:1px solid #80a9f366;border-radius:11px;background:linear-gradient(140deg,#253956,#172130);color:#c8dcff;font-size:15px;font-weight:800;letter-spacing:-.08em}
+.studio-brand-copy{min-width:0}
+.studio-eyebrow{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+header.studio-header h1{margin:0;color:var(--text);font-size:15px;font-weight:650;letter-spacing:.01em}
+.studio-context{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12px}
+.studio-live{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #70d6a555}
+.studio-sidebar{position:fixed;inset:0 auto 0 0;z-index:40;width:var(--sidebar-rail);padding:12px 9px;border-right:1px solid var(--line);background:#101218f5;backdrop-filter:blur(18px);overflow:hidden;transition:width .18s ease,box-shadow .18s ease}
+.studio-sidebar:hover,.studio-sidebar:focus-within,.studio-sidebar.pinned{width:var(--sidebar-wide);box-shadow:16px 0 40px #0006}
+.sidebar-head{display:flex;align-items:center;gap:11px;height:42px;padding:0 4px 12px;border-bottom:1px solid var(--line)}
+.sidebar-head .studio-mark{flex:none}
+.sidebar-title{overflow:hidden;color:var(--text);font-size:12px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .12s}
+.studio-sidebar:hover .sidebar-title,.studio-sidebar:focus-within .sidebar-title,.studio-sidebar.pinned .sidebar-title{opacity:1}
+.sidebar-nav{display:grid;gap:5px;padding-top:12px}
+.sidebar-link,.sidebar-pin{display:flex;width:100%;height:40px;align-items:center;gap:13px;padding:0 11px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);text-align:left;white-space:nowrap}
+.sidebar-link:hover,.sidebar-link.active,.sidebar-pin:hover{border-color:#80a9f32b;background:#80a9f312;color:var(--text)}
+.sidebar-icon{display:grid;flex:none;width:20px;place-items:center;font-size:16px}
+.sidebar-label{overflow:hidden;opacity:0;transition:opacity .12s}
+.studio-sidebar:hover .sidebar-label,.studio-sidebar:focus-within .sidebar-label,.studio-sidebar.pinned .sidebar-label{opacity:1}
+.sidebar-bottom{position:absolute;right:9px;bottom:12px;left:9px;padding-top:10px;border-top:1px solid var(--line)}
+.sidebar-pin{color:var(--muted)}
+.sidebar-pin[aria-pressed=true]{color:var(--gold)}
+.studio-main.wrap{width:auto;max-width:1800px;margin:0;padding:24px 28px 48px calc(var(--sidebar-rail) + 24px);transition:padding-left .18s ease}
+body.sidebar-pinned .studio-main.wrap{padding-left:calc(var(--sidebar-wide) + 24px)}
+body.sidebar-pinned header.studio-header{padding-left:calc(var(--sidebar-wide) + 24px)}
+body.sidebar-expanded .studio-main.wrap{padding-left:calc(var(--sidebar-wide) + 24px)}
+body.sidebar-expanded header.studio-header{padding-left:calc(var(--sidebar-wide) + 24px)}
+.toolbar{padding:0 0 16px}
+.button,.file-button{min-height:36px;padding:7px 11px;border-color:var(--line);border-radius:8px;background:var(--raised);font-size:12px}
+.button:hover,.file-button:hover{border-color:#7da7f580;background:#202632}
+.button.primary{border-color:#80a9f3;background:#80a9f3;color:#0b1425}
+.button.danger{color:var(--red)}
+.folder-browser{margin:0;padding:18px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(160deg,#141820,#111318 65%);box-shadow:0 10px 35px #0002}
+.folder-browser h2{color:var(--text);font-size:16px;font-weight:650}
+.folder-browser p{max-width:900px;color:var(--muted);font-size:12px}
+.folder-tools{gap:9px}
+.folder-tools .control{flex:1 1 230px}
+.folder-tools select.control{flex:0 1 190px}
+.control{min-height:36px;border-color:var(--line);border-radius:8px;background:#0d0f14;font-size:12px}
+.folder-meta{color:#aab1bf;font-size:11px}
+.workspace-overview{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:16px 0}
+.overview-card{min-width:0;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#101319}
+.overview-label{color:var(--muted);font-size:10px;font-weight:650;letter-spacing:.08em;text-transform:uppercase}
+.overview-value{margin-top:5px;overflow:hidden;color:var(--text);font-size:17px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+.overview-detail{margin-top:3px;overflow:hidden;color:var(--muted);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+.folder-breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#0d0f14;color:var(--muted);font:11px var(--mono)}
+.folder-breadcrumb button{padding:2px 3px;border:0;background:transparent;color:var(--text);font:inherit}
+.folder-breadcrumb button:hover{color:var(--gold)}
+.folder-results{grid-template-columns:minmax(170px,.68fr) minmax(210px,.92fr) minmax(0,1.8fr);gap:10px}
+.explorer-pane{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:9px;background:#0f1116}
+.explorer-pane-head{display:flex;align-items:center;justify-content:space-between;min-height:38px;padding:0 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.explorer-tree{max-height:440px;overflow:auto;padding:6px}
+.tree-node{min-width:0}
+.tree-row{display:flex;width:100%;min-height:28px;align-items:center;gap:7px;padding:3px 7px;border:0;border-radius:6px;background:transparent;color:#aab1bf;text-align:left;font-size:11px}
+.tree-row:hover,.tree-row.active{background:#80a9f314;color:var(--text)}
+.tree-row.active{box-shadow:inset 2px 0 var(--gold)}
+.tree-row .tree-caret{width:11px;flex:none;color:#747d8d}
+.tree-row .tree-icon{width:14px;flex:none;color:var(--gold)}
+.tree-row .tree-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tree-children{margin-left:10px;padding-left:8px;border-left:1px solid #2c313c}
+.folder-files-head{display:flex;align-items:center;justify-content:space-between;min-height:38px;padding:0 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.folder-file-list{max-height:440px;min-height:180px;border:0;border-radius:0}
+.folder-file{gap:7px;min-height:44px;padding:7px 9px;border-color:#292d3655;font-size:11px}
+.folder-file:hover,.folder-file.active{background:#80a9f312}
+.folder-file small{font-size:9px}
+.folder-file .file-kind{font-size:8px}
+.folder-preview{max-height:none;min-height:440px;overflow:auto;padding:13px;border:0;border-radius:0;background:#0d0f14}
+.folder-editor textarea{min-height:calc(100vh - 420px);max-height:70vh;border-color:#292d36;border-radius:8px;background:#0b0d12;font-size:12px;line-height:1.65}
+.folder-editor textarea:focus{outline-color:var(--gold)}
+.folder-actions{align-items:center}
+.folder-note{font-size:10px}
+.text-file-tabs{position:sticky;top:0;z-index:3;flex-wrap:nowrap;border-bottom:1px solid var(--line);background:#0d0f14}
+.text-file-tab{max-width:190px;padding:7px 10px;border-radius:7px;font-size:10px}
+.notice{margin:12px 2px;color:var(--muted);font-size:11px}
+.stats{margin:12px 0}
+.stat{border-color:var(--line);border-radius:8px;background:var(--surface);font-size:11px}
+.layout{grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:12px;margin-top:18px}
+.panel{border-color:var(--line);border-radius:10px;background:var(--surface)}
+.panel-head h2{color:var(--text);font-size:13px}
+.dataset-tab{border-radius:7px;font-size:10px}
+.creature-row{font-size:11px}
+.editor{padding:18px}
+.editor-top h2{color:var(--text);font-size:17px}
+.field label{font-size:11px}
+.field textarea.control,.field input.control{border-radius:8px}
+.attribute-editor,.validation{border-color:var(--line);border-radius:9px;background:#101319}
+.attribute-head h3{color:var(--text)}
+.attribute-row .control{font-size:11px}
+.check-card{border-color:var(--line);border-radius:8px;background:#101319}
+.check-card strong{color:var(--muted)}
+.check-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.work-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px;border:1px solid var(--line);border-radius:9px;background:#101319}
+.work-detail{min-width:0}
+.work-detail.wide{grid-column:1/-1}
+.work-detail-label{color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.work-detail-value{margin-top:3px;overflow-wrap:anywhere;color:var(--text);font-size:11px}
+.work-detail-value.mono{font-family:var(--mono)}
+.empty{font-size:11px}
+@media(max-width:1000px){.folder-results{grid-template-columns:minmax(150px,.7fr) minmax(190px,1fr)}.folder-results>.explorer-pane:nth-child(1){grid-column:1}.folder-results>.explorer-pane:nth-child(2){grid-column:2;grid-row:1/3}.folder-results>.explorer-pane:nth-child(3){grid-column:1/-1}.workspace-overview{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){header.studio-header{height:60px;padding:0 12px 0 76px}.studio-context{display:none}.studio-main.wrap,body.sidebar-pinned .studio-main.wrap{padding:16px 10px 32px calc(var(--sidebar-rail) + 10px)}body.sidebar-pinned header.studio-header{padding-left:76px}.studio-sidebar:hover,.studio-sidebar:focus-within,.studio-sidebar.pinned{width:min(270px,85vw)}.workspace-overview{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.overview-card{padding:9px}.overview-value{font-size:15px}.folder-results{grid-template-columns:1fr}.folder-results>.explorer-pane:nth-child(n){grid-column:1;grid-row:auto}.explorer-tree{max-height:190px}.folder-file-list{max-height:210px}.folder-preview{min-height:300px;padding:8px}.folder-editor textarea{min-height:280px}.folder-tools .control,.folder-tools select.control{flex:1 1 100%;width:100%}.layout{grid-template-columns:1fr}.work-details{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){body.sidebar-expanded .studio-main.wrap,body.sidebar-pinned .studio-main.wrap{padding-left:calc(min(270px,85vw) + 10px)}body.sidebar-expanded header.studio-header{padding-left:calc(min(270px,85vw) + 12px)}}
+@media(hover:none){.studio-sidebar:hover:not(.pinned){width:var(--sidebar-rail);box-shadow:none}.studio-sidebar:hover:not(.pinned) .sidebar-title,.studio-sidebar:hover:not(.pinned) .sidebar-label{opacity:0}.studio-sidebar:hover:not(.pinned) .nav-count{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+.studio-sidebar{overflow-y:auto}
+.sidebar-nav{gap:7px}
+.nav-count{display:none;margin-left:auto;padding:1px 6px;border:1px solid var(--line);border-radius:999px;color:var(--gold);font:10px var(--mono)}
+.studio-sidebar:hover .nav-count,.studio-sidebar:focus-within .nav-count,.studio-sidebar.pinned .nav-count{display:inline-flex}
+.workspace-view{width:100%;min-width:0}
+.workspace-view[hidden]{display:none!important}
+.view-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin:2px 0 20px}
+.view-heading h2{margin:2px 0;color:var(--text);font-size:23px;font-weight:650;letter-spacing:-.02em}
+.view-heading p,.section-heading p{margin:3px 0;color:var(--muted);font-size:12px}
+.view-eyebrow{color:var(--gold);font-size:9px;font-weight:750;letter-spacing:.15em}
+.view-heading-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.overview-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.overview-block{min-width:0;padding:16px;border:1px solid var(--line);border-radius:12px;background:#101319}
+.overview-block>h3,.section-heading h3{margin:0;color:var(--text);font-size:13px;font-weight:650}
+.workspace-overview{margin:12px 0 0}
+.overview-card{background:#0d0f14}
+.work-details{margin-top:12px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.section-count{padding:4px 8px;border:1px solid #80a9f344;border-radius:20px;color:var(--gold);font-size:10px}
+.feature-catalog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:12px}
+.feature-item{display:flex;min-width:0;gap:8px;align-items:flex-start;padding:8px;border:1px solid #292d36;border-radius:8px;background:#0d0f14}
+.feature-index{flex:none;color:var(--gold);font:10px var(--mono)}
+.feature-text{color:#c3c8d2;font-size:10px;line-height:1.4}
+.folder-browser{margin:0;padding:18px}
+.folder-browser>.view-heading{margin-bottom:20px}
+.folder-browser>.view-heading h2{margin:2px 0}
+.folder-browser>.view-heading p{margin:3px 0}
+.folder-browser>h2{font-size:14px}
+.folder-fallback{display:none}
+.path-search{flex:1 1 100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:9px;background:#0d0f14}
+.path-search>label,.control-label{display:block;color:var(--muted);font-size:10px;font-weight:650}
+.path-search-row{display:flex;gap:7px;margin:5px 0}
+.path-search-row .control{flex:1;min-width:120px}
+.path-search small{color:var(--muted);font-size:10px}
+.mono{font-family:var(--mono)}
+.editor-toolbar{margin:0 0 12px;padding:0}
+.editor-toolbar .file-button{margin-right:4px}
+.editor-toolbar .spacer{display:none}
+.list-tools{padding-top:7px;padding-bottom:4px}
+.list-tools+.list-tools{padding-top:4px}
+.audit-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.audit-metric{padding:13px;border:1px solid var(--line);border-radius:10px;background:#101319}
+.audit-metric span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em}
+.audit-metric strong{display:block;margin-top:4px;color:var(--text);font-size:20px}
+.audit-metric.error strong{color:var(--red)}
+.audit-metric.warning strong{color:var(--yellow)}
+.audit-panel,.export-actions-panel{margin-bottom:14px;overflow:hidden}
+.panel-head h3{margin:0;color:var(--text);font-size:13px}
+.panel-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.panel-head>span{color:var(--muted);font-size:10px}
+.audit-table-wrap{overflow:auto}
+.audit-table{width:100%;border-collapse:collapse;text-align:left}
+.audit-table th,.audit-table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.audit-table th{color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.audit-table td{font-size:11px}
+.audit-table tr:last-child td{border-bottom:0}
+.audit-path{max-width:480px;overflow-wrap:anywhere;font-family:var(--mono)}
+.audit-state{display:inline-flex;padding:2px 7px;border:1px solid var(--line);border-radius:20px;color:var(--muted);font-size:10px}
+.audit-state.ok{border-color:#70d6a544;color:var(--green)}
+.audit-state.warning{border-color:#f2c66d55;color:var(--yellow)}
+.audit-state.error{border-color:#ff838b55;color:var(--red)}
+.audit-actions{display:flex;flex-wrap:wrap;gap:6px;padding:14px}
+.export-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px}
+.export-action-grid article{min-width:0;padding:13px;border:1px solid var(--line);border-radius:9px;background:#0d0f14}
+.export-action-grid h4{margin:0;color:var(--text);font-size:12px}
+.export-action-grid p{min-height:34px;margin:5px 0 12px;color:var(--muted);font-size:10px}
+.workspace-main-status{position:sticky;bottom:8px;z-index:5;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#111318ed;backdrop-filter:blur(12px)}
+@media(max-width:1000px){.feature-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.view-heading{display:block}.view-heading-actions{justify-content:flex-start;margin-top:12px}.feature-catalog{grid-template-columns:repeat(2,minmax(0,1fr))}.audit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.export-action-grid{grid-template-columns:1fr}.path-search-row{flex-wrap:wrap}.path-search-row .control{flex-basis:100%}.folder-browser>.view-heading .folder-fallback{display:inline-flex}.folder-browser>.view-heading #openFolderPicker{display:none}.audit-table{min-width:880px}}
+</style>
+</head>
+<body>
+<header class="studio-header">
+  <div class="studio-brand"><div class="studio-mark">O</div><div class="studio-brand-copy"><div class="studio-eyebrow">ORI · DATA WORKSPACE</div><h1>Wiki Data Studio</h1></div></div>
+  <div class="studio-context"><span class="studio-live"></span><span>Làm việc cục bộ · Không tải dữ liệu lên mạng</span></div>
+</header>
+<aside id="studioSidebar" class="studio-sidebar" aria-label="Điều hướng studio">
+  <div class="sidebar-head"><div class="studio-mark">O</div><span class="sidebar-title">ORI Studio</span></div>
+  <nav class="sidebar-nav">
+    <button class="sidebar-link active" type="button" data-view-target="overviewView"><span class="sidebar-icon">▦</span><span class="sidebar-label">Tổng quan</span><span id="navOverviewCount" class="nav-count">—</span></button>
+    <button class="sidebar-link" type="button" data-view-target="filesView"><span class="sidebar-icon">▤</span><span class="sidebar-label">Tệp & thư mục</span><span id="navFilesCount" class="nav-count">0</span></button>
+    <button class="sidebar-link" type="button" data-view-target="editorView"><span class="sidebar-icon">✎</span><span class="sidebar-label">Biên tập dữ liệu</span><span id="navDataCount" class="nav-count">0</span></button>
+    <button class="sidebar-link" type="button" data-view-target="exportView"><span class="sidebar-icon">⇩</span><span class="sidebar-label">Kiểm tra & xuất</span><span id="navAuditCount" class="nav-count">0</span></button>
+  </nav>
+  <div class="sidebar-bottom"><button id="sidebarPin" class="sidebar-pin" type="button" aria-pressed="false" title="Ghim thanh điều hướng"><span class="sidebar-icon">⌑</span><span class="sidebar-label">Ghim thanh bên</span></button></div>
+</aside>
+<main class="wrap studio-main" id="workspace">
+  <div id="status" class="notice workspace-main-status" role="status" aria-live="polite">Chọn một hoặc nhiều tệp dữ liệu trên máy để bắt đầu. Công cụ không tự gửi dữ liệu lên mạng.</div>
+  <section class="workspace-view active" id="overviewView" aria-labelledby="overviewTitle">
+    <div class="view-heading"><div><div class="view-eyebrow">WORKSPACE / OVERVIEW</div><h2 id="overviewTitle">Tổng quan phiên làm việc</h2><p>Trạng thái bộ dữ liệu, thay đổi chưa xuất và các lối tắt đến từng khu vực.</p></div><div class="view-heading-actions"><button class="button" type="button" data-open-view="filesView">Mở trình duyệt tệp</button><button class="button primary" type="button" data-open-view="exportView">Kiểm tra & xuất</button></div></div>
+    <div class="overview-grid">
+      <section class="overview-block"><h3>Trạng thái workspace</h3><div id="workspaceOverview" class="workspace-overview" aria-label="Tình trạng workspace"></div></section>
+      <section class="overview-block"><h3>Chi tiết phiên làm việc</h3><div id="workDetails" class="work-details" aria-label="Chi tiết phiên làm việc"></div></section>
+      <section class="overview-block"><div class="section-heading"><div><h3>Chức năng studio</h3><p>Hơn 30 thao tác và kiểm tra được nhóm theo luồng làm việc.</p></div><span class="section-count">30+ công cụ</span></div><div id="featureCatalog" class="feature-catalog"></div></section>
+    </div>
+  </section>
+  <section class="workspace-view" id="filesView" aria-labelledby="filesTitle" hidden>
+  <section class="folder-browser" id="folderBrowser" aria-label="Tìm tệp dữ liệu trong thư mục wiki">
+    <div class="view-heading"><div><div class="view-eyebrow">WORKSPACE / FILE EXPLORER</div><h2 id="filesTitle">Trình duyệt tệp & thư mục</h2><p>Chọn một thư mục để quét cục bộ. Tìm theo tên, loại dữ liệu hoặc đường dẫn ảo bên trong thư mục đã cấp quyền.</p></div><div class="view-heading-actions"><button class="button primary" id="openFolderPicker" type="button">＋ Mở thư mục</button><label class="file-button folder-fallback">Chọn thư mục<input id="folderInput" type="file" webkitdirectory directory multiple></label></div></div>
+    <div class="folder-tools">
+      <button class="button primary" id="scanFolder" type="button" disabled>Quét tệp cần thiết</button>
+      <button class="button" id="openFilteredFiles" type="button" disabled>Mở các tệp văn bản đang lọc</button>
+      <button class="button" id="openFilteredData" type="button" disabled>Nạp các tệp data đang lọc</button>
+      <select id="folderCategory" class="control" aria-label="Lọc theo loại dữ liệu" disabled>
+        <option value="">Tất cả loại dữ liệu</option>
+        <option value="data">Hồ sơ sinh vật · data</option>
+        <option value="GY">Thuật ngữ · GY</option>
+        <option value="ES">Nguyên tố · ES</option>
+        <option value="item">Vật phẩm · item</option>
+        <option value="RK">Xếp hạng · RK</option>
+      </select>
+      <input id="folderSearch" class="control" type="search" placeholder="Lọc tệp, ví dụ: data_en.txt, GY/vn.txt…" autocomplete="off" disabled>
+      <div class="path-search"><label for="pathSearch">Tìm theo đường dẫn</label><div class="path-search-row"><input id="pathSearch" class="control mono" type="search" placeholder="C:/wiki/user/a/lenhan/ES/vn.txt" autocomplete="off" spellcheck="false" disabled><button id="findPath" class="button" type="button" disabled>Tìm đường dẫn</button><button id="clearPathSearch" class="button" type="button" disabled>Xóa lọc</button></div><small>Đường dẫn được so khớp trong thư mục bạn đã mở; không thể truy cập ổ đĩa ngoài quyền đã cấp.</small></div>
+    </div>
+    <div id="folderMeta" class="folder-meta" aria-live="polite">Chưa chọn thư mục.</div>
+    <div id="folderBreadcrumb" class="folder-breadcrumb" aria-label="Đường dẫn thư mục"><span>C:/</span><span>›</span><span>Chưa chọn thư mục</span></div>
+    <div class="folder-results">
+      <section class="explorer-pane" aria-label="Cây thư mục">
+        <div class="explorer-pane-head"><span>Folders</span><span id="treeFolderCount">0</span></div>
+        <div id="folderTree" class="explorer-tree"><div class="empty">Chọn thư mục để xem cây tệp.</div></div>
+      </section>
+      <section class="explorer-pane" aria-label="Danh sách tệp">
+        <div class="folder-files-head"><span>Files</span><span id="fileResultCount">0</span></div>
+        <div id="folderFileList" class="folder-file-list" aria-label="Tệp trong thư mục"><div class="empty">Chọn thư mục để tìm các tệp dữ liệu.</div></div>
+      </section>
+      <section class="explorer-pane" aria-label="Nội dung tệp">
+        <div class="explorer-pane-head"><span>Editor / Preview</span><span id="editorFileState">Chưa mở</span></div>
+        <div id="folderActions" class="folder-actions"></div>
+        <div id="folderPreview" class="folder-preview" aria-live="polite"><div class="empty">Chọn một tệp để xem đường dẫn và nội dung.</div></div>
+      </section>
+    </div>
+    <div class="folder-note">Mở nhiều tệp để giữ bản nháp trong cache tạm: <code>data.txt</code> / <code>data_en.txt</code> được nạp vào editor hồ sơ; <code>GY</code>, <code>ES</code>, <code>item</code>, <code>RK</code> mở thành các tab văn bản. Chọn <b>Xuất cache thành ZIP</b> để nhận mọi tệp đã nạp/mở, mỗi tên có hậu tố thời gian <code>YYYY-MM-DD-HH.mm.ss</code>; sau khi tạo ZIP, cache tạm được xóa. Có thể xóa cache thủ công bất cứ lúc nào.</div>
+  </section>
+  </section>
+  <section class="workspace-view" id="editorView" aria-labelledby="editorViewTitle" hidden>
+  <div class="view-heading"><div><div class="view-eyebrow">WORKSPACE / DATA EDITOR</div><h2 id="editorViewTitle">Biên tập dữ liệu</h2><p>Mở nhiều bộ dữ liệu, tìm hồ sơ và chỉnh thuộc tính trong vùng làm việc riêng.</p></div></div>
+  <div class="toolbar editor-toolbar" aria-label="Thao tác dữ liệu">
+    <label class="file-button">Mở tệp data<input id="fileInput" type="file" accept=".txt,.json,application/json,text/plain" multiple></label>
+    <button class="button" id="addCreature" type="button" disabled>＋ Hồ sơ mới</button>
+    <button class="button" id="duplicateCreature" type="button" disabled>Nhân bản</button>
+    <button class="button danger" id="deleteCreature" type="button" disabled>Xóa hồ sơ</button>
+  </div>
+  <div id="datasetStats" class="stats" aria-live="polite"></div>
+  <div class="layout">
+    <aside class="panel" id="dataEditor" aria-label="Danh sách hồ sơ">
+      <div class="panel-head"><h2>Tệp và hồ sơ</h2></div>
+      <div id="datasetTabs" class="dataset-tabs"></div>
+      <div class="list-tools"><label class="control-label" for="search">Tìm hồ sơ theo tên, mã, nhóm hoặc nội dung</label></div>
+      <div class="list-tools"><input id="search" class="control" type="search" placeholder="Tìm theo tên, mã, nhóm…" autocomplete="off" disabled></div>
+      <div id="creatureList" class="creature-list"><div class="empty">Chưa nạp dữ liệu</div></div>
+      <div class="drop-note">Định dạng tương thích: mảng JSON của <code>data.txt</code> hoặc <code>data_en.txt</code>.</div>
+    </aside>
+    <section class="panel" aria-label="Biên tập và kiểm tra hồ sơ">
+      <div id="editor" class="editor"><div class="editor-empty">Mở tệp dữ liệu để chọn và sửa hồ sơ sinh vật.</div></div>
+    </section>
+  </div>
+  </section>
+  <section class="workspace-view" id="exportView" aria-labelledby="exportTitle" hidden>
+    <div class="view-heading"><div><div class="view-eyebrow">WORKSPACE / VALIDATION & DELIVERY</div><h2 id="exportTitle">Kiểm tra & xuất dữ liệu</h2><p>Rà soát cấu trúc, lỗi hồ sơ và danh sách tệp đầu ra trước khi tải xuống.</p></div><div class="view-heading-actions"><button class="button primary" id="runWorkspaceAudit" type="button">Chạy kiểm tra toàn bộ</button><button class="button" id="downloadAuditReport" type="button">Xuất báo cáo JSON</button></div></div>
+    <div class="audit-summary" id="auditSummary" aria-live="polite"></div>
+    <div id="auditFindings" class="audit-findings" aria-live="polite"></div>
+    <section class="panel audit-panel"><div class="panel-head"><h3>Tệp đã quét & tệp trong cache xuất</h3><span id="exportFileCount">0 tệp</span></div><div class="audit-table-wrap"><table class="audit-table"><thead><tr><th>Tệp nguồn</th><th>Loại</th><th>Hồ sơ / kích thước</th><th>Trạng thái kiểm tra</th><th>Trong gói ZIP</th><th>Tên đầu ra dự kiến</th><th>Thao tác</th></tr></thead><tbody id="exportReviewRows"><tr><td colspan="7" class="empty">Nạp hoặc mở tệp để xem danh sách kiểm tra và xuất.</td></tr></tbody></table></div></section>
+    <section class="panel export-actions-panel"><div class="panel-head"><h3>Xuất bản & quản lý cache</h3><p>ZIP chứa mọi tệp đang mở, giữ cấu trúc thư mục và thêm dấu thời gian vào tên.</p></div><div class="export-action-grid">
+      <article><h4>Gói workspace</h4><p>Xuất các bộ data và tab văn bản thành một ZIP để rà soát trước khi thay thế tệp nguồn.</p><button class="button primary" id="exportCache" type="button" disabled>Xuất cache thành ZIP</button></article>
+      <article><h4>Xuất bộ dữ liệu đang chọn</h4><p>Tải xuống dữ liệu hồ sơ của bộ đang hoạt động ở dạng văn bản hoặc JSON.</p><div class="actions"><button class="button" id="exportTxt" type="button" disabled>Tải data.txt</button><button class="button" id="exportJson" type="button" disabled>Xuất JSON</button></div></article>
+      <article><h4>Nháp cục bộ</h4><p>Lưu hoặc khôi phục bản nháp hồ sơ trên thiết bị hiện tại.</p><div class="actions"><button class="button" id="saveDraft" type="button">Lưu nháp</button><button class="button" id="restoreDraft" type="button">Khôi phục nháp</button></div></article>
+      <article><h4>Xóa bộ đệm</h4><p>Xóa tệp nạp và thay đổi tạm khỏi phiên làm việc.</p><button class="button danger" id="clearCache" type="button" disabled>Xóa cache tạm</button></article>
+    </div></section>
+  </section>
+</main>
+<script>
+(() => {
+  "use strict";
+  const DRAFT_KEY = "oriciin-creature-admin-draft-v1";
+  const REQUIRED_SECTIONS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+  const labels = {
+    id: "Mã hồ sơ", number: "Số hồ sơ", sourceNumber: "Số nguồn",
+    sourceWorkbookRow: "Dòng trong bảng tính nguồn", name: "Tên sinh vật",
+    categoryId: "Mã nhóm", category: "Nhóm / phân loại",
+    summary: "Tóm tắt", details: "Hồ sơ chi tiết (Markdown)",
+    originalDetails: "Hồ sơ gốc", habitat: "Môi trường sống"
+  };
+  const state = { datasets: [], activeDatasetId: null, selectedId: null, query: "", folderFiles: [], scannedFiles: [], selectedFolderPath: "", folderScopePath: "", expandedFolders: new Set(), selectedTextFile: null, openTextFiles: [], textFileContent: "", textFileDirty: false, lastAction: "Chưa có thao tác", auditComplete: false, directoryHandle: null };
+  const $ = id => document.getElementById(id);
+  const status = $("status");
+
+  function setStatus(message, kind = "") {
+    status.textContent = message;
+    status.className = `notice${kind ? ` ${kind}` : ""}`;
+    state.lastAction = message;
+    renderWorkspaceOverview();
+  }
+
+  function updateCacheButtons() {
+    const hasCachedFiles = state.datasets.length > 0 || state.openTextFiles.length > 0;
+    $("exportCache").disabled = !hasCachedFiles;
+    $("clearCache").disabled = !hasCachedFiles;
+    renderWorkspaceOverview();
+  }
+
+  function renderWorkspaceOverview() {
+    const container = $("workspaceOverview");
+    if (!container) return;
+    const textBytes = state.openTextFiles.reduce((total, entry) => total + (entry.editedContent || "").length, 0);
+    const dataBytes = state.datasets.reduce((total, dataset) => total + (dataset.fileSize || 0), 0);
+    const records = state.datasets.reduce((total, dataset) => total + dataset.creatures.length, 0);
+    const modifiedData = state.datasets.filter(dataset => dataset.dirty).length;
+    const modifiedText = state.openTextFiles.filter(entry => entry.dirty).length;
+    const modified = modifiedData + modifiedText;
+    const files = state.datasets.length + state.openTextFiles.length;
+    const prettyBytes = bytes => bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    const details = [
+      ["Tệp đã quét", state.scannedFiles.length, state.selectedFolderPath ? `Nguồn: ${state.selectedFolderPath}` : "Chưa chọn thư mục"],
+      ["Cache đang làm việc", files, `${state.datasets.length} bộ data · ${state.openTextFiles.length} tab văn bản`],
+      ["Chưa xuất", modified, `${modifiedData} bộ data · ${modifiedText} tab văn bản có thay đổi`],
+      ["Hồ sơ dữ liệu", records, `${state.datasets.length} tệp · ${prettyBytes(dataBytes)}`],
+      ["Dung lượng cache", prettyBytes(textBytes + dataBytes), `${prettyBytes(textBytes)} văn bản · ${prettyBytes(dataBytes)} data (ước tính)`]
+    ];
+    container.replaceChildren();
+    details.forEach(([label, value, detail]) => {
+      const card = document.createElement("div");
+      card.className = "overview-card";
+      const title = document.createElement("div");
+      title.className = "overview-label";
+      title.textContent = label;
+      const metric = document.createElement("div");
+      metric.className = "overview-value";
+      metric.textContent = String(value);
+      const sub = document.createElement("div");
+      sub.className = "overview-detail";
+      sub.textContent = String(detail);
+      card.append(title, metric, sub);
+      container.append(card);
+    });
+    const currentPath = $("editorFileState");
+    if (currentPath) {
+      currentPath.textContent = state.selectedTextFile?.path
+        ? (state.selectedTextFile.dirty ? "Modified" : "Ready")
+        : state.datasets.length
+          ? `${state.datasets.length} data loaded`
+          : "No file open";
+      currentPath.title = state.selectedTextFile?.path || state.datasets.map(dataset => dataset.path || dataset.name).join("\n");
+    }
+    const workDetails = $("workDetails");
+    if (workDetails) {
+      const currentDataset = activeDataset();
+      const detailValues = [
+        ["Workspace root", state.selectedFolderPath ? `C:/${state.selectedFolderPath}` : "Chưa chọn thư mục", "mono"],
+        ["Tệp đang mở", state.selectedTextFile?.path || currentDataset?.path || "Chưa chọn tệp", "mono"],
+        ["Bộ đệm văn bản", `${state.openTextFiles.length} tab · ${modifiedText} có thay đổi`, ""],
+        ["Dữ liệu sinh vật", `${state.datasets.length} bộ · ${records.toLocaleString("vi-VN")} hồ sơ · ${modifiedData} đã sửa`, ""],
+        ["Tác vụ gần nhất", state.lastAction, "wide"]
+      ];
+      workDetails.replaceChildren();
+      detailValues.forEach(([label, value, style]) => {
+        const item = document.createElement("div");
+        item.className = `work-detail${style === "wide" ? " wide" : ""}`;
+        const title = document.createElement("div");
+        title.className = "work-detail-label";
+        title.textContent = label;
+        const content = document.createElement("div");
+        content.className = `work-detail-value${style === "mono" ? " mono" : ""}`;
+        content.textContent = value;
+        item.append(title, content);
+        workDetails.append(item);
+      });
+    }
+    const breadcrumb = $("folderBreadcrumb");
+    if (breadcrumb) renderFolderBreadcrumb();
+    $("navOverviewCount").textContent = String(files);
+    $("navFilesCount").textContent = String(state.scannedFiles.length);
+    $("navDataCount").textContent = String(state.datasets.length + state.openTextFiles.length);
+    $("navAuditCount").textContent = String(modified);
+    const exportView = $("exportView");
+    if (exportView && !exportView.hidden) renderExportReview();
+  }
+
+  const studioFeatures = [
+    "Chuyển giữa các thư mục trong một phiên làm việc",
+    "Quét tệp data, GY, ES, item và RK",
+    "Duyệt cây thư mục phân cấp",
+    "Điều hướng đường dẫn bằng breadcrumb",
+    "Tìm tệp theo tên và chuỗi",
+    "Lọc danh sách theo loại dữ liệu",
+    "Tìm theo đường dẫn C:/ trong thư mục đã mở",
+    "Xem trước tệp trước khi nạp",
+    "Mở đồng thời nhiều bộ data",
+    "Chuyển bộ data bằng các tab",
+    "Tìm hồ sơ theo tên, mã và nhóm",
+    "Sửa mọi thuộc tính cấp hồ sơ",
+    "Sửa thuộc tính Markdown trực quan",
+    "Sửa nhanh trường môi trường sống",
+    "Thêm và xóa dòng thuộc tính",
+    "Kiểm tra lỗi và cảnh báo hồ sơ",
+    "Phát hiện mã hồ sơ trùng khi audit",
+    "Thêm hồ sơ mới",
+    "Nhân bản hồ sơ đang chọn",
+    "Xóa hồ sơ có bước xác nhận",
+    "Theo dõi thay đổi chưa xuất",
+    "Mở nhiều tệp văn bản thành tab",
+    "Giữ bản nháp khi chuyển tab",
+    "Khôi phục nội dung văn bản gốc",
+    "Tải riêng tệp văn bản đã sửa",
+    "Lưu nháp hồ sơ trên thiết bị",
+    "Khôi phục nháp hồ sơ cục bộ",
+    "Xuất hồ sơ thành TXT",
+    "Xuất hồ sơ thành JSON",
+    "Đóng gói nhiều tệp thành ZIP",
+    "Tự thêm dấu thời gian vào tên xuất",
+    "Giữ cấu trúc thư mục trong ZIP",
+    "Tự xử lý tên tệp trùng khi xuất",
+    "Xem báo cáo kiểm tra trước khi xuất",
+    "Xuất báo cáo kiểm tra JSON",
+    "Xóa cache tạm và nháp cục bộ",
+    "Ghim thanh điều hướng",
+    "Giao diện co giãn theo kích thước màn hình"
+  ];
+
+  function renderFeatureCatalog() {
+    const catalog = $("featureCatalog");
+    if (!catalog) return;
+    catalog.replaceChildren();
+    studioFeatures.forEach((feature, index) => {
+      const item = document.createElement("div");
+      item.className = "feature-item";
+      const number = document.createElement("span");
+      number.className = "feature-index";
+      number.textContent = String(index + 1).padStart(2, "0");
+      const text = document.createElement("span");
+      text.className = "feature-text";
+      text.textContent = feature;
+      item.append(number, text);
+      catalog.append(item);
+    });
+  }
+
+  function renderExportReview() {
+    const rows = $("exportReviewRows");
+    if (!rows) return;
+    const representedPaths = new Set([
+      ...state.datasets.map(dataset => (dataset.path || dataset.name).toLocaleLowerCase("vi")),
+      ...state.openTextFiles.map(file => file.path.toLocaleLowerCase("vi"))
+    ]);
+    const entries = [
+      ...state.datasets.map(dataset => ({ kind: "data", path: dataset.path || dataset.name, dataset })),
+      ...state.openTextFiles.map(file => ({ kind: file.category || "text", path: file.path, file })),
+      ...state.scannedFiles
+        .filter(file => !representedPaths.has(file.path.toLocaleLowerCase("vi")))
+        .map(source => ({ kind: source.category, path: source.path, source }))
+    ];
+    const reviewTimestamp = cacheTimestamp();
+    const usedOutputNames = new Set();
+    $("exportFileCount").textContent = `${entries.length} tệp`;
+    rows.replaceChildren();
+    if (!entries.length) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 7;
+      cell.className = "empty";
+      cell.textContent = "Nạp hoặc mở tệp để xem danh sách kiểm tra và xuất.";
+      row.append(cell);
+      rows.append(row);
+      return;
+    }
+    entries.forEach(entry => {
+      const row = document.createElement("tr");
+      const pathCell = document.createElement("td");
+      pathCell.className = "audit-path";
+      pathCell.textContent = entry.path;
+      const kindCell = document.createElement("td");
+      kindCell.textContent = entry.kind === "data" ? "Hồ sơ sinh vật" : entry.kind;
+      const sizeCell = document.createElement("td");
+      sizeCell.textContent = entry.dataset
+        ? `${entry.dataset.creatures.length.toLocaleString("vi-VN")} hồ sơ · ${(entry.dataset.fileSize || 0).toLocaleString("vi-VN")} byte`
+        : entry.file
+          ? `${(entry.file.editedContent || "").length.toLocaleString("vi-VN")} ký tự${entry.file.dirty ? " · có sửa đổi" : ""}`
+          : `${(entry.source.file.size || 0).toLocaleString("vi-VN")} byte · chưa nạp`;
+      const stateCell = document.createElement("td");
+      const stateLabel = document.createElement("span");
+      const audit = entry.dataset?.auditResult || entry.file?.auditResult || entry.source?.auditResult;
+      stateLabel.className = `audit-state${audit ? audit.errors ? " error" : audit.warnings ? " warning" : " ok" : ""}`;
+      stateLabel.textContent = audit
+        ? audit.errors ? `${audit.errors} lỗi${audit.warnings ? ` · ${audit.warnings} cảnh báo` : ""}` : audit.warnings ? `${audit.warnings} cảnh báo` : "Hợp lệ"
+        : "Chưa kiểm tra";
+      stateCell.append(stateLabel);
+      const includedCell = document.createElement("td");
+      const included = document.createElement("span");
+      included.className = `audit-state${entry.dataset || entry.file ? " ok" : ""}`;
+      included.textContent = entry.dataset || entry.file ? "Sẽ xuất" : "Chưa mở";
+      includedCell.append(included);
+      const outputCell = document.createElement("td");
+      outputCell.className = "audit-path";
+      if (entry.dataset || entry.file) {
+        let relativePath = entry.path;
+        if (state.selectedFolderPath && relativePath.startsWith(`${state.selectedFolderPath}/`)) {
+          relativePath = relativePath.slice(state.selectedFolderPath.length + 1);
+        }
+        outputCell.textContent = timestampedPath(relativePath, reviewTimestamp, usedOutputNames);
+      } else {
+        outputCell.textContent = "—";
+      }
+      const actionCell = document.createElement("td");
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "button";
+      openButton.textContent = "Mở";
+      openButton.addEventListener("click", () => {
+        if (entry.dataset) {
+          state.activeDatasetId = entry.dataset.id;
+          state.selectedId = entry.dataset.creatures[0]?.id ?? null;
+          render();
+          switchWorkspaceView("editorView");
+        } else if (entry.file) {
+          activateTextFile(entry.file);
+          switchWorkspaceView("filesView");
+        } else {
+          switchWorkspaceView("filesView");
+          previewFolderFile(entry.source);
+        }
+      });
+      actionCell.append(openButton);
+      row.append(pathCell, kindCell, sizeCell, stateCell, includedCell, outputCell, actionCell);
+      rows.append(row);
+    });
+  }
+
+  function switchWorkspaceView(viewId) {
+    const target = document.getElementById(viewId);
+    if (!target?.classList.contains("workspace-view")) {
+      setStatus("Không tìm thấy khu vực cần mở.", "error");
+      return;
+    }
+    document.querySelectorAll(".workspace-view").forEach(view => {
+      const active = view === target;
+      view.hidden = !active;
+      view.classList.toggle("active", active);
+    });
+    document.querySelectorAll("[data-view-target]").forEach(button => {
+      button.classList.toggle("active", button.dataset.viewTarget === viewId);
+    });
+    try {
+      localStorage.setItem("ori-studio-active-view", viewId);
+    } catch (error) {
+      console.error("Không thể lưu khu vực đang mở:", error);
+    }
+    if (viewId === "exportView") renderExportReview();
+  }
+
+  function syncSidebarExpanded() {
+    const sidebar = $("studioSidebar");
+    const canHover = window.matchMedia("(hover: hover)").matches;
+    const expanded = !sidebar.classList.contains("pinned") &&
+      ((canHover && sidebar.matches(":hover")) || sidebar.contains(document.activeElement));
+    document.body.classList.toggle("sidebar-expanded", expanded);
+  }
+
+  function normalizePathQuery(value) {
+    let path = String(value || "").trim().replace(/\\/g, "/").replace(/^[a-z]:/i, "").replace(/^\/+|\/+$/g, "");
+    path = path.split("/").filter(segment => segment && segment !== ".").join("/").toLocaleLowerCase("vi");
+    const root = state.selectedFolderPath.toLocaleLowerCase("vi");
+    const rootIndex = path.indexOf(`${root}/`);
+    if (root && rootIndex >= 0) path = path.slice(rootIndex);
+    else if (root && path === root) path = "";
+    return path;
+  }
+
+  function findPath() {
+    const rawPath = $("pathSearch").value.trim();
+    const query = normalizePathQuery(rawPath);
+    if (!rawPath) {
+      setStatus("Nhập đường dẫn cần tìm, ví dụ C:/wiki/user/a/lenhan/ES/vn.txt.", "error");
+      return;
+    }
+    if (!state.scannedFiles.length) {
+      setStatus("Hãy chọn và quét thư mục trước khi tìm theo đường dẫn.", "error");
+      return;
+    }
+    if (!query) {
+      state.folderScopePath = "";
+      $("folderSearch").value = "";
+      renderFolderFiles();
+      setStatus(`Đã mở thư mục gốc đã chọn: ${state.selectedFolderPath}`, "success");
+      return;
+    }
+    const directories = new Map();
+    state.scannedFiles.forEach(entry => {
+      const parts = entry.path.split("/").filter(Boolean);
+      let directory = "";
+      parts.slice(0, -1).forEach(part => {
+        directory = directory ? `${directory}/${part}` : part;
+        directories.set(directory.toLocaleLowerCase("vi"), directory);
+      });
+    });
+    const exactDirectory = [...directories.entries()].find(([path]) => path === query || path.endsWith(`/${query}`))?.[1];
+    if (exactDirectory) {
+      state.folderScopePath = exactDirectory;
+      state.expandedFolders = new Set([...state.expandedFolders, ...exactDirectory.split("/").map((_, index, parts) => parts.slice(0, index + 1).join("/"))]);
+      $("folderSearch").value = "";
+      renderFolderFiles();
+      setStatus(`Đã mở thư mục khớp đường dẫn: ${rawPath}`, "success");
+      return;
+    }
+    const matchedFile = state.scannedFiles.find(entry => {
+      const path = entry.path.toLocaleLowerCase("vi");
+      return path === query || path.endsWith(`/${query}`);
+    });
+    if (!matchedFile) {
+      setStatus(`Không tìm thấy đường dẫn “${rawPath}” trong thư mục đã mở.`, "error");
+      return;
+    }
+    const parent = matchedFile.path.split("/").slice(0, -1).join("/");
+    state.folderScopePath = parent === state.selectedFolderPath ? "" : parent;
+    state.expandedFolders = new Set([...state.expandedFolders, ...parent.split("/").map((_, index, parts) => parts.slice(0, index + 1).join("/"))]);
+    $("folderSearch").value = "";
+    renderFolderFiles();
+    previewFolderFile(matchedFile);
+    setStatus(`Đã tìm thấy tệp: ${matchedFile.path}`, "success");
+  }
+
+  async function collectDirectoryFiles(directory, relativePath = "", files = [], rootName = directory.name) {
+    for await (const [name, handle] of directory.entries()) {
+      const childPath = relativePath ? `${relativePath}/${name}` : name;
+      if (handle.kind === "directory") {
+        await collectDirectoryFiles(handle, childPath, files, rootName);
+      } else if (handle.kind === "file") {
+        const file = await handle.getFile();
+        Object.defineProperty(file, "webkitRelativePath", { configurable: true, value: `${rootName}/${childPath}` });
+        files.push(file);
+      }
+    }
+    return files;
+  }
+
+  async function openFolderFromPicker() {
+    if (typeof window.showDirectoryPicker !== "function") {
+      $("folderInput").click();
+      return;
+    }
+    if (!abandonTextChanges()) return;
+    try {
+      const handle = await window.showDirectoryPicker({ mode: "read" });
+      const files = await collectDirectoryFiles(handle);
+      state.directoryHandle = handle;
+      adoptFolderFiles(files, handle.name);
+    } catch (error) {
+      if (error.name === "AbortError") return;
+      setStatus(`Không thể mở thư mục: ${error.message}`, "error");
+    }
+  }
+
+  async function runWorkspaceAudit() {
+    let errors = 0;
+    let warnings = 0;
+    let checkedRecords = 0;
+    let checkedFiles = 0;
+    const auditedPaths = new Set();
+    const auditCreatures = (creatures, result) => {
+      const ids = new Set();
+      creatures.forEach((creature, index) => {
+        checkedRecords += 1;
+        const validation = validationFor(creature);
+        validation.errors.forEach(message => result.messages.push(`Hồ sơ ${index + 1}: ${message}`));
+        validation.warnings.forEach(message => result.messages.push(`Hồ sơ ${index + 1}: ${message}`));
+        result.errors += validation.errors.length;
+        result.warnings += validation.warnings.length;
+        const id = String(creature.id ?? "").trim();
+        if (id && ids.has(id)) {
+          result.errors += 1;
+          result.messages.push(`Mã hồ sơ bị trùng: ${id}`);
+        }
+        if (id) ids.add(id);
+      });
+    };
+    state.datasets.forEach(dataset => {
+      const result = { errors: 0, warnings: 0, messages: [] };
+      auditCreatures(dataset.creatures, result);
+      dataset.auditResult = result;
+      errors += result.errors;
+      warnings += result.warnings;
+      checkedFiles += 1;
+      auditedPaths.add((dataset.path || dataset.name).toLocaleLowerCase("vi"));
+    });
+    state.openTextFiles.forEach(file => {
+      const result = { errors: 0, warnings: 0, messages: [] };
+      const content = file.editedContent || "";
+      if (!content.trim()) {
+        result.errors += 1;
+        result.messages.push("Tệp rỗng.");
+      } else if (/\.json$/i.test(file.path)) {
+        try {
+          JSON.parse(content);
+        } catch (error) {
+          result.errors += 1;
+          result.messages.push(`JSON không hợp lệ: ${error.message}`);
+        }
+      }
+      if (!result.errors && !result.warnings) result.messages.push("Đã đọc được nội dung; cấu trúc văn bản chưa được diễn giải theo schema.");
+      file.auditResult = result;
+      errors += result.errors;
+      warnings += result.warnings;
+      checkedFiles += 1;
+      auditedPaths.add(file.path.toLocaleLowerCase("vi"));
+    });
+    for (const entry of state.scannedFiles) {
+      if (auditedPaths.has(entry.path.toLocaleLowerCase("vi"))) continue;
+      const result = { errors: 0, warnings: 0, messages: [] };
+      try {
+        const content = (await entry.file.text()).replace(/^\uFEFF/, "");
+        if (entry.category === "data") {
+          const parsed = JSON.parse(content);
+          const creatures = Array.isArray(parsed) ? parsed : parsed && Array.isArray(parsed.creatures) ? parsed.creatures : null;
+          if (!creatures || creatures.some(item => !item || typeof item !== "object" || Array.isArray(item))) {
+            throw new Error("Tệp data phải chứa mảng hồ sơ JSON hợp lệ.");
+          }
+          auditCreatures(creatures, result);
+        } else if (!content.trim()) {
+          result.errors += 1;
+          result.messages.push("Tệp rỗng.");
+        } else if (/\.json$/i.test(entry.path)) {
+          JSON.parse(content);
+        }
+        if (!result.errors && !result.warnings) result.messages.push("Đã đọc được nội dung; cấu trúc văn bản chưa được diễn giải theo schema.");
+      } catch (error) {
+        result.errors += 1;
+        result.messages.push(`Không thể kiểm tra tệp: ${error.message}`);
+      }
+      entry.auditResult = result;
+      errors += result.errors;
+      warnings += result.warnings;
+      checkedFiles += 1;
+      auditedPaths.add(entry.path.toLocaleLowerCase("vi"));
+    }
+    const summary = $("auditSummary");
+    summary.replaceChildren();
+    [
+      ["Tệp đã kiểm tra", checkedFiles, ""],
+      ["Hồ sơ đã kiểm tra", checkedRecords.toLocaleString("vi-VN"), ""],
+      ["Lỗi", errors, "error"],
+      ["Cảnh báo", warnings, "warning"]
+    ].forEach(([label, value, kind]) => {
+      const metric = document.createElement("div");
+      metric.className = `audit-metric${kind ? ` ${kind}` : ""}`;
+      const title = document.createElement("span");
+      title.textContent = label;
+      const count = document.createElement("strong");
+      count.textContent = String(value);
+      metric.append(title, count);
+      summary.append(metric);
+    });
+    const findings = $("auditFindings");
+    findings.replaceChildren();
+    const auditedEntries = new Map();
+    [...state.scannedFiles, ...state.openTextFiles, ...state.datasets].forEach(entry => {
+      auditedEntries.set((entry.path || entry.name).toLocaleLowerCase("vi"), entry);
+    });
+    auditedEntries.forEach(entry => {
+      const result = entry.auditResult;
+      if (!result || (!result.errors && !result.warnings)) return;
+      const detail = document.createElement("details");
+      detail.className = "audit-finding";
+      const heading = document.createElement("summary");
+      heading.textContent = `${entry.path || entry.name} · ${result.errors} lỗi · ${result.warnings} cảnh báo`;
+      const list = document.createElement("ul");
+      result.messages.slice(0, 100).forEach(message => {
+        const item = document.createElement("li");
+        item.textContent = message;
+        list.append(item);
+      });
+      if (result.messages.length > 100) {
+        const note = document.createElement("li");
+        note.textContent = `Còn ${result.messages.length - 100} mục; tải báo cáo JSON để xem đầy đủ.`;
+        list.append(note);
+      }
+      detail.append(heading, list);
+      findings.append(detail);
+    });
+    renderExportReview();
+    setStatus(
+      errors ? `Kiểm tra hoàn tất: ${errors} lỗi, ${warnings} cảnh báo. Mở từng dòng để xem và sửa.` : `Kiểm tra hoàn tất: không có lỗi nghiêm trọng; ${warnings} cảnh báo cần rà soát.`,
+      errors ? "error" : warnings ? "" : "success"
+    );
+  }
+
+  function downloadAuditReport() {
+    const rowsByPath = new Map();
+    [...state.scannedFiles, ...state.openTextFiles, ...state.datasets].forEach(entry => {
+      rowsByPath.set((entry.path || entry.name).toLocaleLowerCase("vi"), entry);
+    });
+    const rows = [...rowsByPath.values()];
+    if (!rows.some(entry => entry.auditResult)) {
+      setStatus("Hãy chạy kiểm tra toàn bộ trước khi xuất báo cáo.", "error");
+      return;
+    }
+    const report = rows.map(entry => ({
+      path: entry.path || entry.name,
+      errors: entry.auditResult?.errors ?? null,
+      warnings: entry.auditResult?.warnings ?? null,
+      messages: entry.auditResult?.messages ?? ["Chưa chạy kiểm tra cho tệp này."]
+    }));
+    const blob = new Blob([`${JSON.stringify({ generatedAt: new Date().toISOString(), files: report }, null, 2)}\n`], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `wiki-audit-${cacheTimestamp()}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setStatus("Đã tải báo cáo kiểm tra JSON.", "success");
+  }
+
+  function activeDataset() {
+    return state.datasets.find(dataset => dataset.id === state.activeDatasetId) || null;
+  }
+
+  function selectedCreature() {
+    const dataset = activeDataset();
+    return dataset?.creatures.find(creature => String(creature.id) === String(state.selectedId)) || null;
+  }
+
+  function safeFileName(name, extension) {
+    const base = (name || "data").replace(/\.[^.]+$/, "").replace(/[<>:"/\\|?*\x00-\x1f]/g, "_").trim() || "data";
+    return `${base}.${extension}`;
+  }
+
+  function filePath(file) {
+    return file.webkitRelativePath || file.name;
+  }
+
+  function filePriority(path) {
+    const name = path.split("/").pop().toLocaleLowerCase("vi");
+    const priorities = {
+      "data.txt": 0, "data_en.txt": 1, "search.txt": 2,
+      "vn.txt": 3, "en.txt": 4, "rank.txt": 5,
+      "id-rank.js": 6, "id-habitat.js": 7
+    };
+    return priorities[name] ?? 10;
+  }
+
+  function adoptFolderFiles(files, rootName = "") {
+    state.folderFiles = files;
+    state.scannedFiles = [];
+    state.folderScopePath = "";
+    state.expandedFolders = new Set();
+    state.selectedTextFile = null;
+    state.openTextFiles = [];
+    state.textFileContent = "";
+    state.textFileDirty = false;
+    state.selectedFolderPath = rootName || (files.length ? (files[0].webkitRelativePath || files[0].name).split("/")[0] : "");
+    $("folderSearch").disabled = files.length === 0;
+    $("pathSearch").disabled = files.length === 0;
+    $("findPath").disabled = files.length === 0;
+    $("clearPathSearch").disabled = files.length === 0;
+    $("scanFolder").disabled = files.length === 0;
+    $("openFilteredFiles").disabled = true;
+    $("openFilteredData").disabled = true;
+    $("folderCategory").disabled = true;
+    $("folderSearch").value = "";
+    $("pathSearch").value = "";
+    $("folderCategory").value = "";
+    $("folderPreview").dataset.path = "";
+    $("folderPreview").replaceChildren();
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = files.length ? "Chọn một tệp để xem nội dung." : "Không có tệp trong thư mục đã chọn.";
+    $("folderPreview").append(empty);
+    $("folderActions").replaceChildren();
+    renderFolderFiles();
+    setStatus(files.length
+      ? `Đã mở thư mục “${state.selectedFolderPath}” gồm ${files.length} tệp. Bấm “Quét tệp cần thiết” để lập danh sách.`
+      : "Thư mục đã chọn không chứa tệp.", files.length ? "success" : "");
+  }
+
+  function classifyDataFile(path) {
+    const parts = path.split("/").filter(Boolean);
+    const fileName = parts[parts.length - 1] || "";
+    if (/^data(?:_en)?\.txt$/i.test(fileName)) return "data";
+    const supportedFolder = parts.slice(0, -1).find(part => /^(?:GY|ES|item|RK)$/i.test(part));
+    if (supportedFolder && /\.(?:txt|json)$/i.test(fileName)) {
+      return supportedFolder.toLocaleLowerCase("vi").toUpperCase() === "ITEM" ? "item" : supportedFolder.toUpperCase();
+    }
+    return "";
+  }
+
+  function abandonTextChanges() {
+    if (!state.openTextFiles.some(entry => entry.dirty)) return true;
+    return window.confirm("Có tệp đang mở với thay đổi chưa lưu. Bỏ tất cả các thay đổi này?");
+  }
+
+  function renderTextFileTabs() {
+    const tabs = $("textFileTabs");
+    if (!tabs) return;
+    tabs.replaceChildren();
+    state.openTextFiles.forEach(entry => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `text-file-tab${entry.path === state.selectedTextFile?.path ? " active" : ""}${entry.dirty ? " dirty" : ""}`;
+      button.textContent = entry.path.split("/").slice(-2).join("/");
+      button.title = `${entry.path}${entry.dirty ? " · chưa lưu" : ""}`;
+      button.addEventListener("click", () => activateTextFile(entry));
+      tabs.append(button);
+    });
+  }
+
+  function activateTextFile(entry) {
+    state.selectedTextFile = entry;
+    state.textFileContent = entry.editedContent;
+    state.textFileDirty = entry.dirty;
+    $("folderPreview").dataset.path = entry.path;
+    $("folderActions").replaceChildren();
+    const editor = document.createElement("div");
+    editor.className = "folder-editor";
+    const dirty = document.createElement("div");
+    dirty.className = `folder-note${entry.dirty ? " dirty" : ""}`;
+    dirty.textContent = entry.dirty ? "Có thay đổi chưa lưu." : "Đang mở bản gốc.";
+    dirty.dataset.dirty = "true";
+    const textarea = document.createElement("textarea");
+    textarea.setAttribute("aria-label", `Nội dung ${entry.path}`);
+    textarea.spellcheck = false;
+    textarea.value = entry.editedContent;
+    textarea.addEventListener("input", () => {
+      entry.editedContent = textarea.value;
+      entry.dirty = entry.editedContent !== entry.originalContent;
+      entry.auditResult = null;
+      state.textFileContent = entry.editedContent;
+      state.textFileDirty = entry.dirty;
+      dirty.textContent = entry.dirty ? "Có thay đổi chưa lưu." : "Đang mở bản gốc.";
+      dirty.classList.toggle("dirty", entry.dirty);
+      saveButton.disabled = !entry.dirty;
+      renderTextFileTabs();
+      renderWorkspaceOverview();
+    });
+    const editorActions = document.createElement("div");
+    editorActions.className = "folder-actions";
+    const saveButton = document.createElement("button");
+    saveButton.type = "button";
+    saveButton.className = "button primary";
+    saveButton.textContent = "Lưu tệp này";
+    saveButton.disabled = !entry.dirty;
+    saveButton.addEventListener("click", () => saveTextFile(entry));
+    const resetButton = document.createElement("button");
+    resetButton.type = "button";
+    resetButton.className = "button";
+    resetButton.textContent = "Khôi phục nội dung gốc";
+    resetButton.addEventListener("click", () => {
+      if (entry.dirty && !window.confirm(`Bỏ thay đổi chưa lưu của ${entry.path}?`)) return;
+      entry.editedContent = entry.originalContent;
+      entry.dirty = false;
+      entry.auditResult = null;
+      state.textFileContent = entry.editedContent;
+      state.textFileDirty = false;
+      textarea.value = entry.editedContent;
+      dirty.textContent = "Đang mở bản gốc.";
+      dirty.classList.remove("dirty");
+      saveButton.disabled = true;
+      renderTextFileTabs();
+    });
+    editorActions.append(saveButton, resetButton);
+    editor.append(dirty, textarea, editorActions);
+    const tabs = document.createElement("div");
+    tabs.className = "text-file-tabs";
+    tabs.id = "textFileTabs";
+    const pathLabel = document.createElement("div");
+    pathLabel.className = "folder-note";
+    pathLabel.textContent = `${entry.path} · ${entry.file.size.toLocaleString("vi-VN")} byte`;
+    $("folderPreview").replaceChildren(pathLabel, tabs, editor);
+    renderTextFileTabs();
+    renderFolderFiles();
+  }
+
+  function renderFolderBreadcrumb() {
+    const breadcrumb = $("folderBreadcrumb");
+    if (!breadcrumb) return;
+    breadcrumb.replaceChildren();
+    const root = document.createElement("button");
+    root.type = "button";
+    root.textContent = "C:/";
+    root.title = "Hiển thị toàn bộ thư mục đã quét";
+    root.addEventListener("click", () => {
+      state.folderScopePath = "";
+      renderFolderFiles();
+    });
+    breadcrumb.append(root);
+    if (!state.selectedFolderPath) {
+      const empty = document.createElement("span");
+      empty.textContent = "Chưa chọn thư mục";
+      breadcrumb.append(empty);
+      return;
+    }
+    let path = "";
+    const segments = (state.folderScopePath || state.selectedFolderPath).split("/").filter(Boolean);
+    segments.forEach((segment, index) => {
+      const separator = document.createElement("span");
+      separator.textContent = "›";
+      breadcrumb.append(separator);
+      path = path ? `${path}/${segment}` : segment;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = segment;
+      button.title = path;
+      button.addEventListener("click", () => {
+        state.folderScopePath = path === state.selectedFolderPath ? "" : path;
+        renderFolderFiles();
+      });
+      if (index === segments.length - 1) button.classList.add("current");
+      breadcrumb.append(button);
+    });
+  }
+
+  function renderFolderFiles() {
+    const list = $("folderFileList");
+    const search = $("folderSearch");
+    const query = search.value.trim().toLocaleLowerCase("vi");
+    const pathQuery = normalizePathQuery($("pathSearch").value);
+    const category = $("folderCategory").value;
+    const matches = state.scannedFiles
+      .filter(entry =>
+        (!state.folderScopePath || entry.path.startsWith(`${state.folderScopePath}/`)) &&
+        (!category || entry.category === category) &&
+        (!query || entry.path.toLocaleLowerCase("vi").includes(query)) &&
+        (!pathQuery || entry.path.toLocaleLowerCase("vi").includes(pathQuery) || entry.path.toLocaleLowerCase("vi").endsWith(`/${pathQuery}`))
+      )
+      .sort((left, right) => filePriority(left.path) - filePriority(right.path) || left.path.localeCompare(right.path, "vi"));
+    renderFolderTree();
+    renderFolderBreadcrumb();
+    list.replaceChildren();
+    $("fileResultCount").textContent = String(matches.length);
+    const categoryCounts = ["data", "GY", "ES", "item", "RK"]
+      .map(kind => `${kind}: ${state.scannedFiles.filter(entry => entry.category === kind).length}`)
+      .join(" · ");
+    $("folderMeta").textContent = state.scannedFiles.length
+      ? `${matches.length} / ${state.scannedFiles.length} tệp khớp · ${categoryCounts}${state.selectedFolderPath ? ` · thư mục: ${state.selectedFolderPath}` : ""}.`
+      : state.folderFiles.length
+        ? "Chưa quét thư mục. Bấm “Quét tệp cần thiết” để tìm data, GY, ES, item và RK."
+        : "Chưa chọn thư mục.";
+    $("openFilteredFiles").disabled = !matches.some(entry =>
+      entry.category !== "data" && !state.openTextFiles.some(openEntry => openEntry.path === entry.path)
+    );
+    $("openFilteredData").disabled = !matches.some(entry =>
+      entry.category === "data" && !state.datasets.some(dataset => dataset.path === entry.path)
+    );
+    if (!matches.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = state.scannedFiles.length ? "Không có tệp khớp bộ lọc." : state.folderFiles.length ? "Bấm “Quét tệp cần thiết” để tìm các tệp trong thư mục." : "Chọn thư mục để tìm dữ liệu.";
+      list.append(empty);
+      return;
+    }
+
+    function renderFolderTree() {
+      const tree = $("folderTree");
+      if (!tree) return;
+      tree.replaceChildren();
+      $("treeFolderCount").textContent = String(state.scannedFiles.length);
+      if (!state.selectedFolderPath) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Chọn một thư mục rồi quét để dựng cây.";
+        tree.append(empty);
+        return;
+      }
+
+      const root = { name: "C:/", path: "", directories: new Map(), files: [] };
+      state.scannedFiles.forEach(entry => {
+        const parts = entry.path.split("/").filter(Boolean);
+        let node = root;
+        let currentPath = "";
+        parts.forEach((part, index) => {
+          currentPath = currentPath ? `${currentPath}/${part}` : part;
+          if (index === parts.length - 1) {
+            node.files.push({ ...entry, name: part });
+            return;
+          }
+          if (!node.directories.has(part)) {
+            node.directories.set(part, { name: part, path: currentPath, directories: new Map(), files: [] });
+          }
+          node = node.directories.get(part);
+        });
+      });
+
+      const renderNode = (node, container, isRoot = false) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "tree-node";
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = `tree-row${state.folderScopePath === node.path ? " active" : ""}`;
+        row.setAttribute("aria-expanded", String(isRoot || state.expandedFolders.has(node.path)));
+        const caret = document.createElement("span");
+        caret.className = "tree-caret";
+        caret.textContent = isRoot || state.expandedFolders.has(node.path) ? "▾" : "›";
+        const icon = document.createElement("span");
+        icon.className = "tree-icon";
+        icon.textContent = isRoot ? "▣" : "▸";
+        const name = document.createElement("span");
+        name.className = "tree-name";
+        name.textContent = node.name;
+        row.append(caret, icon, name);
+        row.addEventListener("click", () => {
+          state.folderScopePath = node.path === state.selectedFolderPath ? "" : node.path;
+          if (!isRoot) {
+            if (state.expandedFolders.has(node.path)) state.expandedFolders.delete(node.path);
+            else state.expandedFolders.add(node.path);
+          }
+          renderFolderFiles();
+        });
+        wrapper.append(row);
+        const expanded = isRoot || state.expandedFolders.has(node.path);
+        if (expanded) {
+          const children = document.createElement("div");
+          children.className = "tree-children";
+          [...node.directories.values()].sort((left, right) => left.name.localeCompare(right.name, "vi")).forEach(child => renderNode(child, children));
+          node.files.sort((left, right) => filePriority(left.path) - filePriority(right.path) || left.name.localeCompare(right.name, "vi")).forEach(entry => {
+            const fileRow = document.createElement("button");
+            fileRow.type = "button";
+            fileRow.className = `tree-row${$("folderPreview").dataset.path === entry.path ? " active" : ""}`;
+            const fileCaret = document.createElement("span");
+            fileCaret.className = "tree-caret";
+            fileCaret.textContent = "";
+            const fileIcon = document.createElement("span");
+            fileIcon.className = "tree-icon";
+            fileIcon.textContent = "·";
+            const fileName = document.createElement("span");
+            fileName.className = "tree-name";
+            fileName.textContent = entry.name;
+            fileRow.title = entry.path;
+            fileRow.append(fileCaret, fileIcon, fileName);
+            fileRow.addEventListener("click", () => previewFolderFile(entry));
+            children.append(fileRow);
+          });
+          wrapper.append(children);
+        }
+        container.append(wrapper);
+      };
+      renderNode(root, tree, true);
+    }
+    const fragment = document.createDocumentFragment();
+    const visibleFiles = matches.slice(0, 1000);
+    visibleFiles.forEach(entry => {
+      const { file, path, category } = entry;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `folder-file${$("folderPreview").dataset.path === path ? " active" : ""}`;
+      const kind = document.createElement("span");
+      kind.className = "file-kind";
+      kind.textContent = category;
+      const text = document.createElement("span");
+      const name = document.createElement("strong");
+      name.textContent = path.split("/").pop();
+      const location = document.createElement("small");
+      location.textContent = path;
+      text.append(name, location);
+      button.append(kind, text);
+      button.addEventListener("click", () => previewFolderFile(entry));
+      fragment.append(button);
+    });
+    list.append(fragment);
+    if (matches.length > visibleFiles.length) {
+      const note = document.createElement("div");
+      note.className = "folder-note";
+      note.textContent = `Đang hiển thị ${visibleFiles.length} tệp đầu tiên; hãy lọc thêm để thu hẹp kết quả.`;
+      list.append(note);
+    }
+  }
+
+  async function openFilteredTextFiles() {
+    const query = $("folderSearch").value.trim().toLocaleLowerCase("vi");
+    const category = $("folderCategory").value;
+    const entries = state.scannedFiles.filter(entry =>
+      entry.category !== "data" &&
+      (!category || entry.category === category) &&
+      (!query || entry.path.toLocaleLowerCase("vi").includes(query)) &&
+      !state.openTextFiles.some(openEntry => openEntry.path === entry.path)
+    );
+    if (!entries.length) {
+      setStatus("Không có tệp văn bản mới trong kết quả hiện tại để mở.", "");
+      return;
+    }
+    let opened = 0;
+    const failures = [];
+    for (const entry of entries) {
+      try {
+        const content = await entry.file.text();
+        entry.originalContent = content;
+        entry.editedContent = content;
+        entry.dirty = false;
+        state.openTextFiles.push(entry);
+        opened += 1;
+      } catch (error) {
+        failures.push(`${entry.path}: ${error.message}`);
+      }
+    }
+    if (opened) activateTextFile(state.openTextFiles[state.openTextFiles.length - 1]);
+    updateCacheButtons();
+    if (failures.length) {
+      setStatus(`Đã mở ${opened} tệp. Không mở được: ${failures.join(" | ")}`, opened ? "" : "error");
+    } else {
+      setStatus(`Đã mở ${opened} tệp trong các tab. Chuyển tab để sửa; thay đổi chưa lưu được đánh dấu •.`, "success");
+    }
+  }
+
+  async function openFilteredDataFiles() {
+    const query = $("folderSearch").value.trim().toLocaleLowerCase("vi");
+    const category = $("folderCategory").value;
+    const entries = state.scannedFiles.filter(entry =>
+      entry.category === "data" &&
+      (!category || entry.category === category) &&
+      (!query || entry.path.toLocaleLowerCase("vi").includes(query)) &&
+      !state.datasets.some(dataset => dataset.path === entry.path)
+    );
+    if (!entries.length) {
+      setStatus("Không có tệp data mới trong kết quả hiện tại để nạp.", "");
+      return;
+    }
+    await importFiles(entries.map(entry => entry.file));
+  }
+
+  async function previewFolderFile(entry) {
+    const { file, path, category } = entry;
+    if (category !== "data") {
+      const alreadyOpen = state.openTextFiles.find(openEntry => openEntry.path === path);
+      if (alreadyOpen) {
+        activateTextFile(alreadyOpen);
+        return;
+      }
+    }
+    const preview = $("folderPreview");
+    const actions = $("folderActions");
+    preview.dataset.path = path;
+    preview.replaceChildren();
+    actions.replaceChildren();
+
+    const title = document.createElement("div");
+    title.className = "folder-note";
+    title.textContent = `${path} · ${file.size.toLocaleString("vi-VN")} byte`;
+    actions.append(title);
+    const canImport = category === "data";
+    if (canImport) {
+      const loadButton = document.createElement("button");
+      loadButton.type = "button";
+      loadButton.className = "button primary";
+      loadButton.textContent = "Nạp vào editor";
+      loadButton.addEventListener("click", () => importFiles([file]));
+      actions.append(loadButton);
+      state.selectedTextFile = null;
+      state.textFileContent = "";
+      state.textFileDirty = false;
+    }
+
+    try {
+      if (category !== "data") {
+        const content = await file.text();
+        entry.originalContent = content;
+        entry.editedContent = content;
+        entry.dirty = false;
+        state.openTextFiles.push(entry);
+        activateTextFile(entry);
+        updateCacheButtons();
+      } else {
+        const content = document.createElement("pre");
+        const previewLimit = 512 * 1024;
+        const truncated = file.size > previewLimit;
+        content.textContent = await file.slice(0, previewLimit).text();
+        preview.append(content);
+        if (truncated) {
+          const note = document.createElement("div");
+          note.className = "folder-note";
+          note.textContent = "Bản xem trước được giới hạn ở 512 KB. Nạp tệp vào editor hồ sơ để đọc và sửa toàn bộ dữ liệu.";
+          preview.append(note);
+        }
+      }
+    } catch (error) {
+      setStatus(`Không thể đọc ${path}: ${error.message}`, "error");
+      const message = document.createElement("div");
+      message.className = "empty";
+      message.textContent = `Không thể đọc tệp: ${error.message}`;
+      preview.append(message);
+    }
+  }
+
+  async function saveTextFile(entry = state.selectedTextFile) {
+    if (!entry || !entry.dirty) return;
+    const fileName = entry.path.split("/").pop();
+    const blob = new Blob([entry.editedContent], { type: "text/plain;charset=utf-8" });
+    if (typeof window.showSaveFilePicker === "function") {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: fileName,
+          types: [{ description: "Tệp dữ liệu văn bản", accept: { "text/plain": [`.${fileName.split(".").pop()}`] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        entry.originalContent = entry.editedContent;
+        entry.dirty = false;
+        state.textFileDirty = false;
+        if (state.selectedTextFile?.path === entry.path) activateTextFile(entry);
+        else renderTextFileTabs();
+        setStatus(`Đã lưu nội dung qua hộp thoại chọn tệp cho ${entry.path}.`, "success");
+        return;
+      } catch (error) {
+        if (error.name === "AbortError") {
+          setStatus("Đã hủy lưu tệp; các thay đổi vẫn còn trong editor.", "");
+          return;
+        }
+        setStatus(`Không lưu được ${entry.path}: ${error.message}`, "error");
+        return;
+      }
+    }
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    entry.originalContent = entry.editedContent;
+    entry.dirty = false;
+    state.textFileDirty = false;
+    if (state.selectedTextFile?.path === entry.path) activateTextFile(entry);
+    else renderTextFileTabs();
+    setStatus(`Đã tải tệp đã sửa: ${fileName}. Hãy thay thế tệp gốc tại ${entry.path}.`, "success");
+  }
+
+  function scanFolder() {
+    if (!state.folderFiles.length) {
+      setStatus("Hãy chọn thư mục trước khi quét.", "error");
+      return;
+    }
+    if (!abandonTextChanges()) return;
+    state.scannedFiles = state.folderFiles
+      .map(file => ({ file, path: filePath(file), category: classifyDataFile(filePath(file)) }))
+      .filter(entry => entry.category);
+    state.folderScopePath = "";
+    state.expandedFolders = new Set();
+    state.scannedFiles.forEach(entry => {
+      const parts = entry.path.split("/").filter(Boolean);
+      let path = "";
+      parts.slice(0, -1).forEach(part => {
+        path = path ? `${path}/${part}` : part;
+        state.expandedFolders.add(path);
+      });
+    });
+    state.selectedTextFile = null;
+    state.openTextFiles = [];
+    state.textFileContent = "";
+    state.textFileDirty = false;
+    $("folderPreview").dataset.path = "";
+    $("folderPreview").replaceChildren();
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = state.scannedFiles.length ? "Chọn một tệp để xem hoặc sửa." : "Không tìm thấy data.txt, data_en.txt hoặc tệp trong GY / ES / item / RK.";
+    $("folderPreview").append(empty);
+    $("folderActions").replaceChildren();
+    $("folderCategory").disabled = state.scannedFiles.length === 0;
+    $("folderCategory").value = "";
+    renderFolderFiles();
+    setStatus(`Đã quét ${state.folderFiles.length} tệp; tìm thấy ${state.scannedFiles.length} tệp thuộc data, GY, ES, item và RK.`, "success");
+  }
+
+  function downloadDataset(extension) {
+    const dataset = activeDataset();
+    if (!dataset) return;
+    const blob = new Blob([`${JSON.stringify(dataset.creatures, null, 2)}\n`], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = safeFileName(dataset.name, extension);
+    document.body.append(link);
+    link.click();
+    link.remove();
+    const fileName = link.download;
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    dataset.dirty = false;
+    renderWorkspaceOverview();
+    setStatus(`Đã xuất ${dataset.creatures.length} hồ sơ thành ${fileName}. Tệp chỉ được tải về máy của bạn.`, "success");
+  }
+
+  function cacheTimestamp(date = new Date()) {
+    const pad = value => String(value).padStart(2, "0");
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}-${pad(date.getHours())}.${pad(date.getMinutes())}.${pad(date.getSeconds())}`;
+  }
+
+  function timestampedPath(path, timestamp, usedPaths) {
+    const parts = path.split("/")
+      .filter(part => part && part !== "." && part !== "..")
+      .map(part => part.replace(/[<>:"\\|?*\x00-\x1f]/g, "_"));
+    let fileName = parts.pop() || "data.txt";
+    fileName = fileName.replace(/[<>:"\\|?*\x00-\x1f]/g, "_");
+    const dot = fileName.lastIndexOf(".");
+    const base = dot > 0 ? fileName.slice(0, dot) : fileName;
+    const extension = dot > 0 ? fileName.slice(dot) : "";
+    let candidate = [...parts, `${base}-${timestamp}${extension}`].join("/");
+    let duplicate = 2;
+    while (usedPaths.has(candidate.toLocaleLowerCase("vi"))) {
+      candidate = [...parts, `${base}-${timestamp}-${duplicate}${extension}`].join("/");
+      duplicate += 1;
+    }
+    usedPaths.add(candidate.toLocaleLowerCase("vi"));
+    return candidate;
+  }
+
+  function zipStoredFiles(files) {
+    if (files.length > 65535) throw new Error("Gói ZIP không thể chứa quá 65.535 tệp.");
+    const encoder = new TextEncoder();
+    const crcTable = new Uint32Array(256);
+    for (let index = 0; index < 256; index += 1) {
+      let value = index;
+      for (let bit = 0; bit < 8; bit += 1) value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
+      crcTable[index] = value >>> 0;
+    }
+    const crc32 = bytes => {
+      let value = 0xffffffff;
+      for (const byte of bytes) value = crcTable[(value ^ byte) & 0xff] ^ (value >>> 8);
+      return (value ^ 0xffffffff) >>> 0;
+    };
+    const write16 = (view, offset, value) => view.setUint16(offset, value, true);
+    const write32 = (view, offset, value) => view.setUint32(offset, value >>> 0, true);
+    const now = new Date();
+    const dosTime = (now.getHours() << 11) | (now.getMinutes() << 5) | Math.floor(now.getSeconds() / 2);
+    const dosDate = ((Math.max(1980, now.getFullYear()) - 1980) << 9) | ((now.getMonth() + 1) << 5) | now.getDate();
+    const localParts = [];
+    const centralParts = [];
+    let localOffset = 0;
+
+    files.forEach(file => {
+      const name = encoder.encode(file.name);
+      const content = encoder.encode(file.content);
+      const checksum = crc32(content);
+      const localHeader = new Uint8Array(30);
+      const localView = new DataView(localHeader.buffer);
+      write32(localView, 0, 0x04034b50);
+      write16(localView, 4, 20);
+      write16(localView, 6, 0x0800);
+      write16(localView, 8, 0);
+      write16(localView, 10, dosTime);
+      write16(localView, 12, dosDate);
+      write32(localView, 14, checksum);
+      write32(localView, 18, content.length);
+      write32(localView, 22, content.length);
+      write16(localView, 26, name.length);
+      write16(localView, 28, 0);
+      localParts.push(localHeader, name, content);
+
+      const centralHeader = new Uint8Array(46);
+      const centralView = new DataView(centralHeader.buffer);
+      write32(centralView, 0, 0x02014b50);
+      write16(centralView, 4, 20);
+      write16(centralView, 6, 20);
+      write16(centralView, 8, 0x0800);
+      write16(centralView, 10, 0);
+      write16(centralView, 12, dosTime);
+      write16(centralView, 14, dosDate);
+      write32(centralView, 16, checksum);
+      write32(centralView, 20, content.length);
+      write32(centralView, 24, content.length);
+      write16(centralView, 28, name.length);
+      write16(centralView, 30, 0);
+      write16(centralView, 32, 0);
+      write16(centralView, 34, 0);
+      write16(centralView, 36, 0);
+      write32(centralView, 38, 0);
+      write32(centralView, 42, localOffset);
+      centralParts.push(centralHeader, name);
+      localOffset += localHeader.length + name.length + content.length;
+      if (localOffset > 0xffffffff) throw new Error("Tổng dung lượng cache vượt giới hạn ZIP.");
+    });
+
+    const centralSize = centralParts.reduce((total, part) => total + part.length, 0);
+    const end = new Uint8Array(22);
+    const endView = new DataView(end.buffer);
+    write32(endView, 0, 0x06054b50);
+    write16(endView, 4, 0);
+    write16(endView, 6, 0);
+    write16(endView, 8, files.length);
+    write16(endView, 10, files.length);
+    write32(endView, 12, centralSize);
+    write32(endView, 16, localOffset);
+    write16(endView, 20, 0);
+    return new Blob([...localParts, ...centralParts, end], { type: "application/zip" });
+  }
+
+  function clearVirtualCache(confirm = true) {
+    if (confirm && !window.confirm("Xóa toàn bộ cache tạm, dữ liệu đã nạp và các thay đổi chưa xuất?")) return false;
+    state.datasets = [];
+    state.activeDatasetId = null;
+    state.selectedId = null;
+    state.folderFiles = [];
+    state.scannedFiles = [];
+    state.folderScopePath = "";
+    state.expandedFolders = new Set();
+    state.selectedFolderPath = "";
+    state.selectedTextFile = null;
+    state.openTextFiles = [];
+    state.textFileContent = "";
+    state.textFileDirty = false;
+    let draftWarning = "";
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch (error) {
+      draftWarning = ` Cache nháp cục bộ không thể xóa: ${error.message}.`;
+    }
+    $("folderInput").value = "";
+    $("folderSearch").value = "";
+    $("folderSearch").disabled = true;
+    $("pathSearch").value = "";
+    $("pathSearch").disabled = true;
+    $("findPath").disabled = true;
+    $("clearPathSearch").disabled = true;
+    $("folderCategory").value = "";
+    $("folderCategory").disabled = true;
+    $("scanFolder").disabled = true;
+    $("openFilteredFiles").disabled = true;
+    $("openFilteredData").disabled = true;
+    $("folderMeta").textContent = "Cache tạm đã được xóa. Chọn lại thư mục để quét tệp.";
+    $("folderFileList").replaceChildren();
+    $("folderPreview").dataset.path = "";
+    $("folderPreview").innerHTML = '<div class="empty">Cache tạm đã được xóa.</div>';
+    $("folderActions").replaceChildren();
+    state.directoryHandle = null;
+    $("auditSummary").replaceChildren();
+    $("auditFindings").replaceChildren();
+    render();
+    updateCacheButtons();
+    if (draftWarning) setStatus(draftWarning.trim(), "error");
+    else if (confirm) setStatus("Đã xóa cache tạm và nháp cục bộ.", "success");
+    return !draftWarning;
+  }
+
+  function exportVirtualCache() {
+    const timestamp = cacheTimestamp();
+    const usedPaths = new Set();
+    const files = [];
+    state.datasets.forEach(dataset => {
+      const path = dataset.path || dataset.name || "data.txt";
+      const relativePath = state.selectedFolderPath && path.startsWith(`${state.selectedFolderPath}/`)
+        ? path.slice(state.selectedFolderPath.length + 1)
+        : path;
+      files.push({
+        name: timestampedPath(relativePath, timestamp, usedPaths),
+        content: `${JSON.stringify(dataset.creatures, null, 2)}\n`
+      });
+    });
+    state.openTextFiles.forEach(entry => {
+      const relativePath = state.selectedFolderPath && entry.path.startsWith(`${state.selectedFolderPath}/`)
+        ? entry.path.slice(state.selectedFolderPath.length + 1)
+        : entry.path;
+      files.push({
+        name: timestampedPath(relativePath, timestamp, usedPaths),
+        content: entry.editedContent
+      });
+    });
+    if (!files.length) {
+      setStatus("Cache tạm chưa có tệp nào để xuất.", "error");
+      return;
+    }
+    try {
+      const archive = zipStoredFiles(files);
+      const url = URL.createObjectURL(archive);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `wiki-cache-${timestamp}.zip`;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000);
+      const cacheCleared = clearVirtualCache(false);
+      setStatus(
+        `Đã xuất ${files.length} tệp thành wiki-cache-${timestamp}.zip với hậu tố ngày/giờ và xóa cache tạm.${cacheCleared ? "" : " Tuy nhiên, nháp cục bộ không xóa được; hãy xóa thủ công trong cài đặt trình duyệt."}`,
+        cacheCleared ? "success" : "error"
+      );
+    } catch (error) {
+      setStatus(`Không thể tạo gói ZIP: ${error.message}. Cache tạm vẫn được giữ nguyên.`, "error");
+    }
+  }
+
+  function validationFor(creature) {
+    const errors = [];
+    const warnings = [];
+    if (!creature || typeof creature !== "object" || Array.isArray(creature)) {
+      return { errors: ["Bản ghi phải là một đối tượng JSON."], warnings };
+    }
+    if (!String(creature.id ?? "").trim()) errors.push("Thiếu mã hồ sơ (id).");
+    if (!String(creature.name ?? "").trim()) errors.push("Thiếu tên sinh vật (name).");
+    if (!String(creature.summary ?? "").trim()) warnings.push("Chưa có nội dung tóm tắt.");
+    if (!String(creature.details ?? "").trim()) {
+      errors.push("Thiếu hồ sơ chi tiết (details).");
+      return { errors, warnings };
+    }
+    const text = String(creature.details);
+    const missingSections = REQUIRED_SECTIONS.filter(section =>
+      !new RegExp(`^#{1,6}\\s*${section}\\.`, "m").test(text)
+    );
+    if (missingSections.length) warnings.push(`Chưa tìm thấy mục ${missingSections.join(", ")} trong hồ sơ chi tiết.`);
+    const fullText = `${text}\n${String(creature.originalDetails ?? "")}`;
+    if (!/\*\*(?:HP|Sinh lực):\*\*|\*\*(?:HP|Sinh lực)\*\*:/i.test(fullText)) warnings.push("Không tìm thấy chỉ số HP trong hồ sơ.");
+    if (!/\*\*(?:Môi trường sống|Habitat):\*\*\s*\S+|\*\*(?:Môi trường sống|Habitat)\*\*:\s*\S+/i.test(fullText)) warnings.push("Không tìm thấy trường môi trường sống.");
+    return { errors, warnings };
+  }
+
+  function habitatFromDetails(details) {
+    const line = String(details ?? "").match(/^\s*\*\s*\*\*(?:Môi trường sống|Habitat)\s*:\*\*\s*(.*)$/im);
+    return line?.[1]?.trim() || "";
+  }
+
+  function detailsWithHabitat(details, habitat, english) {
+    const text = String(details ?? "");
+    const lines = text.split(/\r?\n/);
+    const habitatLine = /^\s*\*\s*\*\*(?:Môi trường sống|Habitat)\s*:\*\*/i;
+    const field = english ? "Habitat" : "Môi trường sống";
+    const replacement = `* **${field}:** ${habitat}`;
+    const existing = lines.findIndex(line => habitatLine.test(line));
+    if (existing >= 0) {
+      lines[existing] = replacement;
+      return lines.join("\n");
+    }
+    const ecologyHeading = /^#{1,6}\s*(?:VI|6)\./im;
+    const match = ecologyHeading.exec(text);
+    if (match) {
+      const endOfHeading = text.indexOf("\n", match.index);
+      if (endOfHeading >= 0) {
+        return `${text.slice(0, endOfHeading + 1)}\n${replacement}\n${text.slice(endOfHeading + 1)}`;
+      }
+    }
+    const heading = english ? "#### VI. ECOLOGY AND BEHAVIOR" : "#### VI. SINH THÁI HỌC VÀ HÀNH VI";
+    return `${text.trimEnd()}${text.trim() ? "\n\n" : ""}${heading}\n\n${replacement}`;
+  }
+
+  function datasetValidation(dataset) {
+    const errors = [];
+    const warnings = [];
+    if (!Array.isArray(dataset.creatures)) return { errors: ["Dữ liệu gốc không phải là một mảng hồ sơ."], warnings };
+    const ids = new Map();
+    dataset.creatures.forEach((creature, index) => {
+      const result = validationFor(creature);
+      result.errors.forEach(message => errors.push(`Hồ sơ ${index + 1}: ${message}`));
+      result.warnings.forEach(message => warnings.push(`Hồ sơ ${index + 1}: ${message}`));
+      if (creature && typeof creature === "object" && creature.id != null) {
+        const key = String(creature.id);
+        if (ids.has(key)) errors.push(`Mã hồ sơ "${key}" bị trùng ở hồ sơ ${ids.get(key) + 1} và ${index + 1}.`);
+        else ids.set(key, index);
+      }
+    });
+    return { errors, warnings };
+  }
+
+  function quickStats(creature) {
+    const text = `${String(creature?.details ?? "")}\n${String(creature?.originalDetails ?? "")}`;
+    const read = pattern => text.match(pattern)?.slice(1).find(Boolean)?.trim() || "Chưa ghi";
+    const hp = read(/\*\*HP:\*\*\s*([^\n*]+)|\*\*HP\*\*:\s*([^\n*]+)/i);
+    const mp = read(/\*\*MP:\*\*\s*([^\n*]+)|\*\*MP\*\*:\s*([^\n*]+)/i);
+    const rank = read(/\*\*(?:(?:Cấp độ nguy hiểm\s*\/\s*)?Xếp hạng|Rank):\*\*\s*([^\n*]+)|\*\*(?:(?:Cấp độ nguy hiểm\s*\/\s*)?Xếp hạng|Rank)\*\*:\s*([^\n*]+)/i);
+    const habitat = read(/\*\*(?:Môi trường sống|Habitat):\*\*\s*([^\n*]+)|\*\*(?:Môi trường sống|Habitat)\*\*:\s*([^\n*]+)/i);
+    const resistanceCount = (text.match(/(?:Hệ [^\n:]+|Resistance[^:\n]*)\s*:\s*\**-?\d+(?:\.\d+)?%/gi) || []).length;
+    return { hp, mp, rank, habitat, resistanceCount };
+  }
+
+  function parseAttributeLine(line, index) {
+    const bullet = line.match(/^(\s*(?:[-*+]|\d+[.)])\s+)(.*)$/);
+    if (!bullet) return null;
+    const prefix = bullet[1];
+    const content = bullet[2];
+    const bold = content.match(/^(\*\*.*?\*\*)(:?)\s*(.*)$/);
+    if (bold) {
+      let label = bold[1].slice(2, -2);
+      const colonInside = label.endsWith(":");
+      if (colonInside) label = label.slice(0, -1);
+      return { index, prefix, label, value: bold[3], bold: true, colonInside, colonOutside: Boolean(bold[2]) };
+    }
+    const separator = content.indexOf(":");
+    if (separator < 0) return null;
+    return {
+      index,
+      prefix,
+      label: content.slice(0, separator).trim(),
+      value: content.slice(separator + 1).trimStart(),
+      bold: false,
+      colonInside: false,
+      colonOutside: false
+    };
+  }
+
+  function formatAttributeLine(attribute, label, value) {
+    const renderedLabel = attribute.bold
+      ? `**${label}${attribute.colonInside ? ":" : ""}**${attribute.colonOutside ? ":" : ""}`
+      : `${label}:`;
+    return `${attribute.prefix}${renderedLabel} ${value}`;
+  }
+
+  function writeAttributeLine(creature, source, index, line) {
+    const lines = String(creature[source] ?? "").split(/\r?\n/);
+    if (index < 0 || index >= lines.length) return;
+    lines[index] = line;
+    creature[source] = lines.join("\n");
+  }
+
+  function updateAttributePreviews(creature, source) {
+    const detailsField = $(`field-${source}`);
+    if (detailsField) detailsField.value = String(creature[source] ?? "");
+    if (source === "details") {
+      const habitatInput = $("editor").querySelector("#habitatQuick");
+      if (habitatInput) habitatInput.value = habitatFromDetails(creature.details);
+    }
+    const quick = $("editor").querySelector(".check-grid");
+    const validation = $("editor").querySelector(".validation");
+    if (quick) quick.replaceWith(renderQuickCheck(creature));
+    if (validation) validation.replaceWith(renderValidation(creature));
+    renderStats();
+    renderList();
+    const title = $("editor").querySelector(".editor-top h2");
+    if (title) title.textContent = creature.name || "Hồ sơ chưa đặt tên";
+    setStatus("Đã cập nhật thuộc tính trong bộ nhớ. Tải tệp xuống để lưu thay đổi.", "success");
+  }
+
+  function refreshAttributeEditor(creature) {
+    const current = $("editor").querySelector(".attribute-editor");
+    if (current) current.replaceWith(makeAttributeEditor(creature));
+  }
+
+  function makeAttributeEditor(creature) {
+    const section = document.createElement("section");
+    section.className = "attribute-editor";
+    section.setAttribute("aria-label", "Thuộc tính dạng dòng");
+    const head = document.createElement("div");
+    head.className = "attribute-head";
+    const heading = document.createElement("h3");
+    heading.textContent = "Chỉ số & thuộc tính · sửa từng dòng";
+    const intro = document.createElement("p");
+    intro.textContent = "Sửa riêng nhãn và giá trị từng dòng; Rank, HP, MP, chỉ số, kháng, kỹ năng và sinh thái sẽ được đồng bộ về hồ sơ chi tiết.";
+    head.append(heading, intro);
+    section.append(head);
+
+    ["details", "originalDetails"].forEach(source => {
+      if (typeof creature[source] !== "string") return;
+      const group = document.createElement("div");
+      group.className = "attribute-group";
+      const title = document.createElement("h4");
+      title.textContent = source === "details" ? "Hồ sơ chi tiết" : "Hồ sơ gốc";
+      const add = document.createElement("button");
+      add.type = "button";
+      add.className = "button";
+      add.textContent = "＋ Thêm dòng";
+      add.dataset.addAttribute = source;
+      const groupTop = document.createElement("div");
+      groupTop.className = "attribute-head";
+      groupTop.append(title, add);
+      group.append(groupTop);
+
+      const lines = creature[source].split(/\r?\n/);
+      const attributes = lines.map((line, index) => parseAttributeLine(line, index)).filter(Boolean);
+      if (!attributes.length) {
+        const empty = document.createElement("div");
+        empty.className = "attribute-empty";
+        empty.textContent = "Chưa có dòng thuộc tính có thể sửa riêng trong phần này.";
+        group.append(empty);
+      }
+      attributes.forEach(attribute => {
+        const row = document.createElement("div");
+        row.className = "attribute-row";
+        row.dataset.attributeSource = source;
+        row.dataset.attributeIndex = String(attribute.index);
+        const label = document.createElement("input");
+        label.type = "text";
+        label.className = "control attribute-label";
+        label.value = attribute.label;
+        label.setAttribute("aria-label", `Tên thuộc tính dòng ${attribute.index + 1}`);
+        const value = document.createElement("textarea");
+        value.className = "control attribute-value";
+        value.rows = 1;
+        value.value = attribute.value;
+        value.setAttribute("aria-label", `Giá trị thuộc tính dòng ${attribute.index + 1}`);
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove-line";
+        remove.textContent = "Xóa";
+        remove.setAttribute("aria-label", `Xóa dòng ${attribute.index + 1}`);
+        remove.dataset.removeAttribute = source;
+        remove.dataset.attributeIndex = String(attribute.index);
+        row.append(label, value, remove);
+        group.append(row);
+      });
+      section.append(group);
+    });
+    return section;
+  }
+
+  function renderStats() {
+    const dataset = activeDataset();
+    const container = $("datasetStats");
+    container.replaceChildren();
+    if (!dataset) return;
+    const validation = datasetValidation(dataset);
+    const stats = [
+      ["Tệp", dataset.name],
+      ["Số hồ sơ", dataset.creatures.length],
+      ["Lỗi", validation.errors.length],
+      ["Cảnh báo", validation.warnings.length]
+    ];
+    stats.forEach(([label, value]) => {
+      const item = document.createElement("span");
+      item.className = "stat";
+      const strong = document.createElement("strong");
+      strong.textContent = String(value);
+      item.append(document.createTextNode(`${label}: `), strong);
+      container.append(item);
+    });
+  }
+
+  function renderDatasetTabs() {
+    const tabs = $("datasetTabs");
+    tabs.replaceChildren();
+    state.datasets.forEach(dataset => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `dataset-tab${dataset.id === state.activeDatasetId ? " active" : ""}`;
+      button.textContent = dataset.name;
+      button.title = dataset.name;
+      button.addEventListener("click", () => {
+        state.activeDatasetId = dataset.id;
+        state.selectedId = dataset.creatures[0]?.id ?? null;
+        render();
+      });
+      tabs.append(button);
+    });
+  }
+
+  function renderList() {
+    const list = $("creatureList");
+    const dataset = activeDataset();
+    list.replaceChildren();
+    if (!dataset) {
+      list.innerHTML = '<div class="empty">Chưa nạp dữ liệu</div>';
+      return;
+    }
+    const query = state.query.trim().toLocaleLowerCase("vi");
+    const matches = dataset.creatures.filter(creature => {
+      const text = [creature.id, creature.number, creature.name, creature.category, creature.categoryId]
+        .map(value => String(value ?? "")).join(" ").toLocaleLowerCase("vi");
+      return !query || text.includes(query);
+    });
+    if (!matches.length) {
+      list.innerHTML = '<div class="empty">Không tìm thấy hồ sơ phù hợp</div>';
+      return;
+    }
+    matches.forEach(creature => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `creature-row${String(creature.id) === String(state.selectedId) ? " active" : ""}`;
+      const name = document.createElement("strong");
+      name.textContent = `${creature.number ?? "—"}. ${creature.name || "(Chưa đặt tên)"}`;
+      const meta = document.createElement("small");
+      meta.textContent = `${creature.id ?? "Chưa có mã"} · ${creature.category ?? "Chưa phân nhóm"}`;
+      button.append(name, meta);
+      button.addEventListener("click", () => {
+        state.selectedId = creature.id;
+        renderEditor();
+        renderList();
+      });
+      list.append(button);
+    });
+  }
+
+  function makeField(key, value) {
+    const wrapper = document.createElement("div");
+    const isLong = ["details", "originalDetails"].includes(key);
+    const isStructured = value !== null && typeof value === "object";
+    wrapper.className = `field${isLong || isStructured || key === "summary" ? " wide" : ""}`;
+    const label = document.createElement("label");
+    label.htmlFor = `field-${key}`;
+    label.textContent = labels[key] || key;
+    const control = document.createElement(isLong || isStructured || key === "summary" ? "textarea" : "input");
+    control.id = `field-${key}`;
+    control.className = "control";
+    control.dataset.field = key;
+    const sourceType = value === null ? "null" : Array.isArray(value) ? "array" : typeof value;
+    control.dataset.valueType = sourceType;
+    if (isLong) control.classList.add(key === "details" ? "long" : "original");
+    if (isStructured) control.classList.add("json");
+    if (key === "summary") control.rows = 3;
+    if (isStructured) control.value = JSON.stringify(value, null, 2);
+    else control.value = value == null ? "" : String(value);
+    if (!isLong && !isStructured && typeof value === "number") control.type = "number";
+    if (!isLong && !isStructured && typeof value === "boolean") {
+      control.type = "checkbox";
+      control.checked = value;
+    }
+    if (key === "id") control.required = true;
+    wrapper.append(label, control);
+    if (isStructured) {
+      const help = document.createElement("div");
+      help.className = "help";
+      help.textContent = "Trường dữ liệu cấu trúc — nhập JSON hợp lệ.";
+      wrapper.append(help);
+    }
+    return wrapper;
+  }
+
+  function renderQuickCheck(creature) {
+    const stats = quickStats(creature);
+    const cards = document.createElement("div");
+    cards.className = "check-grid";
+    [
+      ["Xếp hạng · Rank", stats.rank],
+      ["Sinh lực · HP", stats.hp],
+      ["Năng lượng · MP", stats.mp],
+      ["Môi trường sống", stats.habitat],
+      ["Kháng nguyên tố", stats.resistanceCount ? `${stats.resistanceCount} giá trị phần trăm` : "Chưa phát hiện"]
+    ].forEach(([label, value]) => {
+      const card = document.createElement("div");
+      card.className = "check-card";
+      const title = document.createElement("strong");
+      title.textContent = label;
+      const content = document.createElement("span");
+      content.textContent = value;
+      card.append(title, content);
+      cards.append(card);
+    });
+    return cards;
+  }
+
+  function makeHabitatField(creature) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "field wide";
+    const label = document.createElement("label");
+    label.htmlFor = "habitatQuick";
+    label.textContent = "Môi trường sống · sửa nhanh";
+    const input = document.createElement("textarea");
+    input.id = "habitatQuick";
+    input.className = "control";
+    input.rows = 2;
+    input.value = habitatFromDetails(creature.details);
+    input.setAttribute("aria-label", "Môi trường sống, đồng bộ vào hồ sơ chi tiết");
+    const help = document.createElement("div");
+    help.className = "help";
+    help.textContent = "Trường này cập nhật trực tiếp mục sinh thái trong hồ sơ chi tiết và được xuất cùng dữ liệu.";
+    wrapper.append(label, input, help);
+    return wrapper;
+  }
+
+  function renderValidation(creature) {
+    const result = validationFor(creature);
+    const box = document.createElement("div");
+    box.className = "validation";
+    const heading = document.createElement("h3");
+    heading.textContent = "Kiểm tra hồ sơ đang chọn";
+    const list = document.createElement("ul");
+    const messages = [
+      ...result.errors.map(text => ({ text, kind: "error" })),
+      ...result.warnings.map(text => ({ text, kind: "warning" }))
+    ];
+    if (!messages.length) messages.push({ text: "Đủ trường cơ bản; đã phát hiện các mục chính và có thể xuất dữ liệu.", kind: "ok" });
+    messages.forEach(({ text, kind }) => {
+      const item = document.createElement("li");
+      item.className = kind;
+      item.textContent = text;
+      list.append(item);
+    });
+    box.append(heading, list);
+    return box;
+  }
+
+  function renderEditor() {
+    const editor = $("editor");
+    const creature = selectedCreature();
+    editor.replaceChildren();
+    if (!creature) {
+      const empty = document.createElement("div");
+      empty.className = "editor-empty";
+      empty.textContent = "Chọn một hồ sơ trong danh sách để bắt đầu biên tập.";
+      editor.append(empty);
+      updateButtons();
+      return;
+    }
+    const top = document.createElement("div");
+    top.className = "editor-top";
+    const title = document.createElement("h2");
+    title.textContent = creature.name || "Hồ sơ chưa đặt tên";
+    top.append(title);
+    const fields = document.createElement("div");
+    fields.className = "fields";
+    Object.entries(creature).forEach(([key, value]) => fields.append(makeField(key, value)));
+    const attributes = makeAttributeEditor(creature);
+    const habitat = makeHabitatField(creature);
+    const quick = renderQuickCheck(creature);
+    const validation = renderValidation(creature);
+    editor.append(top, fields, attributes, habitat, quick, validation);
+    updateButtons();
+  }
+
+  function updateButtons() {
+    const hasDataset = Boolean(activeDataset());
+    const hasCreature = Boolean(selectedCreature());
+    ["addCreature", "exportTxt", "exportJson"].forEach(id => { $(id).disabled = !hasDataset; });
+    ["duplicateCreature", "deleteCreature"].forEach(id => { $(id).disabled = !hasCreature; });
+    $("search").disabled = !hasDataset;
+  }
+
+  function render() {
+    renderDatasetTabs();
+    renderList();
+    renderEditor();
+    renderStats();
+  }
+
+  function readFieldValue(control) {
+    const value = control.value;
+    switch (control.dataset.valueType) {
+      case "number":
+        if (value.trim() === "") throw new Error("Giá trị số không được để trống.");
+        if (!Number.isFinite(Number(value))) throw new Error("Giá trị phải là một số hợp lệ.");
+        return Number(value);
+      case "boolean":
+        return control.checked;
+      case "array":
+      case "object":
+        {
+          const parsed = JSON.parse(value);
+          if (control.dataset.valueType === "array" && !Array.isArray(parsed)) {
+            throw new Error("Trường này phải là một mảng JSON.");
+          }
+          if (control.dataset.valueType === "object" && (parsed === null || typeof parsed !== "object" || Array.isArray(parsed))) {
+            throw new Error("Trường này phải là một đối tượng JSON.");
+          }
+          return parsed;
+        }
+      case "null":
+        return value === "" ? null : value;
+      default:
+        return value;
+    }
+  }
+
+  function updateCreatureField(control) {
+    const creature = selectedCreature();
+    const dataset = activeDataset();
+    if (!creature || !dataset) return;
+    try {
+      creature[control.dataset.field] = readFieldValue(control);
+      dataset.dirty = true;
+      dataset.auditResult = null;
+      control.removeAttribute("aria-invalid");
+      setStatus(`Đã cập nhật trường “${labels[control.dataset.field] || control.dataset.field}” trong bộ nhớ trình duyệt. Hãy tải tệp xuống để lưu thay đổi.`, "success");
+      renderList();
+      renderStats();
+      const oldQuick = $("editor").querySelector(".check-grid");
+      const oldValidation = $("editor").querySelector(".validation");
+      if (oldQuick) oldQuick.replaceWith(renderQuickCheck(creature));
+      if (oldValidation) oldValidation.replaceWith(renderValidation(creature));
+      const habitatInput = $("editor").querySelector("#habitatQuick");
+      if (habitatInput && control.dataset.field === "details") habitatInput.value = habitatFromDetails(creature.details);
+      if (["details", "originalDetails"].includes(control.dataset.field)) {
+        const attributeEditor = $("editor").querySelector(".attribute-editor");
+        if (attributeEditor) attributeEditor.replaceWith(makeAttributeEditor(creature));
+      }
+      const heading = $("editor").querySelector(".editor-top h2");
+      if (heading) heading.textContent = creature.name || "Hồ sơ chưa đặt tên";
+    } catch (error) {
+      control.setAttribute("aria-invalid", "true");
+      setStatus(`Không thể cập nhật trường này: ${error.message}`, "error");
+    }
+  }
+
+  function addCreature(duplicate = false) {
+    const dataset = activeDataset();
+    if (!dataset) return;
+    const source = duplicate ? selectedCreature() : null;
+    const number = Math.max(0, ...dataset.creatures.map(item => Number(item.number) || 0)) + 1;
+    const copy = source ? structuredClone(source) : {};
+    let idNumber = number;
+    while (dataset.creatures.some(item => String(item.id) === `creature-${String(idNumber).padStart(3, "0")}`)) idNumber += 1;
+    copy.id = `creature-${String(idNumber).padStart(3, "0")}`;
+    copy.number = number;
+    copy.sourceNumber = number;
+    copy.sourceWorkbookRow = number;
+    if (!source) {
+      copy.name = "Sinh vật mới";
+      copy.categoryId = "";
+      copy.category = "";
+      copy.summary = "";
+      copy.details = "";
+      copy.originalDetails = "";
+    } else {
+      copy.name = `${source.name || "Sinh vật"} (bản sao)`;
+    }
+    dataset.creatures.push(copy);
+    dataset.dirty = true;
+    dataset.auditResult = null;
+    state.selectedId = copy.id;
+    state.query = "";
+    $("search").value = "";
+    render();
+    setStatus(duplicate ? "Đã tạo bản sao để biên tập. Hãy cập nhật mã hồ sơ và các thuộc tính." : "Đã thêm hồ sơ mới. Hãy điền các trường rồi tải dữ liệu xuống.", "success");
+  }
+
+  async function importFiles(files) {
+    let imported = 0;
+    const failures = [];
+    for (const file of files) {
+      try {
+        const content = (await file.text()).replace(/^\uFEFF/, "");
+        const parsed = JSON.parse(content);
+        const creatures = Array.isArray(parsed) ? parsed : parsed && Array.isArray(parsed.creatures) ? parsed.creatures : null;
+        if (!creatures) throw new Error("Tệp phải chứa một mảng JSON hồ sơ.");
+        if (creatures.some(item => !item || typeof item !== "object" || Array.isArray(item))) {
+          throw new Error("Mỗi phần tử trong mảng phải là một đối tượng JSON.");
+        }
+        const name = file.name || `data-${Date.now()}.txt`;
+        const dataset = { id: `${name}:${Date.now()}:${Math.random()}`, name, path: filePath(file), fileSize: file.size, creatures };
+        state.datasets.push(dataset);
+        state.activeDatasetId = dataset.id;
+        state.selectedId = creatures[0]?.id ?? null;
+        imported += 1;
+      } catch (error) {
+        failures.push(`${file.name}: ${error.message}`);
+      }
+    }
+    render();
+    updateCacheButtons();
+    if (failures.length) setStatus(`${imported} tệp đã nạp. ${failures.join(" | ")}`, imported ? "" : "error");
+    else if (imported) setStatus(`Đã nạp ${imported} tệp. Dữ liệu chỉ nằm trong trình duyệt cho đến khi bạn xuất hoặc lưu nháp.`, "success");
+  }
+
+  function saveDraft() {
+    if (!state.datasets.length) {
+      setStatus("Chưa có dữ liệu để lưu nháp.", "error");
+      return;
+    }
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({
+        datasets: state.datasets,
+        activeDatasetId: state.activeDatasetId,
+        selectedId: state.selectedId
+      }));
+      setStatus("Đã lưu nháp trên thiết bị này trong bộ nhớ cục bộ của trình duyệt.", "success");
+    } catch (error) {
+      setStatus(`Không lưu được nháp cục bộ: ${error.message}. Hãy tải tệp dữ liệu xuống để tránh mất thay đổi.`, "error");
+    }
+  }
+
+  function restoreDraft() {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (!raw) {
+        setStatus("Không tìm thấy nháp cục bộ trên trình duyệt này.", "error");
+        return;
+      }
+      const draft = JSON.parse(raw);
+      if (!Array.isArray(draft.datasets) || !draft.datasets.every(item => item && Array.isArray(item.creatures))) {
+        throw new Error("Cấu trúc nháp không hợp lệ.");
+      }
+      state.datasets = draft.datasets;
+      state.activeDatasetId = draft.activeDatasetId;
+      state.selectedId = draft.selectedId;
+      render();
+      updateCacheButtons();
+      setStatus("Đã khôi phục nháp từ bộ nhớ cục bộ của trình duyệt.", "success");
+    } catch (error) {
+      setStatus(`Không thể khôi phục nháp: ${error.message}`, "error");
+    }
+  }
+
+  $("fileInput").addEventListener("change", event => {
+    const files = Array.from(event.target.files || []);
+    if (files.length) importFiles(files);
+    event.target.value = "";
+  });
+  $("folderInput").addEventListener("change", event => {
+    if (!abandonTextChanges()) {
+      event.target.value = "";
+      return;
+    }
+    const files = Array.from(event.target.files || []);
+    adoptFolderFiles(files);
+    event.target.value = "";
+  });
+  $("openFolderPicker").addEventListener("click", openFolderFromPicker);
+  $("scanFolder").addEventListener("click", scanFolder);
+  $("openFilteredFiles").addEventListener("click", openFilteredTextFiles);
+  $("openFilteredData").addEventListener("click", openFilteredDataFiles);
+  $("exportCache").addEventListener("click", exportVirtualCache);
+  $("clearCache").addEventListener("click", () => clearVirtualCache());
+  $("folderCategory").addEventListener("change", renderFolderFiles);
+  $("folderSearch").addEventListener("input", renderFolderFiles);
+  $("pathSearch").addEventListener("input", () => {
+    state.folderScopePath = "";
+    renderFolderFiles();
+  });
+  $("pathSearch").addEventListener("keydown", event => {
+    if (event.key === "Enter") findPath();
+    if (event.key === "Escape") {
+      $("pathSearch").value = "";
+      renderFolderFiles();
+    }
+  });
+  $("findPath").addEventListener("click", findPath);
+  $("clearPathSearch").addEventListener("click", () => {
+    $("pathSearch").value = "";
+    $("folderSearch").value = "";
+    state.folderScopePath = "";
+    renderFolderFiles();
+  });
+  $("runWorkspaceAudit").addEventListener("click", runWorkspaceAudit);
+  $("downloadAuditReport").addEventListener("click", downloadAuditReport);
+  $("studioSidebar").addEventListener("mouseenter", syncSidebarExpanded);
+  $("studioSidebar").addEventListener("mouseleave", syncSidebarExpanded);
+  $("studioSidebar").addEventListener("focusin", syncSidebarExpanded);
+  $("studioSidebar").addEventListener("focusout", () => setTimeout(syncSidebarExpanded, 0));
+  $("sidebarPin").addEventListener("click", () => {
+    const pinned = !$("studioSidebar").classList.contains("pinned");
+    $("studioSidebar").classList.toggle("pinned", pinned);
+    document.body.classList.toggle("sidebar-pinned", pinned);
+    $("sidebarPin").setAttribute("aria-pressed", String(pinned));
+    $("sidebarPin").title = pinned ? "Bỏ ghim thanh bên" : "Ghim thanh bên";
+    syncSidebarExpanded();
+    try {
+      localStorage.setItem("ori-studio-sidebar-pinned", String(pinned));
+    } catch (error) {
+      setStatus(`Không thể lưu trạng thái ghim: ${error.message}`, "error");
+    }
+  });
+  document.querySelectorAll("[data-view-target]").forEach(button => {
+    button.addEventListener("click", () => {
+      switchWorkspaceView(button.dataset.viewTarget);
+      if (window.matchMedia("(max-width: 700px)").matches && !$("studioSidebar").classList.contains("pinned")) {
+        $("studioSidebar").classList.remove("pinned");
+        document.body.classList.remove("sidebar-pinned");
+        button.blur();
+        syncSidebarExpanded();
+      }
+    });
+  });
+  document.querySelectorAll("[data-open-view]").forEach(button => {
+    button.addEventListener("click", () => switchWorkspaceView(button.dataset.openView));
+  });
+  $("search").addEventListener("input", event => {
+    state.query = event.target.value;
+    renderList();
+  });
+  $("editor").addEventListener("input", event => {
+    if (event.target.id === "habitatQuick") {
+      const creature = selectedCreature();
+      const dataset = activeDataset();
+      if (!creature || !dataset) return;
+      const habitat = event.target.value.replace(/\s+/g, " ").trim();
+      const english = /(?:^|_)en(?:\.|$)/i.test(dataset.name);
+      creature.details = detailsWithHabitat(creature.details, habitat, english);
+      dataset.dirty = true;
+      dataset.auditResult = null;
+      const detailsField = $("editor").querySelector('[data-field="details"]');
+      if (detailsField) detailsField.value = creature.details;
+      refreshAttributeEditor(creature);
+      renderList();
+      renderStats();
+      const oldQuick = $("editor").querySelector(".check-grid");
+      const oldValidation = $("editor").querySelector(".validation");
+      if (oldQuick) oldQuick.replaceWith(renderQuickCheck(creature));
+      if (oldValidation) oldValidation.replaceWith(renderValidation(creature));
+      setStatus("Đã cập nhật môi trường sống trong mục sinh thái của hồ sơ. Tải tệp xuống để lưu thay đổi.", "success");
+      return;
+    }
+    const attributeRow = event.target.closest(".attribute-row");
+    if (attributeRow && (event.target.matches(".attribute-label") || event.target.matches(".attribute-value"))) {
+      const creature = selectedCreature();
+      if (!creature) return;
+      const source = attributeRow.dataset.attributeSource;
+      const index = Number(attributeRow.dataset.attributeIndex);
+      const lines = String(creature[source] ?? "").split(/\r?\n/);
+      const parsed = parseAttributeLine(lines[index] ?? "", index);
+      if (!parsed) return;
+      const label = attributeRow.querySelector(".attribute-label").value;
+      const value = attributeRow.querySelector(".attribute-value").value;
+      writeAttributeLine(creature, source, index, formatAttributeLine(parsed, label, value));
+      const dataset = activeDataset();
+      if (dataset) {
+        dataset.dirty = true;
+        dataset.auditResult = null;
+      }
+      updateAttributePreviews(creature, source);
+      renderWorkspaceOverview();
+      return;
+    }
+    if (event.target.matches("[data-field]") && !["array", "object"].includes(event.target.dataset.valueType)) updateCreatureField(event.target);
+  });
+  $("editor").addEventListener("change", event => {
+    if (event.target.matches("[data-field]") && ["array", "object"].includes(event.target.dataset.valueType)) updateCreatureField(event.target);
+  });
+  $("editor").addEventListener("click", event => {
+    const addButton = event.target.closest("[data-add-attribute]");
+    const removeButton = event.target.closest("[data-remove-attribute]");
+    const creature = selectedCreature();
+    if (!creature) return;
+    if (addButton) {
+      const source = addButton.dataset.addAttribute;
+      const current = String(creature[source] ?? "");
+      creature[source] = `${current}${current && !current.endsWith("\n") ? "\n" : ""}* **Thuộc tính mới:** `;
+      const dataset = activeDataset();
+      if (dataset) {
+        dataset.dirty = true;
+        dataset.auditResult = null;
+      }
+      refreshAttributeEditor(creature);
+      updateAttributePreviews(creature, source);
+      renderWorkspaceOverview();
+      return;
+    }
+    if (removeButton) {
+      const source = removeButton.dataset.removeAttribute;
+      const index = Number(removeButton.dataset.attributeIndex);
+      const lines = String(creature[source] ?? "").split(/\r?\n/);
+      if (!parseAttributeLine(lines[index] ?? "", index)) return;
+      lines.splice(index, 1);
+      creature[source] = lines.join("\n");
+      const dataset = activeDataset();
+      if (dataset) {
+        dataset.dirty = true;
+        dataset.auditResult = null;
+      }
+      refreshAttributeEditor(creature);
+      updateAttributePreviews(creature, source);
+      renderWorkspaceOverview();
+    }
+  });
+  $("addCreature").addEventListener("click", () => addCreature());
+  $("duplicateCreature").addEventListener("click", () => addCreature(true));
+  $("deleteCreature").addEventListener("click", () => {
+    const dataset = activeDataset();
+    const creature = selectedCreature();
+    if (!dataset || !creature) return;
+    if (!window.confirm(`Xóa hồ sơ "${creature.name || creature.id}" khỏi bản dữ liệu đang mở? Thao tác này chưa thể hoàn tác.`)) return;
+    const index = dataset.creatures.indexOf(creature);
+    dataset.creatures.splice(index, 1);
+    dataset.dirty = true;
+    dataset.auditResult = null;
+    state.selectedId = dataset.creatures[Math.min(index, dataset.creatures.length - 1)]?.id ?? null;
+    render();
+    setStatus("Đã xóa hồ sơ khỏi bản dữ liệu trong bộ nhớ. Tải tệp xuống để lưu thay đổi.", "success");
+  });
+  $("saveDraft").addEventListener("click", saveDraft);
+  $("restoreDraft").addEventListener("click", restoreDraft);
+  $("exportTxt").addEventListener("click", () => downloadDataset("txt"));
+  $("exportJson").addEventListener("click", () => downloadDataset("json"));
+  try {
+    const pinned = localStorage.getItem("ori-studio-sidebar-pinned") === "true";
+    $("studioSidebar").classList.toggle("pinned", pinned);
+    document.body.classList.toggle("sidebar-pinned", pinned);
+    $("sidebarPin").setAttribute("aria-pressed", String(pinned));
+    $("sidebarPin").title = pinned ? "Bỏ ghim thanh bên" : "Ghim thanh điều hướng";
+    syncSidebarExpanded();
+  } catch (error) {
+    console.error("Không thể đọc trạng thái ghim thanh điều hướng:", error);
+    setStatus(`Không thể đọc trạng thái ghim thanh điều hướng: ${error.message}`, "error");
+  }
+  renderFeatureCatalog();
+  try {
+    const savedView = localStorage.getItem("ori-studio-active-view");
+    if (savedView && document.getElementById(savedView)?.classList.contains("workspace-view")) {
+      switchWorkspaceView(savedView);
+    }
+  } catch (error) {
+    console.error("Không thể khôi phục khu vực studio:", error);
+  }
+  renderWorkspaceOverview();
+})();
+</script>
+</body>
+</html>

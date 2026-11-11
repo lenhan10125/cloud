@@ -1,0 +1,2926 @@
+[
+  {
+    "id": "creature-001",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-002",
+    "habitat": "Black Coordinates – service ducts, cable tunnels and collapsed prison foundations."
+  },
+  {
+    "id": "creature-003",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-004",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-005",
+    "habitat": "Eco-Dome Outskirts – ruined streets and collapsed buildings where mimics lure prey."
+  },
+  {
+    "id": "creature-006",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-007",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-008",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-009",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-010",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-011",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-012",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-013",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-014",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-015",
+    "habitat": "Black Coordinates – service ducts, cable tunnels and collapsed prison foundations."
+  },
+  {
+    "id": "creature-016",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-017",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-018",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-019",
+    "habitat": "Black Coordinates – service ducts, cable tunnels and collapsed prison foundations."
+  },
+  {
+    "id": "creature-020",
+    "habitat": "Black Coordinates – service ducts, cable tunnels and collapsed prison foundations."
+  },
+  {
+    "id": "creature-021",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-022",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-023",
+    "habitat": "Black Coordinates – the underground prison, old torture chambers and dark corridors where resentful mana gathers."
+  },
+  {
+    "id": "creature-024",
+    "habitat": "Black Coordinates – service ducts, cable tunnels and collapsed prison foundations."
+  },
+  {
+    "id": "creature-025",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-026",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-027",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-028",
+    "habitat": "The Quartzback Range – nesting cliffs, sheltered caves and crystal veins."
+  },
+  {
+    "id": "creature-029",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-030",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-031",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-032",
+    "habitat": "The stratosphere."
+  },
+  {
+    "id": "creature-033",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-034",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-035",
+    "habitat": "Cracked-rock areas and warm caves."
+  },
+  {
+    "id": "creature-036",
+    "habitat": "Mana valleys near clean-water sources."
+  },
+  {
+    "id": "creature-037",
+    "habitat": "Regrowth forests."
+  },
+  {
+    "id": "creature-038",
+    "habitat": "Brackish waters and coastal bays."
+  },
+  {
+    "id": "creature-039",
+    "habitat": "Clean-water valley bottoms and clear streams."
+  },
+  {
+    "id": "creature-040",
+    "habitat": "Large river basins with fast-flowing water."
+  },
+  {
+    "id": "creature-041",
+    "habitat": "Clay beds."
+  },
+  {
+    "id": "creature-042",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-043",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-044",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-045",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-046",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-047",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-048",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-049",
+    "habitat": "The Quartzback Range – nesting cliffs, sheltered caves and crystal veins."
+  },
+  {
+    "id": "creature-050",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-051",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-052",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-053",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-054",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-055",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-056",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-057",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-058",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-059",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-060",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-061",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-062",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-063",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-064",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-065",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-066",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-067",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-068",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-069",
+    "habitat": "Ocen Flame-Vein Range – cooled lava caves, geothermal springs and heated crystal seams."
+  },
+  {
+    "id": "creature-070",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-071",
+    "habitat": "Ocen Riftlands – quartz crevices, warm caves and abandoned tunnels along the Regrowth Forest."
+  },
+  {
+    "id": "creature-072",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-073",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-074",
+    "habitat": "The Amber Dune Sea – cool burrows beneath dunes and mana oases for shelter and water."
+  },
+  {
+    "id": "creature-075",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-076",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-077",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-078",
+    "habitat": "Ocen Riftlands – quartz crevices, warm caves and abandoned tunnels along the Regrowth Forest."
+  },
+  {
+    "id": "creature-079",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-080",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-081",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-082",
+    "habitat": "The Azure Venom Mire – floodplains, floating roots, reeds and mana pools for foraging."
+  },
+  {
+    "id": "creature-083",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-084",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-085",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-086",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-087",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-088",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-089",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-090",
+    "habitat": "Ocen Riftlands – quartz crevices, warm caves and abandoned tunnels along the Regrowth Forest."
+  },
+  {
+    "id": "creature-091",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-092",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-093",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-094",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-095",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-096",
+    "habitat": "The Azure Venom Mire – floodplains, floating roots, reeds and mana pools for foraging."
+  },
+  {
+    "id": "creature-097",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-098",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-099",
+    "habitat": "Ocen Regrowth Forest – canopy, mana-rich leaf litter, clean water and feeding glades."
+  },
+  {
+    "id": "creature-100",
+    "habitat": "The Ruin Venom Mire – corrosive mud, toxic moss, sheltered dens and mana-water veins."
+  },
+  {
+    "id": "creature-101",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-102",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-103",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-104",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-105",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-106",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-107",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-108",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-109",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-110",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-111",
+    "habitat": "The Amber Dune Sea – cool burrows beneath dunes and mana oases for shelter and water."
+  },
+  {
+    "id": "creature-112",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-113",
+    "habitat": "Ocen Riftlands – quartz crevices, warm caves and abandoned tunnels along the Regrowth Forest."
+  },
+  {
+    "id": "creature-114",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-115",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-116",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-117",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-118",
+    "habitat": "Ocen Reclaimed Wilds – mana-rich valleys, clean water and refuges suited to the creature."
+  },
+  {
+    "id": "creature-119",
+    "habitat": "The Amber Dune Sea – cool burrows beneath dunes and mana oases for shelter and water."
+  },
+  {
+    "id": "creature-120",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-121",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-122",
+    "habitat": "The Amber Dune Sea – cool burrows beneath dunes and mana oases for shelter and water."
+  },
+  {
+    "id": "creature-123",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-124",
+    "habitat": "Ocen Riftlands – quartz crevices, warm caves and abandoned tunnels along the Regrowth Forest."
+  },
+  {
+    "id": "creature-125",
+    "habitat": "Ocen Resonance Marsh – pond edges, reeds and damp rock crevices; calls reverberate through mud and water."
+  },
+  {
+    "id": "creature-126",
+    "habitat": "The Mana-Ash Expanse – a shattered RTC reactor, mana-charged crystal dust and crystal-protected refuges."
+  },
+  {
+    "id": "creature-127",
+    "habitat": "Black Coordinates – ventilation shafts, sewers and toxic-leak chambers where gas-filtering moths nest."
+  },
+  {
+    "id": "creature-128",
+    "habitat": "Black Coordinates – rocky walls and magnetic cable tunnels where spiders reinforce passages with silk."
+  },
+  {
+    "id": "creature-129",
+    "habitat": "Ocen Resonance Marsh – pond edges, mudflats and shallow burrows that carry warning calls through the ground."
+  },
+  {
+    "id": "creature-130",
+    "habitat": "The Amber Dune Sea – sand dunes and ventilation burrows connected to Ocen underground passages."
+  },
+  {
+    "id": "creature-131",
+    "habitat": "The Upper Cloud Realm – high cliffs, floating isles and air currents where pressure-sensing turtles foretell storms."
+  },
+  {
+    "id": "creature-132",
+    "habitat": "Ocen Mana Grasslands – energy-rich meadows and valleys, with shelters beneath exposed roots."
+  },
+  {
+    "id": "creature-133",
+    "habitat": "Ocen Mana Waters – feeding grounds, bottom caves and mana currents for shelter."
+  },
+  {
+    "id": "creature-134",
+    "habitat": "The Mana-Ash Expanse – a shattered RTC reactor, mana-charged crystal dust and crystal-protected refuges."
+  },
+  {
+    "id": "creature-135",
+    "habitat": "The Regrowth Forest – hollow roots, rock fissures and dimensional rifts where frequency-sensing cicadas detect disturbances."
+  },
+  {
+    "id": "creature-136",
+    "habitat": "Ocen Spectral Ridge – exposed rock outcrops and sandy clearings under intense magical light."
+  },
+  {
+    "id": "creature-137",
+    "habitat": "The Upper Cloud Realm – clean-air corridors above the Eco-Dome and cyanobacteria-rich wind currents."
+  },
+  {
+    "id": "creature-138",
+    "habitat": "Ocen Frost Expanse – ice fissures, sheltered caves and hunting grounds."
+  },
+  {
+    "id": "creature-139",
+    "habitat": "The Eco-Dome Perimeter – the dome, hanging gardens and watchtowers patrolled by birds that repel mutated bats."
+  },
+  {
+    "id": "creature-140",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-141",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-142",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-143",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-144",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-145",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-146",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-147",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-148",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-149",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-150",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-151",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-152",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-153",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-154",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-155",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-156",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-157",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-158",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-159",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-160",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-161",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-162",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-163",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-164",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-165",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-166",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-167",
+    "habitat": "The Ancient Ocean Abyss – trench shelves, a sunken city and seabed lairs for marine titans."
+  },
+  {
+    "id": "creature-168",
+    "habitat": "The Ancient Ocean Abyss – trench shelves, a sunken city and seabed lairs for marine titans."
+  },
+  {
+    "id": "creature-169",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-170",
+    "habitat": "The Southern Frost Expanse – deep ice caves, luminous crevasses and an ice sea for hunting."
+  },
+  {
+    "id": "creature-171",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-172",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-173",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-174",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-175",
+    "habitat": "The Southern Frost Expanse – deep ice caves, luminous crevasses and an ice sea for hunting."
+  },
+  {
+    "id": "creature-176",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-177",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-178",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-179",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-180",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-181",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-182",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and mana-crystal fissures."
+  },
+  {
+    "id": "creature-183",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-184",
+    "habitat": "The Southern Frost Expanse – deep ice caves, luminous crevasses and an ice sea for hunting."
+  },
+  {
+    "id": "creature-185",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-186",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-187",
+    "habitat": "The Ancient Cataclysm Basin – geothermal calderas, mutated ruins and titan lairs."
+  },
+  {
+    "id": "creature-188",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-189",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-190",
+    "habitat": "The Venom Mire – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-191",
+    "habitat": "The Venom Mire – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-192",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-193",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-194",
+    "habitat": "The Stormreach – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-195",
+    "habitat": "The Stormreach – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-196",
+    "habitat": "The Windward Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-197",
+    "habitat": "The Windward Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-198",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-199",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-200",
+    "habitat": "The Frost Abyss – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-201",
+    "habitat": "The Frost Abyss – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-202",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-203",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-204",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-205",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-206",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-207",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-208",
+    "habitat": "The Stormreach – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-209",
+    "habitat": "The Stormreach – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-210",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-211",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-212",
+    "habitat": "The Flameheart – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-213",
+    "habitat": "The Flameheart – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-214",
+    "habitat": "The Radiant Realm – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-215",
+    "habitat": "The Radiant Realm – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-216",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-217",
+    "habitat": "The Ancient Stone Veins – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-218",
+    "habitat": "The Windward Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-219",
+    "habitat": "The Windward Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-220",
+    "habitat": "The Venom Mire – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-221",
+    "habitat": "The Venom Mire – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-222",
+    "habitat": "The Abyssal Sea – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-223",
+    "habitat": "The Abyssal Sea – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-224",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-225",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-226",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-227",
+    "habitat": "The Cosmic Expanse – a lair around the elemental heart-vein near a rift where energy converges."
+  },
+  {
+    "id": "creature-228",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-229",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-230",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-231",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-232",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-233",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-234",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-235",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-236",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-237",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-238",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-239",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-240",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-241",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-242",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-243",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-244",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-245",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-246",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-247",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-248",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-249",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-250",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-251",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-252",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-253",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-254",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-255",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-256",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-257",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-258",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-259",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-260",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-261",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-262",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-263",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-264",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-265",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-266",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-267",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-268",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-269",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-270",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-271",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-272",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-273",
+    "habitat": "Black Coordinates – the Deep Caverns sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-274",
+    "habitat": "Black Coordinates – the Black Quartz sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-275",
+    "habitat": "Black Coordinates – the Mist sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-276",
+    "habitat": "Black Coordinates – the Red Marrow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-277",
+    "habitat": "Black Coordinates – the Silent Shadow sector, with prison corridors, refuges and matching mana conditions."
+  },
+  {
+    "id": "creature-278",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-279",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-280",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-281",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-282",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-283",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-284",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-285",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-286",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-287",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-288",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-289",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-290",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-291",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-292",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-293",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-294",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-295",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-296",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-297",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-298",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-299",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-300",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-301",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-302",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-303",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-304",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-305",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-306",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-307",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-308",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-309",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-310",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-311",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-312",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-313",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-314",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-315",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-316",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-317",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-318",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-319",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-320",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-321",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-322",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-323",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-324",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-325",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-326",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-327",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-328",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-329",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-330",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-331",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-332",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-333",
+    "habitat": "The Regrowth Forest – the Lam sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-334",
+    "habitat": "The Regrowth Forest – the Snow sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-335",
+    "habitat": "The Regrowth Forest – the Quartz sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-336",
+    "habitat": "The Regrowth Forest – the RTC sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-337",
+    "habitat": "The Regrowth Forest – the Moonlight sector, with canopy, leaf litter and clear streams; plants and fungi grow in damp ground, while grazing species use open glades."
+  },
+  {
+    "id": "creature-338",
+    "habitat": "Ocen Regrowth Forest – the Quartz Wolfkin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-339",
+    "habitat": "Ocen Mountain Peaks – the Quartz Wolfkin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-340",
+    "habitat": "Ocen Buffer Zone – the Quartz Wolfkin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-341",
+    "habitat": "Ocen Regrowth Forest – the Mistwind Avians territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-342",
+    "habitat": "Ocen Mountain Peaks – the Mistwind Avians territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-343",
+    "habitat": "Ocen Buffer Zone – the Mistwind Avians territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-344",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-345",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-346",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-347",
+    "habitat": "Ocen Regrowth Forest – the Stonekin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-348",
+    "habitat": "Ocen Mountain Peaks – the Stonekin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-349",
+    "habitat": "Ocen Buffer Zone – the Stonekin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-350",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-351",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-352",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-353",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-354",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-355",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-356",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-357",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-358",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-359",
+    "habitat": "Ocen Regrowth Forest – the Verdant Kin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-360",
+    "habitat": "Ocen Mountain Peaks – the Verdant Kin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-361",
+    "habitat": "Ocen Buffer Zone – the Verdant Kin territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-362",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-363",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-364",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-365",
+    "habitat": "Ocen Regrowth Forest – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-366",
+    "habitat": "Ocen Mountain Peaks – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-367",
+    "habitat": "Ocen Buffer Zone – the Ocen Allied Clans territory, with sheltered settlements, patrol routes and nearby feeding grounds."
+  },
+  {
+    "id": "creature-368",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-369",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-370",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-371",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-372",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-373",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-374",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-375",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-376",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-377",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-378",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-379",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-380",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-381",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-382",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-383",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-384",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-385",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-386",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-387",
+    "habitat": "The Pacific Trench – Ocen deep-rift, mana fissures, seabed caves and a sunken city."
+  },
+  {
+    "id": "creature-388",
+    "habitat": "Collapsed Sewer System – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-389",
+    "habitat": "Chemical Underground Bunker – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-390",
+    "habitat": "Negative-Pressure Basement – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-391",
+    "habitat": "Endless Elevator Shaft – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-392",
+    "habitat": "Black Coordinates Detention Block – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-393",
+    "habitat": "Crematorium – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-394",
+    "habitat": "Endless Elevator Shaft – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-395",
+    "habitat": "Black Coordinates Detention Block – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-396",
+    "habitat": "Endless Elevator Shaft – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-397",
+    "habitat": "Collapsed Sewer System – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-398",
+    "habitat": "Spatial Rift Trench – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-399",
+    "habitat": "Weapons Research Station – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-400",
+    "habitat": "Collapsed Sewer System – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-401",
+    "habitat": "Chemical Underground Bunker – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-402",
+    "habitat": "Weapons Research Station – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-403",
+    "habitat": "Black Coordinates Detention Block – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-404",
+    "habitat": "Fusion Reactor – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-405",
+    "habitat": "Collapsed Sewer System – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-406",
+    "habitat": "Crematorium – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-407",
+    "habitat": "Weapons Research Station – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-408",
+    "habitat": "Negative-Pressure Basement – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-409",
+    "habitat": "Chemical Underground Bunker – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-410",
+    "habitat": "Collapsed Sewer System – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-411",
+    "habitat": "Weapons Research Station – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-412",
+    "habitat": "Crematorium – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-413",
+    "habitat": "Fusion Reactor – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-414",
+    "habitat": "Chemical Underground Bunker – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-415",
+    "habitat": "Chemical Underground Bunker – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-416",
+    "habitat": "Chemical Underground Bunker – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-417",
+    "habitat": "Spatial Rift Trench – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-418",
+    "habitat": "Collapsed Sewer System – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-419",
+    "habitat": "Fusion Reactor – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-420",
+    "habitat": "Black Coordinates Detention Block – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-421",
+    "habitat": "Weapons Research Station – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-422",
+    "habitat": "Spatial Rift Trench – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-423",
+    "habitat": "Black Coordinates Detention Block – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-424",
+    "habitat": "Spatial Rift Trench – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-425",
+    "habitat": "Negative-Pressure Basement – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-426",
+    "habitat": "Fusion Reactor – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-427",
+    "habitat": "Black Coordinates Detention Block – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-428",
+    "habitat": "Crematorium – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-429",
+    "habitat": "Fusion Reactor – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-430",
+    "habitat": "Spatial Rift Trench – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-431",
+    "habitat": "Spatial Rift Trench – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-432",
+    "habitat": "Weapons Research Station – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-433",
+    "habitat": "Black Coordinates Detention Block – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-434",
+    "habitat": "Spatial Rift Trench – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-435",
+    "habitat": "Black Coordinates Detention Block – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-436",
+    "habitat": "Negative-Pressure Basement – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-437",
+    "habitat": "Endless Elevator Shaft – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-438",
+    "habitat": "Chemical Underground Bunker – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-439",
+    "habitat": "Spatial Rift Trench – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-440",
+    "habitat": "Fusion Reactor – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-441",
+    "habitat": "Negative-Pressure Basement – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-442",
+    "habitat": "Fusion Reactor – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-443",
+    "habitat": "Weapons Research Station – It hides in absolute darkness and lurks between spatial fissures."
+  },
+  {
+    "id": "creature-444",
+    "habitat": "Spatial Rift Trench – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-445",
+    "habitat": "Weapons Research Station – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-446",
+    "habitat": "Collapsed Sewer System – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-447",
+    "habitat": "Spatial Rift Trench – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-448",
+    "habitat": "Spatial Rift Trench – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-449",
+    "habitat": "Black Coordinates Detention Block – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-450",
+    "habitat": "Chemical Underground Bunker – It exists in radioactive cores and absorbs the resentful mana of millions of beings."
+  },
+  {
+    "id": "creature-451",
+    "habitat": "Fusion Reactor – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-452",
+    "habitat": "Weapons Research Station – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-453",
+    "habitat": "Endless Elevator Shaft – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-454",
+    "habitat": "Black Coordinates Detention Block – It inhabits a lightless environment flooded with inorganic acid and radiation."
+  },
+  {
+    "id": "creature-455",
+    "habitat": "Black Coordinates Detention Block – It clings to old fiber-optic networks and corrodes biological metal."
+  },
+  {
+    "id": "creature-456",
+    "habitat": "Black Coordinates Detention Block – It inhabits an extreme-pressure environment with temperatures that fluctuate from freezing to scorching."
+  },
+  {
+    "id": "creature-457",
+    "habitat": "Collapsed Highway – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-458",
+    "habitat": "Abandoned Steelworks – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-459",
+    "habitat": "Petrochemical Industrial Zone – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-460",
+    "habitat": "Old Military Motor Pool – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-461",
+    "habitat": "Old Military Motor Pool – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-462",
+    "habitat": "Shattered Skyscrapers – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-463",
+    "habitat": "Abandoned Steelworks – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-464",
+    "habitat": "Abandoned Telecommunications Tower – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-465",
+    "habitat": "Collapsed Highway – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-466",
+    "habitat": "Abandoned Telecommunications Tower – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-467",
+    "habitat": "Collapsed Highway – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-468",
+    "habitat": "Petrochemical Industrial Zone – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-469",
+    "habitat": "Collapsed Highway – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-470",
+    "habitat": "Collapsed Highway – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-471",
+    "habitat": "Abandoned Steelworks – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-472",
+    "habitat": "Shattered Skyscrapers – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-473",
+    "habitat": "Abandoned Steelworks – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-474",
+    "habitat": "Old Military Motor Pool – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-475",
+    "habitat": "Petrochemical Industrial Zone – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-476",
+    "habitat": "Abandoned Telecommunications Tower – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-477",
+    "habitat": "Petrochemical Industrial Zone – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-478",
+    "habitat": "Subway Station – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-479",
+    "habitat": "Rusted Airport – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-480",
+    "habitat": "Old Military Motor Pool – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-481",
+    "habitat": "Subway Station – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-482",
+    "habitat": "Abandoned Telecommunications Tower – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-483",
+    "habitat": "Abandoned Steelworks – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-484",
+    "habitat": "Petrochemical Industrial Zone – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-485",
+    "habitat": "Rusted Airport – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-486",
+    "habitat": "Rusted Airport – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-487",
+    "habitat": "Petrochemical Industrial Zone – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-488",
+    "habitat": "Abandoned Steelworks – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-489",
+    "habitat": "Old Military Motor Pool – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-490",
+    "habitat": "Old Military Motor Pool – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-491",
+    "habitat": "Old Military Motor Pool – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-492",
+    "habitat": "Subway Station – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-493",
+    "habitat": "Abandoned Telecommunications Tower – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-494",
+    "habitat": "Subway Station – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-495",
+    "habitat": "Abandoned Telecommunications Tower – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-496",
+    "habitat": "Shattered Skyscrapers – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-497",
+    "habitat": "Subway Station – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-498",
+    "habitat": "Abandoned Telecommunications Tower – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-499",
+    "habitat": "Rusted Airport – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-500",
+    "habitat": "Abandoned Steelworks – It nests in the wrecks of tanks and armored vehicles and feeds on rusted metal."
+  },
+  {
+    "id": "creature-501",
+    "habitat": "Petrochemical Industrial Zone – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-502",
+    "habitat": "Old Military Motor Pool – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-503",
+    "habitat": "Shattered Skyscrapers – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-504",
+    "habitat": "Abandoned Telecommunications Tower – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-505",
+    "habitat": "Collapsed Highway – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-506",
+    "habitat": "Rusted Airport – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-507",
+    "habitat": "Abandoned Telecommunications Tower – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-508",
+    "habitat": "Subway Station – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-509",
+    "habitat": "Shattered Skyscrapers – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-510",
+    "habitat": "Shattered Skyscrapers – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-511",
+    "habitat": "Abandoned Steelworks – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-512",
+    "habitat": "Old Military Motor Pool – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-513",
+    "habitat": "Petrochemical Industrial Zone – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-514",
+    "habitat": "Subway Station – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-515",
+    "habitat": "Subway Station – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-516",
+    "habitat": "Collapsed Highway – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-517",
+    "habitat": "Petrochemical Industrial Zone – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-518",
+    "habitat": "Collapsed Highway – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-519",
+    "habitat": "Petrochemical Industrial Zone – It burrows deep beneath asphalt, hiding and setting mechanical traps."
+  },
+  {
+    "id": "creature-520",
+    "habitat": "Subway Station – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-521",
+    "habitat": "Abandoned Steelworks – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-522",
+    "habitat": "Abandoned Telecommunications Tower – It operates on high-rise buildings and ambushes prey with magnetic nets."
+  },
+  {
+    "id": "creature-523",
+    "habitat": "Shattered Skyscrapers – It lives at the edges of air-filtration zones and tolerates mild acidic fog."
+  },
+  {
+    "id": "creature-524",
+    "habitat": "Rusted Airport – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-525",
+    "habitat": "Collapsed Highway – It moves quickly through underground electrical tunnels; heat sensors compensate for its degenerated eyes."
+  },
+  {
+    "id": "creature-526",
+    "habitat": "Magnetic Cliffs – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-527",
+    "habitat": "Magnetic Cliffs – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-528",
+    "habitat": "Restored Primeval Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-529",
+    "habitat": "Luminous Fungal Forest – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-530",
+    "habitat": "Cyanobacteria Valley – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-531",
+    "habitat": "Cyanobacteria Valley – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-532",
+    "habitat": "Cyanobacteria Valley – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-533",
+    "habitat": "Neutral Desert – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-534",
+    "habitat": "Cyanobacteria Valley – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-535",
+    "habitat": "Magnetic Cliffs – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-536",
+    "habitat": "Neutral Desert – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-537",
+    "habitat": "Luminous Fungal Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-538",
+    "habitat": "Cyanobacteria Valley – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-539",
+    "habitat": "Bioluminescent Grassland – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-540",
+    "habitat": "Cyanobacteria Valley – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-541",
+    "habitat": "Luminous Fungal Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-542",
+    "habitat": "Restored Primeval Forest – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-543",
+    "habitat": "Restored Primeval Forest – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-544",
+    "habitat": "Luminous Fungal Forest – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-545",
+    "habitat": "Restored Primeval Forest – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-546",
+    "habitat": "Bioluminescent Grassland – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-547",
+    "habitat": "Restored Primeval Forest – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-548",
+    "habitat": "Restored Primeval Forest – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-549",
+    "habitat": "Bioluminescent Grassland – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-550",
+    "habitat": "Neutral Desert – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-551",
+    "habitat": "Cyanobacteria Valley – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-552",
+    "habitat": "Magnetic Cliffs – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-553",
+    "habitat": "Magnetic Cliffs – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-554",
+    "habitat": "Bioluminescent Grassland – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-555",
+    "habitat": "Quartz Mountain Range – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-556",
+    "habitat": "Cyanobacteria Valley – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-557",
+    "habitat": "Quartz Mountain Range – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-558",
+    "habitat": "Bioluminescent Grassland – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-559",
+    "habitat": "Magnetic Cliffs – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-560",
+    "habitat": "Quartz Mountain Range – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-561",
+    "habitat": "Mineral Hills – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-562",
+    "habitat": "Restored Primeval Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-563",
+    "habitat": "Cyanobacteria Valley – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-564",
+    "habitat": "Bioluminescent Grassland – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-565",
+    "habitat": "Mineral Hills – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-566",
+    "habitat": "Bioluminescent Grassland – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-567",
+    "habitat": "Restored Primeval Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-568",
+    "habitat": "Restored Primeval Forest – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-569",
+    "habitat": "Quartz Mountain Range – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-570",
+    "habitat": "Bioluminescent Grassland – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-571",
+    "habitat": "Cyanobacteria Valley – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-572",
+    "habitat": "Neutral Desert – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-573",
+    "habitat": "Restored Primeval Forest – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-574",
+    "habitat": "Neutral Desert – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-575",
+    "habitat": "Bioluminescent Grassland – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-576",
+    "habitat": "Mineral Hills – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-577",
+    "habitat": "Restored Primeval Forest – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-578",
+    "habitat": "Magnetic Cliffs – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-579",
+    "habitat": "Luminous Fungal Forest – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-580",
+    "habitat": "Magnetic Cliffs – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-581",
+    "habitat": "Quartz Mountain Range – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-582",
+    "habitat": "Magnetic Cliffs – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-583",
+    "habitat": "Neutral Desert – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-584",
+    "habitat": "Mineral Hills – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-585",
+    "habitat": "Mineral Hills – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-586",
+    "habitat": "Cyanobacteria Valley – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-587",
+    "habitat": "Cyanobacteria Valley – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-588",
+    "habitat": "Mineral Hills – It climbs quartz cliffs and absorbs pure mist to sustain its stamina."
+  },
+  {
+    "id": "creature-589",
+    "habitat": "Restored Primeval Forest – It grows beneath the canopy of green regrowth forests, filtering toxins into dense oxygen."
+  },
+  {
+    "id": "creature-590",
+    "habitat": "Restored Primeval Forest – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-591",
+    "habitat": "Cyanobacteria Valley – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-592",
+    "habitat": "Mineral Hills – It inhabits warm, neutral deserts free of polluted mana."
+  },
+  {
+    "id": "creature-593",
+    "habitat": "Luminous Fungal Forest – It lives in RTC-rich grasslands where its food plants glow at night."
+  },
+  {
+    "id": "creature-594",
+    "habitat": "Restored Primeval Forest – It nests in the bases of giant mushrooms and converts clean spores into muscle."
+  },
+  {
+    "id": "creature-595",
+    "habitat": "Hydroponic Lake – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-596",
+    "habitat": "Mineral Marsh – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-597",
+    "habitat": "Underground Spring – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-598",
+    "habitat": "Lakebed Abyss – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-599",
+    "habitat": "Cyanobacteria River – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-600",
+    "habitat": "Purification Bay – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-601",
+    "habitat": "Mineral Marsh – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-602",
+    "habitat": "Hot Spring – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-603",
+    "habitat": "Purification Bay – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-604",
+    "habitat": "Cyanobacteria River – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-605",
+    "habitat": "Quartz Coral Reef – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-606",
+    "habitat": "Underground Spring – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-607",
+    "habitat": "Hot Spring – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-608",
+    "habitat": "Mineral Marsh – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-609",
+    "habitat": "Purification Bay – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-610",
+    "habitat": "Lakebed Abyss – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-611",
+    "habitat": "Cyanobacteria River – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-612",
+    "habitat": "Mineral Marsh – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-613",
+    "habitat": "Quartz Coral Reef – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-614",
+    "habitat": "Mineral Marsh – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-615",
+    "habitat": "Hot Spring – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-616",
+    "habitat": "Hydroponic Lake – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-617",
+    "habitat": "Purification Bay – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-618",
+    "habitat": "Underground Spring – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-619",
+    "habitat": "Lakebed Abyss – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-620",
+    "habitat": "Mineral Marsh – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-621",
+    "habitat": "Mineral Marsh – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-622",
+    "habitat": "Hydroponic Lake – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-623",
+    "habitat": "Purification Bay – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-624",
+    "habitat": "Mineral Marsh – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-625",
+    "habitat": "Lakebed Abyss – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-626",
+    "habitat": "Mineral Marsh – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-627",
+    "habitat": "Cyanobacteria River – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-628",
+    "habitat": "Cyanobacteria River – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-629",
+    "habitat": "Lakebed Abyss – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-630",
+    "habitat": "Lakebed Abyss – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-631",
+    "habitat": "Underground Spring – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-632",
+    "habitat": "Purification Bay – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-633",
+    "habitat": "Mineral Marsh – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-634",
+    "habitat": "Hot Spring – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-635",
+    "habitat": "Hot Spring – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-636",
+    "habitat": "Cyanobacteria River – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-637",
+    "habitat": "Underground Spring – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-638",
+    "habitat": "Lakebed Abyss – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-639",
+    "habitat": "Hydroponic Lake – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-640",
+    "habitat": "Quartz Coral Reef – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-641",
+    "habitat": "Mineral Marsh – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-642",
+    "habitat": "Mineral Marsh – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-643",
+    "habitat": "Cyanobacteria River – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-644",
+    "habitat": "Cyanobacteria River – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-645",
+    "habitat": "Underground Spring – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-646",
+    "habitat": "Lakebed Abyss – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-647",
+    "habitat": "Hydroponic Lake – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-648",
+    "habitat": "Hot Spring – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-649",
+    "habitat": "Hydroponic Lake – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-650",
+    "habitat": "Quartz Coral Reef – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-651",
+    "habitat": "Hydroponic Lake – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-652",
+    "habitat": "Cyanobacteria River – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-653",
+    "habitat": "Hot Spring – It swims in icy mineral waters; its transparent body is almost impossible to see."
+  },
+  {
+    "id": "creature-654",
+    "habitat": "Hydroponic Lake – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-655",
+    "habitat": "Hydroponic Lake – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-656",
+    "habitat": "Cyanobacteria River – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-657",
+    "habitat": "Lakebed Abyss – It inhabits shallow, calm water at a mild 25°C, rich in biological minerals."
+  },
+  {
+    "id": "creature-658",
+    "habitat": "Cyanobacteria River – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-659",
+    "habitat": "Mineral Marsh – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-660",
+    "habitat": "Lakebed Abyss – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-661",
+    "habitat": "Purification Bay – It burrows beneath quartz mud and feeds on pure mana-rich sediment in deep water."
+  },
+  {
+    "id": "creature-662",
+    "habitat": "Underground Spring – It lives at the bottom of vivid blue rivers and absorbs cyanobacteria to synthesize potent vitamins."
+  },
+  {
+    "id": "creature-663",
+    "habitat": "Underground Spring – It inhabits crystal reefs and emits bioluminescence that promotes cell growth."
+  },
+  {
+    "id": "creature-664",
+    "habitat": "Cloud-Covered Mountain Peak – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-665",
+    "habitat": "Glacier Crevasse – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-666",
+    "habitat": "Ice Cave – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-667",
+    "habitat": "Low-Pressure Sky – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-668",
+    "habitat": "Perennial Iceberg – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-669",
+    "habitat": "Perennial Iceberg – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-670",
+    "habitat": "Glacier Crevasse – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-671",
+    "habitat": "Avalanche Cliffs – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-672",
+    "habitat": "Frozen Death Pit – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-673",
+    "habitat": "Frozen Death Pit – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-674",
+    "habitat": "Ocen Stratosphere – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-675",
+    "habitat": "Glacier Crevasse – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-676",
+    "habitat": "Ice Cave – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-677",
+    "habitat": "Ice Cave – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-678",
+    "habitat": "Cloud-Covered Mountain Peak – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-679",
+    "habitat": "Ocen Stratosphere – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-680",
+    "habitat": "Avalanche Cliffs – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-681",
+    "habitat": "Glacier Crevasse – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-682",
+    "habitat": "Low-Pressure Sky – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-683",
+    "habitat": "Ice Cave – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-684",
+    "habitat": "Ice Cave – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-685",
+    "habitat": "Perennial Iceberg – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-686",
+    "habitat": "Ice Cave – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-687",
+    "habitat": "Low-Pressure Sky – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-688",
+    "habitat": "Ocen Stratosphere – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-689",
+    "habitat": "Ocen Stratosphere – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-690",
+    "habitat": "Glacier Crevasse – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-691",
+    "habitat": "Low-Pressure Sky – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-692",
+    "habitat": "Ice Cave – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-693",
+    "habitat": "Glacier Crevasse – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-694",
+    "habitat": "Frozen Death Pit – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-695",
+    "habitat": "Ice Cave – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-696",
+    "habitat": "Ocen Stratosphere – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-697",
+    "habitat": "Glacier Crevasse – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-698",
+    "habitat": "Perennial Iceberg – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-699",
+    "habitat": "Ocen Stratosphere – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-700",
+    "habitat": "Cloud-Covered Mountain Peak – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-701",
+    "habitat": "Perennial Iceberg – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-702",
+    "habitat": "Perennial Iceberg – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-703",
+    "habitat": "Cloud-Covered Mountain Peak – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-704",
+    "habitat": "Ocen Stratosphere – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-705",
+    "habitat": "Avalanche Cliffs – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-706",
+    "habitat": "Avalanche Cliffs – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-707",
+    "habitat": "Ice Cave – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-708",
+    "habitat": "Glacier Crevasse – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-709",
+    "habitat": "Cloud-Covered Mountain Peak – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-710",
+    "habitat": "Frozen Death Pit – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-711",
+    "habitat": "Frozen Death Pit – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-712",
+    "habitat": "Avalanche Cliffs – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-713",
+    "habitat": "Glacier Crevasse – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-714",
+    "habitat": "Low-Pressure Sky – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-715",
+    "habitat": "Perennial Iceberg – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-716",
+    "habitat": "Avalanche Cliffs – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-717",
+    "habitat": "Cloud-Covered Mountain Peak – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-718",
+    "habitat": "Cloud-Covered Mountain Peak – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-719",
+    "habitat": "Ice Cave – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-720",
+    "habitat": "Cloud-Covered Mountain Peak – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-721",
+    "habitat": "Low-Pressure Sky – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-722",
+    "habitat": "Ocen Stratosphere – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-723",
+    "habitat": "Avalanche Cliffs – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-724",
+    "habitat": "Ice Cave – It nests on steep mountain peaks and draws water from frost in thin, sterile air."
+  },
+  {
+    "id": "creature-725",
+    "habitat": "Perennial Iceberg – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  },
+  {
+    "id": "creature-726",
+    "habitat": "Perennial Iceberg – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-727",
+    "habitat": "Glacier Crevasse – It hibernates for eight months in deep ice caves, storing a highly energy-dense layer of biological fat."
+  },
+  {
+    "id": "creature-728",
+    "habitat": "Frozen Death Pit – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-729",
+    "habitat": "Low-Pressure Sky – It withstands temperatures of -60°C and lives among fractured ice and relentless storms."
+  },
+  {
+    "id": "creature-730",
+    "habitat": "Glacier Crevasse – It stalks prey among scattered ice floes and becomes nearly invisible in blizzards."
+  },
+  {
+    "id": "creature-731",
+    "habitat": "Ocen Stratosphere – It flies at 10,000 meters in the stratosphere and absorbs unclouded solar radiation."
+  }
+]

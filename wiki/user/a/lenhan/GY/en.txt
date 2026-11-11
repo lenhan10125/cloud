@@ -20,7 +20,7 @@ system-term-18	Weakness	An element, body part, or condition that can impair the 
 system-term-19	Element / affinity	An elemental association used to describe attacks, defenses, or magical effects.
 system-term-20	Rank	A classification whose meaning depends on context: hunter guild rank and creature danger rank are separate systems.
 system-term-21	Hunter rank	A guild or operational grade for a hunter. It does not directly state a creature's danger rank.
-system-term-22	Creature danger rank	A danger classification for a creature, based on the source record; it is not automatically equivalent to combat strength.
+system-term-22	Creature danger rank	An overall threat assessment based on the source record: strength, lethality, area of effect, stealth/cunning, and difficulty of countermeasures. A high rank means extremely dangerous or difficult to handle, not necessarily the greatest raw physical strength; Rank F is for neutral, non-harmful individuals.
 system-term-23	Creature level	A level assigned to an individual creature in its status record. It is distinct from a hunter's recommended level.
 system-term-24	Recommended hunter level	A suggested hunter level for an encounter, not the creature's own level.
 system-term-25	Cooldown	The waiting time before a skill can be used again.

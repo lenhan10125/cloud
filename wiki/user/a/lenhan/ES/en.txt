@@ -1,0 +1,56 @@
+[
+  {
+    "id": "fire",
+    "label": "Fire",
+    "formLabel": "Fire Element",
+    "aliases": ["lua", "fire"]
+  },
+  {
+    "id": "water",
+    "label": "Water",
+    "formLabel": "Water Element",
+    "aliases": ["nuoc", "water"]
+  },
+  {
+    "id": "earth",
+    "label": "Earth / Nature",
+    "formLabel": "Earth/Nature Element",
+    "aliases": ["dat", "moc", "earth", "nature"]
+  },
+  {
+    "id": "lightning",
+    "label": "Lightning",
+    "formLabel": "Lightning/Thunder Element",
+    "aliases": ["sam set", "lightning", "thunder", "loi"]
+  },
+  {
+    "id": "wind",
+    "label": "Wind",
+    "formLabel": "Wind Element",
+    "aliases": ["gio", "wind", "phong"]
+  },
+  {
+    "id": "ice",
+    "label": "Ice",
+    "formLabel": "Ice/Frost Element",
+    "aliases": ["frost", "ice", "bang"]
+  },
+  {
+    "id": "light",
+    "label": "Light",
+    "formLabel": "Light/Holy Element",
+    "aliases": ["anh sang", "holy", "light", "quang", "uv"]
+  },
+  {
+    "id": "dark",
+    "label": "Dark",
+    "formLabel": "Dark/Shadow Element",
+    "aliases": ["bong toi", "shadow", "dark", "am"]
+  },
+  {
+    "id": "poison",
+    "label": "Poison",
+    "formLabel": "Poison/Acid Element",
+    "aliases": ["poison", "acid", "axit", "doc"]
+  }
+]

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý Local Proxy</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, sans-serif;
+      background: #f3f5f8;
+      color: #182230;
+    }
+    body {
+      max-width: 760px;
+      margin: 40px auto;
+      padding: 0 18px;
+    }
+    main {
+      background: #fff;
+      border: 1px solid #d9e0e8;
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 10px 30px #172b4d12;
+    }
+    h1 { margin-top: 0; }
+    .muted { color: #536273; line-height: 1.5; }
+    .status {
+      padding: 12px 14px;
+      background: #eef4ff;
+      border-radius: 8px;
+      margin: 18px 0;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 16px 0 6px;
+    }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #aab5c2;
+      border-radius: 7px;
+      font: inherit;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 15px;
+      background: #175cd3;
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary { background: #475467; }
+    button:disabled { opacity: .55; cursor: wait; }
+    #message { min-height: 1.5em; margin-top: 14px; }
+    .warning {
+      border-left: 4px solid #f79009;
+      padding: 10px 12px;
+      background: #fffaeb;
+      line-height: 1.5;
+    }
+    code { background: #f2f4f7; padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Quản lý Local Proxy</h1>
+    <p class="muted">Trang này chỉ phục vụ trên máy đang chạy proxy.</p>
+
+    <div id="status" class="status" role="status">Đang tải trạng thái...</div>
+
+    <form id="settings-form">
+      <label for="proxy-port">Cổng proxy</label>
+      <input id="proxy-port" name="proxy_port" type="number" min="1" max="65535" required>
+
+      <label for="username">Tài khoản proxy</label>
+      <input id="username" name="username" autocomplete="username" required>
+
+      <label for="password">Đổi mật khẩu proxy (để trống nếu giữ nguyên)</label>
+      <input id="password" name="password" type="password" autocomplete="new-password"
+             minlength="12" placeholder="Ít nhất 12 ký tự">
+
+      <div class="actions">
+        <button type="submit">Lưu cấu hình</button>
+        <button class="secondary" id="start" type="button">Bật proxy</button>
+        <button class="secondary" id="stop" type="button">Tắt proxy</button>
+      </div>
+    </form>
+
+    <p id="message" role="status" aria-live="polite"></p>
+    <p class="muted">
+      Sau khi bật, cấu hình trình duyệt dùng HTTP proxy <code>127.0.0.1</code>
+      với cổng và tài khoản ở trên. Mật khẩu lần đầu được in trong cửa sổ chạy
+      chương trình; nếu quên, hãy đặt mật khẩu mới tại đây.
+    </p>
+    <p class="warning">
+      Proxy local không làm bạn ẩn danh: website vẫn có thể thấy IP công cộng,
+      tài khoản và dấu vết trình duyệt. Trang này không lưu URL/lịch sử; trình
+      duyệt, nhà mạng hoặc website vẫn có thể lưu hoạt động riêng.
+    </p>
+    <p class="muted">Cấu hình được lưu trong <code>setting.json</code>. Mật khẩu chỉ được lưu dưới dạng hash.</p>
+  </main>
+
+  <script>
+    const form = document.querySelector("#settings-form");
+    const statusBox = document.querySelector("#status");
+    const messageBox = document.querySelector("#message");
+    const startButton = document.querySelector("#start");
+    const stopButton = document.querySelector("#stop");
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        cache: "no-store",
+        ...options,
+        headers: { "Content-Type": "application/json", ...options.headers }
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Yêu cầu không thành công.");
+      return result;
+    }
+
+    async function refresh() {
+      const settings = await api("/api/settings");
+      form.elements.proxy_port.value = settings.proxy_port;
+      form.elements.username.value = settings.username;
+      statusBox.textContent = settings.proxy_running
+        ? `Proxy đang bật tại ${settings.bind_ip}:${settings.proxy_port}.`
+        : "Proxy đang tắt.";
+      startButton.disabled = settings.proxy_running;
+      stopButton.disabled = !settings.proxy_running;
+    }
+
+    async function runAction(action, successMessage) {
+      messageBox.textContent = "";
+      startButton.disabled = true;
+      stopButton.disabled = true;
+      try {
+        await api(`/api/proxy/${action}`, { method: "POST", body: "{}" });
+        messageBox.textContent = successMessage;
+        await refresh();
+      } catch (error) {
+        messageBox.textContent = error.message;
+        try {
+          await refresh();
+        } catch (refreshError) {
+          statusBox.textContent = `Không tải được trạng thái: ${refreshError.message}`;
+        }
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      messageBox.textContent = "";
+      const payload = {
+        proxy_port: Number(form.elements.proxy_port.value),
+        username: form.elements.username.value,
+        password: form.elements.password.value
+      };
+      try {
+        await api("/api/settings", { method: "POST", body: JSON.stringify(payload) });
+        form.elements.password.value = "";
+        messageBox.textContent = "Đã lưu cấu hình.";
+        await refresh();
+      } catch (error) {
+        messageBox.textContent = error.message;
+      }
+    });
+
+    startButton.addEventListener("click", () => runAction("start", "Đã bật proxy."));
+    stopButton.addEventListener("click", () => runAction("stop", "Đã tắt proxy."));
+    refresh().catch((error) => {
+      statusBox.textContent = `Không tải được cấu hình: ${error.message}`;
+    });
+  </script>
+</body>
+</html>

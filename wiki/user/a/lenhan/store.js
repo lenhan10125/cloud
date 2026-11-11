@@ -17,10 +17,11 @@
 	}
 	let pageLanguage = "vi";
 	pageLanguage = new URL(window.location.href).searchParams.get("lang") === "en" ? "en" : "vi";
+	const dataLanguage = pageLanguage === "en" ? "en" : "vn";
 	window.LENHAN_LANGUAGE = pageLanguage;
 	document.documentElement.lang = pageLanguage;
 
-	function initializeCatalog(systemTermOverrides = []) {
+	function initializeCatalog(systemTermOverrides = [], savedItemCatalog = null, elementCatalog = []) {
 	const creatures = Array.isArray(window.LENHAN_CREATURES) ? window.LENHAN_CREATURES : [];
 	const creaturesById = new Map(creatures.map(creature => [creature.id, creature]));
 	const unknownProfileValue = pageLanguage === "en" ? "no recorded data" : "không có dữ liệu được ghi nhận";
@@ -29,17 +30,7 @@
 	const pageIncrement = 10;
 	const datasheetCreatures = () => creatures.filter(creature => creature.categoryId !== "group-02" || Boolean(creature.details));
 	const groups = [...new Map(creatures.map(item => [item.categoryId, { id: item.categoryId, title: item.category }])).values()];
-	const elements = [
-		{ id: "fire", label: "Lửa", formLabel: "Hệ Lửa (Fire)", aliases: ["lua", "fire"] },
-		{ id: "water", label: "Nước", formLabel: "Hệ Nước (Water)", aliases: ["nuoc", "water"] },
-		{ id: "earth", label: "Đất / Mộc", formLabel: "Hệ Đất/Mộc (Earth/Nature)", aliases: ["dat", "moc", "earth", "nature"] },
-		{ id: "lightning", label: "Lôi", formLabel: "Hệ Lôi/Sấm sét (Thunder/Lightning)", aliases: ["sam set", "lightning", "thunder", "loi"] },
-		{ id: "wind", label: "Phong", formLabel: "Hệ Phong/Gió (Wind)", aliases: ["gio", "wind", "phong"] },
-		{ id: "ice", label: "Băng", formLabel: "Hệ Băng (Ice/Frost)", aliases: ["frost", "ice", "bang"] },
-		{ id: "light", label: "Quang", formLabel: "Hệ Quang/Ánh sáng (Light/Holy)", aliases: ["anh sang", "holy", "light", "quang", "uv"] },
-		{ id: "dark", label: "Ám", formLabel: "Hệ Ám/Bóng tối (Dark/Unification)", aliases: ["bong toi", "shadow", "dark", "am"] },
-		{ id: "poison", label: "Độc", formLabel: "Hệ Độc tố (Poison/Acid)", aliases: ["poison", "acid", "axit", "doc"] }
-	];
+	const elements = elementCatalog;
 	let items = buildItemCatalog();
 	let itemsById = new Map();
 	let itemLinkCandidates = [];
@@ -56,6 +47,14 @@
 			: null;
 		itemsByEscapedName = new Map(itemLinkCandidates.map(candidate => [candidate.escapedName.toLocaleLowerCase("vi"), candidate.item]));
 		window.LENHAN_ITEMS = items;
+	}
+	if (savedItemCatalog) {
+		if (savedItemCatalog.length === items.length &&
+			savedItemCatalog.every((item, index) => item.id === items[index].id)) {
+			items = savedItemCatalog;
+		} else {
+			console.warn("Saved item catalog IDs do not match generated items; using the generated catalog.");
+		}
 	}
 	setItemCatalog(items);
 	const state = { group: null, groupsCollapsed: false, query: "", selectedId: null, selectedItemId: null, itemIdQuery: "", itemNameQuery: "", itemRank: "", view: "center", elementId: "fire", minPercent: -500, maxPercent: 100, includeUnknown: true, elementQuery: "", simulationCreatureId: "", simulationElementIds: [], simulationValues: {}, simulationApplied: false, catalogQuery: "", catalogGroup: "", catalogSpecies: "", catalogTags: [], glossaryQuery: "", glossaryCreatureId: "", glossaryTerm: "", glossaryType: "", pageLimits: {} };
@@ -306,7 +305,7 @@
 		const related = Object.keys(parseAffinities(creature));
 		if (!related.length) return "";
 		return `<div class="element-links"><strong>So sánh nguyên tố:</strong>${related.map(id => {
-			const item = elements.find(candidate => candidate.id === id);
+			const item = idElement(id, pageLanguage);
 			return `<a class="element-link" href="#elements/${item.id}">${escapeHtml(item.label)}</a>`;
 		}).join("")}</div>`;
 	}
@@ -316,6 +315,9 @@
 	}
 
 	function extractCreatureField(creature, labelPattern) {
+		if (/cap do nguy hiem|xep hang|rank|danger level/i.test(normalizeText(labelPattern.source))) {
+			return idRank(creature.id)?.rank || "";
+		}
 		const line = String(creature.details || "").split(/\r?\n/).find(entry => {
 			const match = entry.match(/^\s*[*-]\s*\*\*(?<label>[^*]+):\*\*\s*(?<value>.*)$/);
 			return match && labelPattern.test(normalizeText(match.groups.label));
@@ -360,7 +362,7 @@
 		const inferred = inferItemProfile(item);
 		const sourceSummary = source?.summary || "";
 		const sourceAppearance = extractCreatureField(source, /cau tao da|dac diem nhan dang|dac diem hinh thai|ngoai hinh/i);
-		const habitat = extractCreatureField(source, /moi truong song(?: chu yeu)?|habitat/i);
+		const habitat = source?.habitat || extractCreatureField(source, /moi truong song(?: chu yeu)?|habitat/i);
 		const diet = extractCreatureField(source, /che do an uong|thuc an|diet/i);
 		const weakness = extractCreatureField(source, /diem yeu vat ly|diem yeu tam ly/i);
 		const sourceContext = [sourceAppearance, sourceSummary].filter(Boolean).join(" ");
@@ -846,7 +848,7 @@
 		}
 		const baseValues = parseAffinities(creature);
 		output.innerHTML = `<div class="simulation-summary">Mô phỏng cho <strong>${escapeHtml(creature.name)}</strong> · dữ liệu gốc không bị thay đổi.</div><div class="table-scroll element-table-scroll"><table class="record-table"><thead><tr><th>Nguyên tố</th><th>Kháng gốc</th><th>Kháng mô phỏng</th><th>Hiệu ứng ước tính</th></tr></thead><tbody>${state.simulationElementIds.map(id => {
-			const elemental = elements.find(item => item.id === id);
+			const elemental = idElement(id, pageLanguage);
 			const base = baseValues[id];
 			const simulated = state.simulationValues[id] ?? 0;
 			return `<tr><td data-label="Nguyên tố">${escapeHtml(elemental.label)}</td><td data-label="Kháng gốc">${base === undefined ? '<span class="unknown-value">Không rõ</span>' : `${base}%`}</td><td data-label="Kháng mô phỏng">${simulated}%</td><td data-label="Hiệu ứng ước tính">${escapeHtml(resistanceEffect(simulated))}</td></tr>`;
@@ -856,7 +858,7 @@
 	function renderSimulationControls() {
 		const selectedCreature = simulationCreature();
 		const selectedTags = state.simulationElementIds.map(id => {
-			const elemental = elements.find(item => item.id === id);
+			const elemental = idElement(id, pageLanguage);
 			initializeSimulationValue(id, selectedCreature);
 			const baseValue = selectedCreature ? parseAffinities(selectedCreature)[id] : undefined;
 			return `<div class="simulation-chip"><div class="simulation-chip-label"><strong>${escapeHtml(elemental.label)}</strong><span>Gốc: ${baseValue === undefined ? "Không rõ" : `${baseValue}%`}</span></div><div class="simulation-stepper"><button type="button" data-sim-step="${id}" data-step="-10" aria-label="Giảm 10 phần trăm cho ${escapeHtml(elemental.label)}">−</button><input type="number" min="-500" max="100" step="10" value="${state.simulationValues[id]}" data-sim-value="${id}" aria-label="Phần trăm ${escapeHtml(elemental.label)}"><button type="button" data-sim-step="${id}" data-step="10" aria-label="Tăng 10 phần trăm cho ${escapeHtml(elemental.label)}">+</button></div><button class="simulation-remove" type="button" data-sim-remove="${id}" aria-label="Bỏ ${escapeHtml(elemental.label)}">×</button></div>`;
@@ -874,15 +876,15 @@
 	function creatureTags(creature) {
 		const tags = new Set([creature.category.replace(/^[IVX]+\.\s*/, ""), creatureSpecies(creature)]);
 		mentionedElements(`${creature.name} ${creature.summary} ${creature.details || ""}`).forEach(id => {
-			tags.add(elements.find(item => item.id === id).label);
+			tags.add(idElement(id, pageLanguage).label);
 		});
 		return [...tags].filter(tag => tag && tag !== "Chưa phân loại");
 	}
 
 	function dangerInfo(creature) {
-		const text = String(creature.details || "");
+		const text = `${idRank(creature.id)?.rank || ""}\n${String(creature.details || "")}`;
 		if (/cấp tối cao|highest level/i.test(text)) return { label: "Cấp Tối Cao", className: "danger-error", order: 11 };
-		const rank = text.match(/\b(?:rank|hạng)\s*(EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E|ERROR)(?!\s*(?:đến|to|[-–—])\s*(?:rank\s*)?(?:EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E))(?=\s*(?:\([^)]*\)|\/\s*Phase\s*\d+)?(?:\s|$))/i)?.[1]?.toUpperCase();
+		const rank = text.match(/\b(?:rank|hạng)\s*(EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E|F|ERROR)(?!\s*(?:đến|to|[-–—])\s*(?:rank\s*)?(?:EX|SSS\+?|SS\+?|S\+?|A\+?|B|C|D|E|F))(?=\s*(?:\([^)]*\)|\/\s*Phase\s*\d+)?(?:\s|$))/i)?.[1]?.toUpperCase();
 		if (!rank) return null;
 		if (rank === "ERROR") return null;
 		if (rank === "EX") return { label: "Rank EX", className: "danger-error", order: 10 };
@@ -1126,7 +1128,7 @@
 		const itemType = item.type || escapeHtml(inferred.type);
 		const sourceHabitats = item.sources.map(source => {
 			const creature = creaturesById.get(source.id);
-			const habitat = creature && extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i);
+			const habitat = creature && (creature.habitat || extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i));
 			return habitat ? `<span><a class="record-link" href="#${escapeHtml(source.id)}">${escapeHtml(source.name)}</a>: ${escapeHtml(habitat)}</span>` : "";
 		}).filter(Boolean).join("<br>");
 		const effectsMarkup = item.effects?.length
@@ -1262,7 +1264,7 @@
 		const query = state.query.toLocaleLowerCase("vi");
 		const filtered = creatures.filter(item =>
 			(state.group === null || item.categoryId === groups[state.group]?.id) &&
-			(!query || `${item.name} ${item.summary} ${item.category} ${extractCreatureField(item, /moi truong song(?: chu yeu)?|habitat/i)}`.toLocaleLowerCase("vi").includes(query))
+			(!query || `${item.name} ${item.summary} ${item.category} ${item.habitat || extractCreatureField(item, /moi truong song(?: chu yeu)?|habitat/i)}`.toLocaleLowerCase("vi").includes(query))
 		);
 		const shown = Math.min(pageLimit("list"), filtered.length);
 		element("list").innerHTML = filtered.slice(0, shown).map(item => {
@@ -1477,7 +1479,7 @@
 		return creatures.filter(creature => {
 			const species = creatureSpecies(creature);
 			const tags = creatureTags(creature);
-			const habitat = extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i);
+			const habitat = creature.habitat || extractCreatureField(creature, /moi truong song(?: chu yeu)?|habitat/i);
 			return (!query || normalizeText(`${creature.id} ${creature.name} ${creature.summary} ${creature.category} ${species} ${habitat} ${tags.join(" ")}`).includes(query)) &&
 				(!state.catalogGroup || creature.categoryId === state.catalogGroup) &&
 				(!state.catalogSpecies || species === state.catalogSpecies) &&
@@ -1525,7 +1527,9 @@
 		const group = item.category.replace(/^[IVX]+\.\s*/, "");
 		if (!item.details) {
 			if (item.categoryId === "group-02") {
-				element("viewRoot").innerHTML = `<article class="wiki" id="${escapeHtml(item.id)}"><h1 class="title">${escapeHtml(item.name)}</h1><div class="byline">${escapeHtml(item.category)} · Hồ sơ #${item.number}</div><p class="summary">${escapeHtml(item.summary)}</p><footer class="footer">Nguồn dữ liệu: data.txt · Mã hồ sơ: ${escapeHtml(item.id)}</footer></article>`;
+				const habitatLabel = pageLanguage === "en" ? "Habitat" : "Môi trường sống";
+				const habitat = item.habitat ? `<p class="profile-habitat"><strong>${habitatLabel}:</strong> ${escapeHtml(item.habitat)}</p>` : "";
+				element("viewRoot").innerHTML = `<article class="wiki" id="${escapeHtml(item.id)}"><h1 class="title">${escapeHtml(item.name)}</h1><div class="byline">${escapeHtml(item.category)} · Hồ sơ #${item.number}</div><p class="summary">${escapeHtml(item.summary)}</p>${habitat}<footer class="footer">Nguồn dữ liệu: data.txt · Mã hồ sơ: ${escapeHtml(item.id)}</footer></article>`;
 				setActiveTab("");
 			} else renderEmptyDatasheet(item);
 			return;
@@ -1535,6 +1539,22 @@
 		const sections = parseProfileSections(item.details);
 		const sectionContent = profileSections.map(section => {
 			let content = sections.get(section.roman) || "";
+			if (section.roman === "I") {
+				const rankData = idRank(item.id);
+				const rank = pageLanguage === "en" ? rankData?.rankEn : rankData?.rank;
+				const hunterLevel = pageLanguage === "en" ? rankData?.recommendedLevelEn : rankData?.recommendedLevel;
+				const rankLabel = pageLanguage === "en" ? "Creature danger rank" : "Cấp độ nguy hiểm / Xếp hạng";
+				const levelLabel = pageLanguage === "en" ? "Recommended hunter level" : "Cấp độ khuyến nghị cho Thợ săn";
+				content = [
+					content,
+					rank ? `* **${rankLabel}:** ${rank}` : "",
+					hunterLevel ? `* **${levelLabel}:** ${hunterLevel}` : ""
+				].filter(Boolean).join("\n");
+			}
+			if (section.roman === "VI" && item.habitat) {
+				const habitatLabel = pageLanguage === "en" ? "Habitat" : "Môi trường sống";
+				content = [content, `* **${habitatLabel}:** ${item.habitat}`].filter(Boolean).join("\n");
+			}
 			if (section.roman === "IV") {
 				const remaining = removeElementalAffinityLines(content);
 				return `<section class="section" id="profile-${section.roman}"><h2>${section.roman}. ${escapeHtml(section.title)}</h2><h3>1. Kháng Nguyên tố (Elemental Affinity)</h3>${renderElementalAffinities(item)}${renderCrowdControlAndWeaknesses(content)}${remaining ? `<details class="profile-source-note"><summary>Ghi chú bổ sung từ hồ sơ nguồn</summary>${renderMarkdown(expandProfileAbbreviations(remaining))}</details>` : ""}</section>`;
@@ -1997,7 +2017,7 @@
 	}
 
 	function loadSystemTerms() {
-		const termsUrl = new URL(`GY/${pageLanguage}.txt`, wikiBasePath);
+		const termsUrl = new URL(`GY/${dataLanguage}.txt`, wikiBasePath);
 		return fetch(termsUrl, requestOptions)
 			.then(response => {
 				if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -2031,16 +2051,14 @@
 	}
 
 	function loadItemCatalog() {
-		const itemsUrl = new URL(`item/${pageLanguage}.txt`, wikiBasePath);
+		const itemsUrl = new URL(`item/${dataLanguage}.txt`, wikiBasePath);
 		return fetch(itemsUrl, requestOptions)
 			.then(response => {
 				if (!response.ok) throw new Error(`HTTP ${response.status}`);
 				return response.json();
 			})
 			.then(catalog => {
-				if (!Array.isArray(catalog) || catalog.length !== items.length) {
-					throw new Error(`Expected ${items.length} item records in ${itemsUrl.href}`);
-				}
+				if (!Array.isArray(catalog)) throw new Error(`Expected an array of item records in ${itemsUrl.href}`);
 				const ids = new Set();
 				for (const item of catalog) {
 					if (!item || typeof item.id !== "string" || ids.has(item.id) ||
@@ -2050,16 +2068,39 @@
 					}
 					ids.add(item.id);
 				}
-				if (catalog.some((item, index) => item.id !== items[index].id)) {
-					throw new Error(`Item IDs or ordering do not match the creature catalog in ${itemsUrl.href}`);
-				}
 				return catalog;
 			});
 	}
 
 	function initializeCatalogWithTerms(catalog) {
+		const elementData = window.loadElementIndex().then(indexes => {
+			if (indexes.vi.size !== indexes.en.size || !indexes[pageLanguage]?.size) {
+				throw new Error("Element data is missing or inconsistent between languages.");
+			}
+			return [...indexes[pageLanguage].values()];
+		});
+		const rankData = window.loadRankIndex().then(rankIndex => {
+			if (rankIndex.size !== catalog.length) {
+				throw new Error(`Expected ${catalog.length} rank records, found ${rankIndex.size}.`);
+			}
+			for (const creature of catalog) {
+				const rank = idRank(creature.id);
+				if (!rank) throw new Error(`Missing rank data for ${creature.id}.`);
+				creature.rankData = rank;
+			}
+		});
+		const habitatData = window.loadHabitatIndex().then(indexes => {
+			if (indexes.vi.size !== catalog.length || indexes.en.size !== catalog.length) {
+				throw new Error(`Expected ${catalog.length} habitat records in each language.`);
+			}
+			for (const creature of catalog) {
+				const habitat = window.idHabitat(creature.id, pageLanguage);
+				if (!habitat) throw new Error(`Missing ${pageLanguage} habitat data for ${creature.id}.`);
+				creature.habitat = habitat;
+			}
+		});
 		const terms = loadSystemTerms().catch(error => {
-				const termsUrl = new URL(`GY/${pageLanguage}.txt`, wikiBasePath);
+				const termsUrl = new URL(`GY/${dataLanguage}.txt`, wikiBasePath);
 				console.error(`Could not load system terminology from ${termsUrl.href}:`, error);
 				const status = document.getElementById("status");
 				if (status) status.textContent = pageLanguage === "en"
@@ -2068,7 +2109,7 @@
 				return null;
 			});
 		const savedItems = loadItemCatalog().catch(error => {
-			const itemsUrl = new URL(`item/${pageLanguage}.txt`, wikiBasePath);
+			const itemsUrl = new URL(`item/${dataLanguage}.txt`, wikiBasePath);
 			console.error(`Could not load item catalog from ${itemsUrl.href}:`, error);
 			const status = document.getElementById("status");
 			if (status) status.textContent = pageLanguage === "en"
@@ -2076,9 +2117,10 @@
 				: `Không tải được vật phẩm từ ${itemsUrl.pathname}; đang dùng danh mục tạo từ hồ sơ. ${error.message}`;
 			return null;
 		});
-		Promise.all([terms, savedItems]).then(([systemTerms, itemCatalog]) => {
-			if (itemCatalog) setItemCatalog(itemCatalog);
-			initializeCatalog(systemTerms || []);
+		Promise.all([terms, savedItems, rankData, habitatData, elementData]).then(([systemTerms, itemCatalog, , , elementCatalog]) => {
+			initializeCatalog(systemTerms || [], itemCatalog, elementCatalog);
+		}).catch(error => {
+			showCatalogError("RK/rank.txt", error);
 		});
 	}
 

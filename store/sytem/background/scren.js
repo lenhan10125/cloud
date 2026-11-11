@@ -206,18 +206,24 @@
 	let currentId = "obsidian";
 
 	function readSavedTheme() {
+		if (window.OriciinWikiSettings) return window.OriciinWikiSettings.getTheme(storageKey);
 		try {
 			return localStorage.getItem(storageKey);
-		} catch {
+		} catch (error) {
+			console.error("Không thể đọc chủ đề đã lưu:", error);
 			return null;
 		}
 	}
 
 	function saveTheme(id) {
+		if (window.OriciinWikiSettings) {
+			window.OriciinWikiSettings.setTheme(storageKey, id);
+			return;
+		}
 		try {
 			localStorage.setItem(storageKey, id);
-		} catch {
-			return;
+		} catch (error) {
+			console.error("Không thể lưu chủ đề:", error);
 		}
 	}
 

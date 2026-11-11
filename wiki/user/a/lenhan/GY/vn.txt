@@ -20,7 +20,7 @@ system-term-18	Điểm yếu	Nguyên tố, bộ phận hoặc điều kiện có
 system-term-19	Nguyên tố / Thuộc tính hệ	Mối liên hệ nguyên tố dùng để mô tả đòn đánh, phòng thủ hoặc hiệu ứng ma thuật.
 system-term-20	Rank (Hạng)	Tên gọi có ý nghĩa tùy ngữ cảnh; hạng thợ săn và hạng nguy hiểm sinh vật là hai hệ riêng.
 system-term-21	Rank thợ săn	Hạng hội viên hoặc nghiệp vụ của thợ săn; không trực tiếp cho biết hạng nguy hiểm của sinh vật.
-system-term-22	Hạng nguy hiểm sinh vật	Phân loại mức nguy hiểm dựa trên tư liệu nguồn; không mặc nhiên đồng nghĩa với sức mạnh chiến đấu.
+system-term-22	Hạng nguy hiểm sinh vật	Đánh giá mức đe dọa tổng thể theo tư liệu nguồn: sức mạnh, mức sát thương, phạm vi ảnh hưởng, khả năng ẩn nấp/xảo quyệt và độ khó khắc chế. Hạng cao nghĩa là cực kỳ nguy hiểm hoặc khó đối phó, không nhất thiết có sức mạnh thể chất cao nhất; hạng F dùng cho cá thể trung tính, không gây hại.
 system-term-23	Level cá thể	Cấp độ của sinh vật trong bảng trạng thái; khác với cấp độ khuyến nghị cho thợ săn.
 system-term-24	Cấp độ khuyến nghị	Mốc cấp độ gợi ý cho thợ săn khi đối đầu; không phải cấp độ của chính sinh vật.
 system-term-25	Cooldown (Hồi chiêu)	Khoảng thời gian cần chờ trước khi có thể dùng lại kỹ năng.
