@@ -294,7 +294,6 @@
 		</footer>
 	</div>
 
-	<!-- LÕI XỬ LÝ ĐÃ FIX HOÀN CHỈNH: PROXY + PYODIDE -->
 	<script>
 		const PROXY_URL = "https://cors-poxy.leduongtrinhan10125.workers.dev/?url=";
 		
@@ -302,11 +301,11 @@
 		let pyodideReady = false;
 		let cacheDisplayUnit = "MB";
 		
-		// Đã bỏ các thư viện FFmpeg vì code mới không cần dùng
 		const trackedLibraries = [
 			"pyodide.js", "index.js", "pyodide-lock.json",
 			"pyodide.asm.wasm", "python_stdlib.zip", "pyodide.asm.js",
-			"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl"
+			"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl",
+			"pyodide_http-0.2.1-py3-none-any.whl"
 		];
 
 		function updateLibraryCacheMetrics() {
@@ -410,9 +409,11 @@
 				await pyodideInstance.loadPackage("ssl");
 				await pyodideInstance.loadPackage("micropip");
 				
-				if (statusEl) statusEl.textContent = "Đang cài đặt yt-dlp (có thể mất 1-2 phút)...";
+				if (statusEl) statusEl.textContent = "Đang cài đặt yt-dlp và pyodide-http...";
 				const micropip = pyodideInstance.pyimport("micropip");
 				await micropip.install("yt-dlp");
+				// Cài đặt thêm gói pyodide-http để vá lỗi Host is unreachable
+				await micropip.install("pyodide-http");
 
 				pyodideReady = true;
 				updateLibraryCacheMetrics();
@@ -453,19 +454,23 @@
 				if (downloadBtn) downloadBtn.disabled = true;
 				if (statusEl) statusEl.textContent = "Đang phân tích và tải video qua WIKO Proxy...";
 
-				// Script Python can thiệp vào urllib để ép mọi request đi qua Cloudflare Worker
+				// Script Python tích hợp pyodide_http để sửa lỗi socket
 				const pythonScript = `
 import urllib.request
 import urllib.parse
 import json
 import yt_dlp
+import pyodide_http
 import base64
 import os
 
 PROXY_BASE = "${PROXY_URL}"
 TARGET_URL = "${youtubeUrl.href}"
 
-# 1. Kỹ thuật Monkey-patch: Bẻ khóa mọi request của yt-dlp
+# 1. Vá các thư viện HTTP của Python để dùng fetch API của trình duyệt
+pyodide_http.patch_all()
+
+# 2. Kỹ thuật Monkey-patch để ép mọi request đi qua Cloudflare Proxy
 original_urlopen = urllib.request.urlopen
 def patched_urlopen(url, *args, **kwargs):
     if isinstance(url, str):
@@ -478,7 +483,7 @@ def patched_urlopen(url, *args, **kwargs):
 
 urllib.request.urlopen = patched_urlopen
 
-# 2. Cấu hình yt-dlp
+# 3. Cấu hình yt-dlp
 ydl_opts = {
     'format': 'best[ext=mp4]/best', 
     'outtmpl': '/tmp/wiko_video.mp4',
@@ -491,7 +496,7 @@ try:
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([TARGET_URL])
     
-    # 3. Đọc file và chuyển sang Base64 để gửi về JS
+    # 4. Đọc file và chuyển sang Base64 để gửi về JS
     if os.path.exists('/tmp/wiko_video.mp4'):
         with open('/tmp/wiko_video.mp4', 'rb') as f:
             video_data = f.read()
@@ -513,7 +518,6 @@ json.dumps(res)
 				if (res.status === "success") {
 					if (statusEl) statusEl.textContent = "Đang đóng gói file để tải về máy...";
 					
-					// Chuyển Base64 ngược lại thành file Blob để trình duyệt tải
 					const byteCharacters = atob(res.data);
 					const byteNumbers = new Array(byteCharacters.length);
 					for (let i = 0; i < byteCharacters.length; i++) {
