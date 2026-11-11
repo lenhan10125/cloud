@@ -1,6 +1,5 @@
 // Đã gán link Render thực tế của bạn
-const BACKEND_URL = "https://cloud-bye3.onrender.com"; 
-
+const BACKEND_URL = "https://cloud-zivd.onrender.com"; 
 // Hàm cập nhật Cache Panel (Giữ lại cho đúng giao diện bạn muốn)
 function updateLibraryCacheMetrics() {
     const cacheSummaryEl = document.getElementById("wiko-cache-summary");
