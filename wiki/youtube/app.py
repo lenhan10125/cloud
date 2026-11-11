@@ -31,8 +31,6 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
         raise HTTPException(status_code=400, detail="Thiếu tham số 'url'")
 
     temp_dir = tempfile.mkdtemp(prefix="wiko_")
-    
-    # Lấy địa chỉ Provider từ biến môi trường
     pot_url = os.environ.get("POT_PROVIDER_URL", "")
 
     ydl_opts = {
@@ -40,20 +38,19 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
         'outtmpl': os.path.join(temp_dir, 'video.%(ext)s'),
         'quiet': True,
         'no_warnings': True,
-        'verbose': True, # Bật verbose để xem log kích hoạt PO Token
+        'verbose': True, # Giữ verbose để kiểm tra log
         'extractor_args': {
             'youtube': {
-                # 1. Chỉ định rõ các client hỗ trợ PO Token flow
+                # Ép buộc dùng các client có kích hoạt PO Token flow
                 'player_client': ['mweb', 'tv', 'web_safari'],
             },
-            # 2. Cấu hình đúng cách cho plugin bgutilhttp
+            # Cấu hình đúng cho plugin bgutil HTTP provider
             'youtubepot-bgutilhttp': {
                 'base_url': [pot_url]
             }
         }
     }
 
-    # Dự phòng: Nếu có file cookies.txt, vẫn sẽ dùng để tăng độ tin cậy
     if os.path.exists('cookies.txt'):
         ydl_opts['cookiefile'] = 'cookies.txt'
 
