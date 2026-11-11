@@ -278,7 +278,7 @@
 			<section class="hero" aria-labelledby="page-title">
 				<p class="eyebrow">Không gian video WIKO ORI</p>
 				<h1 id="page-title">Tiện ích phi lợi nhuận<br>cho liên kết YouTube.</h1>
-				<p class="hero-copy">Dán liên kết YouTube vào ô bên dưới để mở video trực tiếp trên nền tảng.</p>
+				<p class="hero-copy">Dán liên kết YouTube vào ô bên dưới để tải video trực tiếp trên trình duyệt.</p>
 
 				<div class="link-card">
 					<label for="wiko-url-input">Liên kết video</label>
@@ -290,13 +290,13 @@
 							</svg>
 						</span>
 						<input id="wiko-url-input" name="wiko-url-input" type="text" inputmode="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" aria-describedby="linkHelp wiko-status-text">
-						<button id="wiko-download-btn" type="button" onclick="startWikoDownload()" disabled aria-describedby="wiko-status-text">Mở video <span aria-hidden="true">→</span></button>
+						<button id="wiko-download-btn" type="button" onclick="startWikoDownload()" disabled aria-describedby="wiko-status-text">Tải video <span aria-hidden="true">→</span></button>
 					</div>
 					<p class="input-help" id="linkHelp">
 						<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10 3.2 3.2L15.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/></svg>
 						Chỉ sử dụng liên kết đến nội dung bạn có quyền truy cập và sử dụng.
 					</p>
-					<p class="status-message" id="wiko-status-text" role="status" aria-live="polite">Nhập liên kết YouTube để mở video.</p>
+					<p class="status-message" id="wiko-status-text" role="status" aria-live="polite">Chức năng tải chưa được kết nối.</p>
 				</div>
 
 				<div class="promise-strip" aria-label="Cam kết 3 không">
@@ -343,13 +343,12 @@
 
 		<footer>
 			<strong>WIKO ORI · Tiện ích video</strong>
-			<span>Tiện ích liên kết — mở video trên YouTube.</span>
+			<span>Giao diện tải video — sẵn sàng để xử lý URL hợp lệ.</span>
 		</footer>
 	</div>
 
-	<!-- LÕI XỬ LÝ ĐÃ ĐƯỢC CHỈNH SỬA LẠI HOÀN CHỈNH -->
+	<!-- LÕI XỬ LÝ ĐÃ FIX HOÀN CHỈNH: PROXY + PYODIDE + FFMPEG BLOB -->
 	<script>
-		// 1. Cấu hình Proxy Worker
 		const PROXY_URL = "https://cors-poxy.leduongtrinhan10125.workers.dev/?url=";
 		
 		let pyodideInstance = null;
@@ -362,7 +361,6 @@
 			"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl"
 		];
 
-		// 2. Hàm cập nhật giao diện Cache
 		function updateLibraryCacheMetrics() {
 			const resources = performance.getEntriesByType("resource");
 			const entries = trackedLibraries.map((library) => {
@@ -404,7 +402,6 @@
 			}
 		}
 
-		// 3. Hàm kiểm tra link YouTube hợp lệ
 		function parseYouTubeUrl(value) {
 			try {
 				const url = new URL(value);
@@ -427,7 +424,6 @@
 			}
 		}
 
-		// 4. KHỞI TẠO MÔI TRƯỜNG PYTHON VÀ FFMPEG (Đã fix lỗi CORS Blob Worker)
 		window.addEventListener("DOMContentLoaded", async () => {
 			const statusEl = document.getElementById("wiko-status-text");
 			const downloadBtn = document.getElementById("wiko-download-btn");
@@ -460,44 +456,68 @@
 				if (statusEl) statusEl.textContent = "Đang khởi tạo môi trường xử lý...";
 				if (typeof window.loadPyodide !== "function") throw new Error("Pyodide chưa sẵn sàng.");
 
-				// Nạp Python & yt-dlp
 				pyodideInstance = await window.loadPyodide();
+				await pyodideInstance.loadPackage("ssl");
 				await pyodideInstance.loadPackage("micropip");
 				const micropip = pyodideInstance.pyimport("micropip");
 				await micropip.install("yt-dlp");
 
-				// Nạp FFmpeg (Cách ly lỗi CORS bằng Blob URL)
 				const ffmpegApi = window.FFmpegWASM || window.FFmpeg;
 				if (ffmpegApi && typeof ffmpegApi.FFmpeg === "function") {
 					ffmpegInstance = new ffmpegApi.FFmpeg();
 					const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
 					const ffmpegURL = "https://unpkg.com/@ffmpeg/ffmpeg@0.12.7/dist/umd";
-					
+					const blobURLs = [];
 					const getBlobURL = async (url, mime) => {
-						const resp = await fetch(url);
-						const blob = await resp.blob();
-						return URL.createObjectURL(blob);
+						const ffmpegUtil = window.FFmpegUtil;
+						if (ffmpegUtil && typeof ffmpegUtil.toBlobURL === "function") {
+							const blobURL = await ffmpegUtil.toBlobURL(url, mime);
+							blobURLs.push(blobURL);
+							return blobURL;
+						}
+						const response = await fetch(url);
+						if (!response.ok) {
+							throw new Error(`Không thể tải tài nguyên FFmpeg (${response.status}): ${url}`);
+						}
+						const blobURL = URL.createObjectURL(new Blob([await response.arrayBuffer()], { type: mime }));
+						blobURLs.push(blobURL);
+						return blobURL;
 					};
 
-					await ffmpegInstance.load({
-						classWorkerURL: await getBlobURL(`${ffmpegURL}/814.ffmpeg.js`, 'text/javascript'),
-						coreURL: await getBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-						wasmURL: await getBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-					});
+					const OriginalWorker = window.Worker;
+					try {
+						const workerBlobURL = await getBlobURL(`${ffmpegURL}/814.ffmpeg.js`, "text/javascript");
+						const coreBlobURL = await getBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript");
+						const wasmBlobURL = await getBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm");
+						window.Worker = function (scriptURL, options) {
+							if (scriptURL.toString().includes("/814.ffmpeg.js")) {
+								return new OriginalWorker(workerBlobURL, options);
+							}
+							return new OriginalWorker(scriptURL, options);
+						};
+						await ffmpegInstance.load({
+							coreURL: coreBlobURL,
+							wasmURL: wasmBlobURL
+						});
+					} finally {
+						window.Worker = OriginalWorker;
+						blobURLs.forEach((blobURL) => URL.revokeObjectURL(blobURL));
+					}
 				}
 
 				pyodideReady = true;
 				updateLibraryCacheMetrics();
-				if (statusEl) statusEl.textContent = "Hệ thống sẵn sàng! Nhập link YouTube để xử lý video.";
-				if (downloadBtn) downloadBtn.innerHTML = 'Tải video <span aria-hidden="true">→</span>';
+				if (statusEl) statusEl.textContent = "Hệ thống sẵn sàng! Nhập link YouTube để bắt đầu.";
+				if (downloadBtn) {
+					downloadBtn.disabled = false;
+					downloadBtn.textContent = "Tải video →";
+				}
 				updateDownloadButton();
 			} catch (err) {
 				if (statusEl) statusEl.textContent = "Lỗi khởi tạo: " + err.message;
-				if (downloadBtn) downloadBtn.disabled = true;
 			}
 		});
 
-		// 5. THỰC THI yt-dlp TRÊN TRÌNH DUYỆT QUA PROXY
 		async function startWikoDownload() {
 			const urlInput = document.getElementById("wiko-url-input");
 			const statusEl = document.getElementById("wiko-status-text");
@@ -522,12 +542,11 @@
 
 			try {
 				if (downloadBtn) downloadBtn.disabled = true;
-				if (statusEl) statusEl.textContent = "Đang phân tích dữ liệu video (bước này mất vài giây)...";
+				if (statusEl) statusEl.textContent = "Đang phân tích liên kết qua WIKO Proxy...";
 
-				// Bọc link qua Cloudflare Worker để chống chặn
+				// Bọc link qua Cloudflare Worker Proxy để yt-dlp nhận dữ liệu chuẩn xác
 				const targetApi = PROXY_URL + encodeURIComponent(youtubeUrl.href);
 
-				// Mã Python chạy yt-dlp
 				const pythonScript = `
 import json
 import yt_dlp
