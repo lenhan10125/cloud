@@ -32,9 +32,8 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
 
     temp_dir = tempfile.mkdtemp(prefix="wiko_")
     
-    # Lấy địa chỉ của PO Token Provider từ Render Environment Variables
-    # (Nếu không có, mặc định dùng localhost cho môi trường dev)
-    pot_url = os.environ.get("POT_PROVIDER_URL", "http://localhost:4416")
+    # 1. Lấy địa chỉ Provider từ biến môi trường
+    pot_url = os.environ.get("POT_PROVIDER_URL", "")
 
     ydl_opts = {
         'format': 'best[ext=mp4]/best',
@@ -43,18 +42,24 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
         'no_warnings': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['web_safari', 'tv', 'android_vr'],
-                # Cấu hình PO Token trỏ đến Provider
-                'po_token': [
-                    f'web+{pot_url}',
-                    f'mweb+{pot_url}',
-                    f'tv+{pot_url}'
-                ]
+                # 2. Chỉ định rõ các client cần dùng (mweb, tv, web_safari) để kích hoạt PO Token
+                'player_client': ['mweb', 'tv', 'web_safari'],
             }
         }
     }
 
-    # Nếu có file cookies.txt (dự phòng), vẫn sẽ dùng
+    # 3. Cấu hình PO Token với đúng định dạng CLIENT.CONTEXT+URL
+    #    Plugin bgutil sẽ tự động thêm token vào các request.
+    if pot_url:
+        ydl_opts['extractor_args']['youtube']['po_token'] = [
+            f'web.gvs+{pot_url}',
+            f'mweb.gvs+{pot_url}',
+            f'tv+{pot_url}'
+        ]
+        # Bật verbose để xem log kích hoạt PO Token
+        ydl_opts['verbose'] = True
+
+    # 4. Dự phòng: Nếu có file cookies.txt, vẫn sẽ dùng để tăng độ tin cậy
     if os.path.exists('cookies.txt'):
         ydl_opts['cookiefile'] = 'cookies.txt'
 
