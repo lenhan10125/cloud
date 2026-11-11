@@ -9,7 +9,6 @@ import glob
 
 app = FastAPI()
 
-# Cho phép mọi tên miền (kể cả oriciin.cloud) gọi đến server này
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,6 +32,10 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
 
     temp_dir = tempfile.mkdtemp(prefix="wiko_")
     
+    # Lấy địa chỉ của PO Token Provider từ Render Environment Variables
+    # (Nếu không có, mặc định dùng localhost cho môi trường dev)
+    pot_url = os.environ.get("POT_PROVIDER_URL", "http://localhost:4416")
+
     ydl_opts = {
         'format': 'best[ext=mp4]/best',
         'outtmpl': os.path.join(temp_dir, 'video.%(ext)s'),
@@ -40,12 +43,18 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
         'no_warnings': True,
         'extractor_args': {
             'youtube': {
-                'player_client': ['android_vr', 'tv', 'web_safari']
+                'player_client': ['web_safari', 'tv', 'android_vr'],
+                # Cấu hình PO Token trỏ đến Provider
+                'po_token': [
+                    f'web+{pot_url}',
+                    f'mweb+{pot_url}',
+                    f'tv+{pot_url}'
+                ]
             }
         }
     }
 
-    # Nếu bạn có file cookies.txt để trong cùng thư mục, server sẽ tự động dùng để vượt bot
+    # Nếu có file cookies.txt (dự phòng), vẫn sẽ dùng
     if os.path.exists('cookies.txt'):
         ydl_opts['cookiefile'] = 'cookies.txt'
 

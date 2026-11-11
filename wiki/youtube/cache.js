@@ -1,7 +1,5 @@
-// Thay link này bằng link Render của bạn (Không có dấu / ở cuối)
-const BACKEND_URL = "https://wiko-api.onrender.com"; 
-
-let cookiesText = ""; // Biến này giữ lại cho vui, không cần thiết nữa vì server tự xử lý cookies
+// Đã gán link Render thực tế của bạn
+const BACKEND_URL = "https://cloud-bye3.onrender.com"; 
 
 // Hàm cập nhật Cache Panel (Giữ lại cho đúng giao diện bạn muốn)
 function updateLibraryCacheMetrics() {
@@ -68,7 +66,7 @@ async function startWikoDownload() {
 
     try {
         downloadBtn.disabled = true;
-        statusEl.textContent = "Đang yêu cầu server tải video... (Vui lòng đợi, lần đầu có thể mất 30s để server khởi động)";
+        statusEl.textContent = "Đang yêu cầu server tải video... (Vui lòng đợi, lần đầu có thể mất 30-50s để server khởi động)";
 
         // Gọi đến API của Render
         const response = await fetch(`${BACKEND_URL}/api/download?url=${encodeURIComponent(youtubeUrl.href)}`);
