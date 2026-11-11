@@ -38,19 +38,22 @@ async def download_video(url: str, bg_tasks: BackgroundTasks):
         'outtmpl': os.path.join(temp_dir, 'video.%(ext)s'),
         'quiet': True,
         'no_warnings': True,
-        'verbose': True, # Giữ verbose để kiểm tra log
+        'verbose': True,
+        # 1. Chỉ định các client có kích hoạt luồng PO Token
         'extractor_args': {
             'youtube': {
-                # Ép buộc dùng các client có kích hoạt PO Token flow
                 'player_client': ['mweb', 'tv', 'web_safari'],
             },
-            # Cấu hình đúng cho plugin bgutil HTTP provider
-            'youtubepot-bgutilhttp': {
-                'base_url': [pot_url]
-            }
+        },
+        # 2. Kích hoạt JS runtime (Node.js và Deno) để giải quyết thử thách
+        'js_runtimes': ['node', 'deno'],
+        # 3. Cấu hình PO Token Provider
+        'youtubepot-bgutilhttp': {
+            'base_url': [pot_url] if pot_url else ['http://127.0.0.1:4416']
         }
     }
 
+    # 4. Sử dụng cookie nếu có (rất quan trọng để vượt qua kiểm tra đăng nhập)
     if os.path.exists('cookies.txt'):
         ydl_opts['cookiefile'] = 'cookies.txt'
 
