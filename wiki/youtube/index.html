@@ -5,12 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="color-scheme" content="dark">
 	<meta name="theme-color" content="#10131b">
-	<meta name="description" content="WIKO ORI Video — giao diện tiện ích video gọn gàng, minh bạch và tôn trọng quyền sử dụng nội dung.">
+	<meta name="description" content="WIKO ORI Video — giao diện tiện ích video gọn gàng, minh bạch.">
 	<title>WIKO ORI Video — Tiện ích video</title>
 	<link rel="icon" href="../store/favicon.ico" sizes="any">
 	<script defer src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-	<script defer src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.7/dist/umd/ffmpeg.js"></script>
-	<script defer src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
 	<style>
 		:root {
 			color-scheme: dark;
@@ -157,9 +155,7 @@
 			color: #f2f7ff;
 			cursor: pointer;
 		}
-		#wiko-download-btn:not(:disabled):hover {
-			transform: translateY(-1px);
-		}
+		#wiko-download-btn:not(:disabled):hover { transform: translateY(-1px); }
 		.input-help { display: flex; align-items: center; gap: 7px; margin: 11px 2px 0; color: var(--muted); font-size: 11px; }
 		.input-help svg { width: 14px; height: 14px; flex: none; color: var(--green); }
 		.status-message { min-height: 21px; margin: 12px 2px 0; color: var(--blue-light); font-size: 12px; }
@@ -184,28 +180,6 @@
 			font-weight: 600;
 		}
 		.promise svg { width: 17px; height: 17px; flex: none; color: var(--green); }
-		.terms { margin-top: clamp(58px, 10vw, 92px); }
-		.terms-heading { margin-bottom: 18px; }
-		.section-kicker { margin: 0 0 5px; color: var(--blue-light); font-size: 10px; font-weight: 700; letter-spacing: .15em; }
-		h2 { margin: 0; font-size: clamp(22px, 4vw, 28px); letter-spacing: -.025em; }
-		.terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-		.term-card {
-			min-height: 145px;
-			padding: 18px;
-			border: 1px solid var(--line);
-			border-radius: 13px;
-			background: linear-gradient(145deg, var(--surface), #141720);
-		}
-		.term-number { color: var(--blue-light); font: 700 11px Consolas, monospace; }
-		.term-card h3 { margin: 10px 0 5px; font-size: 14px; }
-		.term-card p, .legal-note { margin: 0; color: var(--muted); font-size: 12px; }
-		.legal-note {
-			margin-top: 14px;
-			padding: 14px 16px;
-			border-left: 2px solid #526b9d;
-			background: rgb(79 131 255 / 5%);
-			line-height: 1.7;
-		}
 		footer {
 			display: flex;
 			align-items: center;
@@ -232,8 +206,6 @@
 			#wiko-download-btn { width: 100%; }
 			.promise-strip { grid-template-columns: 1fr; gap: 7px; }
 			.promise { justify-content: flex-start; min-height: 42px; padding-left: 15px; }
-			.terms-grid { grid-template-columns: 1fr; }
-			.term-card { min-height: 0; }
 			footer { align-items: flex-start; flex-direction: column; gap: 5px; }
 		}
 		@media (prefers-reduced-motion: reduce) {
@@ -262,7 +234,7 @@
 			<div class="cache-heading">
 				<div>
 					<h2 id="cacheTitle">Thư viện đã tải</h2>
-					<p class="cache-description">Danh sách tài nguyên Pyodide/FFmpeg được trình duyệt ghi nhận trong phiên trang này.</p>
+					<p class="cache-description">Danh sách tài nguyên Pyodide được trình duyệt ghi nhận trong phiên trang này.</p>
 				</div>
 				<div class="cache-controls">
 					<button class="cache-control" id="cacheUnitToggle" type="button">Đơn vị: MB</button>
@@ -271,7 +243,7 @@
 			</div>
 			<p class="cache-summary" id="wiko-cache-summary" role="status" aria-live="polite">0 MB đo được · 0/9 thư viện có số liệu</p>
 			<ul class="cache-list" id="cacheList"></ul>
-			<p class="cache-note">Dung lượng ưu tiên kích thước phản hồi nén; nếu trình duyệt không cung cấp, trang dùng kích thước đã giải nén. Một số CDN không công khai số đo; các mục đó sẽ hiện “Không có số liệu”. Đây là tài nguyên thư viện được tải trong phiên hiện tại, không phải toàn bộ cache trên đĩa hay RAM đang sử dụng.</p>
+			<p class="cache-note">Dung lượng ưu tiên kích thước phản hồi nén; nếu trình duyệt không cung cấp, trang dùng kích thước đã giải nén. Đây là tài nguyên thư viện được tải trong phiên hiện tại, không phải toàn bộ cache trên đĩa hay RAM đang sử dụng.</p>
 		</section>
 
 		<main>
@@ -314,31 +286,6 @@
 					</div>
 				</div>
 			</section>
-
-			<section class="terms" aria-labelledby="terms-title">
-				<div class="terms-heading">
-					<p class="section-kicker">RÕ RÀNG NGAY TỪ ĐẦU</p>
-					<h2 id="terms-title">Quyền &amp; điều khoản sử dụng</h2>
-				</div>
-				<div class="terms-grid">
-					<article class="term-card">
-						<span class="term-number">01 / TÔN TRỌNG</span>
-						<h3>Quyền nội dung</h3>
-						<p>Chỉ sử dụng nội dung do bạn sở hữu, được cấp phép hoặc được chủ sở hữu cho phép.</p>
-					</article>
-					<article class="term-card">
-						<span class="term-number">02 / TUÂN THỦ</span>
-						<h3>Điều khoản nền tảng</h3>
-						<p>Người dùng có trách nhiệm tuân thủ điều khoản dịch vụ và chính sách bản quyền của YouTube.</p>
-					</article>
-					<article class="term-card">
-						<span class="term-number">03 / MINH BẠCH</span>
-						<h3>Không né tránh</h3>
-						<p>Không dùng công cụ này để vượt qua cơ chế truy cập, giới hạn hoặc biện pháp bảo vệ nội dung.</p>
-					</article>
-				</div>
-				<p class="legal-note">Bằng việc sử dụng trang, bạn xác nhận mình có quyền hợp pháp với nội dung được xử lý và chịu trách nhiệm về cách sử dụng. WIKO ORI không lưu trữ hay tuyên bố sở hữu video của bên thứ ba.</p>
-			</section>
 		</main>
 
 		<footer>
@@ -347,16 +294,17 @@
 		</footer>
 	</div>
 
-	<!-- LÕI XỬ LÝ ĐÃ FIX HOÀN CHỈNH: PROXY + PYODIDE + FFMPEG BLOB -->
+	<!-- LÕI XỬ LÝ ĐÃ FIX HOÀN CHỈNH: PROXY + PYODIDE -->
 	<script>
 		const PROXY_URL = "https://cors-poxy.leduongtrinhan10125.workers.dev/?url=";
 		
 		let pyodideInstance = null;
-		let ffmpegInstance = null;
 		let pyodideReady = false;
 		let cacheDisplayUnit = "MB";
+		
+		// Đã bỏ các thư viện FFmpeg vì code mới không cần dùng
 		const trackedLibraries = [
-			"pyodide.js", "index.js", "ffmpeg.js", "pyodide-lock.json",
+			"pyodide.js", "index.js", "pyodide-lock.json",
 			"pyodide.asm.wasm", "python_stdlib.zip", "pyodide.asm.js",
 			"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl"
 		];
@@ -457,53 +405,14 @@
 				if (typeof window.loadPyodide !== "function") throw new Error("Pyodide chưa sẵn sàng.");
 
 				pyodideInstance = await window.loadPyodide();
+				
+				if (statusEl) statusEl.textContent = "Đang tải module SSL...";
 				await pyodideInstance.loadPackage("ssl");
 				await pyodideInstance.loadPackage("micropip");
+				
+				if (statusEl) statusEl.textContent = "Đang cài đặt yt-dlp (có thể mất 1-2 phút)...";
 				const micropip = pyodideInstance.pyimport("micropip");
 				await micropip.install("yt-dlp");
-
-				const ffmpegApi = window.FFmpegWASM || window.FFmpeg;
-				if (ffmpegApi && typeof ffmpegApi.FFmpeg === "function") {
-					ffmpegInstance = new ffmpegApi.FFmpeg();
-					const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-					const ffmpegURL = "https://unpkg.com/@ffmpeg/ffmpeg@0.12.7/dist/umd";
-					const blobURLs = [];
-					const getBlobURL = async (url, mime) => {
-						const ffmpegUtil = window.FFmpegUtil;
-						if (ffmpegUtil && typeof ffmpegUtil.toBlobURL === "function") {
-							const blobURL = await ffmpegUtil.toBlobURL(url, mime);
-							blobURLs.push(blobURL);
-							return blobURL;
-						}
-						const response = await fetch(url);
-						if (!response.ok) {
-							throw new Error(`Không thể tải tài nguyên FFmpeg (${response.status}): ${url}`);
-						}
-						const blobURL = URL.createObjectURL(new Blob([await response.arrayBuffer()], { type: mime }));
-						blobURLs.push(blobURL);
-						return blobURL;
-					};
-
-					const OriginalWorker = window.Worker;
-					try {
-						const workerBlobURL = await getBlobURL(`${ffmpegURL}/814.ffmpeg.js`, "text/javascript");
-						const coreBlobURL = await getBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript");
-						const wasmBlobURL = await getBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm");
-						window.Worker = function (scriptURL, options) {
-							if (scriptURL.toString().includes("/814.ffmpeg.js")) {
-								return new OriginalWorker(workerBlobURL, options);
-							}
-							return new OriginalWorker(scriptURL, options);
-						};
-						await ffmpegInstance.load({
-							coreURL: coreBlobURL,
-							wasmURL: wasmBlobURL
-						});
-					} finally {
-						window.Worker = OriginalWorker;
-						blobURLs.forEach((blobURL) => URL.revokeObjectURL(blobURL));
-					}
-				}
 
 				pyodideReady = true;
 				updateLibraryCacheMetrics();
@@ -542,31 +451,56 @@
 
 			try {
 				if (downloadBtn) downloadBtn.disabled = true;
-				if (statusEl) statusEl.textContent = "Đang phân tích liên kết qua WIKO Proxy...";
+				if (statusEl) statusEl.textContent = "Đang phân tích và tải video qua WIKO Proxy...";
 
-				// Bọc link qua Cloudflare Worker Proxy để yt-dlp nhận dữ liệu chuẩn xác
-				const targetApi = PROXY_URL + encodeURIComponent(youtubeUrl.href);
-
+				// Script Python can thiệp vào urllib để ép mọi request đi qua Cloudflare Worker
 				const pythonScript = `
+import urllib.request
+import urllib.parse
 import json
 import yt_dlp
+import base64
+import os
 
-proxy_target = ${JSON.stringify(targetApi)}
+PROXY_BASE = "${PROXY_URL}"
+TARGET_URL = "${youtubeUrl.href}"
+
+# 1. Kỹ thuật Monkey-patch: Bẻ khóa mọi request của yt-dlp
+original_urlopen = urllib.request.urlopen
+def patched_urlopen(url, *args, **kwargs):
+    if isinstance(url, str):
+        if not url.startswith(PROXY_BASE):
+            url = PROXY_BASE + urllib.parse.quote(url, safe='')
+    elif isinstance(url, urllib.request.Request):
+        if not url.full_url.startswith(PROXY_BASE):
+            url.full_url = PROXY_BASE + urllib.parse.quote(url.full_url, safe='')
+    return original_urlopen(url, *args, **kwargs)
+
+urllib.request.urlopen = patched_urlopen
+
+# 2. Cấu hình yt-dlp
 ydl_opts = {
+    'format': 'best[ext=mp4]/best', 
+    'outtmpl': '/tmp/wiko_video.mp4',
     'quiet': True,
     'no_warnings': True,
-    'extract_flat': False
+    'nocheckcertificate': True,
 }
 
 try:
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(proxy_target, download=False)
-        res = {
-            "status": "success",
-            "title": info.get('title', 'Video không xác định'),
-            "duration": info.get('duration', 0),
-            "formats_count": len(info.get('formats', []))
-        }
+        ydl.download([TARGET_URL])
+    
+    # 3. Đọc file và chuyển sang Base64 để gửi về JS
+    if os.path.exists('/tmp/wiko_video.mp4'):
+        with open('/tmp/wiko_video.mp4', 'rb') as f:
+            video_data = f.read()
+        b64_data = base64.b64encode(video_data).decode('utf-8')
+        res = {"status": "success", "data": b64_data}
+        
+        os.remove('/tmp/wiko_video.mp4')
+    else:
+        res = {"status": "error", "message": "Không tìm thấy file video sau khi tải."}
 except Exception as e:
     res = {"status": "error", "message": str(e)}
 
@@ -577,7 +511,27 @@ json.dumps(res)
 				const res = JSON.parse(resultJson);
 				
 				if (res.status === "success") {
-					if (statusEl) statusEl.textContent = `Thành công! Đã tìm thấy video "${res.title}" (${res.formats_count} luồng sẵn có). Sẵn sàng để tải.`;
+					if (statusEl) statusEl.textContent = "Đang đóng gói file để tải về máy...";
+					
+					// Chuyển Base64 ngược lại thành file Blob để trình duyệt tải
+					const byteCharacters = atob(res.data);
+					const byteNumbers = new Array(byteCharacters.length);
+					for (let i = 0; i < byteCharacters.length; i++) {
+						byteNumbers[i] = byteCharacters.charCodeAt(i);
+					}
+					const byteArray = new Uint8Array(byteNumbers);
+					const blob = new Blob([byteArray], { type: "video/mp4" });
+					
+					const url = URL.createObjectURL(blob);
+					const a = document.createElement("a");
+					a.href = url;
+					a.download = "wiko_video.mp4";
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+					URL.revokeObjectURL(url);
+
+					if (statusEl) statusEl.textContent = "✅ Tải thành công! Video đã được lưu.";
 				} else {
 					throw new Error(res.message);
 				}
