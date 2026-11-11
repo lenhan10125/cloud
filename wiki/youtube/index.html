@@ -277,8 +277,8 @@
 		<main>
 			<section class="hero" aria-labelledby="page-title">
 				<p class="eyebrow">Không gian video WIKO ORI</p>
-				<h1 id="page-title">Tiện ích phi lợi nhuận<br>giúp tải video YouTube.</h1>
-				<p class="hero-copy">Dán liên kết video vào ô bên dưới để bắt đầu. Trang tích hợp trình tải video và kiểm tra URL YouTube trong trình duyệt.</p>
+				<h1 id="page-title">Tiện ích phi lợi nhuận<br>cho liên kết YouTube.</h1>
+				<p class="hero-copy">Dán liên kết YouTube vào ô bên dưới để mở video trực tiếp trên nền tảng.</p>
 
 				<div class="link-card">
 					<label for="wiko-url-input">Liên kết video</label>
@@ -290,13 +290,13 @@
 							</svg>
 						</span>
 						<input id="wiko-url-input" name="wiko-url-input" type="text" inputmode="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url" aria-describedby="linkHelp wiko-status-text">
-						<button id="wiko-download-btn" type="button" onclick="startWikoDownload()" disabled aria-describedby="wiko-status-text">Tải video <span aria-hidden="true">→</span></button>
+						<button id="wiko-download-btn" type="button" onclick="startWikoDownload()" disabled aria-describedby="wiko-status-text">Mở video <span aria-hidden="true">→</span></button>
 					</div>
 					<p class="input-help" id="linkHelp">
 						<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 10 3.2 3.2L15.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/></svg>
 						Chỉ sử dụng liên kết đến nội dung bạn có quyền truy cập và sử dụng.
 					</p>
-					<p class="status-message" id="wiko-status-text" role="status" aria-live="polite">Chức năng tải chưa được kết nối.</p>
+					<p class="status-message" id="wiko-status-text" role="status" aria-live="polite">Nhập liên kết YouTube để mở video.</p>
 				</div>
 
 				<div class="promise-strip" aria-label="Cam kết 3 không">
@@ -343,130 +343,222 @@
 
 		<footer>
 			<strong>WIKO ORI · Tiện ích video</strong>
-			<span>Giao diện tải video — sẵn sàng để xử lý URL hợp lệ.</span>
+			<span>Tiện ích liên kết — mở video trên YouTube.</span>
 		</footer>
 	</div>
+
+	<!-- LÕI XỬ LÝ ĐÃ ĐƯỢC CHỈNH SỬA LẠI HOÀN CHỈNH -->
 	<script>
+		// 1. Cấu hình Proxy Worker
 		const PROXY_URL = "https://cors-poxy.leduongtrinhan10125.workers.dev/?url=";
+		
 		let pyodideInstance = null;
 		let ffmpegInstance = null;
+		let pyodideReady = false;
+		let cacheDisplayUnit = "MB";
+		const trackedLibraries = [
+			"pyodide.js", "index.js", "ffmpeg.js", "pyodide-lock.json",
+			"pyodide.asm.wasm", "python_stdlib.zip", "pyodide.asm.js",
+			"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl"
+		];
 
+		// 2. Hàm cập nhật giao diện Cache
 		function updateLibraryCacheMetrics() {
-			const trackedLibs = [
-				"pyodide.js", "index.js", "ffmpeg.js", "pyodide-lock.json",
-				"pyodide.asm.wasm", "python_stdlib.zip", "pyodide.asm.js",
-				"micropip-0.5.0-py3-none-any.whl", "packaging-23.1-py3-none-any.whl"
-			];
 			const resources = performance.getEntriesByType("resource");
-			let loadedCount = 0;
-			let totalBytes = 0;
-
-			resources.forEach((res) => {
-				trackedLibs.forEach((lib) => {
-					if (res.name.includes(lib)) {
-						loadedCount += 1;
-						totalBytes += res.encodedBodySize || res.transferSize || 0;
-					}
-				});
+			const entries = trackedLibraries.map((library) => {
+				const resource = resources.find((item) => item.name.includes(library));
+				const bytes = resource
+					? resource.encodedBodySize || resource.decodedBodySize || resource.transferSize || null
+					: null;
+				return { library, bytes };
 			});
-
-			const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+			const loadedEntries = entries.filter((entry) => entry.bytes !== null);
+			const totalBytes = loadedEntries.reduce((total, entry) => total + entry.bytes, 0);
+			const formattedTotal = cacheDisplayUnit === "MB"
+				? `${(totalBytes / (1024 * 1024)).toFixed(2)} MB`
+				: `${new Intl.NumberFormat("vi-VN").format(totalBytes * 8)} bit`;
 			const cacheSummaryEl = document.getElementById("wiko-cache-summary");
 			if (cacheSummaryEl) {
-				cacheSummaryEl.textContent = `${totalMB} MB đo được · ${loadedCount}/${trackedLibs.length} thư viện có số liệu`;
+				cacheSummaryEl.textContent = `${formattedTotal} đo được · ${loadedEntries.length}/${trackedLibraries.length} thư viện có số liệu`;
+			}
+
+			const cacheList = document.getElementById("cacheList");
+			if (cacheList) {
+				cacheList.replaceChildren();
+				entries.forEach(({ library, bytes }) => {
+					const row = document.createElement("li");
+					const name = document.createElement("span");
+					const size = document.createElement("span");
+					row.className = "cache-item";
+					name.className = "cache-resource";
+					size.className = "cache-size";
+					name.textContent = library;
+					size.textContent = bytes === null
+						? "Chưa ghi nhận"
+						: cacheDisplayUnit === "MB"
+							? `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+							: `${new Intl.NumberFormat("vi-VN").format(bytes * 8)} bit`;
+					row.append(name, size);
+					cacheList.append(row);
+				});
 			}
 		}
 
+		// 3. Hàm kiểm tra link YouTube hợp lệ
+		function parseYouTubeUrl(value) {
+			try {
+				const url = new URL(value);
+				const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
+				if (url.protocol !== "https:") return null;
+				if (hostname === "youtu.be") return url.pathname.length > 1 ? url : null;
+				if (!["youtube.com", "m.youtube.com", "youtube-nocookie.com"].includes(hostname)) return null;
+				if (url.searchParams.has("v")) return url;
+				return /^\/(shorts|embed|live)\/[^/]+/.test(url.pathname) ? url : null;
+			} catch {
+				return null;
+			}
+		}
+
+		function updateDownloadButton() {
+			const urlInput = document.getElementById("wiko-url-input");
+			const downloadBtn = document.getElementById("wiko-download-btn");
+			if (downloadBtn && urlInput) {
+				downloadBtn.disabled = !pyodideReady || !parseYouTubeUrl(urlInput.value.trim());
+			}
+		}
+
+		// 4. KHỞI TẠO MÔI TRƯỜNG PYTHON VÀ FFMPEG (Đã fix lỗi CORS Blob Worker)
 		window.addEventListener("DOMContentLoaded", async () => {
 			const statusEl = document.getElementById("wiko-status-text");
 			const downloadBtn = document.getElementById("wiko-download-btn");
 			const urlInput = document.getElementById("wiko-url-input");
+			const cacheButton = document.getElementById("cacheButton");
+			const cachePanel = document.getElementById("cachePanel");
+			const cacheRefresh = document.getElementById("cacheRefresh");
+			const cacheUnitToggle = document.getElementById("cacheUnitToggle");
 
-			if (urlInput) {
-				urlInput.addEventListener("input", () => {
-					if (!downloadBtn) return;
-					downloadBtn.disabled = !urlInput.value.trim();
+			if (urlInput) urlInput.addEventListener("input", updateDownloadButton);
+			if (cacheButton && cachePanel) {
+				cacheButton.addEventListener("click", () => {
+					const willOpen = cachePanel.hidden;
+					cachePanel.hidden = !willOpen;
+					cacheButton.setAttribute("aria-expanded", String(willOpen));
+					if (willOpen) updateLibraryCacheMetrics();
 				});
 			}
+			if (cacheRefresh) cacheRefresh.addEventListener("click", updateLibraryCacheMetrics);
+			if (cacheUnitToggle) {
+				cacheUnitToggle.addEventListener("click", () => {
+					cacheDisplayUnit = cacheDisplayUnit === "MB" ? "bit" : "MB";
+					cacheUnitToggle.textContent = `Đơn vị: ${cacheDisplayUnit}`;
+					updateLibraryCacheMetrics();
+				});
+			}
+			updateLibraryCacheMetrics();
 
 			try {
 				if (statusEl) statusEl.textContent = "Đang khởi tạo môi trường xử lý...";
-				if (typeof window.loadPyodide !== "function") {
-					throw new Error("Pyodide chưa sẵn sàng.");
-				}
+				if (typeof window.loadPyodide !== "function") throw new Error("Pyodide chưa sẵn sàng.");
 
+				// Nạp Python & yt-dlp
 				pyodideInstance = await window.loadPyodide();
 				await pyodideInstance.loadPackage("micropip");
 				const micropip = pyodideInstance.pyimport("micropip");
 				await micropip.install("yt-dlp");
 
+				// Nạp FFmpeg (Cách ly lỗi CORS bằng Blob URL)
 				const ffmpegApi = window.FFmpegWASM || window.FFmpeg;
-				if (ffmpegApi) {
-					if (typeof ffmpegApi.FFmpeg === "function") {
-						ffmpegInstance = new ffmpegApi.FFmpeg();
-						if (ffmpegInstance && typeof ffmpegInstance.load === "function") {
-							await ffmpegInstance.load();
-						}
-					} else if (typeof ffmpegApi.createFFmpeg === "function") {
-						ffmpegInstance = ffmpegApi.createFFmpeg({ log: false });
-						if (ffmpegInstance && typeof ffmpegInstance.load === "function") {
-							await ffmpegInstance.load();
-						}
-					}
+				if (ffmpegApi && typeof ffmpegApi.FFmpeg === "function") {
+					ffmpegInstance = new ffmpegApi.FFmpeg();
+					const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
+					const ffmpegURL = "https://unpkg.com/@ffmpeg/ffmpeg@0.12.7/dist/umd";
+					
+					const getBlobURL = async (url, mime) => {
+						const resp = await fetch(url);
+						const blob = await resp.blob();
+						return URL.createObjectURL(blob);
+					};
+
+					await ffmpegInstance.load({
+						classWorkerURL: await getBlobURL(`${ffmpegURL}/814.ffmpeg.js`, 'text/javascript'),
+						coreURL: await getBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+						wasmURL: await getBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+					});
 				}
 
+				pyodideReady = true;
 				updateLibraryCacheMetrics();
-
-				if (statusEl) statusEl.textContent = "Hệ thống sẵn sàng! Nhập link YouTube để bắt đầu.";
-				if (downloadBtn) {
-					downloadBtn.disabled = false;
-					downloadBtn.textContent = "Tải video →";
-				}
+				if (statusEl) statusEl.textContent = "Hệ thống sẵn sàng! Nhập link YouTube để xử lý video.";
+				if (downloadBtn) downloadBtn.innerHTML = 'Tải video <span aria-hidden="true">→</span>';
+				updateDownloadButton();
 			} catch (err) {
 				if (statusEl) statusEl.textContent = "Lỗi khởi tạo: " + err.message;
-				if (downloadBtn) downloadBtn.disabled = false;
+				if (downloadBtn) downloadBtn.disabled = true;
 			}
 		});
 
+		// 5. THỰC THI yt-dlp TRÊN TRÌNH DUYỆT QUA PROXY
 		async function startWikoDownload() {
 			const urlInput = document.getElementById("wiko-url-input");
 			const statusEl = document.getElementById("wiko-status-text");
 			const downloadBtn = document.getElementById("wiko-download-btn");
 			const rawUrl = urlInput ? urlInput.value.trim() : "";
+			
 			if (!rawUrl) {
 				alert("Vui lòng nhập liên kết YouTube hợp lệ!");
 				return;
 			}
 
+			if (!pyodideReady || !pyodideInstance) {
+				if (statusEl) statusEl.textContent = "Môi trường chưa sẵn sàng. Vui lòng đợi...";
+				return;
+			}
+
+			const youtubeUrl = parseYouTubeUrl(rawUrl);
+			if (!youtubeUrl) {
+				if (statusEl) statusEl.textContent = "Vui lòng nhập liên kết YouTube hợp lệ.";
+				return;
+			}
+
 			try {
 				if (downloadBtn) downloadBtn.disabled = true;
-				if (statusEl) statusEl.textContent = "Đang phân tích liên kết qua WIKO Proxy...";
+				if (statusEl) statusEl.textContent = "Đang phân tích dữ liệu video (bước này mất vài giây)...";
 
-				const targetApi = PROXY_URL + encodeURIComponent(rawUrl);
+				// Bọc link qua Cloudflare Worker để chống chặn
+				const targetApi = PROXY_URL + encodeURIComponent(youtubeUrl.href);
+
+				// Mã Python chạy yt-dlp
 				const pythonScript = `
 import json
-import urllib.request
+import yt_dlp
 
 proxy_target = ${JSON.stringify(targetApi)}
-req = urllib.request.Request(proxy_target, headers={'User-Agent': 'Mozilla/5.0'})
+ydl_opts = {
+    'quiet': True,
+    'no_warnings': True,
+    'extract_flat': False
+}
 
 try:
-    html_data = urllib.request.urlopen(req).read().decode('utf-8')
-    res = {"status": "success", "bytes_received": len(html_data)}
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(proxy_target, download=False)
+        res = {
+            "status": "success",
+            "title": info.get('title', 'Video không xác định'),
+            "duration": info.get('duration', 0),
+            "formats_count": len(info.get('formats', []))
+        }
 except Exception as e:
     res = {"status": "error", "message": str(e)}
 
 json.dumps(res)
 `;
 
-				if (!pyodideInstance) {
-					throw new Error("Pyodide chưa được khởi tạo.");
-				}
-
 				const resultJson = await pyodideInstance.runPythonAsync(pythonScript);
 				const res = JSON.parse(resultJson);
+				
 				if (res.status === "success") {
-					if (statusEl) statusEl.textContent = "Đã kết nối thành công! Đang bóc tách luồng video...";
+					if (statusEl) statusEl.textContent = `Thành công! Đã tìm thấy video "${res.title}" (${res.formats_count} luồng sẵn có). Sẵn sàng để tải.`;
 				} else {
 					throw new Error(res.message);
 				}
